@@ -11,7 +11,7 @@ servers:
 paths:
   '/customers/{customerId}/device-filters/':
     get:
-      summary: Your GET endpoint
+      summary: Device filters
       tags: []
       responses:
         '200':
@@ -84,8 +84,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Data link expectation
       responses: {}
       operationId: get-devices-device-id-data-link-expectation
       description: Gets the data link expectation set for this device.
@@ -100,6 +99,8 @@ paths:
                 - online
                 - soft-offline
                 - hard-offline
+      tags:
+        - Data link monitoring
     put:
       summary: ''
       operationId: put-devices-device-id-data-link-expectation
@@ -126,7 +127,8 @@ paths:
         required: true
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Data link monitoring
       responses:
         '200':
           description: OK
