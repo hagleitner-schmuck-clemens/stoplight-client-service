@@ -141,9 +141,11 @@ paths:
       description: If device is a stationary gateway gets connected BLE devices. If device is a BLE-networked device gets connections to stationary gateways.
       parameters:
         - schema:
-            type: string
+            type: boolean
+            default: 'true'
           in: query
-          name: include-historical
+          name: includeHistorical
+          description: If set to true historical data will be included in the response.
 components:
   schemas:
     phrase:
