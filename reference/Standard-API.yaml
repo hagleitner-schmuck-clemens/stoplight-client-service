@@ -100,24 +100,50 @@ paths:
                 - online
                 - soft-offline
                 - hard-offline
-    post:
+    put:
       summary: ''
-      operationId: post-devices-device-id-data-link-expectation
+      operationId: put-devices-device-id-data-link-expectation
       responses:
         '200':
           description: OK
+      description: Sets the data link expectation for a device.
       requestBody:
         content:
           application/json:
             schema:
-              type: array
-              items:
+              type: string
+              enum:
+                - online
+                - soft-offline
+                - hard-offline
+              description: The expectation to set.
+  '/devices/{device-id}/device-connections':
+    parameters:
+      - schema:
+          type: string
+        name: device-id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
                 type: object
                 properties:
-                  id:
+                  '':
                     type: string
-                  expectation:
-                    type: string
+      operationId: get-devices-device-id-device-connections
+      description: If device is a stationary gateway gets connected BLE devices. If device is a BLE-networked device gets connections to stationary gateways.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: include-historical
 components:
   schemas:
     phrase:
