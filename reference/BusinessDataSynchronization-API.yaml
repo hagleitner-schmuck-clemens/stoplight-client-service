@@ -29,8 +29,81 @@ paths:
             type: string
             format: date-time
           in: query
-          name: createdAfter
-  '/customers/{id}/roles':
+          name: latestUpdateAfter
+          description: Filters for customers that were created after a given date
+        - schema:
+            type: boolean
+          in: query
+          name: noSyncId
+          description: Filters for customers that do not have a synchronization Id
+        - schema:
+            type: string
+          in: query
+          name: syncId
+          description: Filters for customers with the given synchronization Id
+  '/customers/{id}/reseller-relations':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-customers-id-reseller-relations
+  '/customers/{id}/reseller-relations/{relation-id}/':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: relation-id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-customers-id-reseller-relations
+      description: ''
+    delete:
+      summary: ''
+      operationId: delete-customers-id-reseller-relations-relation-id
+      responses:
+        '200':
+          description: OK
+      description: Deletes this relation
+  '/customers/{id}/reseller-relations/{relation-id}/customer-roles/':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: relation-id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-customers-id-reseller-relations
+      description: 'Gets all customer roles assigned to this relation, i.e. if a customer role is assigned to a cutomer relation that role is assigned to the customer that is child of the releati automatically.'
+    delete:
+      summary: ''
+      operationId: delete-customers-id-reseller-relations-relation-id
+      responses:
+        '200':
+          description: OK
+      description: Deletes this relation
+  '/customers/{id}/assigned-customer-roles':
     parameters:
       - schema:
           type: string
@@ -50,6 +123,25 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user
+        - schema:
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 1000
+          in: query
+          name: limit
+          description: 'Pagination, maximum page size'
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+        - schema:
+            type: string
+          in: query
+          name: assignedAfter
+          description: Filters for roles assigned after the given date
     post:
       summary: ''
       operationId: post-customers-id-roles
@@ -57,7 +149,53 @@ paths:
         '200':
           description: OK
       description: Assignes a new role for a suser on this customer
-  /systemroles:
+  '/customers/{id}/efective-customer-roles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-customers-id-roles
+      description: Gets assigned roles to this customer
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: userId
+          description: If given filters the list for roles assigned to that specific user
+        - schema:
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 1000
+          in: query
+          name: limit
+          description: 'Pagination, maximum page size'
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+        - schema:
+            type: string
+          in: query
+          name: assignedAfter
+          description: Filters for roles assigned after the given date
+    post:
+      summary: ''
+      operationId: post-customers-id-roles
+      responses:
+        '200':
+          description: OK
+      description: Assignes a new role for a suser on this customer
+  /system/roles:
     get:
       summary: Your GET endpoint
       tags: []
@@ -77,6 +215,7 @@ paths:
             type: string
           in: query
           name: user
+    parameters: []
   /users:
     parameters: []
     get:
@@ -103,7 +242,13 @@ paths:
             type: string
             format: date-time
           in: query
-          name: createdSince
+          name: latestUpdateAfter
+          description: Filters for customers that were last updated after a specific date
+        - schema:
+            type: string
+          in: query
+          name: noCrmId
+          description: Filters for customers that have no CrmId
     post:
       summary: ''
       operationId: post-users
@@ -125,12 +270,11 @@ paths:
         '200':
           description: OK
       description: 'Deletes a user. Users can only be deleted if they have no associated data. '
-  '/users/{Id}':
+  '/users/{id}':
     parameters:
       - schema:
           type: string
-          format: uuid
-        name: Id
+        name: id
         in: path
         required: true
     get:
@@ -154,7 +298,7 @@ paths:
       responses:
         '200':
           description: OK
-  '/users/{id}/systemroles':
+  '/users/{id}/assigned-system-roles':
     parameters:
       - schema:
           type: string
@@ -185,7 +329,7 @@ paths:
         '200':
           description: OK
       description: Grant a system role to that user
-  '/users/{id}/customerroles':
+  '/users/{id}/assigned-customer-roles':
     parameters:
       - schema:
           type: string
