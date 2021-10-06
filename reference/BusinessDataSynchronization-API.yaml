@@ -1,0 +1,208 @@
+openapi: 3.1.0
+info:
+  title: BusinessDataSynchronization-API
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /customers:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-customers
+      description: Gets all customers
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: 'Pagination, page size limit'
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+          required: true
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: createdAfter
+  '/customers/{id}/roles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-customers-id-roles
+      description: Gets assigned roles to this customer
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: userId
+          description: If given filters the list for roles assigned to that specific user
+    post:
+      summary: ''
+      operationId: post-customers-id-roles
+      responses:
+        '200':
+          description: OK
+      description: Assignes a new role for a suser on this customer
+  /systemroles:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-systemroles
+      description: Gets a list of roles defined for the system.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: limit
+        - schema:
+            type: string
+          in: query
+          name: offset
+        - schema:
+            type: string
+          in: query
+          name: user
+  /users:
+    parameters: []
+    get:
+      summary: ''
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+      description: Get all users
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: 'Pagination, page size limit'
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: offset
+          description: 'Pagination, start offset'
+          required: true
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: createdSince
+    post:
+      summary: ''
+      operationId: post-users
+      responses:
+        '200':
+          description: OK
+      description: Creates a new user
+    put:
+      summary: ''
+      operationId: put-users
+      responses:
+        '200':
+          description: OK
+      description: Modifies data of an existing user
+    delete:
+      summary: ''
+      operationId: delete-users
+      responses:
+        '200':
+          description: OK
+      description: 'Deletes a user. Users can only be deleted if they have no associated data. '
+  '/users/{Id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: Id
+        in: path
+        required: true
+    get:
+      summary: ''
+      operationId: get-potential-users-Id
+      responses:
+        '200':
+          description: OK
+      description: Gets a specific user
+  '/users/{id}/mask':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the user
+    put:
+      summary: ''
+      operationId: put-users-id-mask
+      responses:
+        '200':
+          description: OK
+  '/users/{id}/systemroles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-id-systemroles
+      description: Gets a list of systemroles assigned to that user.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: 'Pagination, page size limit'
+        - schema:
+            type: integer
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+    post:
+      summary: ''
+      operationId: post-users-id-systemroles
+      responses:
+        '200':
+          description: OK
+      description: Grant a system role to that user
+  '/users/{id}/customerroles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-id-customerroles
+      description: Gets a list of effective roles the user has on the specified customer
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: customerId
+components:
+  schemas: {}
