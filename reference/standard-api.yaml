@@ -10,6 +10,7 @@ paths:
   /customers:
     get:
       summary: Get customers
+      tags: []
       responses: {}
       operationId: get-customers
       description: Gets all customers
@@ -43,8 +44,6 @@ paths:
           name: syncId
           description: Filters for customers with the given synchronization Id
       x-internal: true
-      tags:
-        - Customers
   '/customers/{id}/reseller-relations':
     parameters:
       - schema:
@@ -54,8 +53,7 @@ paths:
         required: true
     get:
       summary: Get customer reseller relation
-      tags:
-        - Customers
+      tags: []
       responses: {}
       operationId: get-customers-id-reseller-relations
       x-internal: true
@@ -73,8 +71,7 @@ paths:
         required: true
     get:
       summary: ''
-      tags:
-        - Customers
+      tags: []
       responses: {}
       operationId: get-customers-id-reseller-relations
       description: ''
@@ -100,8 +97,7 @@ paths:
         required: true
     get:
       summary: ''
-      tags:
-        - Customers
+      tags: []
       responses: {}
       operationId: get-customers-id-reseller-relations
       description: 'Gets all customer roles assigned to this relation, i.e. if a customer role is assigned to a cutomer relation that role is assigned to the customer that is child of the releati automatically.'
@@ -122,6 +118,7 @@ paths:
         required: true
     get:
       summary: ''
+      tags: []
       responses: {}
       operationId: get-customers-id-roles
       description: Gets assigned roles to this customer
@@ -168,6 +165,7 @@ paths:
         required: true
     get:
       summary: ''
+      tags: []
       responses: {}
       operationId: get-customers-id-roles
       description: Gets assigned roles to this customer
@@ -198,8 +196,6 @@ paths:
           name: assignedAfter
           description: Filters for roles assigned after the given date
       x-internal: true
-      tags:
-        - Customers
   /system/roles:
     get:
       summary: ''
@@ -377,6 +373,8 @@ paths:
           in: query
           name: includeActive
           description: Include or exclude uses with status 'active'.
+      tags:
+        - Users
     post:
       summary: ''
       operationId: post-users
@@ -402,6 +400,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
       description: Gets a specific user.
+      tags:
+        - Users
     put:
       summary: Put user
       operationId: put-users-id
@@ -424,6 +424,8 @@ paths:
         '200':
           description: OK
       description: 'Will remove all personal information of a user, thus removing the relation to a natural person.'
+      tags:
+        - Users
   '/users/{id}/assigned-system-roles':
     parameters:
       - schema:
@@ -434,7 +436,8 @@ paths:
         description: ID of  the user in the HsM system.
     get:
       summary: Get assigned system roles for user
-      tags: []
+      tags:
+        - Users
       responses: {}
       operationId: get-users-id-systemroles
       description: Gets a list of systemroles assigned to that user.
@@ -475,7 +478,6 @@ paths:
         description: ID of  the user in the HsM system.
     get:
       summary: Get assigned customer roles for user
-      tags: []
       responses: {}
       operationId: get-users-id-customerroles
       description: Gets a list of effective roles the user has on the specified customer
@@ -485,6 +487,8 @@ paths:
             format: uuid
           in: query
           name: customerId
+      tags:
+        - Users
     post:
       summary: Add a assigned customer role to a user
       operationId: post-users-id-assigned-customer-roles
