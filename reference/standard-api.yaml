@@ -43,6 +43,7 @@ paths:
           in: query
           name: syncId
           description: Filters for customers with the given synchronization Id
+      x-internal: true
   '/customers/{id}/reseller-relations':
     parameters:
       - schema:
@@ -51,10 +52,11 @@ paths:
         in: path
         required: true
     get:
-      summary: ''
+      summary: Customer
       tags: []
       responses: {}
       operationId: get-customers-id-reseller-relations
+      x-internal: true
   '/customers/{id}/reseller-relations/{relation-id}/':
     parameters:
       - schema:
@@ -73,6 +75,7 @@ paths:
       responses: {}
       operationId: get-customers-id-reseller-relations
       description: ''
+      x-internal: true
     delete:
       summary: ''
       operationId: delete-customers-id-reseller-relations-relation-id
@@ -98,6 +101,7 @@ paths:
       responses: {}
       operationId: get-customers-id-reseller-relations
       description: 'Gets all customer roles assigned to this relation, i.e. if a customer role is assigned to a cutomer relation that role is assigned to the customer that is child of the releati automatically.'
+      x-internal: true
     delete:
       summary: ''
       operationId: delete-customers-id-reseller-relations-relation-id
@@ -144,6 +148,7 @@ paths:
           in: query
           name: assignedAfter
           description: Filters for roles assigned after the given date
+      x-internal: true
     post:
       summary: ''
       operationId: post-customers-id-roles
@@ -190,6 +195,7 @@ paths:
           in: query
           name: assignedAfter
           description: Filters for roles assigned after the given date
+      x-internal: true
   /system/roles:
     get:
       summary: ''
@@ -210,6 +216,7 @@ paths:
             type: string
           in: query
           name: user
+      x-internal: true
     parameters: []
   /synchronization/users:
     parameters: []
