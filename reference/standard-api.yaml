@@ -209,6 +209,117 @@ paths:
           in: query
           name: user
     parameters: []
+  /synchronization/users:
+    parameters: []
+    get:
+      summary: ''
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/synchronization-user'
+      description: Gets registered users.
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            maximum: 4000
+            format: int32
+          in: query
+          name: limit
+          description: 'Pagination, page size limit'
+          required: true
+        - schema:
+            type: integer
+            minimum: 0
+            format: int32
+          in: query
+          name: offset
+          description: 'Pagination, start offset'
+          required: true
+        - schema:
+            type: integer
+          in: header
+          name: X-Total-Count
+          description: Total number of users
+      tags:
+        - User synchronization
+  'synchronization/users/{id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: The ID of  the user in the system.
+    get:
+      summary: ''
+      operationId: get-users-Id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/synchronization-user'
+      description: Gets a specific user.
+    put:
+      summary: ''
+      operationId: put-users-id
+      responses:
+        '200':
+          description: OK
+      description: Updates a suer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+  '/synchronization/users/{id}/synchronization-information':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: The ID of this user in the system.
+    get:
+      summary: ''
+      operationId: get-users-id-synchronization-information
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+                description: The synchronization information
+      description: Gets the synchronization information of a specific user.
+    put:
+      summary: ''
+      operationId: put-users-id
+      responses:
+        '200':
+          description: OK
+      description: Updates a suer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: The synchronization information as JSON document.
   /users:
     parameters: []
     get:
@@ -242,17 +353,10 @@ paths:
           description: 'Pagination, start offset'
           required: true
         - schema:
-            type: string
-            format: date-time
-            example: '2021-08-23T16:15:18.123+01:00'
-          in: query
-          name: latestUpdateAfter
-          description: Filters for customers that have a latest update timestamp greater or equal the given date time offset. If not given the result will not be filtered by update date.
-        - schema:
-            type: boolean
-          in: query
-          name: synchronizationInformationEmpty
-          description: 'Filters for customers that have synchronization Information stored or do not have any synchronization information stored. '
+            type: integer
+          in: header
+          name: X-Total-Count
+          description: Total number of users
       tags:
         - User synchronization
     post:
@@ -298,46 +402,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/user'
-  '/users/{id}/synchronization-information':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: The ID of this user in the system.
-    get:
-      summary: ''
-      operationId: get-users-id-synchronization-information
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-        '':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
-                description: The synchronization information
-      description: Gets the synchronization information of a specific user.
-    put:
-      summary: ''
-      operationId: put-users-id
-      responses:
-        '200':
-          description: OK
-      description: Updates a suer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-              description: The synchronization information as JSON document.
   '/users/{id}/mask':
     parameters:
       - schema:
@@ -352,9 +416,7 @@ paths:
       responses:
         '200':
           description: OK
-      description: Will replace all personal information of the specified user with random or empty values.
-  /synchronization-users:
-    parameters: []
+      description: 'Will remove all personal information of a user, thus removing the relation to a natural person.'
   '/users/{id}/assigned-system-roles':
     parameters:
       - schema:
@@ -415,7 +477,7 @@ components:
         id:
           type: string
           format: uuid
-          description: Id of the user within HsM
+          description: Id of the user within the system.
           readOnly: true
         firstName:
           type: string
@@ -505,15 +567,3 @@ components:
           description: A JSON document that can be used by synchronization processes to store synchronization information with this user.
       required:
         - emailAddress
-    userSynchroinzationInfo:
-      title: userSynchroinzationInfo
-      type: object
-      properties:
-        userId:
-          type: string
-        syncInfo:
-          type: string
-        latestUpdateAt:
-          type: string
-        '':
-          type: string
