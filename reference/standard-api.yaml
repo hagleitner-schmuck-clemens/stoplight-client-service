@@ -3,16 +3,22 @@ info:
   title: Standard API
   version: '1.0'
   summary: The Client Service Standard API is a client agnostic API to the client servvice.
-  description: ''
+  description: The Client Service Standard API is a client agnostic API to the client servvice.
 servers:
   - url: 'http://localhost:3000'
+tags:
+  - name: Customers
+  - name: Users
+  - name: Business data synchronization
 paths:
   /customers:
     get:
       summary: Get customers
       tags:
         - Customers
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: get-customers
       description: Gets all customers
       parameters:
@@ -59,7 +65,7 @@ paths:
       responses: {}
       operationId: get-customers-id-reseller-relations
       x-internal: true
-  '/customers/{id}/reseller-relations/{relation-id}/':
+  '/customers/{id}/reseller-relations/{relation-id}':
     parameters:
       - schema:
           type: string
@@ -75,8 +81,10 @@ paths:
       summary: Get specific reseller relation for customer
       tags:
         - Customers
-      responses: {}
-      operationId: get-customers-id-reseller-relations
+      responses:
+        '200':
+          description: OK
+      operationId: get-customers-id-reseller-relation
       description: ''
       x-internal: true
     delete:
@@ -88,7 +96,7 @@ paths:
       description: Deletes this relation
       tags:
         - Customers
-  '/customers/{id}/reseller-relations/{relation-id}/customer-roles/':
+  '/customers/{id}/reseller-relations/{relation-id}/customer-roles':
     parameters:
       - schema:
           type: string
@@ -102,8 +110,10 @@ paths:
         required: true
     get:
       summary: ''
-      responses: {}
-      operationId: get-customers-id-reseller-relations
+      responses:
+        '200':
+          description: OK
+      operationId: get-customers-reseller-relations-roles
       description: 'Gets all customer roles assigned to this relation, i.e. if a customer role is assigned to a cutomer relation that role is assigned to the customer that is child of the releati automatically.'
       x-internal: true
       tags:
@@ -254,19 +264,19 @@ paths:
         - $ref: '#/components/parameters/X-Total-Count'
         - schema:
             type: boolean
-            default: 'false'
+            default: false
           in: query
           name: includeDeleted
           description: Include or exclude uses with status 'deleted'.
         - schema:
             type: boolean
-            default: 'true'
+            default: true
           in: query
           name: includeDeactivated
           description: Include or exclude uses with status 'deactivated'.
         - schema:
             type: boolean
-            default: 'true'
+            default: true
           in: query
           name: includeActive
           description: Include or exclude uses with status 'active'.
@@ -341,21 +351,12 @@ paths:
             application/json:
               schema:
                 type: string
-                description: |+
-
-        '':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
-                description: The synchronization information
       description: Gets the synchronization information of a specific user.
       tags:
         - Business data synchronization
     put:
       summary: Update synchronization information for specific user
-      operationId: put-users-id
+      operationId: put-users-id-synchronization-information
       responses:
         '200':
           description: OK
@@ -454,9 +455,15 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
-  '/users/{id}/mask':
+  '/users/{uuid}/mask':
     parameters:
-      - $ref: '#/components/parameters/collectionUuid'
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: UUID of the collection element
     put:
       summary: Mask a user
       operationId: put-users-id-mask
@@ -536,14 +543,6 @@ paths:
     post:
       summary: Add a assigned customer role to a user
       operationId: post-users-id-assigned-customer-roles
-      responses:
-        '200':
-          description: OK
-      tags:
-        - Users
-    delete:
-      summary: Delete an assigned customer role of a user
-      operationId: delete-users-id-assigned-customer-roles
       responses:
         '200':
           description: OK
@@ -692,20 +691,4 @@ components:
         type: string
         format: uuid
       description: UUID of the collection element
-  responses:
-    Resource-not-found:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            properties:
-              id:
-                type: string
-        application/xml:
-          schema:
-            type: object
-            properties: {}
-      headers:
-        header-0:
-          schema:
-            type: string
+  responses: {}
