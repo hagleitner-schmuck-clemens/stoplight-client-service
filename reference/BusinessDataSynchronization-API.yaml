@@ -353,6 +353,8 @@ paths:
         '200':
           description: OK
       description: Will replace all personal information of the specified user with random or empty values.
+  /synchronization-users:
+    parameters: []
   '/users/{id}/assigned-system-roles':
     parameters:
       - schema:
@@ -403,68 +405,6 @@ paths:
             format: uuid
           in: query
           name: customerId
-  /synchronization-users:
-    parameters: []
-    get:
-      summary: ''
-      operationId: get-users
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  '':
-                    type: string
-      description: 'Get all users. '
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: 'Pagination, page size limit'
-          required: true
-        - schema:
-            type: integer
-          in: query
-          name: offset
-          description: 'Pagination, start offset'
-          required: true
-        - schema:
-            type: string
-            format: date-time
-          in: query
-          name: latestHsmUpdateAfter
-          description: Filters for customers that have a latest update timestamp greater or equal the given date time offset. If not given the result will not be filtered by update date.
-        - schema:
-            type: string
-          in: query
-          name: noSyncId
-          description: Filters for customers that have no synchronizationId. If not given this filter does not apply.
-      tags:
-        - User synchronization
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                hsmId:
-                  type: string
-                  format: uuid
-                syncId:
-                  type: string
-                  format: uuid
-              required:
-                - hsmId
-    post:
-      summary: ''
-      operationId: post-users
-      responses:
-        '200':
-          description: OK
 components:
   schemas:
     user:
@@ -516,7 +456,7 @@ components:
           description: A JSON document that can be used by synchronization processes to store synchronization information with this user.
       required:
         - emailAddress
-    user - copy:
+    synchronization-user:
       type: object
       title: synchronization-user
       description: Describes a user of the HsM system. Users are should generally be natural persons.
