@@ -296,7 +296,7 @@ paths:
       tags:
         - Business data synchronization
     put:
-      summary: PUT Users
+      summary: Update specific user with synchronization details
       operationId: put-users-id
       responses:
         '200':
@@ -307,6 +307,19 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/user'
+      tags:
+        - Business data synchronization
+    patch:
+      summary: Patch a specific user
+      operationId: patchsynchronization-users-uuid
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronization-user'
       tags:
         - Business data synchronization
   '/synchronization/users/{uuid}/synchronization-information':
