@@ -1,7 +1,9 @@
 openapi: 3.1.0
 info:
-  title: Busines data synchronization API
+  title: Standard API
   version: '1.0'
+  summary: The Client Service Standard API is a client agnostic API to the client servvice.
+  description: ''
 servers:
   - url: 'http://localhost:3000'
 paths:
