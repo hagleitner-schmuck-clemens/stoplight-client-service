@@ -217,7 +217,7 @@ paths:
       responses:
         '200':
           description: OK
-      description: Get all users
+      description: 'Get all users. '
       parameters:
         - schema:
             type: integer
@@ -235,15 +235,77 @@ paths:
             type: string
             format: date-time
           in: query
-          name: latestUpdateAfter
-          description: Filters for customers that were last updated after a specific date
+          name: latestHsmUpdateAfter
+          description: Filters for customers that have a latest update timestamp greater or equal the given date time offset. If not given the result will not be filtered by update date.
         - schema:
             type: string
           in: query
-          name: noSynchId
-          description: Filters for customers that have no synchroniizationId
+          name: noSyncId
+          description: Filters for customers that have no synchronizationId. If not given this filter does not apply.
       tags:
         - User synchronization
+    post:
+      summary: ''
+      operationId: post-users
+      responses:
+        '200':
+          description: OK
+  /user-sychronization-infos:
+    parameters: []
+    get:
+      summary: ''
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '':
+                    type: string
+      description: 'Get all users. '
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: 'Pagination, page size limit'
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: offset
+          description: 'Pagination, start offset'
+          required: true
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: latestHsmUpdateAfter
+          description: Filters for customers that have a latest update timestamp greater or equal the given date time offset. If not given the result will not be filtered by update date.
+        - schema:
+            type: string
+          in: query
+          name: noSyncId
+          description: Filters for customers that have no synchronizationId. If not given this filter does not apply.
+      tags:
+        - User synchronization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hsmId:
+                  type: string
+                  format: uuid
+                syncId:
+                  type: string
+                  format: uuid
+              required:
+                - hsmId
     post:
       summary: ''
       operationId: post-users
@@ -263,7 +325,19 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
       description: Gets a specific user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                '':
+                  type: string
   '/users/{id}/mask':
     parameters:
       - schema:
@@ -329,4 +403,38 @@ paths:
           in: query
           name: customerId
 components:
-  schemas: {}
+  schemas:
+    user:
+      title: user
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        emailAddress:
+          type: string
+        culture:
+          type: string
+        mobilePhoneNumber:
+          type: string
+        gender:
+          type: string
+        latestUpdateAt:
+          type: string
+        syncInfo:
+          type: string
+        '':
+          type: string
+    userSynchroinzationInfo:
+      title: userSynchroinzationInfo
+      type: object
+      properties:
+        userId:
+          type: string
+        syncInfo:
+          type: string
+        latestUpdateAt:
+          type: string
+        '':
+          type: string
