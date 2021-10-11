@@ -224,28 +224,27 @@ paths:
                 $ref: '#/components/schemas/synchronization-user'
       description: Gets registered users.
       parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/X-Total-Count'
         - schema:
-            type: integer
-            minimum: 1
-            maximum: 4000
-            format: int32
+            type: boolean
+            default: 'false'
           in: query
-          name: limit
-          description: 'Pagination, page size limit'
-          required: true
+          name: includeDeleted
+          description: Include or exclude uses with status 'deleted'.
         - schema:
-            type: integer
-            minimum: 0
-            format: int32
+            type: boolean
+            default: 'true'
           in: query
-          name: offset
-          description: 'Pagination, start offset'
-          required: true
+          name: includeDeactivated
+          description: Include or exclude uses with status 'deactivated'.
         - schema:
-            type: integer
-          in: header
-          name: X-Total-Count
-          description: Total number of users
+            type: boolean
+            default: 'true'
+          in: query
+          name: includeActive
+          description: Include or exclude uses with status 'active'.
       tags:
         - User synchronization
   'synchronization/users/{id}':
@@ -256,7 +255,7 @@ paths:
         name: id
         in: path
         required: true
-        description: The ID of  the user in the system.
+        description: ID of  the user in the HsM system.
     get:
       summary: GET users
       operationId: get-users-Id
@@ -335,28 +334,28 @@ paths:
                 $ref: '#/components/schemas/user'
       description: Gets registered users.
       parameters:
-        - schema:
-            type: integer
-            minimum: 1
-            maximum: 4000
-            format: int32
-          in: query
-          name: limit
-          description: 'Pagination, page size limit'
-          required: true
-        - schema:
-            type: integer
-            minimum: 0
-            format: int32
-          in: query
-          name: offset
-          description: 'Pagination, start offset'
-          required: true
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
         - schema:
             type: integer
           in: header
           name: X-Total-Count
           description: Total number of elements in the collection.
+        - schema:
+            type: boolean
+          in: query
+          name: includeDeleted
+          description: Include or exclude uses with status 'deleted'.
+        - schema:
+            type: boolean
+          in: query
+          name: includeDeactivated
+          description: Include or exclude uses with status 'deactivated'.
+        - schema:
+            type: boolean
+          in: query
+          name: includeActive
+          description: Include or exclude uses with status 'active'.
       tags:
         - User synchronization
     post:
@@ -378,7 +377,7 @@ paths:
         name: id
         in: path
         required: true
-        description: The ID of this user in the system.
+        description: ID of  the user in the HsM system.
     get:
       summary: ''
       operationId: get-users-Id
@@ -409,7 +408,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the user
+        description: ID of  the user in the HsM system.
     put:
       summary: ''
       operationId: put-users-id-mask
@@ -424,6 +423,7 @@ paths:
         name: id
         in: path
         required: true
+        description: ID of  the user in the HsM system.
     get:
       summary: Your GET endpoint
       tags: []
@@ -458,6 +458,7 @@ paths:
         name: id
         in: path
         required: true
+        description: ID of  the user in the HsM system.
     get:
       summary: Your GET endpoint
       tags: []
@@ -575,3 +576,33 @@ components:
         - emailAddress
         - createdAt
         - latestUpdateAt
+  parameters:
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+        example: 100
+        default: 100
+        minimum: 10
+      description: 'Pagination, page size limit.'
+    offset:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        example: 200
+      description: 'Pagination, offset for returned page.'
+    X-Total-Count:
+      name: X-Total-Count
+      in: header
+      required: false
+      schema:
+        type: integer
+        format: int32
+      description: Total number of elements in the collection.
