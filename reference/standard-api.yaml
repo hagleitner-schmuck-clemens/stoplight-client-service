@@ -275,7 +275,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/synchronization-user'
-      description: Gets a specific user with detail information useful synchronization with other systems.
+      description: Gets a specific user with detail information useful for synchronization with other systems.
       tags:
         - Business data synchronization
     put:
@@ -290,9 +290,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/user'
-  '/synchronization/users/{id}/synchronization-information':
+  '/synchronization/users/{uuid}/synchronization-information':
     parameters:
-      - $ref: '#/components/parameters/collectionUuid'
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: UUID of the collection element
     get:
       summary: Get synchronization information for specific user
       operationId: get-synchronization-user-synchronization-information
@@ -376,13 +382,7 @@ paths:
               $ref: '#/components/schemas/user'
   '/users/{id}':
     parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of  the user in the HsM system.
+      - $ref: '#/components/parameters/collectionUuid'
     get:
       summary: Get user by Id
       operationId: get-users-Id
@@ -408,14 +408,9 @@ paths:
               $ref: '#/components/schemas/user'
   '/users/{id}/mask':
     parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of  the user in the HsM system.
+      - $ref: '#/components/parameters/collectionUuid'
     put:
-      summary: ''
+      summary: Mask a user
       operationId: put-users-id-mask
       responses:
         '200':
@@ -430,7 +425,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: Your GET endpoint
+      summary: Get assigned system roles for user
       tags: []
       responses: {}
       operationId: get-users-id-systemroles
@@ -450,12 +445,18 @@ paths:
             type: string
           in: header
     post:
-      summary: ''
+      summary: Add assigned system role for user
       operationId: post-users-id-systemroles
       responses:
         '200':
           description: OK
       description: Grant a system role to that user
+    delete:
+      summary: Delete an assigned system role of a user
+      operationId: delete-users-id-assigned-system-roles
+      responses:
+        '200':
+          description: OK
   '/users/{id}/assigned-customer-roles':
     parameters:
       - schema:
@@ -465,7 +466,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: Your GET endpoint
+      summary: Get assigned customer roles for user
       tags: []
       responses: {}
       operationId: get-users-id-customerroles
@@ -476,6 +477,18 @@ paths:
             format: uuid
           in: query
           name: customerId
+    post:
+      summary: Add a assigned customer role to a user
+      operationId: post-users-id-assigned-customer-roles
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete an assigned customer role of a user
+      operationId: delete-users-id-assigned-customer-roles
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     user:
@@ -576,7 +589,7 @@ components:
           readOnly: true
         synchronizationInformation:
           type: string
-          description: A JSON document that can be used by synchronization processes to store synchronization information with this user.
+          description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
       required:
         - emailAddress
         - createdAt
