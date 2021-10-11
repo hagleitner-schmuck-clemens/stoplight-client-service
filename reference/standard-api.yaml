@@ -371,7 +371,7 @@ paths:
               type: string
               description: A JSON document with information important for the synchronization process. The schema of the JSON is defined by the synchronization process.
       tags:
-        - Business systems synchronization
+        - Business data synchronization
   /users:
     parameters: []
     get:
