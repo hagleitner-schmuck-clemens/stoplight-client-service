@@ -222,7 +222,7 @@ paths:
     parameters: []
     get:
       summary: Get users for synchronization
-      operationId: get-users
+      operationId: get-synchronization-users
       responses:
         '200':
           description: OK
@@ -231,7 +231,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/synchronization-user'
-      description: Gets registered users.
+      description: Gets registered users with detail information useful for synchronization with other systems.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -256,18 +256,18 @@ paths:
           description: Include or exclude uses with status 'active'.
       tags:
         - Business data synchronization
-  'synchronization/users/{id}':
+  'synchronization/users/{uuid}':
     parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
+      - name: uuid
         in: path
         required: true
-        description: ID of  the user in the HsM system.
+        schema:
+          type: string
+          format: uuid
+        description: Id of the collection element
     get:
       summary: Get specific user for synchronization
-      operationId: get-users-Id
+      operationId: get-synchronoization-users-Id
       responses:
         '200':
           description: OK
@@ -275,7 +275,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/synchronization-user'
-      description: Gets a specific user.
+      description: Gets a specific user with detail information useful synchronization with other systems.
       tags:
         - Business data synchronization
     put:
@@ -292,16 +292,10 @@ paths:
               $ref: '#/components/schemas/user'
   '/synchronization/users/{id}/synchronization-information':
     parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: The ID of this user in the system.
+      - $ref: '#/components/parameters/collectionUuid'
     get:
       summary: Get synchronization information for specific user
-      operationId: get-users-id-synchronization-information
+      operationId: get-synchronization-user-synchronization-information
       responses:
         '200':
           description: OK
@@ -617,3 +611,11 @@ components:
         type: integer
         format: int32
       description: Total number of elements in the collection.
+    collectionUuid:
+      name: uuid
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: UUID of the collection element
