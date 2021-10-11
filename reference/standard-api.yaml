@@ -9,7 +9,7 @@ servers:
 paths:
   /customers:
     get:
-      summary: Customers
+      summary: Get customers
       tags: []
       responses: {}
       operationId: get-customers
@@ -52,7 +52,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Customer
+      summary: Get customer reseller relation
       tags: []
       responses: {}
       operationId: get-customers-id-reseller-relations
@@ -369,8 +369,6 @@ paths:
           in: query
           name: includeActive
           description: Include or exclude uses with status 'active'.
-      tags:
-        - User synchronization
     post:
       summary: ''
       operationId: post-users
@@ -392,7 +390,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: ''
+      summary: Get user by Id
       operationId: get-users-Id
       responses:
         '200':
@@ -403,7 +401,7 @@ paths:
                 $ref: '#/components/schemas/user'
       description: Gets a specific user.
     put:
-      summary: ''
+      summary: Put user
       operationId: put-users-id
       responses:
         '200':
