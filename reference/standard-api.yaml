@@ -262,13 +262,7 @@ paths:
         - Business data synchronization
   'synchronization/users/{uuid}':
     parameters:
-      - name: uuid
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: Id of the collection element
+      - $ref: '#/components/parameters/collectionUuid'
     get:
       summary: Get specific user for synchronization
       operationId: get-synchronoization-users-Id
@@ -302,13 +296,7 @@ paths:
               $ref: '#/components/schemas/user'
   '/synchronization/users/{uuid}/synchronization-information':
     parameters:
-      - name: uuid
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: UUID of the collection element
+      - $ref: '#/components/parameters/collectionUuid'
     get:
       summary: Get synchronization information for specific user
       operationId: get-synchronization-user-synchronization-information
