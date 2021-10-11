@@ -273,9 +273,15 @@ paths:
       tags:
         - Business data synchronization
         - Users
-  'synchronization/users/{uuid}':
+  '/synchronization/users/{uuid}':
     parameters:
-      - $ref: '#/components/parameters/collectionUuid'
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: UUID of the collection element
     get:
       summary: Get specific user for synchronization
       operationId: get-synchronoization-users-Id
@@ -365,7 +371,6 @@ paths:
               type: string
               description: A JSON document with information important for the synchronization process. The schema of the JSON is defined by the synchronization process.
       tags:
-        - Users
         - Business systems synchronization
   /users:
     parameters: []
