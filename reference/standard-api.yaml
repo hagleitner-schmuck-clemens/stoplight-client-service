@@ -53,7 +53,8 @@ paths:
         required: true
     get:
       summary: Get customer reseller relation
-      tags: []
+      tags:
+        - Customers
       responses: {}
       operationId: get-customers-id-reseller-relations
       x-internal: true
@@ -71,7 +72,8 @@ paths:
         required: true
     get:
       summary: ''
-      tags: []
+      tags:
+        - Customers
       responses: {}
       operationId: get-customers-id-reseller-relations
       description: ''
@@ -83,6 +85,8 @@ paths:
         '200':
           description: OK
       description: Deletes this relation
+      tags:
+        - Customers
   '/customers/{id}/reseller-relations/{relation-id}/customer-roles/':
     parameters:
       - schema:
@@ -97,11 +101,12 @@ paths:
         required: true
     get:
       summary: ''
-      tags: []
       responses: {}
       operationId: get-customers-id-reseller-relations
       description: 'Gets all customer roles assigned to this relation, i.e. if a customer role is assigned to a cutomer relation that role is assigned to the customer that is child of the releati automatically.'
       x-internal: true
+      tags:
+        - Customers
     delete:
       summary: ''
       operationId: delete-customers-id-reseller-relations-relation-id
@@ -109,6 +114,8 @@ paths:
         '200':
           description: OK
       description: Deletes this relation
+      tags:
+        - Customers
   '/customers/{id}/assigned-customer-roles':
     parameters:
       - schema:
@@ -389,12 +396,12 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
-  '/users/{id}':
+  '/users/{uuid}':
     parameters:
       - $ref: '#/components/parameters/collectionUuid'
     get:
       summary: Get user by Id
-      operationId: get-users-Id
+      operationId: get-users-uuid
       responses:
         '200':
           description: OK
