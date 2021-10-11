@@ -260,6 +260,7 @@ paths:
           description: Include or exclude uses with status 'active'.
       tags:
         - Business data synchronization
+        - Users
   'synchronization/users/{uuid}':
     parameters:
       - $ref: '#/components/parameters/collectionUuid'
@@ -386,6 +387,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/user'
+      tags:
+        - Users
   '/users/{id}':
     parameters:
       - $ref: '#/components/parameters/collectionUuid'
@@ -462,12 +465,16 @@ paths:
         '200':
           description: OK
       description: Grant a system role to that user
+      tags:
+        - Users
     delete:
       summary: Delete an assigned system role of a user
       operationId: delete-users-id-assigned-system-roles
       responses:
         '200':
           description: OK
+      tags:
+        - Users
   '/users/{id}/assigned-customer-roles':
     parameters:
       - schema:
@@ -495,12 +502,16 @@ paths:
       responses:
         '200':
           description: OK
+      tags:
+        - Users
     delete:
       summary: Delete an assigned customer role of a user
       operationId: delete-users-id-assigned-customer-roles
       responses:
         '200':
           description: OK
+      tags:
+        - Users
 components:
   schemas:
     user:
