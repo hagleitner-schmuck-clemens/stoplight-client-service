@@ -312,7 +312,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user'
+              $ref: '#/components/schemas/synchronization-user'
       tags:
         - Business data synchronization
     patch:
