@@ -230,7 +230,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/synchronization-user'
+                type: array
+                items:
+                  $ref: '#/components/schemas/synchronization-user'
+        '401':
+          description: Unauthorized
       description: Gets registered users with detail information useful for synchronization with other systems.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -275,6 +279,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/synchronization-user'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
       description: Gets a specific user with detail information useful for synchronization with other systems.
       tags:
         - Business data synchronization
@@ -309,6 +319,8 @@ paths:
             application/json:
               schema:
                 type: string
+                description: |+
+
         '':
           description: ''
           content:
@@ -325,13 +337,17 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
       description: Updates a suer
       requestBody:
         content:
           application/json:
             schema:
               type: string
-              description: The synchronization information as JSON document.
+              description: A JSON document with information important for the synchronization process. The schema of the JSON is defined by the synchronization process.
   /users:
     parameters: []
     get:
@@ -632,3 +648,20 @@ components:
         type: string
         format: uuid
       description: UUID of the collection element
+  responses:
+    Resource-not-found:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+        application/xml:
+          schema:
+            type: object
+            properties: {}
+      headers:
+        header-0:
+          schema:
+            type: string
