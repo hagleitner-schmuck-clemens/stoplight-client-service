@@ -217,16 +217,26 @@ paths:
       responses:
         '200':
           description: OK
-      description: 'Get all users. '
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+      description: Gets registered users.
       parameters:
         - schema:
             type: integer
+            minimum: 1
+            maximum: 4000
+            format: int32
           in: query
           name: limit
           description: 'Pagination, page size limit'
           required: true
         - schema:
             type: integer
+            minimum: 0
+            format: int32
           in: query
           name: offset
           description: 'Pagination, start offset'
@@ -234,14 +244,15 @@ paths:
         - schema:
             type: string
             format: date-time
+            example: '2021-08-23T16:15:18.123+01:00'
           in: query
-          name: latestHsmUpdateAfter
+          name: latestUpdateAfter
           description: Filters for customers that have a latest update timestamp greater or equal the given date time offset. If not given the result will not be filtered by update date.
         - schema:
-            type: string
+            type: boolean
           in: query
-          name: noSyncId
-          description: Filters for customers that have no synchronizationId. If not given this filter does not apply.
+          name: synchronizationInformationEmpty
+          description: 'Filters for customers that have synchronization Information stored or do not have any synchronization information stored. '
       tags:
         - User synchronization
     post:
@@ -250,7 +261,149 @@ paths:
       responses:
         '200':
           description: OK
-  /user-sychronization-infos:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+  '/users/{id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: The ID of this user in the system.
+    get:
+      summary: ''
+      operationId: get-users-Id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+      description: Gets a specific user.
+    put:
+      summary: ''
+      operationId: put-users-id
+      responses:
+        '200':
+          description: OK
+      description: Updates a suer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+  '/users/{id}/synchronization-information':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: The ID of this user in the system.
+    get:
+      summary: ''
+      operationId: get-users-id-synchronization-information
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+                description: The synchronization information
+      description: Gets the synchronization information of a specific user.
+    put:
+      summary: ''
+      operationId: put-users-id
+      responses:
+        '200':
+          description: OK
+      description: Updates a suer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: The synchronization information as JSON document.
+  '/users/{id}/mask':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the user
+    put:
+      summary: ''
+      operationId: put-users-id-mask
+      responses:
+        '200':
+          description: OK
+      description: Will replace all personal information of the specified user with random or empty values.
+  '/users/{id}/assigned-system-roles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-id-systemroles
+      description: Gets a list of systemroles assigned to that user.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: 'Pagination, page size limit'
+        - schema:
+            type: integer
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+    post:
+      summary: ''
+      operationId: post-users-id-systemroles
+      responses:
+        '200':
+          description: OK
+      description: Grant a system role to that user
+  '/users/{id}/assigned-customer-roles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-id-customerroles
+      description: Gets a list of effective roles the user has on the specified customer
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: customerId
+  /synchronization-users:
     parameters: []
     get:
       summary: ''
@@ -312,120 +465,106 @@ paths:
       responses:
         '200':
           description: OK
-  '/users/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: ''
-      operationId: get-potential-users-Id
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-      description: Gets a specific user
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                '':
-                  type: string
-  '/users/{id}/mask':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the user
-    put:
-      summary: ''
-      operationId: put-users-id-mask
-      responses:
-        '200':
-          description: OK
-  '/users/{id}/assigned-system-roles':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-users-id-systemroles
-      description: Gets a list of systemroles assigned to that user.
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: 'Pagination, page size limit'
-        - schema:
-            type: integer
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
-    post:
-      summary: ''
-      operationId: post-users-id-systemroles
-      responses:
-        '200':
-          description: OK
-      description: Grant a system role to that user
-  '/users/{id}/assigned-customer-roles':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-users-id-customerroles
-      description: Gets a list of effective roles the user has on the specified customer
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: customerId
 components:
   schemas:
     user:
-      title: user
       type: object
+      title: user
+      description: Describes a user of the HsM system. Users are should generally be natural persons.
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within HsM
+          readOnly: true
         firstName:
           type: string
+          example: John
         lastName:
           type: string
+          example: Doe
         emailAddress:
           type: string
+          description: The users e-mail address. This address must be unique within all users in HsM.
+          format: email
+          example: john@doe.com
         culture:
           type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
         mobilePhoneNumber:
           type: string
+          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
+          example: +43 664 9161413
         gender:
           type: string
+          enum:
+            - diverse
+            - female
+            - male
         latestUpdateAt:
           type: string
-        syncInfo:
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        synchronizationInformation:
           type: string
-        '':
+          description: A JSON document that can be used by synchronization processes to store synchronization information with this user.
+      required:
+        - emailAddress
+    user - copy:
+      type: object
+      title: synchronization-user
+      description: Describes a user of the HsM system. Users are should generally be natural persons.
+      properties:
+        id:
           type: string
+          format: uuid
+          description: Id of the user within HsM
+          readOnly: true
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all users in HsM.
+          format: email
+          example: john@doe.com
+        culture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+        mobilePhoneNumber:
+          type: string
+          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
+          example: +43 664 9161413
+        gender:
+          type: string
+          enum:
+            - diverse
+            - female
+            - male
+        latestUpdateAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        synchronizationInformation:
+          type: string
+          description: A JSON document that can be used by synchronization processes to store synchronization information with this user.
+      required:
+        - emailAddress
     userSynchroinzationInfo:
       title: userSynchroinzationInfo
       type: object
