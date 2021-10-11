@@ -221,7 +221,7 @@ paths:
   /synchronization/users:
     parameters: []
     get:
-      summary: Get
+      summary: Get users for synchronization
       operationId: get-users
       responses:
         '200':
@@ -266,7 +266,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: GET users
+      summary: Get specific user for synchronization
       operationId: get-users-Id
       responses:
         '200':
@@ -300,7 +300,7 @@ paths:
         required: true
         description: The ID of this user in the system.
     get:
-      summary: ''
+      summary: Get synchronization information for specific user
       operationId: get-users-id-synchronization-information
       responses:
         '200':
@@ -320,7 +320,7 @@ paths:
       tags:
         - Business data synchronization
     put:
-      summary: ''
+      summary: Update synchronization information for specific user
       operationId: put-users-id
       responses:
         '200':
