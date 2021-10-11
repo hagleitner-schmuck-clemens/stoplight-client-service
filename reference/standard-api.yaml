@@ -248,7 +248,7 @@ paths:
           name: includeActive
           description: Include or exclude uses with status 'active'.
       tags:
-        - User synchronization
+        - Business data synchronization
   'synchronization/users/{id}':
     parameters:
       - schema:
@@ -269,6 +269,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/synchronization-user'
       description: Gets a specific user.
+      tags:
+        - Business data synchronization
     put:
       summary: PUT Users
       operationId: put-users-id
@@ -308,6 +310,8 @@ paths:
                 type: string
                 description: The synchronization information
       description: Gets the synchronization information of a specific user.
+      tags:
+        - Business data synchronization
     put:
       summary: ''
       operationId: put-users-id
