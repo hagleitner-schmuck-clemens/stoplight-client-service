@@ -280,9 +280,37 @@ paths:
           in: query
           name: includeActive
           description: Include or exclude uses with status 'active'.
+        - schema:
+            type: string
+            format: email
+            example: jon@doe.com
+          in: query
+          name: emailAddress
+          description: Filter for user with the given e-mail address. The match is case insensitive.
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: synchronizationId
+          description: Filter for a user with the given synchronization Id.
+        - schema:
+            type: string
+          in: query
+          name: lastUpdatedAfter
+        - schema:
+            type: string
+          in: query
+          name: createdBefore
       tags:
         - Business data synchronization
         - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+        description: ''
   '/synchronization/users/{uuid}':
     parameters:
       - name: uuid
@@ -357,7 +385,7 @@ paths:
       operationId: get-system-branding
       description: Gets the instance branding
     put:
-      summary: ''
+      summary: Put instance branding
       operationId: put-system-branding
       responses:
         '200':
@@ -367,6 +395,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/branding'
+      description: Sets the branding for the whole instance
     parameters: []
   '/synchronization/users/{uuid}/synchronization-information':
     parameters:
@@ -627,8 +656,6 @@ components:
           readOnly: true
         lifeCycleStatus:
           type: string
-        '':
-          type: string
       required:
         - emailAddress
     synchronization-user:
@@ -680,9 +707,17 @@ components:
           format: date-time
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
+        synchronizationId:
+          type: string
+          format: uuid
+          description: Id of the user in an external system.
         synchronizationInformation:
           type: string
           description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
+        status:
+          type: string
+        '':
+          type: string
       required:
         - emailAddress
         - createdAt
@@ -885,167 +920,9 @@ components:
           clientSpecificOptions:
             webPortal:
               favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
-    branding - copy:
-      description: This model describes the branding of the instance or the effective branding for a customer
+    customerBranding:
+      description: This model describes the branding for a customer
       type: object
-      properties:
-        productName:
-          type: string
-          minLength: 1
-        displayModeDark:
-          type: object
-          properties:
-            companyLogo:
-              type: string
-              minLength: 1
-            navigationBarCompanyLogo:
-              type: string
-              minLength: 1
-            mainColor300:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            mainColor500:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            mainColor700:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            navigationBarColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            navigationBarContrastColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            selectionColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-          required:
-            - companyLogo
-            - navigationBarCompanyLogo
-            - mainColor300
-            - mainColor500
-            - mainColor700
-            - navigationBarColor
-            - navigationBarContrastColor
-            - selectionColor
-        displayModeLight:
-          type: object
-          properties:
-            companyLogo:
-              type: string
-              minLength: 1
-            navigationBarCompanyLogo:
-              type: string
-              minLength: 1
-            mainColor300:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            mainColor500:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            mainColor700:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            navigationBarColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            navigationBarContrastColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            selectionColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-          required:
-            - companyLogo
-            - navigationBarCompanyLogo
-            - mainColor300
-            - mainColor500
-            - mainColor700
-            - navigationBarColor
-            - navigationBarContrastColor
-            - selectionColor
-        instanceOperator:
-          type: string
-          minLength: 1
-        clientSpecificOptions:
-          type: object
-          properties:
-            webPortal:
-              type: object
-              properties:
-                favIcon:
-                  type: string
-                  minLength: 1
-              required:
-                - favIcon
-          required:
-            - webPortal
-      required:
-        - productName
-        - displayModeDark
-        - displayModeLight
-        - instanceOperator
-        - clientSpecificOptions
       x-examples:
         example-1:
           productName: senseManagement
@@ -1084,6 +961,142 @@ components:
             webPortal:
               favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
       title: customerBranding
+      properties:
+        displayModeDark:
+          type: object
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            mainColor500:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            mainColor700:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            navigationBarColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            navigationBarContrastColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            selectionColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+        displayModeLight:
+          type: object
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            mainColor500:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            mainColor700:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            navigationBarColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            navigationBarContrastColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            selectionColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+      required:
+        - displayModeDark
+        - displayModeLight
   parameters:
     limit:
       name: limit
