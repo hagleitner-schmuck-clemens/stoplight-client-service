@@ -338,6 +338,36 @@ paths:
               $ref: '#/components/schemas/synchronization-user'
       tags:
         - Business data synchronization
+  /system/instance-branding:
+    get:
+      summary: Get instance branding
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/branding'
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/branding'
+      operationId: get-system-branding
+      description: Gets the instance branding
+    put:
+      summary: ''
+      operationId: put-system-branding
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/branding'
+    parameters: []
   '/synchronization/users/{uuid}/synchronization-information':
     parameters:
       - $ref: '#/components/parameters/collectionUuid'
@@ -571,7 +601,7 @@ components:
           description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
           format: email
           example: john@doe.com
-        culture:
+        preferredCulture:
           type: string
           description: |-
             The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
@@ -595,6 +625,10 @@ components:
           format: date-time
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
+        lifeCycleStatus:
+          type: string
+        '':
+          type: string
       required:
         - emailAddress
     synchronization-user:
@@ -618,7 +652,7 @@ components:
           description: The users e-mail address. This address must be unique within all users in HsM.
           format: email
           example: john@doe.com
-        culture:
+        preferredCulture:
           type: string
           description: |-
             The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
@@ -653,6 +687,403 @@ components:
         - emailAddress
         - createdAt
         - latestUpdateAt
+    branding:
+      description: This model describes the branding of the instance or the effective branding for a customer
+      type: object
+      properties:
+        productName:
+          type: string
+          minLength: 1
+        displayModeDark:
+          type: object
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor500:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor700:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarContrastColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            selectionColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+        displayModeLight:
+          type: object
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor500:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor700:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarContrastColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            selectionColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+        instanceOperator:
+          type: string
+          minLength: 1
+        clientSpecificOptions:
+          type: object
+          properties:
+            webPortal:
+              type: object
+              properties:
+                favIcon:
+                  type: string
+                  minLength: 1
+              required:
+                - favIcon
+          required:
+            - webPortal
+      required:
+        - productName
+        - displayModeDark
+        - displayModeLight
+        - instanceOperator
+        - clientSpecificOptions
+      x-examples:
+        example-1:
+          productName: senseManagement
+          displayModeDark:
+            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.svg'
+            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.navigationbar.svg'
+            mainColor300:
+              hexCode: '#123456'
+            mainColor500:
+              hexCode: '#123456'
+            mainColor700:
+              hexCode: '#123456'
+            navigationBarColor:
+              hexCode: '#123456'
+            navigationBarContrastColor:
+              hexCode: '#123456'
+            selectionColor:
+              hexCode: '#123456'
+          displayModeLight:
+            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.svg'
+            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.navigationbar.svg'
+            mainColor300:
+              hexCode: '#123456'
+            mainColor500:
+              hexCode: '#123456'
+            mainColor700:
+              hexCode: '#123456'
+            navigationBarColor:
+              hexCode: '#123456'
+            navigationBarContrastColor:
+              hexCode: '#123456'
+            selectionColor:
+              hexCode: '#123456'
+          instanceOperator: Hagleitner
+          clientSpecificOptions:
+            webPortal:
+              favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
+    branding - copy:
+      description: This model describes the branding of the instance or the effective branding for a customer
+      type: object
+      properties:
+        productName:
+          type: string
+          minLength: 1
+        displayModeDark:
+          type: object
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor500:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor700:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarContrastColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            selectionColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+        displayModeLight:
+          type: object
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor500:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor700:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarContrastColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            selectionColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+        instanceOperator:
+          type: string
+          minLength: 1
+        clientSpecificOptions:
+          type: object
+          properties:
+            webPortal:
+              type: object
+              properties:
+                favIcon:
+                  type: string
+                  minLength: 1
+              required:
+                - favIcon
+          required:
+            - webPortal
+      required:
+        - productName
+        - displayModeDark
+        - displayModeLight
+        - instanceOperator
+        - clientSpecificOptions
+      x-examples:
+        example-1:
+          productName: senseManagement
+          displayModeDark:
+            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.svg'
+            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.navigationbar.svg'
+            mainColor300:
+              hexCode: '#123456'
+            mainColor500:
+              hexCode: '#123456'
+            mainColor700:
+              hexCode: '#123456'
+            navigationBarColor:
+              hexCode: '#123456'
+            navigationBarContrastColor:
+              hexCode: '#123456'
+            selectionColor:
+              hexCode: '#123456'
+          displayModeLight:
+            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.svg'
+            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.navigationbar.svg'
+            mainColor300:
+              hexCode: '#123456'
+            mainColor500:
+              hexCode: '#123456'
+            mainColor700:
+              hexCode: '#123456'
+            navigationBarColor:
+              hexCode: '#123456'
+            navigationBarContrastColor:
+              hexCode: '#123456'
+            selectionColor:
+              hexCode: '#123456'
+          instanceOperator: Hagleitner
+          clientSpecificOptions:
+            webPortal:
+              favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
+      title: customerBranding
   parameters:
     limit:
       name: limit
