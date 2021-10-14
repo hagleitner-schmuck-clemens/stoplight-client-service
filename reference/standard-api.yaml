@@ -328,19 +328,19 @@ paths:
             default: false
           in: query
           name: includeDeleted
-          description: Include or exclude uses with status 'deleted'.
+          description: 'Filter for users based on the status. If true only uses with status deleted will pass the filter, if false only users with a status not equal to deleted status will pass the filter.'
         - schema:
             type: boolean
             default: true
           in: query
           name: includeDeactivated
-          description: Include or exclude uses with status 'deactivated'.
+          description: 'Filter for users based on the status. If true only uses with status deactivated will pass the filter, if false only users with a status not equal to deleted status will pass the filter.'
         - schema:
             type: boolean
             default: true
           in: query
           name: includeActive
-          description: Include or exclude uses with status 'active'.
+          description: 'Filter for users based on the status. If true only uses with status active will pass the filter, if false only users with a status not equal to deleted status will pass the filter.'
         - schema:
             type: string
             format: email
@@ -353,15 +353,22 @@ paths:
             format: uuid
           in: query
           name: synchronizationId
-          description: Filter for a user with the given synchronization Id.
+          description: Filters for a user with the given synchronization Id. Only a user with an exact match will pass the filter.
         - schema:
             type: string
           in: query
           name: lastUpdatedAfter
+          description: Filters for users that were last updated in the system after the given date.
         - schema:
             type: string
           in: query
           name: createdBefore
+          description: 'Filters for users that were created in the system before the given date. '
+        - schema:
+            type: boolean
+          in: query
+          name: synchronizationIdAvailable
+          description: 'Filters for users based on the availability of a synchronization Id. If set to true only users with a non-empty synchronization Id will be returned, if set to false only users with an empty synchronization Id will be returned.  '
       tags:
         - Business data synchronization
         - Users
