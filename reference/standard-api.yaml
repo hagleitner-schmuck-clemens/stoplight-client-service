@@ -196,7 +196,6 @@ paths:
       x-internal: true
       tags:
         - Branding
-        - Customers
     put:
       summary: '/customers/{id}/assigned-customer-branding'
       operationId: put-customers-id-assigned-customer-branding
@@ -204,6 +203,8 @@ paths:
         '200':
           description: OK
       description: Creates or updates the customer branding
+      tags:
+        - Customers
   '/customers/{id}/assigned-customer-branding':
     parameters:
       - schema:
