@@ -40,17 +40,12 @@ paths:
             format: date-time
           in: query
           name: latestUpdateAfter
-          description: Filters for customers that were created after a given date
+          description: Filters for customers that were created after (>) the given date.
         - schema:
             type: boolean
           in: query
-          name: noSyncId
+          name: synchronizationIdAvailable
           description: Filters for customers that do not have a synchronization Id
-        - schema:
-            type: string
-          in: query
-          name: syncId
-          description: Filters for customers with the given synchronization Id
       x-internal: true
   '/customers/{id}/reseller-relations':
     parameters:
@@ -178,36 +173,6 @@ paths:
       description: Assignes a new role for a suser on this customer
       tags:
         - Customers
-  '/customers/{id}/assigned-customer-branding':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: '/customers/{id}/assigned-customer-branding'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customerBranding'
-      operationId: get-customers-id-roles
-      description: Gets the assigned customer branding for this specific customer
-      parameters: []
-      x-internal: true
-      tags:
-        - Branding
-        - Customers
-    put:
-      summary: '/customers/{id}/assigned-customer-branding'
-      operationId: put-customers-id-assigned-customer-branding
-      responses:
-        '200':
-          description: OK
-      description: Creates or updates the customer branding
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -224,6 +189,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/branding'
+      operationId: get-customers-id-roles
+      description: Gets the assigned customer branding for this specific customer
+      parameters: []
+      x-internal: true
+      tags:
+        - Branding
+        - Customers
+    put:
+      summary: '/customers/{id}/assigned-customer-branding'
+      operationId: put-customers-id-assigned-customer-branding
+      responses:
+        '200':
+          description: OK
+      description: Creates or updates the customer branding
+  '/customers/{id}/assigned-customer-branding':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/customers/{id}/assigned-customer-branding'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerBranding'
       operationId: get-customers-id-roles
       description: Gets the assigned customer branding for this specific customer
       parameters: []
@@ -409,6 +404,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/synchronization-user'
+      tags:
+        - Business data synchronization
   '/synchronization/users/{uuid}':
     parameters:
       - name: uuid
