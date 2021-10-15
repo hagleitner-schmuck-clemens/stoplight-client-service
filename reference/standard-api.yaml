@@ -338,7 +338,7 @@ paths:
             type: string
             example: '2021-11-12T21:15:13.1234+01:00'
           in: query
-          name: lastUpdatedAfter
+          name: latestUpdatedAfter
           description: Filters for customers  that were last updated in the system after (>) the given date.
         - schema:
             type: string
@@ -354,8 +354,8 @@ paths:
         - schema:
             type: string
           in: query
-          name: customerId
-          description: Filters for customers based on the customerId. Note that the customer Id is only unique within all customers of the same reseller.
+          name: customerNumber
+          description: Filters for customers based on the customer number. Note that the customer Id is only unique within all customers of the same reseller.
         - schema:
             type: string
             format: uuid
@@ -484,7 +484,7 @@ paths:
       responses:
         '200':
           description: OK
-  '/synchronization/customers/{id}/reseller-relations{relation-id}':
+  '/synchronization/customers/{id}/reseller-relations/{relation-id}':
     parameters:
       - schema:
           type: string
@@ -538,7 +538,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/synchronization-user'
+                  $ref: '#/components/schemas/synchronizationUser'
               examples:
                 example-1:
                   value:
