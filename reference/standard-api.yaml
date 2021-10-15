@@ -22,7 +22,7 @@ paths:
         '200':
           description: OK
       operationId: get-customers
-      description: Gets all customers
+      description: Gets a collection of customers
       parameters:
         - schema:
             type: integer
@@ -36,17 +36,134 @@ paths:
           name: offset
           description: 'Pagination, page offset'
           required: true
+      x-internal: true
+  '/customers/{id}/assigned-customer-branding':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/customers/{id}/assigned-customer-branding'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerBranding'
+      operationId: get-customers-id-roles
+      description: Gets the assigned customer branding for this specific customer
+      parameters: []
+      x-internal: true
+      tags:
+        - Customers
+    put:
+      summary: '/customers/{id}/assigned-customer-branding'
+      operationId: put-customers-id-assigned-customer-branding
+      responses:
+        '200':
+          description: OK
+      description: Creates or updates the customer branding
+      tags:
+        - Customers
+  '/customers/{id}/assigned-customer-roles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses: {}
+      operationId: get-customers-id-roles
+      description: Gets assigned roles to this customer
+      parameters:
         - schema:
             type: string
-            format: date-time
+            format: uuid
           in: query
-          name: latestUpdateAfter
-          description: Filters for customers that were created after (>) the given date.
+          name: userId
+          description: If given filters the list for roles assigned to that specific user
         - schema:
-            type: boolean
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 1000
           in: query
-          name: synchronizationIdAvailable
-          description: Filters for customers that do not have a synchronization Id
+          name: limit
+          description: 'Pagination, maximum page size'
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+        - schema:
+            type: string
+          in: query
+          name: assignedAfter
+          description: Filters for roles assigned after the given date
+      x-internal: true
+    post:
+      summary: ''
+      operationId: post-customers-id-roles
+      responses:
+        '200':
+          description: OK
+      description: Assignes a new role for a suser on this customer
+      tags:
+        - Customers
+  '/customers/{id}/effective-branding':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/customers/{id}/effective-branding'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/branding'
+      operationId: get-customers-id-roles
+      description: Gets the effecive branding for this customer.
+      parameters: []
+      x-internal: true
+      tags:
+        - Customers
+  '/customers/{id}/efective-customer-roles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses: {}
+      operationId: get-customers-id-roles
+      description: Gets effective roles applied to this customer.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: userId
+          description: Filters the collection for the given user id
       x-internal: true
   '/customers/{id}/reseller-relations':
     parameters:
@@ -124,159 +241,6 @@ paths:
       description: Deletes this relation
       tags:
         - Customers
-  '/customers/{id}/assigned-customer-roles':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses: {}
-      operationId: get-customers-id-roles
-      description: Gets assigned roles to this customer
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: userId
-          description: If given filters the list for roles assigned to that specific user
-        - schema:
-            type: integer
-            minimum: 1
-            default: 100
-            maximum: 1000
-          in: query
-          name: limit
-          description: 'Pagination, maximum page size'
-        - schema:
-            type: integer
-            minimum: 0
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
-        - schema:
-            type: string
-          in: query
-          name: assignedAfter
-          description: Filters for roles assigned after the given date
-      x-internal: true
-    post:
-      summary: ''
-      operationId: post-customers-id-roles
-      responses:
-        '200':
-          description: OK
-      description: Assignes a new role for a suser on this customer
-      tags:
-        - Customers
-  '/customers/{id}/effective-branding':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: '/customers/{id}/effective-branding'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/branding'
-      operationId: get-customers-id-roles
-      description: Gets the assigned customer branding for this specific customer
-      parameters: []
-      x-internal: true
-      tags:
-        - Customers
-    put:
-      summary: '/customers/{id}/assigned-customer-branding'
-      operationId: put-customers-id-assigned-customer-branding
-      responses:
-        '200':
-          description: OK
-      description: Creates or updates the customer branding
-      tags:
-        - Customers
-  '/customers/{id}/assigned-customer-branding':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: '/customers/{id}/assigned-customer-branding'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customerBranding'
-      operationId: get-customers-id-roles
-      description: Gets the assigned customer branding for this specific customer
-      parameters: []
-      x-internal: true
-      tags:
-        - Customers
-    put:
-      summary: '/customers/{id}/assigned-customer-branding'
-      operationId: put-customers-id-assigned-customer-branding
-      responses:
-        '200':
-          description: OK
-      description: Creates or updates the customer branding
-      tags:
-        - Customers
-  '/customers/{id}/efective-customer-roles':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses: {}
-      operationId: get-customers-id-roles
-      description: Gets assigned roles to this customer
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: userId
-          description: If given filters the list for roles assigned to that specific user
-        - schema:
-            type: integer
-            minimum: 1
-            default: 100
-            maximum: 1000
-          in: query
-          name: limit
-          description: 'Pagination, maximum page size'
-        - schema:
-            type: integer
-            minimum: 0
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
-        - schema:
-            type: string
-          in: query
-          name: assignedAfter
-          description: Filters for roles assigned after the given date
-      x-internal: true
   /system/roles:
     get:
       summary: ''
@@ -338,6 +302,116 @@ paths:
         '401':
           description: Unauthorized
       description: Gets registered users with detail information useful for synchronization with other systems.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - schema:
+            type: boolean
+            default: false
+          in: query
+          name: includeDeleted
+          description: 'Filters users based on user status. If true only users with status ''deleted'' will pass the filter, if false only users with a status not equal to ''deleted'' will pass the filter.'
+        - schema:
+            type: boolean
+            default: true
+          in: query
+          name: includeDeactivated
+          description: 'Filters users based on user status. If true only users with status ''deactivated'' will pass the filter, if false only users with a status not equal to ''deleted'' status will pass the filter.'
+        - schema:
+            type: boolean
+          in: query
+          name: includeActive
+          description: 'Filters users based on user status. If true only uses with status ''active'' will pass the filter, if false only users with a status not equal to ''active'' will pass the filter.'
+        - schema:
+            type: string
+            format: email
+            example: jon@doe.com
+          in: query
+          name: emailAddress
+          description: Filter for user with the given e-mail address. The match is case insensitive.
+        - schema:
+            type: string
+            format: uuid
+            example: 98aea202-354b-4912-81f7-364e609fe650
+          in: query
+          name: synchronizationId
+          description: Filters for a user with the given synchronization Id. Only a user with an exact match will pass the filter.
+        - schema:
+            type: string
+            example: '2021-11-12T21:15:13.1234+01:00'
+          in: query
+          name: lastUpdatedAfter
+          description: Filters for users that were last updated in the system after (>) the given date.
+        - schema:
+            type: string
+            example: '2021-11-12T21:15:13.1234+01:00'
+          in: query
+          name: createdBefore
+          description: 'Filters for users that were created in the system before (<) the given date. '
+        - schema:
+            type: boolean
+          in: query
+          name: synchronizationIdAvailable
+          description: 'Filters for users based on the availability of a synchronizationId. If set to true only users with a non-empty synchronizationId will pass the filter, if set to false only users with an empty synchronizationId will pass the filter.  '
+      tags:
+        - Business data synchronization
+        - Users
+    put:
+      summary: ''
+      operationId: put-synchronization-users
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: 'Creates a new user and '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronization-user'
+      tags:
+        - Business data synchronization
+  /synchronization/customers:
+    parameters: []
+    get:
+      summary: Get customers for synchronization
+      operationId: get-synchronization-customers
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of resources in the collection.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/synchronization-user'
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      firstName: John
+                      lastName: Doe
+                      emailAddress: john@doe.com
+                      preferredCulture: de-AT
+                      mobilePhoneNumber: +43 664 9161413
+                      gender: diverse
+                      createdAt: '2021-08-23T16:15:18.123+01:00'
+                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
+                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
+                      synchronizationInformation: string
+                      status: string
+                      '': string
+        '401':
+          description: Unauthorized
+      description: Gets customer with detail information useful for synchronization with other systems.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -759,7 +833,7 @@ components:
     user:
       type: object
       title: user
-      description: Describes a user of the HsM system. Users are should generally be natural persons.
+      description: Describes a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
       properties:
         id:
           type: string
@@ -769,14 +843,17 @@ components:
         firstName:
           type: string
           example: John
+          maxLength: 50
         lastName:
           type: string
           example: Doe
+          maxLength: 50
         emailAddress:
           type: string
           description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
           format: email
           example: john@doe.com
+          maxLength: 256
         preferredCulture:
           type: string
           description: |-
@@ -784,6 +861,7 @@ components:
 
             This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
           example: de-AT
+          maxLength: 35
         mobilePhoneNumber:
           type: string
           description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
@@ -795,7 +873,7 @@ components:
             - male
             - non-binary
           description: ''
-        latestUpdateAt:
+        latestUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
           format: date-time
@@ -811,27 +889,37 @@ components:
           readOnly: true
       required:
         - emailAddress
-    synchronization-user:
+    customer:
       type: object
-      title: synchronization-user
-      description: Describes a user of the HsM system. Users are should generally be natural persons.
+      title: customer
+      description: Describes a customer.
       properties:
         id:
           type: string
           format: uuid
-          description: Id of the user within HsM
+          description: Id of the user within the HsM system.
           readOnly: true
-        firstName:
+        name:
           type: string
           example: John
-        lastName:
+          maxLength: 50
+        address:
           type: string
           example: Doe
+          maxLength: 50
+        city:
+          type: string
+        postalCode:
+          type: string
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 code
         emailAddress:
           type: string
-          description: The users e-mail address. This address must be unique within all users in HsM.
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
           format: email
           example: john@doe.com
+          maxLength: 256
         preferredCulture:
           type: string
           description: |-
@@ -839,6 +927,56 @@ components:
 
             This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
           example: de-AT
+          maxLength: 35
+        latestUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
+      required:
+        - id
+        - emailAddress
+    synchronizationUser:
+      type: object
+      title: synchronizationUser
+      description: Describes a user of the HsM system. Users are should generally be natural persons.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        firstName:
+          type: string
+          example: John
+          maxLength: 50
+        lastName:
+          type: string
+          example: Doe
+          maxLength: 50
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
         mobilePhoneNumber:
           type: string
           description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
@@ -846,15 +984,24 @@ components:
         gender:
           type: string
           enum:
-            - diverse
             - female
             - male
+            - non-binary
+          description: ''
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
         createdAt:
           type: string
           format: date-time
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
-        latestUpdateAt:
+        latestUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
           format: date-time
@@ -867,18 +1014,12 @@ components:
         synchronizationInformation:
           type: string
           description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
-        status:
-          description: The status of the user in terms of his possibilty to interact with the system.
-          enum:
-            - active
-            - deactivated
-            - deleted
-          type: string
-          readOnly: true
       required:
+        - id
         - emailAddress
+        - preferredCulture
         - createdAt
-        - latestUpdateAt
+        - latestUpdatedAt
     branding:
       description: This model describes the branding of the instance or the effective branding for a customer
       type: object
