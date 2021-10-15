@@ -277,9 +277,10 @@ paths:
   /system/roles:
     get:
       summary: ''
-      tags: []
+      tags:
+        - system
       responses: {}
-      operationId: get-systemroles
+      operationId: get-roles
       description: Gets a list of roles defined for the system.
       parameters:
         - schema:
