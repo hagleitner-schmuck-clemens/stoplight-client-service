@@ -65,7 +65,7 @@ paths:
         - Customers
       responses: {}
       operationId: get-customers-id-reseller-relations
-      x-internal: true
+      x-internal: false
   '/customers/{id}/reseller-relations/{relation-id}':
     parameters:
       - schema:
@@ -309,38 +309,56 @@ paths:
       responses:
         '200':
           description: OK
-          headers: {}
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of resources in the collection.
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/synchronization-user'
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      firstName: John
+                      lastName: Doe
+                      emailAddress: john@doe.com
+                      preferredCulture: de-AT
+                      mobilePhoneNumber: +43 664 9161413
+                      gender: diverse
+                      createdAt: '2021-08-23T16:15:18.123+01:00'
+                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
+                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
+                      synchronizationInformation: string
+                      status: string
+                      '': string
         '401':
           description: Unauthorized
       description: Gets registered users with detail information useful for synchronization with other systems.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/X-Total-Count'
         - schema:
             type: boolean
             default: false
           in: query
           name: includeDeleted
-          description: 'Filter for users based on the status. If true only uses with status deleted will pass the filter, if false only users with a status not equal to deleted status will pass the filter.'
+          description: 'Filters users based on user status. If true only users with status ''deleted'' will pass the filter, if false only users with a status not equal to ''deleted'' will pass the filter.'
         - schema:
             type: boolean
             default: true
           in: query
           name: includeDeactivated
-          description: 'Filter for users based on the status. If true only uses with status deactivated will pass the filter, if false only users with a status not equal to deleted status will pass the filter.'
+          description: 'Filters users based on user status. If true only users with status ''deactivated'' will pass the filter, if false only users with a status not equal to ''deleted'' status will pass the filter.'
         - schema:
             type: boolean
-            default: true
           in: query
           name: includeActive
-          description: 'Filter for users based on the status. If true only uses with status active will pass the filter, if false only users with a status not equal to deleted status will pass the filter.'
+          description: 'Filters users based on user status. If true only uses with status ''active'' will pass the filter, if false only users with a status not equal to ''active'' will pass the filter.'
         - schema:
             type: string
             format: email
@@ -351,34 +369,46 @@ paths:
         - schema:
             type: string
             format: uuid
+            example: 98aea202-354b-4912-81f7-364e609fe650
           in: query
           name: synchronizationId
           description: Filters for a user with the given synchronization Id. Only a user with an exact match will pass the filter.
         - schema:
             type: string
+            example: '2021-11-12T21:15:13.1234+01:00'
           in: query
           name: lastUpdatedAfter
-          description: Filters for users that were last updated in the system after the given date.
+          description: Filters for users that were last updated in the system after (>) the given date.
         - schema:
             type: string
+            example: '2021-11-12T21:15:13.1234+01:00'
           in: query
           name: createdBefore
-          description: 'Filters for users that were created in the system before the given date. '
+          description: 'Filters for users that were created in the system before (<) the given date. '
         - schema:
             type: boolean
           in: query
           name: synchronizationIdAvailable
-          description: 'Filters for users based on the availability of a synchronization Id. If set to true only users with a non-empty synchronization Id will be returned, if set to false only users with an empty synchronization Id will be returned.  '
+          description: 'Filters for users based on the availability of a synchronizationId. If set to true only users with a non-empty synchronizationId will pass the filter, if set to false only users with an empty synchronizationId will pass the filter.  '
       tags:
         - Business data synchronization
         - Users
+    put:
+      summary: ''
+      operationId: put-synchronization-users
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: 'Creates a new user and '
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties: {}
-        description: ''
+              $ref: '#/components/schemas/synchronization-user'
   '/synchronization/users/{uuid}':
     parameters:
       - name: uuid
@@ -583,6 +613,51 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
+  '/users/{uuid}/status':
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: UUID of the collection element
+    get:
+      summary: Get user status
+      operationId: get-users-Id-status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userStatus'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      description: Gets a the status of a specific user
+      tags:
+        - Business data synchronization
+    put:
+      summary: Update user status
+      operationId: put-user-status
+      description: Updates a user's status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userStatus'
+        description: ''
+      tags:
+        - Business data synchronization
+      responses:
+        '200':
+          description: OK
+        '406':
+          description: 'Not Acceptable. The requested user status change is not acceptable. '
   '/users/{uuid}/mask':
     parameters:
       - name: uuid
@@ -723,8 +798,14 @@ components:
           format: date-time
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
-        lifeCycleStatus:
+        status:
           type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
       required:
         - emailAddress
     synchronization-user:
@@ -784,9 +865,13 @@ components:
           type: string
           description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
         status:
+          description: The status of the user in terms of his possibilty to interact with the system.
+          enum:
+            - active
+            - deactivated
+            - deleted
           type: string
-        '':
-          type: string
+          readOnly: true
       required:
         - emailAddress
         - createdAt
@@ -1166,6 +1251,13 @@ components:
       required:
         - displayModeDark
         - displayModeLight
+    userStatus:
+      type: string
+      title: userStatus
+      enum:
+        - active
+        - inactive
+        - deleted
   parameters:
     limit:
       name: limit
@@ -1205,3 +1297,4 @@ components:
         format: uuid
       description: UUID of the collection element
   responses: {}
+  examples: {}
