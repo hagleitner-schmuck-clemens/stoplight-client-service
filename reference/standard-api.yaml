@@ -21,21 +21,45 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
       operationId: get-customers
       description: Gets a collection of customers
       parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
         - schema:
-            type: integer
+            type: boolean
+            default: false
           in: query
-          name: limit
-          description: 'Pagination, page size limit'
-          required: true
+          name: includeDeleted
+          description: 'Filters customers based on user status. If true only customers with status ''deleted'' will pass the filter, if false only customers with a status not equal to ''deleted'' will pass the filter.'
         - schema:
-            type: integer
+            type: boolean
+            default: true
           in: query
-          name: offset
-          description: 'Pagination, page offset'
-          required: true
+          name: includeDeactivated
+          description: 'Filters customers based on user status. If true only customers with status ''deactivated'' will pass the filter, if false only customers with a status not equal to ''deleted'' status will pass the filter.'
+        - schema:
+            type: boolean
+          in: query
+          name: includeActive
+          description: 'Filters customers based on user status. If true only customers with status ''active'' will pass the filter, if false only customers with a status not equal to ''active'' will pass the filter.'
+        - schema:
+            type: string
+          in: query
+          name: customerId
+          description: Filters for customers based on the customerId. Note that the customer Id is only unique within all customers of the same reseller.
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: resellerId
+          description: Filters for sub customer of the given reseller.
       x-internal: true
   '/customers/{id}/assigned-customer-branding':
     parameters:
@@ -165,7 +189,7 @@ paths:
           name: userId
           description: Filters the collection for the given user id
       x-internal: true
-  '/customers/{id}/reseller-relations':
+  '/customers/{id}/sub-customers':
     parameters:
       - schema:
           type: string
@@ -173,43 +197,24 @@ paths:
         in: path
         required: true
     get:
-      summary: Get customer reseller relation
+      summary: Get sub-customers of a customer
       tags:
         - Customers
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerLight'
       operationId: get-customers-id-reseller-relations
       x-internal: false
-  '/customers/{id}/reseller-relations/{relation-id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: relation-id
-        in: path
-        required: true
-    get:
-      summary: Get specific reseller relation for customer
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-      operationId: get-customers-id-reseller-relation
-      description: ''
-      x-internal: true
-    delete:
-      summary: Delete reseller relation of a customer
-      operationId: delete-customers-id-reseller-relations-relation-id
-      responses:
-        '200':
-          description: OK
-      description: Deletes this relation
-      tags:
-        - Customers
+      description: Gets all the sub-customers of a customer
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
   '/customers/{id}/reseller-relations/{relation-id}/customer-roles':
     parameters:
       - schema:
@@ -264,6 +269,257 @@ paths:
       tags:
         - System
     parameters: []
+  /synchronization/customers:
+    parameters: []
+    get:
+      summary: Get customers for synchronization
+      operationId: get-synchronization-customers
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of resources in the collection.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      firstName: John
+                      lastName: Doe
+                      emailAddress: john@doe.com
+                      preferredCulture: de-AT
+                      mobilePhoneNumber: +43 664 9161413
+                      gender: diverse
+                      createdAt: '2021-08-23T16:15:18.123+01:00'
+                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
+                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
+                      synchronizationInformation: string
+                      status: string
+                      '': string
+        '401':
+          description: Unauthorized
+      description: Gets customer with detail information useful for synchronization with other systems.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - schema:
+            type: boolean
+            default: false
+          in: query
+          name: includeDeleted
+          description: 'Filters customers based on user status. If true only customers with status ''deleted'' will pass the filter, if false only customers with a status not equal to ''deleted'' will pass the filter.'
+        - schema:
+            type: boolean
+            default: true
+          in: query
+          name: includeDeactivated
+          description: 'Filters customers based on user status. If true only customers with status ''deactivated'' will pass the filter, if false only customers with a status not equal to ''deleted'' status will pass the filter.'
+        - schema:
+            type: boolean
+          in: query
+          name: includeActive
+          description: 'Filters customers based on user status. If true only customers with status ''active'' will pass the filter, if false only customers with a status not equal to ''active'' will pass the filter.'
+        - schema:
+            type: string
+            format: uuid
+            example: 98aea202-354b-4912-81f7-364e609fe650
+          in: query
+          name: synchronizationId
+          description: Filters for a customer with the given synchronization Id. Only a customer with an exact match will pass the filter.
+        - schema:
+            type: string
+            example: '2021-11-12T21:15:13.1234+01:00'
+          in: query
+          name: lastUpdatedAfter
+          description: Filters for customers  that were last updated in the system after (>) the given date.
+        - schema:
+            type: string
+            example: '2021-11-12T21:15:13.1234+01:00'
+          in: query
+          name: createdBefore
+          description: 'Filters for customers  that were created in the system before (<) the given date. '
+        - schema:
+            type: boolean
+          in: query
+          name: synchronizationIdAvailable
+          description: 'Filters for customers based on the availability of a synchronizationId. If set to true only users with a non-empty synchronizationId will pass the filter, if set to false only users with an empty synchronizationId will pass the filter.  '
+        - schema:
+            type: string
+          in: query
+          name: customerId
+          description: Filters for customers based on the customerId. Note that the customer Id is only unique within all customers of the same reseller.
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: resellerId
+          description: Filters for sub customer of the given reseller.
+      tags:
+        - Business data synchronization
+        - Users
+    put:
+      summary: ''
+      operationId: put-synchronization-users
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: 'Creates a new user and '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronization-user'
+      tags:
+        - Business data synchronization
+  '/synchronization/customers/{id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: Get customers for synchronization
+      operationId: get-synchronization-customers
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of resources in the collection.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      firstName: John
+                      lastName: Doe
+                      emailAddress: john@doe.com
+                      preferredCulture: de-AT
+                      mobilePhoneNumber: +43 664 9161413
+                      gender: diverse
+                      createdAt: '2021-08-23T16:15:18.123+01:00'
+                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
+                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
+                      synchronizationInformation: string
+                      status: string
+                      '': string
+        '401':
+          description: Unauthorized
+      description: Gets customer with detail information useful for synchronization with other systems.
+      parameters: []
+      tags:
+        - Business data synchronization
+        - Users
+    put:
+      summary: ''
+      operationId: put-synchronization-users
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: 'Creates a new user and '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronization-user'
+      tags:
+        - Business data synchronization
+  '/synchronization/customers/{id}/reseller-relations':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: Get customer's reseller relations
+      operationId: get-synchronization-customers
+      description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      tags:
+        - Business data synchronization
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerRelation'
+    post:
+      summary: ''
+      operationId: post-synchronization-customers-id-reseller-relations
+      responses:
+        '200':
+          description: OK
+  '/synchronization/customers/{id}/reseller-relations{relation-id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+      - schema:
+          type: string
+        name: relation-id
+        in: path
+        required: true
+        description: Id of the reseller relation
+    get:
+      summary: Get customer's reseller relations
+      operationId: get-synchronization-customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
+      description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
+      parameters: []
+      tags:
+        - Business data synchronization
+        - Users
+    delete:
+      summary: ''
+      operationId: delete-synchronization-customers-id-reseller-relations-relation-id
+      responses:
+        '200':
+          description: OK
   /synchronization/users:
     parameters: []
     get:
@@ -374,119 +630,9 @@ paths:
               $ref: '#/components/schemas/synchronization-user'
       tags:
         - Business data synchronization
-  /synchronization/customers:
-    parameters: []
-    get:
-      summary: Get customers for synchronization
-      operationId: get-synchronization-customers
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Total-Count:
-              schema:
-                type: integer
-              description: Total count of resources in the collection.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/synchronization-user'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
-        '401':
-          description: Unauthorized
-      description: Gets customer with detail information useful for synchronization with other systems.
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-        - schema:
-            type: boolean
-            default: false
-          in: query
-          name: includeDeleted
-          description: 'Filters users based on user status. If true only users with status ''deleted'' will pass the filter, if false only users with a status not equal to ''deleted'' will pass the filter.'
-        - schema:
-            type: boolean
-            default: true
-          in: query
-          name: includeDeactivated
-          description: 'Filters users based on user status. If true only users with status ''deactivated'' will pass the filter, if false only users with a status not equal to ''deleted'' status will pass the filter.'
-        - schema:
-            type: boolean
-          in: query
-          name: includeActive
-          description: 'Filters users based on user status. If true only uses with status ''active'' will pass the filter, if false only users with a status not equal to ''active'' will pass the filter.'
-        - schema:
-            type: string
-            format: email
-            example: jon@doe.com
-          in: query
-          name: emailAddress
-          description: Filter for user with the given e-mail address. The match is case insensitive.
-        - schema:
-            type: string
-            format: uuid
-            example: 98aea202-354b-4912-81f7-364e609fe650
-          in: query
-          name: synchronizationId
-          description: Filters for a user with the given synchronization Id. Only a user with an exact match will pass the filter.
-        - schema:
-            type: string
-            example: '2021-11-12T21:15:13.1234+01:00'
-          in: query
-          name: lastUpdatedAfter
-          description: Filters for users that were last updated in the system after (>) the given date.
-        - schema:
-            type: string
-            example: '2021-11-12T21:15:13.1234+01:00'
-          in: query
-          name: createdBefore
-          description: 'Filters for users that were created in the system before (<) the given date. '
-        - schema:
-            type: boolean
-          in: query
-          name: synchronizationIdAvailable
-          description: 'Filters for users based on the availability of a synchronizationId. If set to true only users with a non-empty synchronizationId will pass the filter, if set to false only users with an empty synchronizationId will pass the filter.  '
-      tags:
-        - Business data synchronization
-        - Users
-    put:
-      summary: ''
-      operationId: put-synchronization-users
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-      description: 'Creates a new user and '
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/synchronization-user'
-      tags:
-        - Business data synchronization
-  '/synchronization/users/{uuid}':
+  '/synchronization/users/{id}':
     parameters:
-      - name: uuid
+      - name: id
         in: path
         required: true
         schema:
@@ -573,9 +719,13 @@ paths:
       tags:
         - System
     parameters: []
-  '/synchronization/users/{uuid}/synchronization-information':
+  '/synchronization/users/{id}/synchronization-information':
     parameters:
-      - $ref: '#/components/parameters/collectionUuid'
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
     get:
       summary: Get synchronization information for specific user
       operationId: get-synchronization-user-synchronization-information
@@ -660,9 +810,13 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
-  '/users/{uuid}':
+  '/users/{id}':
     parameters:
-      - $ref: '#/components/parameters/collectionUuid'
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
     get:
       summary: Get user by Id
       operationId: get-users-uuid
@@ -690,15 +844,13 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
-  '/users/{uuid}/status':
+  '/users/{id}/status':
     parameters:
-      - name: uuid
+      - schema:
+          type: string
+        name: id
         in: path
         required: true
-        schema:
-          type: string
-          format: uuid
-        description: UUID of the collection element
     get:
       summary: Get user status
       operationId: get-users-Id-status
@@ -735,15 +887,13 @@ paths:
           description: OK
         '406':
           description: 'Not Acceptable. The requested user status change is not acceptable. '
-  '/users/{uuid}/mask':
+  '/users/{id}/mask':
     parameters:
-      - name: uuid
+      - schema:
+          type: string
+        name: id
         in: path
         required: true
-        schema:
-          type: string
-          format: uuid
-        description: UUID of the collection element
     put:
       summary: Mask a user
       operationId: put-users-id-mask
@@ -830,196 +980,6 @@ paths:
         - Users
 components:
   schemas:
-    user:
-      type: object
-      title: user
-      description: Describes a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Id of the user within the HsM system.
-          readOnly: true
-        firstName:
-          type: string
-          example: John
-          maxLength: 50
-        lastName:
-          type: string
-          example: Doe
-          maxLength: 50
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        mobilePhoneNumber:
-          type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
-        gender:
-          type: string
-          enum:
-            - female
-            - male
-            - non-binary
-          description: ''
-        latestUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
-          readOnly: true
-      required:
-        - emailAddress
-    customer:
-      type: object
-      title: customer
-      description: Describes a customer.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Id of the user within the HsM system.
-          readOnly: true
-        name:
-          type: string
-          example: John
-          maxLength: 50
-        address:
-          type: string
-          example: Doe
-          maxLength: 50
-        city:
-          type: string
-        postalCode:
-          type: string
-        countryCode:
-          type: string
-          description: ISO 3166-1 alpha-2 code
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        latestUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
-          readOnly: true
-      required:
-        - id
-        - emailAddress
-    synchronizationUser:
-      type: object
-      title: synchronizationUser
-      description: Describes a user of the HsM system. Users are should generally be natural persons.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Id of the user within the HsM system.
-          readOnly: true
-        firstName:
-          type: string
-          example: John
-          maxLength: 50
-        lastName:
-          type: string
-          example: Doe
-          maxLength: 50
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        mobilePhoneNumber:
-          type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
-        gender:
-          type: string
-          enum:
-            - female
-            - male
-            - non-binary
-          description: ''
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
-          readOnly: true
-        createdAt:
-          type: string
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        latestUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        synchronizationId:
-          type: string
-          format: uuid
-          description: Id of the user in an external system.
-        synchronizationInformation:
-          type: string
-          description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
-      required:
-        - id
-        - emailAddress
-        - preferredCulture
-        - createdAt
-        - latestUpdatedAt
     branding:
       description: This model describes the branding of the instance or the effective branding for a customer
       type: object
@@ -1218,6 +1178,100 @@ components:
           clientSpecificOptions:
             webPortal:
               favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
+    customer:
+      type: object
+      title: customer
+      description: Describes a customer.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        name:
+          type: string
+          example: John
+          maxLength: 50
+        address:
+          type: string
+          example: Doe
+          maxLength: 50
+        city:
+          type: string
+        postalCode:
+          type: string
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 code
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        latestUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
+        isReseller:
+          type: boolean
+          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+        ResellerId:
+          type: string
+        InvoiceRecipientId:
+          type: string
+        ConditionProviderId:
+          type: string
+        ParentCompanyId:
+          type: string
+      required:
+        - id
+        - emailAddress
+    customerLight:
+      type: object
+      title: customer
+      description: Describes a customer.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        name:
+          type: string
+          example: John
+          maxLength: 50
+        address:
+          type: string
+          example: Doe
+          maxLength: 50
+        city:
+          type: string
+        postalCode:
+          type: string
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 code
+      required:
+        - id
     customerBranding:
       description: This model describes the branding for a customer
       type: object
@@ -1395,13 +1449,228 @@ components:
       required:
         - displayModeDark
         - displayModeLight
-    userStatus:
-      type: string
-      title: userStatus
-      enum:
-        - active
-        - inactive
-        - deleted
+    synchronizationCustomer:
+      type: object
+      title: synchronizationCustomer
+      description: Describes a customer of the HsM system together with information relevant for synchronization with other business systems.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        name:
+          type: string
+          example: John
+          maxLength: 50
+        address:
+          type: string
+          example: Doe
+          maxLength: 50
+        city:
+          type: string
+        postalCode:
+          type: string
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 code
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
+        latestUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        synchronizationId:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+        isReseller:
+          type:
+            - string
+            - boolean
+          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+      required:
+        - id
+        - emailAddress
+    synchronizationUser:
+      type: object
+      title: synchronizationUser
+      description: Describes a user of the HsM system. Users are should generally be natural persons.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        firstName:
+          type: string
+          example: John
+          maxLength: 50
+        lastName:
+          type: string
+          example: Doe
+          maxLength: 50
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        mobilePhoneNumber:
+          type: string
+          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
+          example: +43 664 9161413
+        gender:
+          type: string
+          enum:
+            - female
+            - male
+            - non-binary
+          description: ''
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        latestUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        synchronizationId:
+          type: string
+          format: uuid
+          description: Id of the user in an external system.
+        synchronizationInformation:
+          type: string
+          description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
+      required:
+        - id
+        - emailAddress
+        - preferredCulture
+        - createdAt
+        - latestUpdatedAt
+    user:
+      type: object
+      title: user
+      description: Describes a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        firstName:
+          type: string
+          example: John
+          maxLength: 50
+        lastName:
+          type: string
+          example: Doe
+          maxLength: 50
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        mobilePhoneNumber:
+          type: string
+          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
+          example: +43 664 9161413
+        gender:
+          type: string
+          enum:
+            - female
+            - male
+            - non-binary
+          description: ''
+        latestUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
+      required:
+        - emailAddress
+    customerRelation:
+      title: customerRelation
+      type: object
+      properties:
+        relationId:
+          type: string
+          format: uuid
+          readOnly: true
+        parentCustomerId:
+          type: string
+        childCustomerId:
+          type: string
+        synchronizationInformation:
+          type: string
+        lastUpdatedAt:
+          type: string
+        createdAt:
+          type: string
   parameters:
     limit:
       name: limit
