@@ -11,6 +11,7 @@ tags:
   - name: Customers
   - name: Users
   - name: Business data synchronization
+  - name: System
 paths:
   /customers:
     get:
@@ -466,8 +467,6 @@ paths:
   /system/instance-branding:
     get:
       summary: Get instance branding
-      tags:
-        - Branding
       responses:
         '200':
           description: OK
@@ -482,6 +481,8 @@ paths:
                 $ref: '#/components/schemas/branding'
       operationId: get-instance-branding
       description: Gets the whole definietion of the instance branding.
+      tags:
+        - System
     put:
       summary: Put instance branding
       operationId: put-system-branding
