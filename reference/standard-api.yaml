@@ -496,6 +496,8 @@ paths:
             schema:
               $ref: '#/components/schemas/branding'
       description: Sets the branding for the whole instance
+      tags:
+        - System
     parameters: []
   '/synchronization/users/{uuid}/synchronization-information':
     parameters:
