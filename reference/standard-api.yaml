@@ -701,7 +701,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/branding'
       operationId: get-instance-branding
-      description: Gets the whole definietion of the instance branding.
+      description: Gets the instance branding definition.
       tags:
         - System
     put:
