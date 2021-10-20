@@ -911,7 +911,7 @@ paths:
   /users:
     parameters: []
     get:
-      summary: Users
+      summary: ''
       operationId: get-users
       responses:
         '200':
@@ -969,7 +969,7 @@ paths:
         required: true
     get:
       summary: Get user by Id
-      operationId: get-users-uuid
+      operationId: get-user
       responses:
         '200':
           description: OK
@@ -982,7 +982,7 @@ paths:
         - Users
     put:
       summary: Put user
-      operationId: put-users-id
+      operationId: put-user
       responses:
         '200':
           description: OK
@@ -1002,8 +1002,8 @@ paths:
         in: path
         required: true
     get:
-      summary: Get user status
-      operationId: get-users-Id-status
+      summary: ''
+      operationId: get-users-status
       responses:
         '200':
           description: OK
@@ -1021,7 +1021,7 @@ paths:
       tags:
         - Business data synchronization
     put:
-      summary: Update user status
+      summary: ''
       operationId: put-user-status
       description: Updates a user's status
       requestBody:
@@ -1045,12 +1045,43 @@ paths:
         in: path
         required: true
     put:
-      summary: Mask a user
-      operationId: put-users-id-mask
+      summary: ''
+      operationId: put-users-mask
       responses:
         '200':
           description: OK
       description: 'Will remove all personal information of a user, thus removing the relation to a natural person.'
+      tags:
+        - Users
+  '/users/{id}/assigned-customer-roles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+    get:
+      summary: ''
+      responses: {}
+      operationId: get-user-customerroles
+      description: 'Gets a list of roles the user has on a customer, or on all customers. Result will be ordered by customerId then role code.'
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: customerId
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      tags:
+        - Users
+    post:
+      summary: Add a assigned customer role to a user
+      operationId: post-users-customerrole
+      responses:
+        '200':
+          description: OK
       tags:
         - Users
   '/users/{id}/assigned-system-roles':
@@ -1062,11 +1093,11 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: Get assigned system roles for user
+      summary: ''
       tags:
         - Users
       responses: {}
-      operationId: get-users-id-systemroles
+      operationId: get-user-systemroles
       description: Gets a list of systemroles assigned to that user.
       parameters:
         - schema:
@@ -1079,12 +1110,9 @@ paths:
           in: query
           name: offset
           description: 'Pagination, page offset'
-        - schema:
-            type: string
-          in: header
     post:
-      summary: Add assigned system role for user
-      operationId: post-users-id-systemroles
+      summary: ''
+      operationId: post-user-systemrole
       responses:
         '200':
           description: OK
@@ -1092,37 +1120,8 @@ paths:
       tags:
         - Users
     delete:
-      summary: Delete an assigned system role of a user
-      operationId: delete-users-id-assigned-system-roles
-      responses:
-        '200':
-          description: OK
-      tags:
-        - Users
-  '/users/{id}/assigned-customer-roles':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of  the user in the HsM system.
-    get:
-      summary: Get assigned customer roles for user
-      responses: {}
-      operationId: get-users-id-customerroles
-      description: Gets a list of effective roles the user has on the specified customer
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: customerId
-      tags:
-        - Users
-    post:
-      summary: Add a assigned customer role to a user
-      operationId: post-users-id-assigned-customer-roles
+      summary: ''
+      operationId: delete-user-systemrole
       responses:
         '200':
           description: OK
