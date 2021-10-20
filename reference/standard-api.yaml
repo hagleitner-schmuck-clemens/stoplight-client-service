@@ -362,8 +362,8 @@ paths:
         required: true
         description: Id of the customer
     get:
-      summary: Get customers for synchronization
-      operationId: get-synchronization-customers
+      summary: ''
+      operationId: get-synchronization-customer
       responses:
         '200':
           description: OK
@@ -403,7 +403,7 @@ paths:
         - Users
     put:
       summary: ''
-      operationId: put-synchronization-users
+      operationId: put-synchronization-customer
       responses:
         '200':
           description: OK
@@ -411,7 +411,7 @@ paths:
           description: Bad Request
         '401':
           description: Unauthorized
-      description: 'Creates a new user and '
+      description: Updates a customer with detailled information for synchronization processes.
       requestBody:
         content:
           application/json:
@@ -419,6 +419,13 @@ paths:
               $ref: '#/components/schemas/synchronization-user'
       tags:
         - Business data synchronization
+    post:
+      summary: ''
+      operationId: post-synchronization-customer
+      responses:
+        '200':
+          description: OK
+      description: Creates a new customer with detail information for synchronization processes.
   '/synchronization/customers/{id}/reseller-relations':
     parameters:
       - schema:
