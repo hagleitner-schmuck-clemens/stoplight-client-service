@@ -103,6 +103,7 @@ paths:
         name: id
         in: path
         required: true
+        description: Id of the customer
     put:
       summary: ''
       operationId: put-customer
@@ -122,6 +123,7 @@ paths:
         name: id
         in: path
         required: true
+        description: Id of the customer
     get:
       summary: ''
       responses:
@@ -153,6 +155,7 @@ paths:
         name: id
         in: path
         required: true
+        description: Id of the customer
     get:
       summary: ''
       tags:
@@ -203,6 +206,7 @@ paths:
         name: id
         in: path
         required: true
+        description: Id of the customer
     get:
       summary: ''
       responses:
@@ -250,6 +254,7 @@ paths:
         name: id
         in: path
         required: true
+        description: Id of the customer
     get:
       summary: ''
       tags:
@@ -265,7 +270,88 @@ paths:
                   $ref: '#/components/schemas/customerLight'
       operationId: get-customer-sub-customers
       x-internal: false
-      description: Gets all the sub-customers of a customer
+      description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree)
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+  '/customers/{id}/subsidiaries':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerLight'
+      operationId: get-customer-subsidiaries
+      x-internal: false
+      description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree)
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+  '/customers/{id}/invoice-sources':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerLight'
+      operationId: get-customer-subsidiaries
+      x-internal: false
+      description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree)
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+  '/customers/{id}/beneficiaries':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerLight'
+      operationId: get-customer-subsidiaries
+      x-internal: false
+      description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree)
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
