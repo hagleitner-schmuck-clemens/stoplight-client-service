@@ -15,7 +15,7 @@ tags:
 paths:
   /customers:
     get:
-      summary: Get customers
+      summary: ''
       tags:
         - Customers
       responses:
@@ -69,7 +69,7 @@ paths:
         in: path
         required: true
     get:
-      summary: '/customers/{id}/assigned-customer-branding'
+      summary: ''
       responses:
         '200':
           description: OK
@@ -77,15 +77,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerBranding'
-      operationId: get-customers-id-roles
+      operationId: get-customer-branding
       description: Gets the assigned customer branding for this specific customer
       parameters: []
       x-internal: true
       tags:
         - Customers
     put:
-      summary: '/customers/{id}/assigned-customer-branding'
-      operationId: put-customers-id-assigned-customer-branding
+      summary: ''
+      operationId: put-customer-customer
       responses:
         '200':
           description: OK
@@ -104,7 +104,7 @@ paths:
       tags:
         - Customers
       responses: {}
-      operationId: get-customers-id-roles
+      operationId: get-customer-assigned-customer-roles
       description: Gets assigned roles to this customer
       parameters:
         - schema:
@@ -158,7 +158,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/branding'
-      operationId: ''
+      operationId: get-customer-effective-branding
       description: Gets the effecive branding for this customer.
       parameters: []
       x-internal: true
@@ -177,7 +177,7 @@ paths:
       tags:
         - Customers
       responses: {}
-      operationId: ''
+      operationId: get-customer-effective-roles
       description: Gets effective roles applied to this customer.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -197,7 +197,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get sub-customers of a customer
+      summary: ''
       tags:
         - Customers
       responses:
@@ -209,48 +209,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customerLight'
-      operationId: get-customers-id-reseller-relations
+      operationId: get-customer-sub-customers
       x-internal: false
       description: Gets all the sub-customers of a customer
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-  '/customers/{id}/reseller-relations/{relation-id}/customer-roles':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: relation-id
-        in: path
-        required: true
-    get:
-      summary: ''
-      responses:
-        '200':
-          description: OK
-      operationId: get-customers-reseller-relations-roles
-      description: 'Gets all customer roles assigned to this relation, i.e. if a customer role is assigned to a cutomer relation that role is assigned to the customer that is child of the releati automatically.'
-      x-internal: true
-      tags:
-        - Customers
-    delete:
-      summary: ''
-      operationId: delete-customers-id-reseller-relations-relation-id
-      responses:
-        '200':
-          description: OK
-      description: Deletes this relation
-      tags:
-        - Customers
   /system/roles:
     get:
       summary: ''
       responses: {}
-      operationId: get-roles
+      operationId: get-system-roles
       description: Gets a list of roles defined for the system.
       parameters:
         - schema:
@@ -272,7 +241,7 @@ paths:
   /synchronization/customers:
     parameters: []
     get:
-      summary: Get customers for synchronization
+      summary: ''
       operationId: get-synchronization-customers
       responses:
         '200':
