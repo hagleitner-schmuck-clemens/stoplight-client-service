@@ -150,7 +150,7 @@ paths:
         in: path
         required: true
     get:
-      summary: '/customers/{id}/effective-branding'
+      summary: ''
       responses:
         '200':
           description: OK
@@ -158,7 +158,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/branding'
-      operationId: get-customers-id-roles
+      operationId: ''
       description: Gets the effecive branding for this customer.
       parameters: []
       x-internal: true
