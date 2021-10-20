@@ -177,7 +177,7 @@ paths:
       tags:
         - Customers
       responses: {}
-      operationId: get-customers-id-roles
+      operationId: ''
       description: Gets effective roles applied to this customer.
       parameters:
         - $ref: '#/components/parameters/limit'
