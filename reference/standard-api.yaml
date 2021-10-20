@@ -275,7 +275,7 @@ paths:
                       '': string
         '401':
           description: Unauthorized
-      description: Gets customer with detail information useful for synchronization with other systems.
+      description: Gets customers with detail information useful for synchronization with other systems.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -334,24 +334,13 @@ paths:
       tags:
         - Business data synchronization
         - Users
-    put:
+    post:
       summary: ''
-      operationId: put-synchronization-users
+      operationId: post-synchronization-customer
       responses:
         '200':
           description: OK
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-      description: 'Creates a new user and '
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/synchronization-user'
-      tags:
-        - Business data synchronization
+      description: Creates a customer with detail information useful for synchronization with other systems.
   '/synchronization/customers/{id}':
     parameters:
       - schema:
@@ -419,13 +408,6 @@ paths:
               $ref: '#/components/schemas/synchronization-user'
       tags:
         - Business data synchronization
-    post:
-      summary: ''
-      operationId: post-synchronization-customer
-      responses:
-        '200':
-          description: OK
-      description: Creates a new customer with detail information for synchronization processes.
   '/synchronization/customers/{id}/reseller-relations':
     parameters:
       - schema:
@@ -1164,6 +1146,10 @@ components:
           format: uuid
           description: Id of the user within the HsM system.
           readOnly: true
+        code:
+          type: string
+          example: HHAT
+          description: 'A code that -if given - uniquely identifies the customer within the whole system. '
         name:
           type: string
           example: John
@@ -1210,17 +1196,20 @@ components:
         isReseller:
           type: boolean
           description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
-        ResellerId:
+        resellerId:
           type: string
-        InvoiceRecipientId:
+          description: Defines the reseller of this customer.
+        invoiceRecipientId:
           type: string
-        ConditionProviderId:
+        conditionProviderId:
           type: string
-        ParentCompanyId:
+        parentId:
           type: string
       required:
         - id
         - emailAddress
+        - isReseller
+        - resellerId
     customerLight:
       type: object
       title: customer
