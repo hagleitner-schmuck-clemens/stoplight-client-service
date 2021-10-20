@@ -115,7 +115,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customer'
-  '/customers/{id}/assigned-customer-branding':
+  '/customers/{id}/branding':
     parameters:
       - schema:
           type: string
@@ -139,14 +139,14 @@ paths:
         - Customers
     put:
       summary: ''
-      operationId: put-customer-customer
+      operationId: put-customer-branding
       responses:
         '200':
           description: OK
       description: Creates or updates the customer branding
       tags:
         - Customers
-  '/customers/{id}/assigned-customer-roles':
+  '/customers/{id}/assigned-roles':
     parameters:
       - schema:
           type: string
@@ -158,7 +158,7 @@ paths:
       tags:
         - Customers
       responses: {}
-      operationId: get-customer-assigned-customer-roles
+      operationId: get-customer-roles
       description: Gets assigned roles to this customer
       parameters:
         - schema:
@@ -189,7 +189,7 @@ paths:
       x-internal: true
     post:
       summary: ''
-      operationId: post-customers-id-roles
+      operationId: post-customers-role
       responses:
         '200':
           description: OK
@@ -269,29 +269,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-  /system/roles:
-    get:
-      summary: ''
-      responses: {}
-      operationId: get-system-roles
-      description: Gets a list of roles defined for the system.
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: limit
-        - schema:
-            type: string
-          in: query
-          name: offset
-        - schema:
-            type: string
-          in: query
-          name: user
-      x-internal: true
-      tags:
-        - System
-    parameters: []
   /synchronization/customers:
     parameters: []
     get:
@@ -749,40 +726,6 @@ paths:
               $ref: '#/components/schemas/synchronization-user'
       tags:
         - Business data synchronization
-  /system/instance-branding:
-    get:
-      summary: Get instance branding
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/branding'
-        '':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/branding'
-      operationId: get-instance-branding
-      description: Gets the instance branding definition.
-      tags:
-        - System
-    put:
-      summary: Put instance branding
-      operationId: put-system-branding
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/branding'
-      description: Sets the branding for the whole instance
-      tags:
-        - System
-    parameters: []
   '/synchronization/users/{id}/synchronization-information':
     parameters:
       - schema:
@@ -822,6 +765,63 @@ paths:
               description: A JSON document with information important for the synchronization process. The schema of the JSON is defined by the synchronization process.
       tags:
         - Business data synchronization
+  /system/instance-branding:
+    get:
+      summary: Get instance branding
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/branding'
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/branding'
+      operationId: get-instance-branding
+      description: Gets the instance branding definition.
+      tags:
+        - System
+    put:
+      summary: Put instance branding
+      operationId: put-system-branding
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/branding'
+      description: Sets the branding for the whole instance
+      tags:
+        - System
+    parameters: []
+  /system/roles:
+    get:
+      summary: ''
+      responses: {}
+      operationId: get-system-roles
+      description: Gets a list of roles defined for the system.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: limit
+        - schema:
+            type: string
+          in: query
+          name: offset
+        - schema:
+            type: string
+          in: query
+          name: user
+      x-internal: true
+      tags:
+        - System
+    parameters: []
   /users:
     parameters: []
     get:
