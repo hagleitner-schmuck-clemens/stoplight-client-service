@@ -1189,12 +1189,6 @@ components:
             This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
           example: de-AT
           maxLength: 35
-        latestUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
         status:
           type: string
           enum:
@@ -1207,6 +1201,12 @@ components:
         isReseller:
           type: boolean
           description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+        latestUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
         resellerId:
           type: string
           description: Defines the reseller of this customer.
@@ -1238,6 +1238,9 @@ components:
           format: uuid
           description: Id of the user within the HsM system.
           readOnly: true
+        code:
+          type: string
+          maxLength: 20
         name:
           type: string
           example: John
@@ -1253,6 +1256,8 @@ components:
         countryCode:
           type: string
           description: ISO 3166-1 alpha-2 code
+          minLength: 2
+          maxLength: 2
         emailAddress:
           type: string
           description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
@@ -1274,7 +1279,12 @@ components:
             - inactive
             - deleted
           description: The status of the user in terms of his possibilty to interact with the system.
+          default: active
           readOnly: true
+        isReseller:
+          type: boolean
+          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+          default: false
         latestUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
@@ -1290,11 +1300,6 @@ components:
           format: uuid
         synchronizationInformation:
           type: string
-        isReseller:
-          type:
-            - string
-            - boolean
-          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
       required:
         - id
         - emailAddress
