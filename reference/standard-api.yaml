@@ -340,7 +340,17 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
       description: Creates a customer with detail information useful for synchronization with other systems.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronizationCustomer'
   '/synchronization/customers/{id}':
     parameters:
       - schema:
