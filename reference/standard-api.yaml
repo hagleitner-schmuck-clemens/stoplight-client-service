@@ -247,6 +247,105 @@ paths:
           name: userId
           description: Filters the collection for the given user id
       x-internal: true
+  '/customers/{id}/reseller':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: get-customer-reseller
+      x-internal: false
+      description: Gets the reseller of this customer
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+  '/customers/{id}/reseller-relation':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resellerRelation'
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+      operationId: get-customer-reseller-relation
+      x-internal: false
+      description: Gets the reseller relation of this customer
+      parameters: []
+    post:
+      summary: ''
+      operationId: post-customers-id-reseller-relation
+      responses:
+        '200':
+          description: OK
+      description: Creates a reseller relation for this customer (replacing any existing relation)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/resellerRelation'
+  '/customers/{id}/reseller-hierarchy':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: get-customer-reseller-hierarchy
+      x-internal: false
+      description: Gets all the resellers to this customer as sorted list. First element is the root reseller.
+      parameters: []
   '/customers/{id}/sub-customers':
     parameters:
       - schema:
@@ -259,6 +358,7 @@ paths:
       summary: ''
       tags:
         - Customers
+        - customer-relations
       responses:
         '200':
           description: OK
@@ -1382,33 +1482,16 @@ components:
         isReseller:
           type: boolean
           description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
-        latestUpdatedAt:
+        lastUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
           format: date-time
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
-        resellerId:
-          type: string
-          description: Defines the reseller of this customer.
-          format: uuid
-        invoiceRecipientId:
-          type: string
-          description: Defines the invoice recipient for this customer
-          format: uuid
-        conditionProviderId:
-          type: string
-          description: Defines the condition provider for this customer
-          format: uuid
-        parentId:
-          type: string
-          description: Defines the parent customer in a company-hierarchy relation.
-          format: uuid
       required:
         - id
         - emailAddress
         - isReseller
-        - resellerId
     customer-synchronization:
       type: object
       title: customer-synchronization
@@ -1466,7 +1549,7 @@ components:
           type: boolean
           description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
           default: false
-        latestUpdatedAt:
+        lastUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
           format: date-time
@@ -1689,8 +1772,8 @@ components:
       required:
         - id
     resellerRelation:
-      title: resellerRelation
       type: object
+      title: resellerRelation
       properties:
         relationId:
           type: string
@@ -1698,14 +1781,38 @@ components:
           readOnly: true
         parentCustomerId:
           type: string
-        subCustomerId:
+        synchronizationInformation:
+          type: string
+        lastUpdatedAt:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          readOnly: true
+      required:
+        - relationId
+        - parentCustomerId
+    resellerRelationSynchroniization:
+      type: object
+      title: resellerRelation
+      properties:
+        relationId:
+          type: string
+          format: uuid
+          readOnly: true
+        parentCustomerId:
           type: string
         synchronizationInformation:
           type: string
         lastUpdatedAt:
           type: string
+          readOnly: true
         createdAt:
           type: string
+          readOnly: true
+      required:
+        - relationId
+        - parentCustomerId
     synchronizationUser:
       type: object
       title: synchronizationUser
@@ -1824,7 +1931,7 @@ components:
             - male
             - non-binary
           description: ''
-        latestUpdatedAt:
+        lastUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
           format: date-time
