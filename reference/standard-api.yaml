@@ -256,7 +256,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: '#/components/schemas/customer-synchronization'
               examples:
                 example-1:
                   value:
@@ -376,7 +376,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: '#/components/schemas/customer-synchronization'
               examples:
                 example-1:
                   value:
@@ -1202,6 +1202,7 @@ components:
             - inactive
             - deleted
           description: The status of the user in terms of his possibilty to interact with the system.
+          default: active
           readOnly: true
         isReseller:
           type: boolean
@@ -1209,17 +1210,94 @@ components:
         resellerId:
           type: string
           description: Defines the reseller of this customer.
+          format: uuid
         invoiceRecipientId:
           type: string
+          description: Defines the invoice recipient for this customer
+          format: uuid
         conditionProviderId:
           type: string
+          description: Defines the condition provider for this customer
+          format: uuid
         parentId:
           type: string
+          description: Defines the parent customer in a company-hierarchy relation.
+          format: uuid
       required:
         - id
         - emailAddress
         - isReseller
         - resellerId
+    customer-synchronization:
+      type: object
+      title: customer-synchronization
+      description: Describes a customer of the HsM system together with information relevant for synchronization with other business systems.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        name:
+          type: string
+          example: John
+          maxLength: 50
+        address:
+          type: string
+          example: Doe
+          maxLength: 50
+        city:
+          type: string
+        postalCode:
+          type: string
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 code
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
+        latestUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        synchronizationId:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+        isReseller:
+          type:
+            - string
+            - boolean
+          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+      required:
+        - id
+        - emailAddress
     customerLight:
       type: object
       title: customer
@@ -1424,76 +1502,6 @@ components:
       required:
         - displayModeDark
         - displayModeLight
-    synchronizationCustomer:
-      type: object
-      title: synchronizationCustomer
-      description: Describes a customer of the HsM system together with information relevant for synchronization with other business systems.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Id of the user within the HsM system.
-          readOnly: true
-        name:
-          type: string
-          example: John
-          maxLength: 50
-        address:
-          type: string
-          example: Doe
-          maxLength: 50
-        city:
-          type: string
-        postalCode:
-          type: string
-        countryCode:
-          type: string
-          description: ISO 3166-1 alpha-2 code
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
-          readOnly: true
-        latestUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        createdAt:
-          type: string
-          format: date-time
-          readOnly: true
-        synchronizationId:
-          type: string
-          format: uuid
-        synchronizationInformation:
-          type: string
-        isReseller:
-          type:
-            - string
-            - boolean
-          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
-      required:
-        - id
-        - emailAddress
     synchronizationUser:
       type: object
       title: synchronizationUser
