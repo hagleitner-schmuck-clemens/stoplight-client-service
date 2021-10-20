@@ -61,6 +61,60 @@ paths:
           name: resellerId
           description: Filters for sub customer of the given reseller.
       x-internal: true
+    post:
+      summary: ''
+      operationId: post-customer
+      responses:
+        '200':
+          description: OK
+      description: Create a new customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer'
+  '/customers/{id}':
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+      operationId: get-customer
+      description: 'Gets a single customer, defined by its customer id.'
+      parameters: []
+      x-internal: true
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-customer
+      responses:
+        '200':
+          description: OK
+      description: Update a customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer'
   '/customers/{id}/assigned-customer-branding':
     parameters:
       - schema:
@@ -331,6 +385,11 @@ paths:
           in: query
           name: resellerId
           description: Filters for sub customer of the given reseller.
+        - schema:
+            type: string
+          in: query
+          name: namePattern
+          description: Filters for customers whose name matches the given pattern.
       tags:
         - Business data synchronization
         - Users
