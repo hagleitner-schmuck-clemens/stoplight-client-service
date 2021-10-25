@@ -93,7 +93,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/customer'
       operationId: get-customer
-      description: 'Gets a single customer, defined by its customer id.'
+      description: 'Gets a single customer, defined by its customer id.asd'
       parameters: []
       x-internal: true
     parameters:
