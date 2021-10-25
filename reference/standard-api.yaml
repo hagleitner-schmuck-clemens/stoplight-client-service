@@ -1442,6 +1442,11 @@ components:
           format: date-time
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
+        resellerId:
+          type: string
+          format: uuid
+          description: Each customer must have a parent reseller.
+          writeOnly: true
       required:
         - id
         - emailAddress
