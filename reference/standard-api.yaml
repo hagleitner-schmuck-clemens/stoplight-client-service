@@ -459,7 +459,7 @@ paths:
     parameters: []
     get:
       summary: ''
-      operationId: get-synchronization-customers
+      operationId: synchronization-customers#get
       responses:
         '200':
           description: OK
@@ -558,7 +558,7 @@ paths:
         - Users
     post:
       summary: ''
-      operationId: post-synchronization-customer
+      operationId: synchronization-customer#post
       responses:
         '200':
           description: OK
@@ -584,7 +584,7 @@ paths:
         description: Id of the customer
     get:
       summary: ''
-      operationId: get-synchronization-customer
+      operationId: synchronization-customer#get
       responses:
         '200':
           description: OK
@@ -624,7 +624,7 @@ paths:
         - Users
     put:
       summary: ''
-      operationId: put-synchronization-customer
+      operationId: synchronization-customer#put
       responses:
         '200':
           description: OK
@@ -651,7 +651,7 @@ paths:
         description: Id of the customer
     get:
       summary: ''
-      operationId: get-synchronization-customer
+      operationId: synchronization-customer-reseller-relation#get
       responses:
         '200':
           description: OK
@@ -904,45 +904,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/user-synchronization'
-      tags:
-        - Business data synchronization
-  '/synchronization/users/{id}/synchronization-information':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: Get synchronization information for specific user
-      operationId: get-synchronization-user-synchronization-information
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
-      description: Gets the synchronization information of a specific user.
-      tags:
-        - Business data synchronization
-    put:
-      summary: Update synchronization information for specific user
-      operationId: put-users-id-synchronization-information
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-      description: Updates a suer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-              description: A JSON document with information important for the synchronization process. The schema of the JSON is defined by the synchronization process.
       tags:
         - Business data synchronization
   /system/instance-branding:
