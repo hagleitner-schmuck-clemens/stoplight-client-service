@@ -93,7 +93,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/customer'
       operationId: get-customer
-      description: 'Gets a single customer, defined by its customer id.asd'
+      description: 'Gets a single customer, defined by its customer id.'
       parameters: []
       x-internal: true
     parameters:
@@ -751,7 +751,7 @@ paths:
     parameters: []
     get:
       summary: Get users for synchronization
-      operationId: get-synchronization-users
+      operationId: synchronization-users#get
       responses:
         '200':
           description: OK
