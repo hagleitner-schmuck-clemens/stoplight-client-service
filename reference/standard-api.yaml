@@ -572,7 +572,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/synchronizationCustomer'
+              $ref: '#/components/schemas/customer-synchronization'
   '/synchronization/customers/{id}':
     parameters:
       - schema:
@@ -637,7 +637,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/synchronization-user'
+              $ref: '#/components/schemas/customer-synchronization'
       tags:
         - Business data synchronization
   '/synchronization/customers/{id}/reseller-relation':
@@ -665,7 +665,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/resellerRelation'
+                  $ref: '#/components/schemas/resellerRelation-synchroniization'
               examples:
                 example-1:
                   value:
@@ -707,7 +707,7 @@ paths:
               $ref: '#/components/schemas/synchronization-user'
       tags:
         - Business data synchronization
-  '/synchronization/customers/{id}/reseller-relations/{relation-id}':
+  '/synchronization/customers/{id}/reseller-relations/':
     parameters:
       - schema:
           type: string
@@ -716,15 +716,9 @@ paths:
         in: path
         required: true
         description: Id of the customer
-      - schema:
-          type: string
-        name: relation-id
-        in: path
-        required: true
-        description: Id of the reseller relation
     get:
-      summary: Get customer's reseller relations
-      operationId: get-synchronization-customers
+      summary: ''
+      operationId: synchronization-customer-reseller-relations#get
       responses:
         '200':
           description: OK
@@ -741,12 +735,6 @@ paths:
       tags:
         - Business data synchronization
         - Users
-    delete:
-      summary: ''
-      operationId: delete-synchronization-customers-id-reseller-relations-relation-id
-      responses:
-        '200':
-          description: OK
   /synchronization/users:
     parameters: []
     get:
@@ -862,7 +850,7 @@ paths:
         description: UUID of the collection element
     get:
       summary: ''
-      operationId: synchronization-users#get
+      operationId: synchronization-user#get
       responses:
         '200':
           description: OK
@@ -1447,6 +1435,71 @@ components:
         - id
         - emailAddress
         - isReseller
+    customer - copy:
+      type: object
+      title: customer
+      description: Describes a customer.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        code:
+          type: string
+          example: HHAT
+          description: 'A code that -if given - uniquely identifies the customer within the whole system. '
+        name:
+          type: string
+          example: John
+          maxLength: 50
+        address:
+          type: string
+          example: Doe
+          maxLength: 50
+        city:
+          type: string
+        postalCode:
+          type: string
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 code
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          default: active
+          readOnly: true
+        isReseller:
+          type: boolean
+          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+        lastUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+      required:
+        - id
+        - emailAddress
+        - isReseller
     customer-synchronization:
       type: object
       title: customer-synchronization
@@ -1747,7 +1800,7 @@ components:
       required:
         - relationId
         - parentCustomerId
-    resellerRelationSynchroniization:
+    resellerRelation-synchroniization:
       type: object
       title: resellerRelation
       properties:
