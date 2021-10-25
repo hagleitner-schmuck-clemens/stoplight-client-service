@@ -691,7 +691,7 @@ paths:
         - Users
     put:
       summary: ''
-      operationId: put-synchronization-customer
+      operationId: synchronization-customer-reseller-relation#put
       responses:
         '200':
           description: OK
@@ -735,6 +735,16 @@ paths:
       tags:
         - Business data synchronization
         - Users
+    post:
+      summary: ''
+      operationId: synchronization-customers-id-reseller-relations#put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resellerRelation-synchroniization'
   /synchronization/users:
     parameters: []
     get:
