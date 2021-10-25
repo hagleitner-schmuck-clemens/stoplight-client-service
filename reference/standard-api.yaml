@@ -862,7 +862,7 @@ paths:
         description: UUID of the collection element
     get:
       summary: ''
-      operationId: synchronoization-users#get
+      operationId: synchronization-users#get
       responses:
         '200':
           description: OK
