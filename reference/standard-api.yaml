@@ -2114,23 +2114,36 @@ components:
       title: selfRegistrationCredential
       type: object
       properties:
-        id:
+        Id:
           type: string
+          format: uuid
+          description: Id of this self-registration credential
           readOnly: true
         customerNumber:
           type: string
+          description: Customer number of this credential
           readOnly: true
         pin:
           type: string
+          description: PIN of this credential
+          minLength: 9
+          maxLength: 9
           readOnly: true
         validTill:
           type: string
+          description: Date until this credential is valid.
+          format: date-time
           readOnly: true
+        shareUri:
+          type: string
+          format: uri
+          description: A URI that can be used to assign oneself to the customer.
       required:
-        - id
+        - Id
         - customerNumber
         - pin
         - validTill
+        - shareUri
   parameters:
     limit:
       name: limit
