@@ -750,7 +750,7 @@ paths:
   /synchronization/users:
     parameters: []
     get:
-      summary: Get users for synchronization
+      summary: ''
       operationId: synchronization-users#get
       responses:
         '200':
