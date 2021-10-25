@@ -12,6 +12,7 @@ tags:
   - name: Users
   - name: Business data synchronization
   - name: System
+  - name: SelfRegistration
 paths:
   /customers:
     get:
@@ -274,6 +275,203 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+  '/customers/{id}/self-registration-credentials/current':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/selfRegistrationCredential'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customerId:
+                    type: string
+                  pin:
+                    type: string
+                    minLength: 9
+                    maxLength: 9
+                  validTill:
+                    type: string
+                    format: date-time
+                  Id:
+                    type: string
+                required:
+                  - customerId
+                  - pin
+                  - validTill
+                  - Id
+        '403':
+          description: Forbidden
+      operationId: self-registration-credential-current#get
+      x-internal: false
+      description: Gets the self-registration credentials for the current date. If that credential was not created before the server will create the credantial when this endpoint is called.
+      parameters: []
+      tags:
+        - SelfRegistration
+  '/customers/{id}/self-registration-credentials':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/selfRegistrationCredential'
+      operationId: self-registration-credentials#get
+      x-internal: false
+      description: Gets a list of currently active self-registration credentials. List is ordered ascending by ValidTill date.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      tags:
+        - SelfRegistration
+  '/customers/{id}/self-registration-credentials/{credentialId}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+      - schema:
+          type: string
+        name: credentialId
+        in: path
+        required: true
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/selfRegistrationCredential'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customerId:
+                    type: string
+                  pin:
+                    type: string
+                    minLength: 9
+                    maxLength: 9
+                  validTill:
+                    type: string
+                    format: date-time
+                  Id:
+                    type: string
+                required:
+                  - customerId
+                  - pin
+                  - validTill
+                  - Id
+      operationId: self-registration-credential#get
+      x-internal: false
+      description: Gets a specific self registration credential
+      parameters: []
+      tags:
+        - SelfRegistration
+    delete:
+      summary: ''
+      operationId: self-registration-credentials#delete
+      responses:
+        '200':
+          description: OK
+      description: Deletes a self registration credential
+  '/customers/{id}/self-registration-credentials/{selfRegistrationCredentialId}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+      - schema:
+          type: string
+        name: selfRegistrationCredentialId
+        in: path
+        required: true
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customerId:
+                    type: string
+                  pin:
+                    type: string
+                    minLength: 9
+                    maxLength: 9
+                  validTill:
+                    type: string
+                    format: date-time
+                  Id:
+                    type: string
+                required:
+                  - customerId
+                  - pin
+                  - validTill
+                  - Id
+      operationId: self-registration-credential#get
+      x-internal: false
+      description: Gets a list of currently active self-registration informations
+      parameters: []
+      tags:
+        - SelfRegistration
+    delete:
+      summary: ''
+      operationId: self-registration-credential#delete
+      responses:
+        '200':
+          description: OK
+      description: 'Delete a self registration information. '
   '/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -1912,6 +2110,27 @@ components:
           readOnly: true
       required:
         - emailAddress
+    selfRegistrationCredential:
+      title: selfRegistrationCredential
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        customerNumber:
+          type: string
+          readOnly: true
+        pin:
+          type: string
+          readOnly: true
+        validTill:
+          type: string
+          readOnly: true
+      required:
+        - id
+        - customerNumber
+        - pin
+        - validTill
   parameters:
     limit:
       name: limit
