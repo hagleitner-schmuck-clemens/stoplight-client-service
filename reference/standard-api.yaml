@@ -737,7 +737,7 @@ paths:
         - Users
     post:
       summary: ''
-      operationId: synchronization-customers-id-reseller-relations#put
+      operationId: synchronization-customers-reseller-relations#put
       responses:
         '200':
           description: OK
@@ -745,6 +745,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/resellerRelation-synchroniization'
+      description: ''
   /synchronization/users:
     parameters: []
     get:
