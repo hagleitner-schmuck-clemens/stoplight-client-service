@@ -1544,8 +1544,6 @@ paths:
         description: ID of  the user in the HsM system.
     get:
       summary: ''
-      tags:
-        - Users
       responses: {}
       operationId: user-systemroles#get
       description: Gets a list of systemroles assigned to that user.
@@ -1567,10 +1565,12 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/roleAssignment-user'
+      tags:
+        - RoleAssignment
 components:
   schemas:
     branding:
-      description: This model describes the branding of the instance or the effective branding for a customer
+      description: Describes the branding of the instance or the effective branding for a customer.
       type: object
       properties:
         productName:
@@ -1919,7 +1919,7 @@ components:
         - emailAddress
         - resellerId
     customerBranding:
-      description: This model describes the branding for a customer
+      description: Describes the branding options set for a customer
       type: object
       x-examples:
         example-1:
@@ -2095,33 +2095,6 @@ components:
       required:
         - displayModeDark
         - displayModeLight
-    customerLight:
-      type: object
-      title: customer
-      description: Describes a customer.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Id of the user within the HsM system.
-          readOnly: true
-        name:
-          type: string
-          example: John
-          maxLength: 50
-        address:
-          type: string
-          example: Doe
-          maxLength: 50
-        city:
-          type: string
-        postalCode:
-          type: string
-        countryCode:
-          type: string
-          description: ISO 3166-1 alpha-2 code
-      required:
-        - id
     resellerRelation:
       type: object
       title: resellerRelation
@@ -2143,9 +2116,10 @@ components:
       required:
         - relationId
         - parentCustomerId
+      description: Represents a reseller relation between two customers in HsM.
     resellerRelation-synchroniization:
       type: object
-      title: resellerRelation
+      title: resellerRelation-synchronization
       properties:
         relationId:
           type: string
@@ -2164,10 +2138,11 @@ components:
       required:
         - relationId
         - parentCustomerId
+      description: 'Represents a reseller relation between two customers in HsM, including synchronization data.'
     user-synchronization:
       type: object
       title: synchronizationUser
-      description: Describes a user of the HsM system. Users are should generally be natural persons.
+      description: 'Represents a user of the HsM system including synchronization data. '
       properties:
         id:
           type: string
@@ -2242,7 +2217,7 @@ components:
     user:
       type: object
       title: user
-      description: Describes a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
+      description: Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
       properties:
         id:
           type: string
@@ -2351,7 +2326,7 @@ components:
           detail: The user accessing the resource does is not granted the privilege to access the resource.
           missingPermission: ShareSelfRegistrationCredentials
     response-403-forbidden:
-      title: response-401-unauthorized
+      title: response-403-forbidden
       type: object
       properties:
         type:
@@ -2362,14 +2337,14 @@ components:
           type: string
         missingPermission:
           type: string
-      description: A model for returning details for 401 responses
+      description: A model for returning details for 403 responses
       examples:
         - type: Insufficient-Privileges
           title: The accessing user does not have the provileges to access this resource
           detail: The user accessing the resource does is not granted the privilege to access the resource.
           missingPermission: ShareSelfRegistrationCredentials
     response-400-badRequest:
-      title: response-401-unauthorized
+      title: response-400-badRequest
       type: object
       description: A model for returning details for 401 responses
       examples:
@@ -2428,8 +2403,9 @@ components:
         - roleId
         - userDisplayName
         - roleName
+      description: Represents a role assignment from a customers perspective.
     roleAssignment-user:
-      title: roleAssignment-customer
+      title: roleAssignment-user
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -2472,6 +2448,7 @@ components:
         - roleId
         - customerDisplayName
         - roleName
+      description: Represents a role assignment from a users perspective.
   parameters:
     limit:
       name: limit
