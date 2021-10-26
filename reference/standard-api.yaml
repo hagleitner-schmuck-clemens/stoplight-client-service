@@ -296,31 +296,27 @@ paths:
                   $ref: '#/components/schemas/selfRegistrationCredential'
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
+          headers: {}
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  customerId:
-                    type: string
-                  pin:
-                    type: string
-                    minLength: 9
-                    maxLength: 9
-                  validTill:
-                    type: string
-                    format: date-time
-                  Id:
-                    type: string
-                required:
-                  - customerId
-                  - pin
-                  - validTill
-                  - Id
+                $ref: '#/components/schemas/response-400-badRequest'
+              examples:
+                Self registration without customer number:
+                  value:
+                    type: self-registration-credentials-without-customernumber
+                    title: Self registration only possible for customers with a customer number
+                    detail: Self-registration credentials can only be issued for customers with an assigned customer number.
+        '401':
+          description: Unauthorized
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
       operationId: self-registration-credential-current#get
       x-internal: false
       description: Gets the self-registration credentials for the current date. If that credential was not created before the server will create the credantial when this endpoint is called.
@@ -346,6 +342,20 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/selfRegistrationCredential'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
       operationId: self-registration-credentials#get
       x-internal: false
       description: Gets a list of currently active self-registration credentials. List is ordered ascending by ValidTill date.
@@ -354,64 +364,6 @@ paths:
         - $ref: '#/components/parameters/offset'
       tags:
         - SelfRegistration
-  '/customers/{id}/self-registration-credentials/{credentialId}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the customer
-      - schema:
-          type: string
-        name: credentialId
-        in: path
-        required: true
-    get:
-      summary: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/selfRegistrationCredential'
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  customerId:
-                    type: string
-                  pin:
-                    type: string
-                    minLength: 9
-                    maxLength: 9
-                  validTill:
-                    type: string
-                    format: date-time
-                  Id:
-                    type: string
-                required:
-                  - customerId
-                  - pin
-                  - validTill
-                  - Id
-      operationId: self-registration-credential#get
-      x-internal: false
-      description: Gets a specific self registration credential
-      parameters: []
-      tags:
-        - SelfRegistration
-    delete:
-      summary: ''
-      operationId: self-registration-credentials#delete
-      responses:
-        '200':
-          description: OK
-      description: Deletes a self registration credential
   '/customers/{id}/self-registration-credentials/{selfRegistrationCredentialId}':
     parameters:
       - schema:
@@ -433,32 +385,11 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  customerId:
-                    type: string
-                  pin:
-                    type: string
-                    minLength: 9
-                    maxLength: 9
-                  validTill:
-                    type: string
-                    format: date-time
-                  Id:
-                    type: string
-                required:
-                  - customerId
-                  - pin
-                  - validTill
-                  - Id
+                $ref: '#/components/schemas/selfRegistrationCredential'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
       operationId: self-registration-credential#get
       x-internal: false
       description: Gets a list of currently active self-registration informations
@@ -471,6 +402,10 @@ paths:
       responses:
         '200':
           description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
       description: 'Delete a self registration information. '
   '/customers/{id}/reseller-relation':
     parameters:
@@ -2144,6 +2079,58 @@ components:
         - pin
         - validTill
         - shareUri
+    response-401-unauthorized:
+      title: response-401-unauthorized
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+        missingPermission:
+          type: string
+      description: A model for returning details for 401 responses
+      examples:
+        - type: Insufficient-Privileges
+          title: The accessing user does not have the provileges to access this resource
+          detail: The user accessing the resource does is not granted the privilege to access the resource.
+          missingPermission: ShareSelfRegistrationCredentials
+    response-403-forbidden:
+      title: response-401-unauthorized
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+        missingPermission:
+          type: string
+      description: A model for returning details for 401 responses
+      examples:
+        - type: Insufficient-Privileges
+          title: The accessing user does not have the provileges to access this resource
+          detail: The user accessing the resource does is not granted the privilege to access the resource.
+          missingPermission: ShareSelfRegistrationCredentials
+    response-400-badRequest:
+      title: response-401-unauthorized
+      type: object
+      description: A model for returning details for 401 responses
+      examples:
+        - type: Insufficient-Privileges
+          title: The accessing user does not have the provileges to access this resource
+          detail: The user accessing the resource does is not granted the privilege to access the resource.
+          missingPermission: ShareSelfRegistrationCredentials
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
   parameters:
     limit:
       name: limit
