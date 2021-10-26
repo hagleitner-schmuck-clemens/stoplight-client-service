@@ -29,7 +29,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-      operationId: get-customers
+      operationId: customers#get
       description: Gets a collection of customers
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -65,7 +65,7 @@ paths:
       x-internal: true
     post:
       summary: ''
-      operationId: post-customer
+      operationId: customers#post
       responses:
         '200':
           description: OK
@@ -96,7 +96,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customer'
-      operationId: get-customer
+      operationId: customer#get
       description: 'Gets a single customer, defined by its customer id.'
       parameters: []
       x-internal: true
@@ -110,7 +110,7 @@ paths:
         description: Id of the customer
     put:
       summary: ''
-      operationId: put-customer
+      operationId: customer#put
       responses:
         '200':
           description: OK
@@ -139,7 +139,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerBranding'
-      operationId: get-customer-branding
+      operationId: customer-branding#get
       description: Gets the assigned customer branding for this specific customer
       parameters: []
       x-internal: true
@@ -147,7 +147,7 @@ paths:
         - Customers
     put:
       summary: ''
-      operationId: put-customer-branding
+      operationId: customer-branding#put
       responses:
         '200':
           description: OK
@@ -171,13 +171,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/branding'
-      operationId: get-customer-effective-branding
+      operationId: customer-effective-branding#get
       description: Gets the effecive branding for this customer.
       parameters: []
       x-internal: true
       tags:
         - Customers
-  '/customers/{id}/efective-roles':
+  '/customers/{id}/effective-role-assignments':
     parameters:
       - schema:
           type: string
@@ -189,8 +189,16 @@ paths:
       summary: ''
       tags:
         - Customers
-      responses: {}
-      operationId: customer-assigned-roles#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/roleAssignment-resolved'
+      operationId: customer-effective-role-assignments#gert
       description: Gets effective roles applied to this customer.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -223,7 +231,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-      operationId: get-customer-reseller
+      operationId: customer-reseller#get
       x-internal: false
       description: Gets the reseller of this customer
       parameters:
@@ -506,13 +514,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customer'
-      operationId: get-customer-reseller-relation
+      operationId: '-customer-reseller-relations#get'
       x-internal: false
       description: Gets the reseller relation of this customer
       parameters: []
     post:
       summary: ''
-      operationId: post-customers-id-reseller-relation
+      operationId: customers-id-reseller-relations#post
       responses:
         '200':
           description: OK
@@ -610,7 +618,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-      operationId: get-customer-reseller-hierarchy
+      operationId: customer-reseller-hierarchy#get
       x-internal: false
       description: Gets all the resellers to this customer as sorted list. First element is the root reseller.
       parameters: []
@@ -636,7 +644,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customerLight'
-      operationId: get-customer-sub-customers
+      operationId: customer-sub-customers#get
       x-internal: false
       description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree)
       parameters:
@@ -663,7 +671,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customerLight'
-      operationId: get-customer-subsidiaries
+      operationId: customer-subsidiaries#get
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree)
       parameters:
@@ -690,7 +698,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customerLight'
-      operationId: get-customer-subsidiaries
+      operationId: customer-invoice-sources#get
       x-internal: false
       description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree)
       parameters:
@@ -717,7 +725,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customerLight'
-      operationId: get-customer-subsidiaries
+      operationId: customer-beneficiaries#get
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree)
       parameters:
