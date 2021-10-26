@@ -1505,7 +1505,7 @@ paths:
           description: 'Not Acceptable. The requested user status change is not acceptable. '
       tags:
         - Users
-  '/users/{id}/assigned-customer-roles':
+  '/users/{id}/customer-roles':
     parameters:
       - schema:
           type: string
@@ -1534,7 +1534,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/roleAssignment-user'
-  '/users/{id}/assigned-system-roles':
+  '/users/{id}/system-roles':
     parameters:
       - schema:
           type: string
@@ -1547,7 +1547,7 @@ paths:
       tags:
         - Users
       responses: {}
-      operationId: get-user-systemroles
+      operationId: user-systemroles#get
       description: Gets a list of systemroles assigned to that user.
       parameters:
         - schema:
