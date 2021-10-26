@@ -1,9 +1,0 @@
-{
-  "title": "Testmodel",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "string"
-    }
-  }
-}
