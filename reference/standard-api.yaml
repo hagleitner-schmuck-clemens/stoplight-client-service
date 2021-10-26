@@ -514,6 +514,64 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/resellerRelation'
+  '/synchronization/customers/{id}/role-assignments':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/roleAssignment-resolved'
+      operationId: synchronization-customer-role-assignments#get
+      description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 1000
+          in: query
+          name: limit
+          description: 'Pagination, maximum page size'
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+        - schema:
+            type: string
+          in: query
+          name: userId
+          description: If given filters the list for roles assigned to that specific user
+      x-internal: false
+    post:
+      summary: ''
+      operationId: customers-assigned-roles#post
+      responses:
+        '200':
+          description: OK
+      description: Creates a new role-assignement for this customer.
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/roleAssignment'
   '/customers/{id}/reseller-hierarchy':
     parameters:
       - schema:
@@ -773,6 +831,40 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customer-synchronization'
+  '/synchronization/customers/{id}/role-assignments/{role-assignment-id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+      - schema:
+          type: string
+        name: role-assignment-id
+        in: path
+        required: true
+        description: Id of the role assignment
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleAssignment-resolved'
+      operationId: synchronization-customer-role-assignment#get
+      description: 'Gets role-assignemnts '
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: Id
+          description: Id of the role assignment
+      x-internal: false
   '/synchronization/customers/{id}':
     parameters:
       - schema:
@@ -1155,25 +1247,13 @@ paths:
       operationId: systemr-role-assignments#get
       description: Gets role-assignments for the system. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
-        - schema:
-            type: integer
-            minimum: 1
-            default: 100
-            maximum: 1000
-          in: query
-          name: limit
-          description: 'Pagination, maximum page size'
-        - schema:
-            type: integer
-            minimum: 0
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
         - schema:
             type: string
           in: query
           name: userId
-          description: If given filters the list for roles assigned to that specific user
+          description: If given filters the list for roles assigned to that specific user.
       x-internal: false
       tags:
         - RoleAssignment
