@@ -230,13 +230,55 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: '#/components/schemas/resellerRelation'
       operationId: customer-reseller#get
       x-internal: false
       description: Gets the reseller of this customer
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+  '/customers/{id}/reseller-relation':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resellerRelation'
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+      operationId: customer-reseller-relations#get
+      x-internal: false
+      description: Gets the reseller relation of this customer
+      parameters: []
+    post:
+      summary: ''
+      operationId: customers-reseller-relations#post
+      responses:
+        '200':
+          description: OK
+      description: Creates a reseller relation for this customer (replacing any existing relation)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/resellerRelation'
+      tags:
+        - Customers
   '/customers/{id}/role-assignments':
     parameters:
       - schema:
@@ -490,106 +532,6 @@ paths:
       description: 'Delete a self registration information. '
       tags:
         - SelfRegistration
-  '/customers/{id}/reseller-relation':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/resellerRelation'
-        '':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer'
-      operationId: customer-reseller-relations#get
-      x-internal: false
-      description: Gets the reseller relation of this customer
-      parameters: []
-    post:
-      summary: ''
-      operationId: customers-reseller-relations#post
-      responses:
-        '200':
-          description: OK
-      description: Creates a reseller relation for this customer (replacing any existing relation)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/resellerRelation'
-      tags:
-        - Customers
-  '/synchronization/customers/{id}/role-assignments':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/roleAssignment-resolved'
-      operationId: synchronization-customer-role-assignments#get
-      description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
-      parameters:
-        - schema:
-            type: integer
-            minimum: 1
-            default: 100
-            maximum: 1000
-          in: query
-          name: limit
-          description: 'Pagination, maximum page size'
-        - schema:
-            type: integer
-            minimum: 0
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
-        - schema:
-            type: string
-          in: query
-          name: userId
-          description: If given filters the list for roles assigned to that specific user
-      x-internal: false
-    post:
-      summary: ''
-      operationId: customers-assigned-roles#post
-      responses:
-        '200':
-          description: OK
-      description: Creates a new role-assignement for this customer.
-      tags:
-        - Customers
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/roleAssignment'
   '/customers/{id}/reseller-hierarchy':
     parameters:
       - schema:
@@ -1059,6 +1001,64 @@ paths:
       description: ''
       tags:
         - DataSynchronization
+  '/synchronization/customers/{id}/role-assignments':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/roleAssignment-resolved'
+      operationId: synchronization-customer-role-assignments#get
+      description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 1000
+          in: query
+          name: limit
+          description: 'Pagination, maximum page size'
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+        - schema:
+            type: string
+          in: query
+          name: userId
+          description: If given filters the list for roles assigned to that specific user
+      x-internal: false
+    post:
+      summary: ''
+      operationId: customers-assigned-roles#post
+      responses:
+        '200':
+          description: OK
+      description: Creates a new role-assignement for this customer.
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/roleAssignment'
   /synchronization/users:
     parameters: []
     get:
