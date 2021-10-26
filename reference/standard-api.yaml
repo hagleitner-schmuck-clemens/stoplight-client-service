@@ -197,8 +197,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-resolved'
-      operationId: customer-effective-role-assignments#gert
+                  $ref: '#/components/schemas/roleAssignment-customer'
+      operationId: customer-effective-role-assignments#get
       description: Gets effective roles applied to this customer.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -297,7 +297,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-resolved'
+                  $ref: '#/components/schemas/roleAssignment-customer'
       operationId: customer-role-assignments#get
       description: Gets roles-assignments of this customer. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
@@ -361,7 +361,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleAssignment-resolved'
+                $ref: '#/components/schemas/roleAssignment-customer'
       operationId: customer-role-assignment#get
       description: 'Gets role-assignemnts '
       parameters:
@@ -814,7 +814,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleAssignment-resolved'
+                $ref: '#/components/schemas/roleAssignment-customer'
       operationId: synchronization-customer-role-assignment#get
       description: 'Gets role-assignemnts '
       parameters:
@@ -1021,7 +1021,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-resolved'
+                  $ref: '#/components/schemas/roleAssignment-customer'
       operationId: synchronization-customer-role-assignments#get
       description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
@@ -1266,7 +1266,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-resolved'
+                  $ref: '#/components/schemas/roleAssignment-customer'
       operationId: systemr-role-assignments#get
       description: Gets role-assignments for the system. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
@@ -1310,7 +1310,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleAssignment-resolved'
+                $ref: '#/components/schemas/roleAssignment-customer'
       operationId: system-role-assignment#get
       description: Gets a role assigned to the system.
       parameters:
@@ -1516,7 +1516,7 @@ paths:
     get:
       summary: ''
       responses: {}
-      operationId: get-user-customerroles
+      operationId: user-customerroles#get
       description: 'Gets a list of roles the user has on a customer, or on all customers. Result will be ordered by customerId then role code.'
       parameters:
         - schema:
@@ -1524,18 +1524,16 @@ paths:
             format: uuid
           in: query
           name: customerId
+          description: If given filters the results for a specific customer only.
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
       tags:
         - RoleAssignment
-    post:
-      summary: Add a assigned customer role to a user
-      operationId: post-users-customerrole
-      responses:
-        '200':
-          description: OK
-      tags:
-        - RoleAssignment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/roleAssignment-user'
   '/users/{id}/assigned-system-roles':
     parameters:
       - schema:
@@ -1562,23 +1560,13 @@ paths:
           in: query
           name: offset
           description: 'Pagination, page offset'
-    post:
-      summary: ''
-      operationId: post-user-systemrole
-      responses:
-        '200':
-          description: OK
-      description: Grant a system role to that user
-      tags:
-        - Users
-    delete:
-      summary: ''
-      operationId: delete-user-systemrole
-      responses:
-        '200':
-          description: OK
-      tags:
-        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/roleAssignment-user'
 components:
   schemas:
     branding:
@@ -2396,40 +2384,8 @@ components:
           type: string
         detail:
           type: string
-    roleAssignment:
-      title: customerRoleAssignment
-      type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          customerId: 87d8e330-2878-4742-a86f-dbbb3bf522ac
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: string
-      properties:
-        id:
-          type: string
-          description: Id of the role assignment
-          format: uuid
-          readOnly: true
-        userId:
-          type: string
-          format: uuid
-          description: Id of user who is assigned a role
-        assignedAt:
-          type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: Id of the assigned role.
-          format: uuid
-      required:
-        - id
-        - userId
-        - assignedAt
-        - roleId
-    roleAssignment-resolved:
-      title: roleAssignment-resolved
+    roleAssignment-customer:
+      title: roleAssignment-customer
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -2471,6 +2427,50 @@ components:
         - assignedAt
         - roleId
         - userDisplayName
+        - roleName
+    roleAssignment-user:
+      title: roleAssignment-customer
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      properties:
+        id:
+          type: string
+          description: Id of the role assignment
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+          format: uuid
+          description: Id of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: Id of the assigned role.
+          format: uuid
+        customerDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+      required:
+        - id
+        - customerId
+        - assignedAt
+        - roleId
+        - customerDisplayName
         - roleName
   parameters:
     limit:
