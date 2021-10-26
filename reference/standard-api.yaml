@@ -62,7 +62,7 @@ paths:
           in: query
           name: resellerId
           description: Filters for sub customer of the given reseller.
-      x-internal: true
+      x-internal: false
     post:
       summary: ''
       operationId: customers#post
@@ -99,7 +99,7 @@ paths:
       operationId: customer#get
       description: 'Gets a single customer, defined by its customer id.'
       parameters: []
-      x-internal: true
+      x-internal: false
     parameters:
       - schema:
           type: string
@@ -142,7 +142,7 @@ paths:
       operationId: customer-branding#get
       description: Gets the assigned customer branding for this specific customer
       parameters: []
-      x-internal: true
+      x-internal: false
       tags:
         - Customers
     put:
@@ -174,7 +174,7 @@ paths:
       operationId: customer-effective-branding#get
       description: Gets the effecive branding for this customer.
       parameters: []
-      x-internal: true
+      x-internal: false
       tags:
         - Customers
   '/customers/{id}/effective-role-assignments':
@@ -209,14 +209,14 @@ paths:
           in: query
           name: userId
           description: Filters the collection for the given user id
-      x-internal: true
+      x-internal: false
   '/customers/{id}/reseller':
     parameters:
       - schema:
           type: string
         name: id
         in: path
-        required: true
+        required: false
         description: Id of the customer
     get:
       summary: ''
@@ -1312,7 +1312,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/roleAssignment-customer'
       operationId: system-role-assignment#get
-      description: Gets a role assigned to the system.
+      description: Gets a role assignement between users and the system.
       parameters:
         - schema:
             type: string
@@ -1356,7 +1356,7 @@ paths:
             type: string
           in: query
           name: user
-      x-internal: true
+      x-internal: false
       tags:
         - System
     parameters: []
