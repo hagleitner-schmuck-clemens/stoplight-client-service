@@ -9,11 +9,11 @@ servers:
 tags:
   - name: Branding
   - name: Customers
-  - name: Users
-  - name: DataSynchronization
-  - name: System
-  - name: SelfRegistration
+  - name: DataSynchronization n
   - name: RoleAssignment
+  - name: SelfRegistration
+  - name: System
+  - name: Users
 paths:
   /customers:
     get:
