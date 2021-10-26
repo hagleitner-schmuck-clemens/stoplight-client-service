@@ -239,8 +239,6 @@ paths:
         description: Id of the customer
     get:
       summary: ''
-      tags:
-        - Customers
       responses:
         '200':
           description: OK
@@ -273,6 +271,8 @@ paths:
           name: userId
           description: If given filters the list for roles assigned to that specific user
       x-internal: false
+      tags:
+        - RoleAssignment
     post:
       summary: ''
       operationId: customers-assigned-roles#post
@@ -280,13 +280,13 @@ paths:
         '200':
           description: OK
       description: Creates a new role-assignement for this customer.
-      tags:
-        - Customers
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/roleAssignment'
+      tags:
+        - RoleAssignment
   '/customers/{id}/role-assignments/{role-assignment-id}':
     parameters:
       - schema:
