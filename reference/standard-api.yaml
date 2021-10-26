@@ -334,6 +334,8 @@ paths:
           in: query
           name: Id
           description: Id of the role assignment.
+      tags:
+        - RoleAssignment
   '/customers/{id}/self-registration-credentials/current':
     parameters:
       - schema:
@@ -478,6 +480,8 @@ paths:
         '404':
           description: Not Found
       description: 'Delete a self registration information. '
+      tags:
+        - SelfRegistration#
   '/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -518,6 +522,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/resellerRelation'
+      tags:
+        - Customers
   '/synchronization/customers/{id}/role-assignments':
     parameters:
       - schema:
