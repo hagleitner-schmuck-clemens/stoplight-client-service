@@ -268,7 +268,7 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user
-      x-internal: true
+      x-internal: false
     post:
       summary: ''
       operationId: customers-assigned-roles#post
@@ -316,7 +316,7 @@ paths:
           in: query
           name: Id
           description: Id of the role assignment
-      x-internal: true
+      x-internal: false
     delete:
       summary: ''
       operationId: customer-role-assignment#delete
@@ -1174,7 +1174,7 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user
-      x-internal: true
+      x-internal: false
       tags:
         - RoleAssignment
     post:
@@ -1216,7 +1216,7 @@ paths:
           in: query
           name: Id
           description: Id of the role assignment
-      x-internal: true
+      x-internal: false
       tags:
         - RoleAssignment
     delete:
