@@ -10,9 +10,9 @@ tags:
   - name: Branding
   - name: Customers
   - name: Users
-  - name: Business data synchronization
+  - name: DataSynchronization
   - name: System
-  - name: SelfRegistration#
+  - name: SelfRegistration
   - name: RoleAssignment
 paths:
   /customers:
@@ -481,7 +481,7 @@ paths:
           description: Not Found
       description: 'Delete a self registration information. '
       tags:
-        - SelfRegistration#
+        - SelfRegistration
   '/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -822,7 +822,7 @@ paths:
           name: namePattern
           description: Filters for customers whose name matches the given pattern.
       tags:
-        - Business data synchronization
+        - DataSynchronization
     post:
       summary: ''
       operationId: synchronization-customer#post
@@ -841,7 +841,7 @@ paths:
             schema:
               $ref: '#/components/schemas/customer-synchronization'
       tags:
-        - Business data synchronization
+        - DataSynchronization
   '/synchronization/customers/{id}/role-assignments/{role-assignment-id}':
     parameters:
       - schema:
@@ -875,7 +875,7 @@ paths:
           description: Id of the role assignment
       x-internal: false
       tags:
-        - Business data synchronization
+        - DataSynchronization
   '/synchronization/customers/{id}':
     parameters:
       - schema:
@@ -923,7 +923,7 @@ paths:
       description: Gets customer with detail information useful for synchronization with other systems.
       parameters: []
       tags:
-        - Business data synchronization
+        - DataSynchronization
         - Users
     put:
       summary: ''
@@ -942,7 +942,7 @@ paths:
             schema:
               $ref: '#/components/schemas/customer-synchronization'
       tags:
-        - Business data synchronization
+        - DataSynchronization
   '/synchronization/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -990,7 +990,7 @@ paths:
       description: Gets the reseller relation of this customer with detail information useful for synchronization with other systems.
       parameters: []
       tags:
-        - Business data synchronization
+        - DataSynchronization
         - Users
     put:
       summary: ''
@@ -1009,7 +1009,7 @@ paths:
             schema:
               $ref: '#/components/schemas/synchronization-user'
       tags:
-        - Business data synchronization
+        - DataSynchronization
   '/synchronization/customers/{id}/reseller-relations/':
     parameters:
       - schema:
@@ -1036,7 +1036,7 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
       tags:
-        - Business data synchronization
+        - DataSynchronization
         - Users
     post:
       summary: ''
@@ -1050,7 +1050,7 @@ paths:
                 $ref: '#/components/schemas/resellerRelation-synchroniization'
       description: ''
       tags:
-        - Business data synchronization
+        - DataSynchronization
   /synchronization/users:
     parameters: []
     get:
@@ -1141,7 +1141,7 @@ paths:
           name: synchronizationIdAvailable
           description: 'Filters for users based on the availability of a synchronizationId. If set to true only users with a non-empty synchronizationId will pass the filter, if set to false only users with an empty synchronizationId will pass the filter.  '
       tags:
-        - Business data synchronization
+        - DataSynchronization
         - Users
     post:
       summary: ''
@@ -1156,7 +1156,7 @@ paths:
             schema:
               $ref: '#/components/schemas/user-synchronization'
       tags:
-        - Business data synchronization
+        - DataSynchronization
   '/synchronization/users/{id}':
     parameters:
       - name: id
@@ -1184,7 +1184,7 @@ paths:
           description: Not Found
       description: Gets a specific user with detail information useful for synchronization with other systems.
       tags:
-        - Business data synchronization
+        - DataSynchronization
     put:
       summary: ''
       operationId: synchronization-user#put
@@ -1198,7 +1198,7 @@ paths:
             schema:
               $ref: '#/components/schemas/user-synchronization'
       tags:
-        - Business data synchronization
+        - DataSynchronization
     patch:
       summary: ''
       operationId: synchronization-user#patch
@@ -1211,7 +1211,7 @@ paths:
             schema:
               $ref: '#/components/schemas/user-synchronization'
       tags:
-        - Business data synchronization
+        - DataSynchronization
   /system/instance-branding:
     get:
       summary: Get instance branding
