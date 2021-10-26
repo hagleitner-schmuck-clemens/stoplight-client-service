@@ -514,13 +514,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customer'
-      operationId: '-customer-reseller-relations#get'
+      operationId: customer-reseller-relations#get
       x-internal: false
       description: Gets the reseller relation of this customer
       parameters: []
     post:
       summary: ''
-      operationId: customers-id-reseller-relations#post
+      operationId: customers-reseller-relations#post
       responses:
         '200':
           description: OK
