@@ -75,6 +75,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customer'
+      tags:
+        - Customers
   '/customers/{id}':
     get:
       summary: ''
@@ -118,6 +120,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customer'
+      tags:
+        - Customers
   '/customers/{id}/branding':
     parameters:
       - schema:
