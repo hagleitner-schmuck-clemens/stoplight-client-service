@@ -817,7 +817,6 @@ paths:
           description: Filters for customers whose name matches the given pattern.
       tags:
         - Business data synchronization
-        - Users
     post:
       summary: ''
       operationId: synchronization-customer#post
@@ -835,6 +834,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customer-synchronization'
+      tags:
+        - Business data synchronization
   '/synchronization/customers/{id}/role-assignments/{role-assignment-id}':
     parameters:
       - schema:
@@ -851,8 +852,6 @@ paths:
         description: Id of the role assignment
     get:
       summary: ''
-      tags:
-        - Customers
       responses:
         '200':
           description: OK
@@ -869,6 +868,8 @@ paths:
           name: Id
           description: Id of the role assignment
       x-internal: false
+      tags:
+        - Business data synchronization
   '/synchronization/customers/{id}':
     parameters:
       - schema:
@@ -1042,6 +1043,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/resellerRelation-synchroniization'
       description: ''
+      tags:
+        - Business data synchronization
   /synchronization/users:
     parameters: []
     get:
@@ -1146,6 +1149,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/user-synchronization'
+      tags:
+        - Business data synchronization
   '/synchronization/users/{id}':
     parameters:
       - name: id
@@ -1268,13 +1273,13 @@ paths:
         '200':
           description: OK
       description: Creates a new role assignement for this customer.
-      tags:
-        - Customers
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/roleAssignment'
+      tags:
+        - RoleAssignment
   '/system/role-assignments/{id}':
     parameters:
       - schema:
@@ -1316,6 +1321,8 @@ paths:
           in: query
           name: Id
           description: Id of the role assignment.
+      tags:
+        - RoleAssignment
   /system/roles:
     get:
       summary: ''
@@ -1466,7 +1473,7 @@ paths:
           description: Forbidden
       description: Gets a the status of a specific user
       tags:
-        - Business data synchronization
+        - Users
     put:
       summary: ''
       operationId: put-user-status
@@ -1477,13 +1484,13 @@ paths:
             schema:
               $ref: '#/components/schemas/userStatus'
         description: ''
-      tags:
-        - Business data synchronization
       responses:
         '200':
           description: OK
         '406':
           description: 'Not Acceptable. The requested user status change is not acceptable. '
+      tags:
+        - Users
   '/users/{id}/assigned-customer-roles':
     parameters:
       - schema:
@@ -1506,7 +1513,7 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
       tags:
-        - Users
+        - RoleAssignment
     post:
       summary: Add a assigned customer role to a user
       operationId: post-users-customerrole
@@ -1514,7 +1521,7 @@ paths:
         '200':
           description: OK
       tags:
-        - Users
+        - RoleAssignment
   '/users/{id}/assigned-system-roles':
     parameters:
       - schema:
