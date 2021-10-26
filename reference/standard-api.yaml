@@ -12,7 +12,8 @@ tags:
   - name: Users
   - name: Business data synchronization
   - name: System
-  - name: SelfRegistration
+  - name: SelfRegistration#
+  - name: RoleAssignment
 paths:
   /customers:
     get:
@@ -149,57 +150,6 @@ paths:
       description: Creates or updates the customer branding
       tags:
         - Customers
-  '/customers/{id}/assigned-roles':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses: {}
-      operationId: get-customer-roles
-      description: Gets assigned roles to this customer
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: userId
-          description: If given filters the list for roles assigned to that specific user
-        - schema:
-            type: integer
-            minimum: 1
-            default: 100
-            maximum: 1000
-          in: query
-          name: limit
-          description: 'Pagination, maximum page size'
-        - schema:
-            type: integer
-            minimum: 0
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
-        - schema:
-            type: string
-          in: query
-          name: assignedAfter
-          description: Filters for roles assigned after the given date
-      x-internal: true
-    post:
-      summary: ''
-      operationId: post-customers-role
-      responses:
-        '200':
-          description: OK
-      description: Assignes a new role for a suser on this customer
-      tags:
-        - Customers
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -223,7 +173,7 @@ paths:
       x-internal: true
       tags:
         - Customers
-  '/customers/{id}/efective-customer-roles':
+  '/customers/{id}/efective-roles':
     parameters:
       - schema:
           type: string
@@ -236,7 +186,7 @@ paths:
       tags:
         - Customers
       responses: {}
-      operationId: get-customer-effective-roles
+      operationId: customer-assigned-roles#get
       description: Gets effective roles applied to this customer.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -275,6 +225,111 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+  '/customers/{id}/role-assignments':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/roleAssignment-resolved'
+      operationId: customer-role-assignments#get
+      description: Gets roles-assignments of this customer. Role-assignments are ordered by the assignment date ascending (oldest first).
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 1000
+          in: query
+          name: limit
+          description: 'Pagination, maximum page size'
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+        - schema:
+            type: string
+          in: query
+          name: userId
+          description: If given filters the list for roles assigned to that specific user
+      x-internal: true
+    post:
+      summary: ''
+      operationId: customers-assigned-roles#post
+      responses:
+        '200':
+          description: OK
+      description: Creates a new role-assignement for this customer.
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/roleAssignment'
+  '/customers/{id}/role-assignments/{role-assignment-id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+      - schema:
+          type: string
+        name: role-assignment-id
+        in: path
+        required: true
+        description: Id of the role assignment
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleAssignment-resolved'
+      operationId: customer-role-assignment#get
+      description: 'Gets role-assignemnts '
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: Id
+          description: Id of the role assignment
+      x-internal: true
+    delete:
+      summary: ''
+      operationId: customer-role-assignment#delete
+      responses:
+        '200':
+          description: OK
+      description: Deletes a role assignment.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: Id
+          description: Id of the role assignment.
   '/customers/{id}/self-registration-credentials/current':
     parameters:
       - schema:
@@ -402,8 +457,20 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       description: 'Delete a self registration information. '
@@ -1072,6 +1139,99 @@ paths:
       tags:
         - System
     parameters: []
+  /system/role-assignments:
+    parameters: []
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/roleAssignment-resolved'
+      operationId: systemr-role-assignments#get
+      description: Gets role-assignments for the system. Role-assignments are ordered by the assignment date ascending (oldest first).
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 1000
+          in: query
+          name: limit
+          description: 'Pagination, maximum page size'
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+        - schema:
+            type: string
+          in: query
+          name: userId
+          description: If given filters the list for roles assigned to that specific user
+      x-internal: true
+      tags:
+        - RoleAssignment
+    post:
+      summary: ''
+      operationId: system-role-assignments#post
+      responses:
+        '200':
+          description: OK
+      description: Creates a new role assignement for this customer.
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/roleAssignment'
+  '/system/role-assignments/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleAssignment-resolved'
+      operationId: system-role-assignment#get
+      description: Gets a role assigned to the system.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: Id
+          description: Id of the role assignment
+      x-internal: true
+      tags:
+        - RoleAssignment
+    delete:
+      summary: ''
+      operationId: system-role-assignment#delete
+      responses:
+        '200':
+          description: OK
+      description: Deletes a system role assignment.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: Id
+          description: Id of the role assignment.
   /system/roles:
     get:
       summary: ''
@@ -1181,6 +1341,22 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
+  '/users/{id}/mask':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-users-mask
+      responses:
+        '200':
+          description: OK
+      description: 'Will remove all personal information of a user, thus removing the relation to a natural person.'
+      tags:
+        - Users
   '/users/{id}/status':
     parameters:
       - schema:
@@ -1224,22 +1400,6 @@ paths:
           description: OK
         '406':
           description: 'Not Acceptable. The requested user status change is not acceptable. '
-  '/users/{id}/mask':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    put:
-      summary: ''
-      operationId: put-users-mask
-      responses:
-        '200':
-          description: OK
-      description: 'Will remove all personal information of a user, thus removing the relation to a natural person.'
-      tags:
-        - Users
   '/users/{id}/assigned-customer-roles':
     parameters:
       - schema:
@@ -2131,6 +2291,82 @@ components:
           type: string
         detail:
           type: string
+    roleAssignment:
+      title: customerRoleAssignment
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          customerId: 87d8e330-2878-4742-a86f-dbbb3bf522ac
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: string
+      properties:
+        id:
+          type: string
+          description: Id of the role assignment
+          format: uuid
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+          description: Id of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: Id of the assigned role.
+          format: uuid
+      required:
+        - id
+        - userId
+        - assignedAt
+        - roleId
+    roleAssignment-resolved:
+      title: roleAssignment-resolved
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      properties:
+        id:
+          type: string
+          description: Id of the role assignment
+          format: uuid
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+          description: Id of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: Id of the assigned role.
+          format: uuid
+        userDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+      required:
+        - id
+        - userId
+        - assignedAt
+        - roleId
+        - userDisplayName
+        - roleName
   parameters:
     limit:
       name: limit
