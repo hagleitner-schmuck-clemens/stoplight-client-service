@@ -29,8 +29,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '403':
+          description: Forbidden
       operationId: customers#get
-      description: Gets a collection of customers
+      description: Gets a collection of customers.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -69,7 +77,17 @@ paths:
       responses:
         '200':
           description: OK
-      description: Create a new customer
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      description: Creates a new customer.
       requestBody:
         content:
           application/json:
@@ -91,6 +109,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
         '':
           content:
             application/json:
@@ -114,7 +153,27 @@ paths:
       responses:
         '200':
           description: OK
-      description: Update a customer.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-401-unauthorized'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ''
+      description: Updates a customer.
       requestBody:
         content:
           application/json:
@@ -122,6 +181,30 @@ paths:
               $ref: '#/components/schemas/customer'
       tags:
         - Customers
+    patch:
+      summary: ''
+      operationId: customer#patch
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Modifies attributes of a customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer-patch'
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -139,8 +222,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerBranding'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
       operationId: customer-branding#get
-      description: Gets the assigned customer branding for this specific customer
+      description: Gets the branding assigned to this specific customer.
       parameters: []
       x-internal: false
       tags:
@@ -151,7 +250,21 @@ paths:
       responses:
         '200':
           description: OK
-      description: Creates or updates the customer branding
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Creates or updates the customer branding.
       tags:
         - Customers
   '/customers/{id}/effective-branding':
@@ -171,8 +284,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/branding'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
       operationId: customer-effective-branding#get
-      description: Gets the effecive branding for this customer.
+      description: Gets the effecive branding of this customer.
       parameters: []
       x-internal: false
       tags:
@@ -187,8 +314,6 @@ paths:
         description: Id of the customer
     get:
       summary: ''
-      tags:
-        - Customers
       responses:
         '200':
           description: OK
@@ -198,7 +323,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/roleAssignment-customer'
-      operationId: customer-effective-role-assignments#get
+      operationId: customer-effective-roles#get
       description: Gets effective roles applied to this customer.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -208,8 +333,10 @@ paths:
             format: uuid
           in: query
           name: userId
-          description: Filters the collection for the given user id
+          description: Filters the effective roles to those given to the provided user id.
       x-internal: false
+      tags:
+        - RoleAssignment
   '/customers/{id}/reseller':
     parameters:
       - schema:
@@ -231,9 +358,23 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/resellerRelation'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
       operationId: customer-reseller#get
       x-internal: false
-      description: Gets the reseller of this customer
+      description: Gets the reseller of this customer.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -1833,11 +1974,75 @@ components:
           format: uuid
           description: Specifies the mandatory reseller for this customer.
           writeOnly: true
+        externallyManaged:
+          type: boolean
+          description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
+          readOnly: true
       required:
         - id
         - emailAddress
         - isReseller
         - resellerId
+        - externallyManaged
+    customer-patch:
+      type: object
+      title: customer
+      description: Describes a customer.
+      properties:
+        code:
+          type: string
+          example: HHAT
+          description: 'A code that -if given - uniquely identifies the customer within the whole system. '
+        name:
+          type: string
+          example: John
+          maxLength: 50
+        address:
+          type: string
+          example: Doe
+          maxLength: 50
+        city:
+          type: string
+        postalCode:
+          type: string
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 code
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          default: active
+          readOnly: true
+        isReseller:
+          type: boolean
+          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+        resellerId:
+          type: string
+          format: uuid
+          description: Specifies the mandatory reseller for this customer.
+          writeOnly: true
+        externallyManaged:
+          type: boolean
+          description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
+          readOnly: true
     customer-synchronization:
       type: object
       title: customer-synchronization
@@ -1916,7 +2121,7 @@ components:
           type: string
         externallyManaged:
           type: boolean
-          description: 'If true this customer is exernally managed, the possibilities to modify the customer will be limited in HsM.'
+          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
           default: false
       required:
         - id
@@ -4620,6 +4825,7 @@ components:
     resellerRelation-synchroniization:
       type: object
       title: resellerRelation-synchronization
+      description: 'Represents a reseller relation between two customers in HsM, including synchronization data.'
       properties:
         relationId:
           type: string
@@ -4635,10 +4841,14 @@ components:
         createdAt:
           type: string
           readOnly: true
+        externallyManaged:
+          type: boolean
+          default: false
+          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
       required:
         - relationId
         - parentCustomerId
-      description: 'Represents a reseller relation between two customers in HsM, including synchronization data.'
+        - externallyManaged
     user-synchronization:
       type: object
       title: synchronizationUser
@@ -4708,12 +4918,17 @@ components:
         synchronizationInformation:
           type: string
           description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
+        externallyManaged:
+          type: boolean
+          default: false
+          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
       required:
         - id
         - emailAddress
         - preferredCulture
         - createdAt
         - latestUpdatedAt
+        - externallyManaged
     user:
       type: object
       title: user
