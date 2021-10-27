@@ -388,8 +388,6 @@ paths:
         description: Id of the customer
     get:
       summary: ''
-      tags:
-        - Customers
       responses:
         '200':
           description: OK
@@ -404,8 +402,10 @@ paths:
                 $ref: '#/components/schemas/customer'
       operationId: customer-reseller-relations#get
       x-internal: false
-      description: Gets the reseller relation of this customer
+      description: Gets the reseller relation of this customer. I.e. the relation to its parent.
       parameters: []
+      tags:
+        - Customers
     post:
       summary: ''
       operationId: customers-reseller-relations#post
