@@ -355,9 +355,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/resellerRelation'
+                $ref: '#/components/schemas/customer'
         '400':
           description: Bad Request
           content:
@@ -395,6 +393,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/resellerRelation'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
         '':
           content:
             application/json:
@@ -402,7 +416,7 @@ paths:
                 $ref: '#/components/schemas/customer'
       operationId: customer-reseller-relation#get
       x-internal: false
-      description: Gets the reseller relation of this customer. I.e. the relation to its parent.
+      description: Gets the reseller relation of this customer. I.e. the relation to its parent reseller.
       parameters: []
       tags:
         - Customers
@@ -412,7 +426,7 @@ paths:
       responses:
         '200':
           description: OK
-      description: Creates a reseller relation for this customer (replacing any existing relation)
+      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
           application/json:
@@ -439,6 +453,22 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/roleAssignment-customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
       operationId: customer-role-assignments#get
       description: Gets roles-assignments of this customer. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
@@ -470,15 +500,31 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
       description: Creates a new role-assignement for this customer.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roleAssignment'
+              $ref: '#/components/schemas/roleAssignment-customer'
       tags:
         - RoleAssignment
-  '/customers/{id}/role-assignments/{role-assignment-id}':
+  '/customer-role-assignments/{id}':
     parameters:
       - schema:
           type: string
@@ -486,12 +532,6 @@ paths:
         in: path
         required: true
         description: Id of the customer
-      - schema:
-          type: string
-        name: role-assignment-id
-        in: path
-        required: true
-        description: Id of the role assignment
     get:
       summary: ''
       tags:
@@ -503,8 +543,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/roleAssignment-customer'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-401-unauthorized'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
       operationId: customer-role-assignment#get
-      description: 'Gets role-assignemnts '
+      description: Gets a specific customer role-assignemnt.
       parameters:
         - schema:
             type: string
@@ -518,7 +574,23 @@ paths:
       responses:
         '200':
           description: OK
-      description: Deletes a role assignment.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Deletes a customer role-assignment.
       parameters:
         - schema:
             type: string
@@ -2310,27 +2382,21 @@ components:
       title: resellerRelation
       description: Represents a reseller relation between two customers in HsM.
       properties:
-        relationId:
+        Id:
           type: string
           format: uuid
           readOnly: true
         parentCustomerId:
           type: string
-        synchronizationInformation:
-          type: string
         lastUpdatedAt:
-          type: string
-          readOnly: true
-        createdAt:
           type: string
           readOnly: true
         externallyManaged:
           type: boolean
           description: ''
       required:
-        - relationId
+        - Id
         - parentCustomerId
-        - externallyManaged
     resellerRelation-synchroniization:
       type: object
       title: resellerRelation-synchronization
