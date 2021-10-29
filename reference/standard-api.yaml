@@ -267,6 +267,11 @@ paths:
       description: Creates or updates the customer branding.
       tags:
         - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customerBranding'
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -524,6 +529,71 @@ paths:
               $ref: '#/components/schemas/roleAssignment-customer'
       tags:
         - RoleAssignment
+  '/customers/{id}/role-inheritance':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-role-inheritance#get
+      description: Gets the role inheritance settings for this customer.
+      parameters: []
+      x-internal: false
+      tags:
+        - Customers
+    patch:
+      summary: ''
+      operationId: customers-role-inheritance#patch
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer-role-inheritance'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
   '/customer-role-assignments/{id}':
     parameters:
       - schema:
@@ -1988,40 +2058,80 @@ components:
         id:
           type: string
           format: uuid
-          description: Id of the user within the HsM system.
+          description: Id of the user within the HsM system
           readOnly: true
         code:
           type: string
           example: HHAT
-          description: 'A code that -if given - uniquely identifies the customer within the whole system. '
-        name:
+          description: A code that -if given - uniquely identifies the customer within the whole system
+        name1:
           type: string
-          example: John
-          maxLength: 50
-        address:
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: The customer name
+        name2:
           type: string
-          example: Doe
-          maxLength: 50
+          example: A FacilityWiz subsidiary
+          maxLength: 80
+          description: Part of the customer name that is usually written on a second line in postal adresses
+        name3:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a third line in postal adresses
+        name4:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a forth line in postal adresses
+        address1:
+          type: string
+          example: Huey Avenue 33b
+          maxLength: 80
+        address2:
+          type: string
+          example: The Holo Building
+          maxLength: 80
         city:
           type: string
+          example: London
+          maxLength: 80
         postalCode:
           type: string
+          example: W3BX
+          maxLength: 20
         countryCode:
           type: string
+          maxLength: 2
+          example: GB
           description: ISO 3166-1 alpha-2 code
+        customerNumber:
+          type: string
+          maxLength: 20
+          example: 21-0789-B
+          description: The customer number used by the reseller to uniquely identify this customer
         emailAddress:
           type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          description: The companies main e-mail address
           format: email
-          example: john@doe.com
+          example: office@hgmfacility.com
+          maxLength: 256
+        phoneNumber:
+          type: string
+          description: The companies main phone number
+          format: email
+          example: +44 256 51512
+          maxLength: 256
+        vatIdentificationNumber:
+          type: string
+          description: The VAT identification number of the customer
+          format: email
+          example: +44 256 51512
           maxLength: 256
         preferredCulture:
           type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
+          description: The culture the company usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          example: en-GB
           maxLength: 35
         status:
           type: string
@@ -2029,22 +2139,22 @@ components:
             - active
             - inactive
             - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
+          description: The status of the user in terms of his possibilty to interact with the system
           default: active
           readOnly: true
         isReseller:
           type: boolean
-          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
         lastUpdatedAt:
           type: string
-          description: 'Describes when the user was last modified within HsM. '
+          description: Describes when the user was last modified within HsM.
           format: date-time
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
         resellerId:
           type: string
           format: uuid
-          description: Specifies the mandatory reseller for this customer.
+          description: Specifies the mandatory reseller for this customer
           writeOnly: true
         externallyManaged:
           type: boolean
@@ -2052,10 +2162,29 @@ components:
           readOnly: true
       required:
         - id
+        - name1
+        - countryCode
         - emailAddress
         - isReseller
         - resellerId
         - externallyManaged
+    customer-role-inheritance:
+      type: object
+      title: customer-role-inheritance
+      description: Describes a customer.
+      properties:
+        AllowRoleInheritanceFromReseller:
+          type: boolean
+          description: Defines if roles applicable to the customer's reseller and marked for propagation down the reseller relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromParentCustomer:
+          type: boolean
+          description: Defines if roles applicable to the customer's parent customer and marked for propagation down the customer hierarchy relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromInvoiceRecipient:
+          type: boolean
+          description: Defines if roles applicable to the customer's invoice recipient and marked for propagation down the invoice relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromConditionOwner:
+          type: boolean
+          description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
     customer-patch:
       type: object
       title: customer
@@ -2123,41 +2252,80 @@ components:
         id:
           type: string
           format: uuid
-          description: Id of the user within the HsM system.
+          description: Id of the user within the HsM system
           readOnly: true
         code:
           type: string
-          maxLength: 20
-        name:
+          example: HHAT
+          description: A code that -if given - uniquely identifies the customer within the whole system
+        name1:
           type: string
-          example: John
-          maxLength: 50
-        address:
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: The customer name
+        name2:
           type: string
-          example: Doe
-          maxLength: 50
+          example: A FacilityWiz subsidiary
+          maxLength: 80
+          description: Part of the customer name that is usually written on a second line in postal adresses
+        name3:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a third line in postal adresses
+        name4:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a forth line in postal adresses
+        address1:
+          type: string
+          example: Huey Avenue 33b
+          maxLength: 80
+        address2:
+          type: string
+          example: The Holo Building
+          maxLength: 80
         city:
           type: string
+          example: London
+          maxLength: 80
         postalCode:
           type: string
+          example: W3BX
+          maxLength: 20
         countryCode:
           type: string
-          description: ISO 3166-1 alpha-2 code
-          minLength: 2
           maxLength: 2
+          example: GB
+          description: ISO 3166-1 alpha-2 code
+        customerNumber:
+          type: string
+          maxLength: 20
+          example: 21-0789-B
+          description: The customer number used by the reseller to uniquely identify this customer
         emailAddress:
           type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          description: The companies main e-mail address
           format: email
-          example: john@doe.com
+          example: office@hgmfacility.com
+          maxLength: 256
+        phoneNumber:
+          type: string
+          description: The companies main phone number
+          format: email
+          example: +44 256 51512
+          maxLength: 256
+        vatIdentificationNumber:
+          type: string
+          description: The VAT identification number of the customer
+          format: email
+          example: +44 256 51512
           maxLength: 256
         preferredCulture:
           type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
+          description: The culture the company usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          example: en-GB
           maxLength: 35
         status:
           type: string
@@ -2165,38 +2333,55 @@ components:
             - active
             - inactive
             - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
+          description: The status of the user in terms of his possibilty to interact with the system
           default: active
           readOnly: true
         isReseller:
           type: boolean
-          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
-          default: false
-        resellerId:
-          type: string
-          description: Specifies the mandatory reseller for this customer.
-          format: uuid
+          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
         lastUpdatedAt:
           type: string
-          description: 'Describes when the user was last modified within HsM. '
+          description: Describes when the user was last modified within HsM.
           format: date-time
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
+        resellerId:
+          type: string
+          format: uuid
+          description: Specifies the mandatory reseller for this customer
+          writeOnly: true
+        externallyManaged:
+          type: boolean
+          description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
+          readOnly: true
+        AllowRoleInheritanceFromReseller:
+          type: boolean
+          description: Defines if roles applicable to the customer's reseller and marked for propagation down the reseller relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromParentCustomer:
+          type: boolean
+          description: Defines if roles applicable to the customer's parent customer and marked for propagation down the customer hierarchy relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromInvoiceRecipient:
+          type: boolean
+          description: Defines if roles applicable to the customer's invoice recipient and marked for propagation down the invoice relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromConditionOwneron:
+          type: boolean
+          description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
         createdAt:
           type: string
           format: date-time
+          description: Date time offset when this customer record was created
           readOnly: true
         synchronizationId:
           type: string
           format: uuid
+          description: ID of the customer in an external system it is synchronized with.
         synchronizationInformation:
           type: string
-        externallyManaged:
-          type: boolean
-          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
-          default: false
+          description: A JSON document that stores additional information for a synchronization process.
       required:
         - id
+        - name1
+        - countryCode
         - emailAddress
         - resellerId
         - externallyManaged
