@@ -397,7 +397,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/resellerRelation'
+                $ref: '#/components/schemas/customerRelation'
         '400':
           description: Bad Request
           content:
@@ -421,7 +421,7 @@ paths:
                 $ref: '#/components/schemas/customer'
       operationId: customer-reseller-relation#get
       x-internal: false
-      description: Gets the reseller relation of this customer. I.e. the relation to its parent reseller.
+      description: Gets the reseller relation of this customer. I.e. the relation to its reseller.
       parameters: []
       tags:
         - Customers
@@ -436,7 +436,181 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/resellerRelation'
+              $ref: '#/components/schemas/customerRelation'
+      tags:
+        - Customers
+  '/customers/{id}/company-hierarchy-relation':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+      operationId: customer-reseller-relation#get
+      x-internal: false
+      description: Gets the company hierarchy relation of this customer. I.e. the relation to its parent customer.
+      parameters: []
+      tags:
+        - Customers
+    post:
+      summary: ''
+      operationId: customers-reseller-relations#post
+      responses:
+        '200':
+          description: OK
+      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customerRelation'
+      tags:
+        - Customers
+  '/customers/{id}/invoice-relation':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+      operationId: customer-reseller-relation#get
+      x-internal: false
+      description: Gets the invoice relation of this customer. I.e. the relation to another customer who get the invoices for this customer.
+      parameters: []
+      tags:
+        - Customers
+    post:
+      summary: ''
+      operationId: customers-reseller-relations#post
+      responses:
+        '200':
+          description: OK
+      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customerRelation'
+      tags:
+        - Customers
+  '/customers/{id}/condition-relation':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+      operationId: customer-reseller-relation#get
+      x-internal: false
+      description: Gets the condition owner relation of this customer. I.e. the relation to another customer whose conditions apply to this customer.
+      parameters: []
+      tags:
+        - Customers
+    post:
+      summary: ''
+      operationId: customers-reseller-relations#post
+      responses:
+        '200':
+          description: OK
+      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customerRelation'
       tags:
         - Customers
   '/customers/{id}/role-assignments':
@@ -815,7 +989,7 @@ paths:
       description: 'Delete a self registration information. '
       tags:
         - SelfRegistration
-  '/customers/{id}/reseller-hierarchy':
+  '/customers/{id}/reseller-path':
     parameters:
       - schema:
           type: string
@@ -843,9 +1017,105 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-      operationId: customer-reseller-hierarchy#get
+      operationId: customer-reseller-path#get
       x-internal: false
-      description: Gets all the resellers to this customer as sorted list. First element is the root reseller.
+      description: Gets all the customers on the reseller path from the root to this customer as sorted list.
+      parameters: []
+  '/customers/{id}/customer-hierarchy-path':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: customer-customer-hierarchy-path#get
+      x-internal: false
+      description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
+      parameters: []
+  '/customers/{id}/invoice-path':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: customer-invoice-path#get
+      x-internal: false
+      description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
+      parameters: []
+  '/customers/{id}/condition-path':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: customer-condition-path#get
+      x-internal: false
+      description: Gets all the customers on the condition path from the root to this customer as sorted list.
       parameters: []
   '/customers/{id}/sub-customers':
     parameters:
@@ -860,21 +1130,18 @@ paths:
       tags:
         - Customers
         - customer-relations
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customerLight'
       operationId: customer-sub-customers#get
       x-internal: false
-      description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree)
+      description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree). Collection is sorted by name1.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
   '/customers/{id}/subsidiaries':
     parameters:
       - schema:
@@ -898,7 +1165,7 @@ paths:
                   $ref: '#/components/schemas/customerLight'
       operationId: customer-subsidiaries#get
       x-internal: false
-      description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree)
+      description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -925,7 +1192,7 @@ paths:
                   $ref: '#/components/schemas/customerLight'
       operationId: customer-invoice-sources#get
       x-internal: false
-      description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree)
+      description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -952,7 +1219,7 @@ paths:
                   $ref: '#/components/schemas/customerLight'
       operationId: customer-beneficiaries#get
       x-internal: false
-      description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree)
+      description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -1030,6 +1297,7 @@ paths:
         - schema:
             type: string
             example: '2021-11-12T21:15:13.1234+01:00'
+            format: date-time
           in: query
           name: createdBefore
           description: 'Filters for customers  that were created in the system before (<) the given date. '
@@ -1052,8 +1320,8 @@ paths:
         - schema:
             type: string
           in: query
-          name: namePattern
-          description: Filters for customers whose name matches the given pattern.
+          name: nameStartsWith
+          description: Filters for customers whose name starts with the given string. String matching is done case insensitive..
       tags:
         - DataSynchronization
     post:
@@ -2562,7 +2830,58 @@ components:
       required:
         - displayModeDark
         - displayModeLight
-    resellerRelation:
+    customerRelation:
+      type: object
+      title: resellerRelation-up
+      description: Represents a customer relation. The meaning of the customerId depends on the use case.
+      properties:
+        Id:
+          type: string
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+          description: Represents the id of the customer this customer relates to.
+        lastUpdatedAt:
+          type: string
+          readOnly: true
+        externallyManaged:
+          type: boolean
+          description: ''
+      required:
+        - Id
+        - customerId
+    customerRelation-synchronization:
+      type: object
+      title: resellerRelation-synchronization
+      description: 'Represents a reseller relation between two customers in HsM, including synchronization data.'
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+        lastUpdatedAt:
+          type: string
+          readOnly: true
+        externallyManaged:
+          type: boolean
+          default: false
+          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
+        synchronizationId:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+        createdAt:
+          type: string
+          readOnly: true
+      required:
+        - id
+        - customerId
+        - externallyManaged
+    customerHierarchyRelation:
       type: object
       title: resellerRelation
       description: Represents a reseller relation between two customers in HsM.
@@ -2582,33 +2901,85 @@ components:
       required:
         - Id
         - parentCustomerId
-    resellerRelation-synchroniization:
+    invoiceRelation:
       type: object
-      title: resellerRelation-synchronization
-      description: 'Represents a reseller relation between two customers in HsM, including synchronization data.'
+      title: resellerRelation
+      description: Represents a reseller relation between two customers in HsM.
       properties:
-        relationId:
+        Id:
           type: string
           format: uuid
           readOnly: true
         parentCustomerId:
           type: string
-        synchronizationInformation:
-          type: string
         lastUpdatedAt:
-          type: string
-          readOnly: true
-        createdAt:
           type: string
           readOnly: true
         externallyManaged:
           type: boolean
-          default: false
-          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
+          description: ''
       required:
-        - relationId
+        - Id
         - parentCustomerId
-        - externallyManaged
+    user:
+      type: object
+      title: user
+      description: Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the user within the HsM system.
+          readOnly: true
+        firstName:
+          type: string
+          example: John
+          maxLength: 50
+        lastName:
+          type: string
+          example: Doe
+          maxLength: 50
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        mobilePhoneNumber:
+          type: string
+          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
+          example: +43 664 9161413
+        gender:
+          type: string
+          enum:
+            - female
+            - male
+            - non-binary
+          description: ''
+        lastUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system.
+          readOnly: true
+      required:
+        - emailAddress
     user-synchronization:
       type: object
       title: synchronizationUser
@@ -2689,65 +3060,6 @@ components:
         - createdAt
         - latestUpdatedAt
         - externallyManaged
-    user:
-      type: object
-      title: user
-      description: Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Id of the user within the HsM system.
-          readOnly: true
-        firstName:
-          type: string
-          example: John
-          maxLength: 50
-        lastName:
-          type: string
-          example: Doe
-          maxLength: 50
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        mobilePhoneNumber:
-          type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
-        gender:
-          type: string
-          enum:
-            - female
-            - male
-            - non-binary
-          description: ''
-        lastUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
-          readOnly: true
-      required:
-        - emailAddress
     selfRegistrationCredential:
       title: selfRegistrationCredential
       type: object
