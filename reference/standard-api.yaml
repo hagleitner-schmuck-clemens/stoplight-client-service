@@ -1467,9 +1467,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/resellerRelation-synchroniization'
+                $ref: '#/components/schemas/customerRelation-synchronization'
               examples:
                 example-1:
                   value:
@@ -1488,7 +1486,7 @@ paths:
                       '': string
         '401':
           description: Unauthorized
-      description: Gets the reseller relation of this customer with detail information useful for synchronization with other systems.
+      description: 'Gets the reseller relation of this customer (i.e. looking up the reseller relation) with detail information useful for synchronization with other systems. '
       parameters: []
       tags:
         - DataSynchronization
@@ -1531,7 +1529,113 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/resellerRelation'
+                  $ref: '#/components/schemas/customerRelation-synchronization'
+      description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      tags:
+        - DataSynchronization
+        - Users
+    post:
+      summary: ''
+      operationId: synchronization-customers-reseller-relations#put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resellerRelation-synchroniization'
+      description: ''
+      tags:
+        - DataSynchronization
+  '/synchronization/customers/{id}/customer-hierarchy-relation':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      operationId: synchronization-customer-reseller-relation#get
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of resources in the collection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation-synchronization'
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      firstName: John
+                      lastName: Doe
+                      emailAddress: john@doe.com
+                      preferredCulture: de-AT
+                      mobilePhoneNumber: +43 664 9161413
+                      gender: diverse
+                      createdAt: '2021-08-23T16:15:18.123+01:00'
+                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
+                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
+                      synchronizationInformation: string
+                      status: string
+                      '': string
+        '401':
+          description: Unauthorized
+      description: 'Gets the customer-hierarchy relation of this customer (i.e. looking up the relation tree) with detail information useful for synchronization with other systems. '
+      parameters: []
+      tags:
+        - DataSynchronization
+        - Users
+    put:
+      summary: ''
+      operationId: synchronization-customer-reseller-relation#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: Updates a customer with detailled information for synchronization processes.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronization-user'
+      tags:
+        - DataSynchronization
+  '/synchronization/customers/{id}/customer-hierarchy-relations':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      operationId: synchronization-customer-reseller-relations#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerRelation-synchronization'
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -2854,7 +2958,7 @@ components:
     customerRelation-synchronization:
       type: object
       title: resellerRelation-synchronization
-      description: 'Represents a reseller relation between two customers in HsM, including synchronization data.'
+      description: 'Represents a customer relation between two customers in HsM, including synchronization data.'
       properties:
         id:
           type: string
@@ -2862,8 +2966,10 @@ components:
           readOnly: true
         customerId:
           type: string
+          format: uuid
         lastUpdatedAt:
           type: string
+          format: date-time
           readOnly: true
         externallyManaged:
           type: boolean
@@ -2876,6 +2982,7 @@ components:
           type: string
         createdAt:
           type: string
+          format: date-time
           readOnly: true
       required:
         - id
