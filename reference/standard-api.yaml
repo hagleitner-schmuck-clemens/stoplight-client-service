@@ -38,7 +38,7 @@ paths:
         '403':
           description: Forbidden
       operationId: customers#get
-      description: Gets a collection of customers.
+      description: Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -61,6 +61,7 @@ paths:
           description: 'Filters customers based on user status. If true only customers with status ''active'' will pass the filter, if false only customers with a status not equal to ''active'' will pass the filter.'
         - schema:
             type: string
+            format: uuid
           in: query
           name: customerId
           description: Filters for customers based on the customerId. Note that the customer Id is only unique within all customers of the same reseller.
@@ -70,13 +71,14 @@ paths:
           in: query
           name: resellerId
           description: Filters for sub customer of the given reseller.
+        - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
     post:
       summary: ''
       operationId: customers#post
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
         '400':
           description: Bad Request
           content:
@@ -87,6 +89,10 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Creates a new customer.
       requestBody:
         content:
@@ -95,6 +101,8 @@ paths:
               $ref: '#/components/schemas/customer'
       tags:
         - Customers
+      parameters:
+        - $ref: '#/components/parameters/Accept-Language'
   '/customers/{id}':
     get:
       summary: ''
@@ -130,14 +138,10 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-        '':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer'
       operationId: customer#get
       description: 'Gets a single customer, defined by its customer id.'
-      parameters: []
+      parameters:
+        - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
     parameters:
       - schema:
@@ -147,6 +151,7 @@ paths:
         in: path
         required: true
         description: Id of the customer
+      - $ref: '#/components/parameters/Accept-Language'
     put:
       summary: ''
       operationId: customer#put
@@ -181,6 +186,7 @@ paths:
               $ref: '#/components/schemas/customer'
       tags:
         - Customers
+      parameters: []
     patch:
       summary: ''
       operationId: customer#patch
@@ -189,6 +195,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -342,45 +352,6 @@ paths:
       x-internal: false
       tags:
         - RoleAssignment
-  '/customers/{id}/reseller':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: false
-        description: Id of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-      operationId: customer-reseller#get
-      x-internal: false
-      description: Gets the reseller of this customer.
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
   '/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -414,11 +385,6 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-        '':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer'
       operationId: customer-reseller-relation#get
       x-internal: false
       description: Gets the reseller relation of this customer. I.e. the relation to its reseller.
@@ -439,6 +405,45 @@ paths:
               $ref: '#/components/schemas/customerRelation'
       tags:
         - Customers
+  '/customers/{id}/reseller':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+      operationId: customer-reseller#get
+      x-internal: false
+      description: Gets the reseller of this customer.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
   '/customers/{id}/company-hierarchy-relation':
     parameters:
       - schema:
@@ -472,24 +477,19 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-        '':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer'
-      operationId: customer-reseller-relation#get
+      operationId: customer-customer-hierarchy-relation#get
       x-internal: false
-      description: Gets the company hierarchy relation of this customer. I.e. the relation to its parent customer.
+      description: Gets the customer hierarchy relation of this customer. I.e. the relation to its parent customer.
       parameters: []
       tags:
         - Customers
     post:
       summary: ''
-      operationId: customers-reseller-relations#post
+      operationId: customers-customer-hierarchy-relations#post
       responses:
         '200':
           description: OK
-      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
+      description: Creates a customer-hierarchy from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
           application/json:
@@ -530,12 +530,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-        '':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer'
-      operationId: customer-reseller-relation#get
+      operationId: customer-invoice-relation#get
       x-internal: false
       description: Gets the invoice relation of this customer. I.e. the relation to another customer who get the invoices for this customer.
       parameters: []
@@ -543,11 +538,11 @@ paths:
         - Customers
     post:
       summary: ''
-      operationId: customers-reseller-relations#post
+      operationId: customers-invoice-relations#post
       responses:
         '200':
           description: OK
-      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
+      description: Creates an invoice from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
           application/json:
@@ -588,12 +583,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-        '':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer'
-      operationId: customer-reseller-relation#get
+      operationId: customer-condition-relation#get
       x-internal: false
       description: Gets the condition owner relation of this customer. I.e. the relation to another customer whose conditions apply to this customer.
       parameters: []
@@ -601,11 +591,11 @@ paths:
         - Customers
     post:
       summary: ''
-      operationId: customers-reseller-relations#post
+      operationId: customers-condition-relations#post
       responses:
         '200':
           description: OK
-      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
+      description: Creates a relation from this customer to a condition provider (replacing the existing relation).
       requestBody:
         content:
           application/json:
@@ -789,6 +779,10 @@ paths:
                 $ref: '#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
           content:
@@ -1010,13 +1004,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-        '':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
       operationId: customer-reseller-path#get
       x-internal: false
       description: Gets all the customers on the reseller path from the root to this customer as sorted list.
@@ -1036,13 +1023,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
-        '':
           content:
             application/json:
               schema:
@@ -1074,13 +1054,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-        '':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
       operationId: customer-invoice-path#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
@@ -1100,13 +1073,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
-        '':
           content:
             application/json:
               schema:
@@ -1162,7 +1128,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customerLight'
+                  $ref: '#/components/schemas/customer'
       operationId: customer-subsidiaries#get
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
@@ -1189,7 +1155,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customerLight'
+                  $ref: '#/components/schemas/customer'
       operationId: customer-invoice-sources#get
       x-internal: false
       description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
@@ -1216,7 +1182,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customerLight'
+                  $ref: '#/components/schemas/customer'
       operationId: customer-beneficiaries#get
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
@@ -1242,29 +1208,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer-synchronization'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
         '400':
           description: Bad Request
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/response-400-badRequest'
         '401':
@@ -1420,24 +1367,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer-synchronization'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1459,6 +1394,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1486,7 +1425,7 @@ paths:
         description: Id of the customer
     get:
       summary: ''
-      operationId: synchronization-customer-customer-hierarchy-relation#get
+      operationId: synchronization-customer-condition-relation#get
       responses:
         '200':
           description: OK
@@ -1499,24 +1438,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerRelation-synchronization'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1532,12 +1459,16 @@ paths:
         - Users
     put:
       summary: ''
-      operationId: synchronization-customer-customer-hierarchy-relation#put
+      operationId: synchronization-customer-condition-relation#put
       responses:
         '200':
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1551,7 +1482,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/synchronization-user'
+              $ref: '#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/customer-condition-relations':
@@ -1565,7 +1496,7 @@ paths:
         description: Id of the customer
     get:
       summary: ''
-      operationId: synchronization-customer-customer-hierarchy-relations#get
+      operationId: synchronization-customer-condition-relations#get
       responses:
         '200':
           description: OK
@@ -1577,6 +1508,10 @@ paths:
                   $ref: '#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1616,24 +1551,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerRelation-synchronization'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1655,6 +1578,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1668,7 +1595,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/synchronization-user'
+              $ref: '#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/customer-hierarchy-relations':
@@ -1694,6 +1621,10 @@ paths:
                   $ref: '#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1733,28 +1664,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerRelation-synchronization'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: ''
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1774,12 +1689,16 @@ paths:
         - Users
     put:
       summary: ''
-      operationId: synchronization-customer-reseller-relation#put
+      operationId: synchronization-customer-invoice-relation#put
       responses:
         '200':
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1793,7 +1712,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/synchronization-user'
+              $ref: '#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/invoice-relations':
@@ -1807,7 +1726,7 @@ paths:
         description: Id of the customer
     get:
       summary: ''
-      operationId: synchronization-customer-reseller-relations#get
+      operationId: synchronization-customer-invoice-relations#get
       responses:
         '200':
           description: OK
@@ -1815,10 +1734,13 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: '#/components/schemas/customerRelation-synchronization'
+                items: null
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1858,24 +1780,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerRelation-synchronization'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1897,6 +1807,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1910,7 +1824,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/synchronization-user'
+              $ref: '#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/reseller-relations/':
@@ -1936,6 +1850,10 @@ paths:
                   $ref: '#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1974,6 +1892,10 @@ paths:
                   $ref: '#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2013,6 +1935,10 @@ paths:
           description: Created
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2048,24 +1974,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/user-synchronization'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2137,6 +2051,10 @@ paths:
           description: Created
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2174,6 +2092,10 @@ paths:
                 $ref: '#/components/schemas/user-synchronization'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2193,6 +2115,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2217,6 +2143,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2244,6 +2174,10 @@ paths:
                 $ref: '#/components/schemas/branding'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2252,11 +2186,6 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-        '':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/branding'
       operationId: get-instance-branding
       description: Gets the instance branding definition.
       tags:
@@ -2291,6 +2220,10 @@ paths:
                   $ref: '#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2320,6 +2253,10 @@ paths:
           description: Created
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2355,6 +2292,10 @@ paths:
                 $ref: '#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2382,6 +2323,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2437,6 +2382,10 @@ paths:
                 $ref: '#/components/schemas/user'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2477,6 +2426,10 @@ paths:
           description: Created
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2509,6 +2462,10 @@ paths:
                 $ref: '#/components/schemas/user'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2528,6 +2485,10 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2579,6 +2540,10 @@ paths:
                 $ref: '#/components/schemas/userStatus'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2603,6 +2568,10 @@ paths:
                 type: object
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2634,6 +2603,10 @@ paths:
                   $ref: '#/components/schemas/roleAssignment-user'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2678,6 +2651,10 @@ paths:
           description: Created
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2970,13 +2947,11 @@ components:
         phoneNumber:
           type: string
           description: The companies main phone number
-          format: email
           example: +44 256 51512
           maxLength: 256
         vatIdentificationNumber:
           type: string
           description: The VAT identification number of the customer
-          format: email
           example: +44 256 51512
           maxLength: 256
         preferredCulture:
@@ -3164,13 +3139,11 @@ components:
         phoneNumber:
           type: string
           description: The companies main phone number
-          format: email
           example: +44 256 51512
           maxLength: 256
         vatIdentificationNumber:
           type: string
           description: The VAT identification number of the customer
-          format: email
           example: +44 256 51512
           maxLength: 256
         preferredCulture:
@@ -3860,5 +3833,12 @@ components:
         type: string
         format: uuid
       description: UUID of the collection element
+    Accept-Language:
+      name: Accept-Language
+      in: header
+      required: false
+      schema:
+        type: string
+      description: Defines which culture are accepted by the client.
   responses: {}
   examples: {}
