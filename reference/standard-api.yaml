@@ -1,6 +1,10 @@
 openapi: 3.1.0
 info:
   title: Standard API
+  contact:
+    name: Hagleitner Hygiene Internaltional GmbH
+    url: 'http://www.hagleitner.com/'
+    email: office@hagleitner.com
   version: '1.0'
   summary: The Client Service Standard API is a client agnostic API to the client servvice.
   description: The Client Service Standard API is a client agnostic API to the client servvice.
@@ -9,7 +13,7 @@ servers:
 tags:
   - name: Branding
   - name: Customers
-  - name: DataSynchronization n
+  - name: DataSynchronization
   - name: RoleAssignment
   - name: SelfRegistration
   - name: System
@@ -188,7 +192,7 @@ paths:
         - Customers
       parameters: []
     patch:
-      summary: ''
+      summary: Updates a customer
       operationId: customer#patch
       responses:
         '200':
@@ -215,6 +219,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customer-patch'
+      tags:
+        - Customers
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -709,7 +715,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/customer-role-inheritance'
         '400':
           description: Bad Request
           content:
@@ -732,9 +738,9 @@ paths:
       x-internal: false
       tags:
         - Customers
-    patch:
+    put:
       summary: ''
-      operationId: customers-role-inheritance#patch
+      operationId: customers-role-inheritance#put
       responses:
         '200':
           description: OK
@@ -758,6 +764,9 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
+      tags:
+        - Customers
+      description: Configures the role inheritance settings for a customer.
   '/customer-role-assignments/{id}':
     parameters:
       - schema:
@@ -1095,7 +1104,6 @@ paths:
       summary: ''
       tags:
         - Customers
-        - customer-relations
       operationId: customer-sub-customers#get
       x-internal: false
       description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree). Collection is sorted by name1.
@@ -1827,7 +1835,7 @@ paths:
               $ref: '#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
-  '/synchronization/customers/{id}/reseller-relations/':
+  '/synchronization/customers/{id}/reseller-relations':
     parameters:
       - schema:
           type: string
@@ -1929,7 +1937,7 @@ paths:
       x-internal: false
     post:
       summary: ''
-      operationId: customers-assigned-roles#post
+      operationId: customer-assigned-roles#post
       responses:
         '201':
           description: Created
@@ -1954,7 +1962,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roleAssignment'
+              $ref: '#/components/schemas/roleAssignment-customer'
   /synchronization/users:
     parameters: []
     get:
@@ -2081,7 +2089,7 @@ paths:
           format: uuid
         description: UUID of the collection element
     get:
-      summary: ''
+      summary: Gets a user resource with all synchronizaton information.
       operationId: synchronization-user#get
       responses:
         '200':
@@ -2108,7 +2116,7 @@ paths:
       tags:
         - DataSynchronization
     put:
-      summary: ''
+      summary: Modifies a user resource with all synchronizaton information.
       operationId: synchronization-user#put
       responses:
         '200':
@@ -2162,6 +2170,7 @@ paths:
               $ref: '#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
+      description: Updates a user resource with the option to modify all synchronizaton information.
   /system/instance-branding:
     get:
       summary: Get instance branding
@@ -2270,7 +2279,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roleAssignment'
+              $ref: '#/components/schemas/roleAssignment-user'
       tags:
         - RoleAssignment
   '/system/role-assignments/{id}':
@@ -2347,7 +2356,46 @@ paths:
   /system/roles:
     get:
       summary: ''
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  cod:
+                    type: string
+                  name:
+                    type: string
+                  propagateToResellerCustomer:
+                    type: string
+                  propagateToSubsidiaries:
+                    type: string
+                  propagateToInvoiceSources:
+                    type: string
+                  propagateToBeneficiaries:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: get-system-roles
       description: Gets a list of roles defined for the system.
       parameters:
@@ -2443,6 +2491,7 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
+      description: Creates a new user.
   '/users/{id}':
     parameters:
       - schema:
@@ -3460,26 +3509,6 @@ components:
       required:
         - Id
         - parentCustomerId
-    invoiceRelation:
-      type: object
-      title: resellerRelation
-      description: Represents a reseller relation between two customers in HsM.
-      properties:
-        Id:
-          type: string
-          format: uuid
-          readOnly: true
-        parentCustomerId:
-          type: string
-        lastUpdatedAt:
-          type: string
-          readOnly: true
-        externallyManaged:
-          type: boolean
-          description: ''
-      required:
-        - Id
-        - parentCustomerId
     user:
       type: object
       title: user
@@ -3825,14 +3854,6 @@ components:
         type: integer
         format: int32
       description: Total number of elements in the collection.
-    collectionUuid:
-      name: uuid
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-      description: UUID of the collection element
     Accept-Language:
       name: Accept-Language
       in: header
