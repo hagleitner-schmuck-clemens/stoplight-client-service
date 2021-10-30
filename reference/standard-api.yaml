@@ -1258,8 +1258,25 @@ paths:
                       synchronizationInformation: string
                       status: string
                       '': string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
       description: Gets customers with detail information useful for synchronization with other systems.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -1374,7 +1391,7 @@ paths:
           in: query
           name: Id
           description: Id of the role assignment
-      x-internal: false
+      x-internal: true
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}':
@@ -1419,8 +1436,16 @@ paths:
                       synchronizationInformation: string
                       status: string
                       '': string
+        '400':
+          description: Bad Request
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Gets customer with detail information useful for synchronization with other systems.
       parameters: []
       tags:
@@ -1436,6 +1461,12 @@ paths:
           description: Bad Request
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Updates a customer with detailled information for synchronization processes.
       requestBody:
         content:
@@ -1444,6 +1475,365 @@ paths:
               $ref: '#/components/schemas/customer-synchronization'
       tags:
         - DataSynchronization
+  '/synchronization/customers/{id}/condition-relation':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      operationId: synchronization-customer-customer-hierarchy-relation#get
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of resources in the collection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation-synchronization'
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      firstName: John
+                      lastName: Doe
+                      emailAddress: john@doe.com
+                      preferredCulture: de-AT
+                      mobilePhoneNumber: +43 664 9161413
+                      gender: diverse
+                      createdAt: '2021-08-23T16:15:18.123+01:00'
+                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
+                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
+                      synchronizationInformation: string
+                      status: string
+                      '': string
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: 'Gets the condition relation of this customer (i.e. looking up the relation tree) with detail information useful for synchronization with other systems. '
+      parameters: []
+      tags:
+        - DataSynchronization
+        - Users
+    put:
+      summary: ''
+      operationId: synchronization-customer-customer-hierarchy-relation#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Updates a customer's condition relation with detailled information for synchronization processes.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronization-user'
+      tags:
+        - DataSynchronization
+  '/synchronization/customers/{id}/customer-condition-relations':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      operationId: synchronization-customer-customer-hierarchy-relations#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerRelation-synchronization'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      tags:
+        - DataSynchronization
+        - Users
+  '/synchronization/customers/{id}/customer-hierarchy-relation':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      operationId: synchronization-customer-customer-hierarchy-relation#get
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of resources in the collection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation-synchronization'
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      firstName: John
+                      lastName: Doe
+                      emailAddress: john@doe.com
+                      preferredCulture: de-AT
+                      mobilePhoneNumber: +43 664 9161413
+                      gender: diverse
+                      createdAt: '2021-08-23T16:15:18.123+01:00'
+                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
+                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
+                      synchronizationInformation: string
+                      status: string
+                      '': string
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: 'Gets the customer-hierarchy relation of this customer (i.e. looking up the relation tree) with detail information useful for synchronization with other systems. '
+      parameters: []
+      tags:
+        - DataSynchronization
+        - Users
+    put:
+      summary: ''
+      operationId: synchronization-customer-customer-hierarchy-relation#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Updates a customer's customer-hierarchy relation with detailled information for synchronization processes.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronization-user'
+      tags:
+        - DataSynchronization
+  '/synchronization/customers/{id}/customer-hierarchy-relations':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      operationId: synchronization-customer-customer-hierarchy-relations#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerRelation-synchronization'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      tags:
+        - DataSynchronization
+        - Users
+  '/synchronization/customers/{id}/invoice-relation':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      operationId: synchronization-customer-invoice-relation#get
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of resources in the collection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation-synchronization'
+              examples:
+                example-1:
+                  value:
+                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                      firstName: John
+                      lastName: Doe
+                      emailAddress: john@doe.com
+                      preferredCulture: de-AT
+                      mobilePhoneNumber: +43 664 9161413
+                      gender: diverse
+                      createdAt: '2021-08-23T16:15:18.123+01:00'
+                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
+                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
+                      synchronizationInformation: string
+                      status: string
+                      '': string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ''
+        '500':
+          description: Internal Server Error
+      description: 'Gets the invoice relation of this customer (i.e. looking up the reseller relation) with detail information useful for synchronization with other systems. '
+      parameters: []
+      tags:
+        - DataSynchronization
+        - Users
+    put:
+      summary: ''
+      operationId: synchronization-customer-reseller-relation#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Updates a customer's invoice relation with detailled information for synchronization processes.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/synchronization-user'
+      tags:
+        - DataSynchronization
+  '/synchronization/customers/{id}/invoice-relations':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      operationId: synchronization-customer-reseller-relations#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerRelation-synchronization'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      tags:
+        - DataSynchronization
+        - Users
   '/synchronization/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -1484,8 +1874,16 @@ paths:
                       synchronizationInformation: string
                       status: string
                       '': string
+        '400':
+          description: Bad Request
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: 'Gets the reseller relation of this customer (i.e. looking up the reseller relation) with detail information useful for synchronization with other systems. '
       parameters: []
       tags:
@@ -1501,7 +1899,13 @@ paths:
           description: Bad Request
         '401':
           description: Unauthorized
-      description: Updates a customer with detailled information for synchronization processes.
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Updates a customer's reseller relation with detailled information for synchronization processes.
       requestBody:
         content:
           application/json:
@@ -1530,112 +1934,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customerRelation-synchronization'
-      description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-      tags:
-        - DataSynchronization
-        - Users
-    post:
-      summary: ''
-      operationId: synchronization-customers-reseller-relations#put
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/resellerRelation-synchroniization'
-      description: ''
-      tags:
-        - DataSynchronization
-  '/synchronization/customers/{id}/customer-hierarchy-relation':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: Id of the customer
-    get:
-      summary: ''
-      operationId: synchronization-customer-reseller-relation#get
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Total-Count:
-              schema:
-                type: integer
-              description: Total count of resources in the collection.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customerRelation-synchronization'
-              examples:
-                example-1:
-                  value:
-                    - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-                      firstName: John
-                      lastName: Doe
-                      emailAddress: john@doe.com
-                      preferredCulture: de-AT
-                      mobilePhoneNumber: +43 664 9161413
-                      gender: diverse
-                      createdAt: '2021-08-23T16:15:18.123+01:00'
-                      latestUpdateAt: '2021-08-23T16:15:18.123+01:00'
-                      synchronizationId: 0e45b7ef-0a0a-4d71-b486-8536460bb9b7
-                      synchronizationInformation: string
-                      status: string
-                      '': string
-        '401':
-          description: Unauthorized
-      description: 'Gets the customer-hierarchy relation of this customer (i.e. looking up the relation tree) with detail information useful for synchronization with other systems. '
-      parameters: []
-      tags:
-        - DataSynchronization
-        - Users
-    put:
-      summary: ''
-      operationId: synchronization-customer-reseller-relation#put
-      responses:
-        '200':
-          description: OK
         '400':
           description: Bad Request
         '401':
           description: Unauthorized
-      description: Updates a customer with detailled information for synchronization processes.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/synchronization-user'
-      tags:
-        - DataSynchronization
-  '/synchronization/customers/{id}/customer-hierarchy-relations':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: Id of the customer
-    get:
-      summary: ''
-      operationId: synchronization-customer-reseller-relations#get
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customerRelation-synchronization'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -1643,19 +1951,6 @@ paths:
       tags:
         - DataSynchronization
         - Users
-    post:
-      summary: ''
-      operationId: synchronization-customers-reseller-relations#put
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/resellerRelation-synchroniization'
-      description: ''
-      tags:
-        - DataSynchronization
   '/synchronization/customers/{id}/role-assignments':
     parameters:
       - schema:
@@ -1677,6 +1972,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/roleAssignment-customer'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: synchronization-customer-role-assignments#get
       description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
@@ -1704,8 +2009,18 @@ paths:
       summary: ''
       operationId: customers-assigned-roles#post
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Creates a new role-assignement for this customer.
       tags:
         - Customers
@@ -1749,8 +2064,16 @@ paths:
                       synchronizationInformation: string
                       status: string
                       '': string
+        '400':
+          description: Bad Request
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Gets registered users with detail information useful for synchronization with other systems.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -1810,8 +2133,18 @@ paths:
       summary: ''
       operationId: synchronization-user#post
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Creates a new user together with synchronization data.
       requestBody:
         content:
@@ -1843,8 +2176,12 @@ paths:
           description: Bad Request
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
+        '500':
+          description: Internal Server Error
       description: Gets a specific user with detail information useful for synchronization with other systems.
       tags:
         - DataSynchronization
@@ -1854,6 +2191,16 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Updates a suer
       requestBody:
         content:
@@ -1868,6 +2215,16 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -1885,6 +2242,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/branding'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
         '':
           content:
             application/json:
@@ -1922,6 +2289,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/roleAssignment-customer'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: systemr-role-assignments#get
       description: Gets role-assignments for the system. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
@@ -1939,8 +2316,18 @@ paths:
       summary: ''
       operationId: system-role-assignments#post
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Creates a new role assignement for this customer.
       requestBody:
         content:
@@ -1966,6 +2353,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/roleAssignment-customer'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: system-role-assignment#get
       description: Gets a role assignement between users and the system.
       parameters:
@@ -1983,6 +2380,16 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Deletes a system role assignment.
       parameters:
         - schema:
@@ -2028,6 +2435,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
       description: Gets registered users.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -2058,8 +2473,16 @@ paths:
       summary: ''
       operationId: post-users
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -2084,6 +2507,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Gets a specific user.
       tags:
         - Users
@@ -2093,6 +2526,16 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Updates a specific user
       requestBody:
         content:
@@ -2140,6 +2583,10 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       description: Gets a the status of a specific user
       tags:
         - Users
@@ -2147,17 +2594,23 @@ paths:
       summary: ''
       operationId: put-user-status
       description: Updates a user's status
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userStatus'
-        description: ''
       responses:
         '200':
           description: OK
-        '406':
-          description: 'Not Acceptable. The requested user status change is not acceptable. '
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       tags:
         - Users
   '/users/{id}/customer-roles':
@@ -2170,7 +2623,25 @@ paths:
         description: ID of  the user in the HsM system.
     get:
       summary: ''
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/roleAssignment-user'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: user-customerroles#get
       description: 'Gets a list of roles the user has on a customer, or on all customers. Result will be ordered by customerId then role code.'
       parameters:
@@ -2184,11 +2655,6 @@ paths:
         - $ref: '#/components/parameters/offset'
       tags:
         - RoleAssignment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/roleAssignment-user'
   '/users/{id}/system-roles':
     parameters:
       - schema:
@@ -2199,7 +2665,27 @@ paths:
         description: ID of  the user in the HsM system.
     get:
       summary: ''
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/roleAssignment-user'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: user-systemroles#get
       description: Gets a list of systemroles assigned to that user.
       parameters:
@@ -2213,13 +2699,6 @@ paths:
           in: query
           name: offset
           description: 'Pagination, page offset'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/roleAssignment-user'
       tags:
         - RoleAssignment
 components:
@@ -3201,6 +3680,22 @@ components:
         - pin
         - validTill
         - shareUri
+    response-400-badRequest:
+      title: response-400-badRequest
+      type: object
+      description: A model for returning details for 401 responses
+      examples:
+        - type: Insufficient-Privileges
+          title: The accessing user does not have the provileges to access this resource
+          detail: The user accessing the resource does is not granted the privilege to access the resource.
+          missingPermission: ShareSelfRegistrationCredentials
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
     response-401-unauthorized:
       title: response-401-unauthorized
       type: object
@@ -3237,22 +3732,6 @@ components:
           title: The accessing user does not have the provileges to access this resource
           detail: The user accessing the resource does is not granted the privilege to access the resource.
           missingPermission: ShareSelfRegistrationCredentials
-    response-400-badRequest:
-      title: response-400-badRequest
-      type: object
-      description: A model for returning details for 401 responses
-      examples:
-        - type: Insufficient-Privileges
-          title: The accessing user does not have the provileges to access this resource
-          detail: The user accessing the resource does is not granted the privilege to access the resource.
-          missingPermission: ShareSelfRegistrationCredentials
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
     roleAssignment-customer:
       title: roleAssignment-customer
       type: object
