@@ -3411,7 +3411,7 @@ paths:
       tags:
         - Users
     put:
-      summary: Put user
+      summary: ''
       operationId: user#put
       responses:
         '200':
