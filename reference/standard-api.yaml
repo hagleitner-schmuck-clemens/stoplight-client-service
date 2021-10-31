@@ -194,7 +194,7 @@ paths:
       parameters: []
     patch:
       summary: Updates a customer
-      operationId: customer#patch
+      operationId: customer.
       responses:
         '200':
           description: OK
@@ -219,7 +219,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customer-patch'
+              $ref: '#/components/schemas/customer.'
       tags:
         - Customers
   '/customers/{id}/branding':
@@ -568,7 +568,7 @@ paths:
         - Locations
     patch:
       summary: ''
-      operationId: building#patch
+      operationId: building.
       responses:
         '200':
           description: OK
@@ -595,7 +595,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-building-patch'
+              $ref: '#/components/schemas/location-building.PATCH'
         description: ''
       tags:
         - Locations
@@ -2459,7 +2459,7 @@ paths:
         - DataSynchronization
     patch:
       summary: ''
-      operationId: synchronization-user#patch
+      operationId: synchronization-user.
       responses:
         '200':
           description: OK
@@ -3082,10 +3082,14 @@ paths:
       description: 'Gets a single location. '
     patch:
       summary: ''
-      operationId: location#patch
+      operationId: location.
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location.PATCH'
         '400':
           description: Bad Request
           content:
@@ -3554,7 +3558,7 @@ components:
         AllowRoleInheritanceFromConditionOwner:
           type: boolean
           description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
-    customer-patch:
+    customer.:
       type: object
       title: customer
       description: Describes a customer.
@@ -4004,7 +4008,7 @@ components:
         - Id
         - parentCustomerId
     location:
-      title: location
+      title: ''
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
       examples:
@@ -4045,7 +4049,66 @@ components:
         - name
         - parentLocationId
         - sequenceNumber
+    location.PATCH:
+      title: ''
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type: integer
+          default: 0
+      required:
+        - name
+        - parentLocationId
+        - sequenceNumber
     location-room:
+      title: ''
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type: integer
+          default: 0
+      required:
+        - id
+        - name
+        - parentLocationId
+        - sequenceNumber
+    location-room.PATCH:
       title: ''
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
@@ -4105,7 +4168,7 @@ components:
         - id
         - name
         - sequenceNumber
-    location-building-patch:
+    location-building.PATCH:
       title: ''
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
@@ -4218,8 +4281,8 @@ components:
         - type
         - name
         - sequenceNumber
-    location-patch:
-      title: location-patch
+    location.:
+      title: location.
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
       examples:
