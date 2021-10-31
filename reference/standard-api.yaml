@@ -4174,8 +4174,6 @@ components:
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
       items:
         $ref: '#/components/schemas/location-tree-element'
-      x-tags:
-        - Location
     location-tree-element:
       title: ''
       type: object
@@ -4186,8 +4184,6 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      x-tags:
-        - Location
       properties:
         id:
           type: string
