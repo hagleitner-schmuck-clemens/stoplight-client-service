@@ -219,7 +219,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customer.'
+              $ref: '#/components/schemas/customer.PATCH'
       tags:
         - Customers
   '/customers/{id}/branding':
@@ -4128,7 +4128,7 @@ components:
         AllowRoleInheritanceFromConditionOwner:
           type: boolean
           description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
-    customer.:
+    customer.PATCH:
       type: object
       title: customer
       description: Describes a customer.
