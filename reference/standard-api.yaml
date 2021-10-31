@@ -4650,10 +4650,6 @@ components:
         sequenceNumber:
           type: integer
           default: 0
-      required:
-        - name
-        - parentLocationId
-        - sequenceNumber
     location-room:
       title: ''
       type: object
@@ -4721,11 +4717,6 @@ components:
         sequenceNumber:
           type: integer
           default: 0
-      required:
-        - id
-        - name
-        - parentLocationId
-        - sequenceNumber
     location-building:
       title: ''
       type: object
@@ -4788,9 +4779,6 @@ components:
         sequenceNumber:
           type: integer
           default: 0
-      required:
-        - name
-        - sequenceNumber
     location-building-area:
       title: ''
       type: object
@@ -4858,10 +4846,6 @@ components:
             - string
             - integer
           default: 0
-      required:
-        - name
-        - parentLocationId
-        - sequenceNumber
     location-floor:
       title: ''
       type: object
@@ -4929,10 +4913,6 @@ components:
             - string
             - integer
           default: 0
-      required:
-        - name
-        - parentLocationId
-        - sequenceNumber
     location-floor-area:
       title: ''
       type: object
@@ -5000,10 +4980,6 @@ components:
             - string
             - integer
           default: 0
-      required:
-        - name
-        - parentLocationId
-        - sequenceNumber
     location-tree:
       title: ''
       type: array
