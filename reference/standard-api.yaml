@@ -288,6 +288,155 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customerBranding'
+  '/customers/{id}/locations':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerBranding'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-locations#get
+      description: Universal endpoint to get a collection of locations based on filter criteria.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - schema:
+            type: string
+          in: query
+          name: locationType
+        - schema:
+            type: string
+          in: query
+          name: parentLocation
+      x-internal: false
+      tags:
+        - Customers
+    put:
+      summary: ''
+      operationId: customer-branding#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Creates or updates the customer branding.
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customerBranding'
+  '/customers/{id}/locations/{locationId}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+      - schema:
+          type: string
+        name: locationId
+        in: path
+        required: true
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-locations#get
+      description: Gets a specific location.
+      parameters: []
+      x-internal: false
+      tags:
+        - Customers
+    put:
+      summary: ''
+      operationId: customer-branding#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Creates or updates the customer branding.
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customerBranding'
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -358,7 +507,7 @@ paths:
       x-internal: false
       tags:
         - RoleAssignment
-  '/customers/{id}/reseller-relation':
+  '/customers/{id}/condition-relation':
     parameters:
       - schema:
           type: string
@@ -391,19 +540,19 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: customer-reseller-relation#get
+      operationId: customer-condition-relation#get
       x-internal: false
-      description: Gets the reseller relation of this customer. I.e. the relation to its reseller.
+      description: Gets the condition owner relation of this customer. I.e. the relation to another customer whose conditions apply to this customer.
       parameters: []
       tags:
         - Customers
     post:
       summary: ''
-      operationId: customers-reseller-relations#post
+      operationId: customers-condition-relations#post
       responses:
         '200':
           description: OK
-      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
+      description: Creates a relation from this customer to a condition provider (replacing the existing relation).
       requestBody:
         content:
           application/json:
@@ -556,7 +705,7 @@ paths:
               $ref: '#/components/schemas/customerRelation'
       tags:
         - Customers
-  '/customers/{id}/condition-relation':
+  '/customers/{id}/reseller-relation':
     parameters:
       - schema:
           type: string
@@ -589,19 +738,19 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: customer-condition-relation#get
+      operationId: customer-reseller-relation#get
       x-internal: false
-      description: Gets the condition owner relation of this customer. I.e. the relation to another customer whose conditions apply to this customer.
+      description: Gets the reseller relation of this customer. I.e. the relation to its reseller.
       parameters: []
       tags:
         - Customers
     post:
       summary: ''
-      operationId: customers-condition-relations#post
+      operationId: customers-reseller-relations#post
       responses:
         '200':
           description: OK
-      description: Creates a relation from this customer to a condition provider (replacing the existing relation).
+      description: Creates a reseller from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
           application/json:
@@ -3512,6 +3661,38 @@ components:
       required:
         - Id
         - parentCustomerId
+    location:
+      title: location
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: integer
+          enum:
+            - building
+            - buildingArea
+            - floor
+            - floorArea
+            - room
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          writeOnly: true
+      required:
+        - id
+        - type
+        - name
+        - parentLocationId
     user:
       type: object
       title: user
