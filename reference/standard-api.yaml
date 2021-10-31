@@ -4013,8 +4013,6 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      x-tags:
-        - Location
       properties:
         id:
           type: string
@@ -4048,7 +4046,7 @@ components:
         - parentLocationId
         - sequenceNumber
     location-room:
-      title: location
+      title: ''
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
       examples:
@@ -4057,8 +4055,6 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      x-tags:
-        - Location
       properties:
         id:
           type: string
@@ -4082,7 +4078,7 @@ components:
         - parentLocationId
         - sequenceNumber
     location-building:
-      title: location
+      title: ''
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
       examples:
@@ -4091,8 +4087,6 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      x-tags:
-        - Location
       properties:
         id:
           type: string
@@ -4112,7 +4106,7 @@ components:
         - name
         - sequenceNumber
     location-building-patch:
-      title: location
+      title: ''
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
       examples:
@@ -4121,8 +4115,6 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      x-tags:
-        - Location
       properties:
         name:
           type: string
@@ -4137,7 +4129,7 @@ components:
         - name
         - sequenceNumber
     location-building-area:
-      title: location
+      title: ''
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
       examples:
@@ -4146,8 +4138,6 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      x-tags:
-        - Location
       properties:
         id:
           type: string
@@ -4173,7 +4163,7 @@ components:
         - parentLocationId
         - sequenceNumber
     location-tree:
-      title: location
+      title: ''
       type: array
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
       examples:
@@ -4187,7 +4177,7 @@ components:
       x-tags:
         - Location
     location-tree-element:
-      title: location
+      title: ''
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
       examples:
