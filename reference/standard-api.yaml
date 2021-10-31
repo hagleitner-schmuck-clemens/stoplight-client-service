@@ -18,6 +18,7 @@ tags:
   - name: SelfRegistration
   - name: System
   - name: Users
+  - name: Locations
 paths:
   /customers:
     get:
@@ -304,7 +305,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerBranding'
+                type: array
+                items:
+                  $ref: '#/components/schemas/location'
         '400':
           description: Bad Request
           content:
@@ -321,50 +324,38 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: customer-locations#get
-      description: Universal endpoint to get a collection of locations based on filter criteria.
+      description: Universal endpoint to get a collection of locations based on filter criteria. Collection is ordred by the location name ascending.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - schema:
             type: string
+            enum:
+              - building
+              - buildingArea
+              - floor
+              - floorArea
+              - room
           in: query
           name: locationType
+          description: Filters for locations of a specific type only
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: parentLocation
+          description: Filters for locations that are direct children of this parent location.
         - schema:
             type: string
           in: query
-          name: parentLocation
+          name: name
+          description: Filters for location that match this name.
       x-internal: false
       tags:
-        - Customers
-    put:
-      summary: ''
-      operationId: customer-branding#put
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      description: Creates or updates the customer branding.
-      tags:
-        - Customers
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/customerBranding'
+        - Locations
   '/customers/{id}/locations/{locationId}':
     parameters:
       - schema:
@@ -2879,6 +2870,150 @@ paths:
           description: 'Pagination, page offset'
       tags:
         - RoleAssignment
+  '/locations/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the location
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: location#get
+      description: 'Gets a single location. '
+    patch:
+      summary: ''
+      operationId: patch-locations-id
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Modifies a location
+  '/locations/{id}/sub-locations':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the location
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/location'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: location-sublocations#get
+      description: Returns all (direct) chrildren of this location.
+    post:
+      summary: ''
+      operationId: location-sublocations#post
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Creates a new sub-location of this location
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/location'
+  '/locations/{id}/path-locations':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the location
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/location'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: location-path-locations#get
+      description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'
 components:
   schemas:
     branding:
@@ -3665,6 +3800,12 @@ components:
       title: location
       type: object
       description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
       properties:
         id:
           type: string
@@ -3687,12 +3828,42 @@ components:
           type: string
         parentLocationId:
           type: string
-          writeOnly: true
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
       required:
         - id
         - type
         - name
         - parentLocationId
+        - sequenceNumber
+    location-patch:
+      title: location-patch
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - name: Floor 002
+          description: A new description
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+          sequenceNumber: 0
+      properties:
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
     user:
       type: object
       title: user
