@@ -7,7 +7,7 @@ info:
     email: office@hagleitner.com
   version: '1.0'
   summary: The Client Service Standard API is a client agnostic API to the client servvice.
-  description: The Client Service Standard API is a client agnostic API to the client servvice.
+  description: The Client Service Standard API is a client agnostic API to the HsM client service.
 servers:
   - url: 'http://localhost:3000'
 tags:
