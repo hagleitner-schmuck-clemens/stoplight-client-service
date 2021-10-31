@@ -1028,7 +1028,7 @@ paths:
               $ref: '#/components/schemas/location-floor.PATCH'
         description: ''
       tags:
-        - Locations    
+        - Locations
   /rooms:
     parameters: []
     post:
@@ -1168,7 +1168,7 @@ paths:
               $ref: '#/components/schemas/location-room.PATCH'
         description: ''
       tags:
-        - Locations               
+        - Locations
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -4754,10 +4754,16 @@ components:
         sequenceNumber:
           type: integer
           default: 0
+        customerId:
+          type: string
+          format: uuid
+          description: The customer the building belongs to.
+          writeOnly: true
       required:
         - id
         - name
         - sequenceNumber
+        - customerId
     location-building.PATCH:
       title: ''
       type: object
