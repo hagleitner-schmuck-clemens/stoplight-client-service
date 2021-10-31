@@ -193,7 +193,7 @@ paths:
         - Customers
       parameters: []
     patch:
-      summary: Updates a customer
+      summary: ''
       operationId: customer#patch
       responses:
         '200':
@@ -3057,7 +3057,7 @@ paths:
       description: Updates a user resource with the option to modify all synchronizaton information.
   /system/instance-branding:
     get:
-      summary: Get instance branding
+      summary: ''
       responses:
         '200':
           description: OK
@@ -3079,13 +3079,13 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: get-instance-branding
+      operationId: instance-branding#get
       description: Gets the instance branding definition.
       tags:
         - System
     put:
       summary: Put instance branding
-      operationId: put-system-branding
+      operationId: instance-branding#put
       responses:
         '200':
           description: OK
@@ -3280,7 +3280,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: get-system-roles
+      operationId: system-roles#get
       description: Gets a list of roles defined for the system.
       parameters:
         - schema:
@@ -3303,7 +3303,7 @@ paths:
     parameters: []
     get:
       summary: ''
-      operationId: get-users
+      operationId: users#get
       responses:
         '200':
           description: OK
@@ -3352,7 +3352,7 @@ paths:
         - Users
     post:
       summary: ''
-      operationId: post-users
+      operationId: users#post
       responses:
         '201':
           description: Created
@@ -3384,8 +3384,8 @@ paths:
         in: path
         required: true
     get:
-      summary: Get user by Id
-      operationId: get-user
+      summary: ''
+      operationId: user#get
       responses:
         '200':
           description: OK
@@ -3412,7 +3412,7 @@ paths:
         - Users
     put:
       summary: Put user
-      operationId: put-user
+      operationId: user#put
       responses:
         '200':
           description: OK
