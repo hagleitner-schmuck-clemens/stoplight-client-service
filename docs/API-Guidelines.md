@@ -1,7 +1,8 @@
 * GUID AND Int as PK
+* POST & PUT return the object itself or the ID
+
+
 * Rate limit (e.g. when self-registering with a customer)  5 / Second
-  POST & PUT return the object itself?
-* Post returns new reource ID
 
 https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
 https://docs.microsoft.com/en-us/dotnet/api/microsoft.odata.uriparser.orderbyclause.expression?view=odata-core-7.0

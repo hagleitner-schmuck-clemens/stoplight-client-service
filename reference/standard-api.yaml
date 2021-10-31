@@ -2868,6 +2868,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleAssignment-user'
         '400':
           description: Bad Request
           content:
@@ -3399,6 +3403,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
         '400':
           description: Bad Request
           content:
@@ -3771,6 +3779,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location'
         '400':
           description: Bad Request
           content:
