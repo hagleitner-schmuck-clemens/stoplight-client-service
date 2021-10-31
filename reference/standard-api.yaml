@@ -2973,7 +2973,7 @@ paths:
           format: uuid
         description: UUID of the collection element
     get:
-      summary: Gets a user resource with all synchronizaton information.
+      summary: ''
       operationId: synchronization-user#get
       responses:
         '200':
@@ -3000,7 +3000,7 @@ paths:
       tags:
         - DataSynchronization
     put:
-      summary: Modifies a user resource with all synchronizaton information.
+      summary: ''
       operationId: synchronization-user#put
       responses:
         '200':
