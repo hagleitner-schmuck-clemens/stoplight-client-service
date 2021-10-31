@@ -1132,7 +1132,7 @@ paths:
       description: 'Delete a self registration information. '
       tags:
         - SelfRegistration
-  '/customers/{id}/reseller-path':
+  '/customers/{id}/reseller-path-elements':
     parameters:
       - schema:
           type: string
@@ -1153,11 +1153,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-      operationId: customer-reseller-path#get
+      operationId: customer-reseller-path-elements#get
       x-internal: false
       description: Gets all the customers on the reseller path from the root to this customer as sorted list.
       parameters: []
-  '/customers/{id}/customer-hierarchy-path':
+  '/customers/{id}/customer-hierarchy-path-elements':
     parameters:
       - schema:
           type: string
@@ -1178,11 +1178,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-      operationId: customer-customer-hierarchy-path#get
+      operationId: customer-customer-hierarchy-path-elements#get
       x-internal: false
       description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
       parameters: []
-  '/customers/{id}/invoice-path':
+  '/customers/{id}/invoice-path-elements':
     parameters:
       - schema:
           type: string
@@ -1203,11 +1203,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-      operationId: customer-invoice-path#get
+      operationId: customer-invoice--elements#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
       parameters: []
-  '/customers/{id}/condition-path':
+  '/customers/{id}/condition-path-elements':
     parameters:
       - schema:
           type: string
@@ -1228,7 +1228,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/customer'
-      operationId: customer-condition-path#get
+      operationId: customer-condition-path-elements#get
       x-internal: false
       description: Gets all the customers on the condition path from the root to this customer as sorted list.
       parameters: []
@@ -3009,7 +3009,7 @@ paths:
               $ref: '#/components/schemas/location'
       tags:
         - Locations
-  '/locations/{id}/path-locations':
+  '/locations/{id}/path-elements':
     parameters:
       - schema:
           type: string
@@ -3048,7 +3048,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: location-path-locations#get
+      operationId: location-path-elements#get
       description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'
 components:
   schemas:
