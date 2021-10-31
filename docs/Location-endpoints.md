@@ -1,8 +1,6 @@
+# Endpoints for typed locations
 
-NON-NESTED TYPED APPROACH
-=========================
-
-Getting a single location (typed), used for PATCH, PUT, GET
+### Single location (PATCH, PUT, GET)
 
 ```json
 /buildings/{id}
@@ -11,8 +9,7 @@ Getting a single location (typed), used for PATCH, PUT, GET
 /floorareas/{id}
 /rooms/{id}
 ```
-
-Endpoints for creating new resource, used for POST and GET
+### Location collections (GET, POST)
 
 ```json
 /buildings/{id}/building-areas/
@@ -22,17 +19,17 @@ Endpoints for creating new resource, used for POST and GET
 /floorareas/{id}/rooms/
 ```
 
-UNTYPED APPROACH
-================
+# UNTYPED
+=========
 
-Retunrns only the Base-Class elements of each location type. Can be used for GET/PUT/PATCH/CREATE?
+Returns  only the Base-Class-Object of each location type. User for get
 
-```json
-GET /customer/{id}/locatios?name=abc&type=floor,parentId=?? : query the locations of a customer with query parameters
-/locatios/{lid} : get a single generic location
+`/customer/{id}/locations?name=abc&type=floor,parentId=1234` : query the locations of one customer with various parameters `GET`
+
+`/locatios/{id}` : `GET` a single generic location
 /locatios/{lid}/sub-locations/ : get generic sub-locations/
 /location/{lid}/locations-on-path/ :get generic locations from the root to the given location
-```
+
 
 
 Whole Tree
