@@ -459,6 +459,40 @@ paths:
       x-internal: false
       tags:
         - Locations
+  /buildings:
+    parameters: []
+    post:
+      summary: ''
+      operationId: buildings#post
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/location-building'
+      description: Creates a new building
+      tags:
+        - Locations
   '/buildings/{id}':
     parameters:
       - schema:
@@ -475,7 +509,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-room'
+                $ref: '#/components/schemas/location-building'
         '400':
           description: Bad Request
           content:
@@ -495,31 +529,76 @@ paths:
         '500':
           description: Internal Server Error
       operationId: building#get
-      description: Gets a single building based on id.
+      description: Gets a single building
       parameters: []
       x-internal: false
       tags:
         - Locations
     put:
       summary: ''
-      operationId: put-buildings-id
+      operationId: building#put
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Updates a single building
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/location-building'
+      tags:
+        - Locations
     patch:
       summary: ''
-      operationId: patch-buildings-id
+      operationId: building#patch
       responses:
         '200':
           description: OK
-  /buildings:
-    parameters: []
-    post:
-      summary: ''
-      operationId: post-buildings-id---copy
-      responses:
-        '200':
-          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Modifies a single building
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/location-building-patch'
+        description: ''
+      tags:
+        - Locations
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -3934,13 +4013,15 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      x-tags:
+        - Location
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
         type:
-          type: integer
+          type: string
           enum:
             - building
             - buildingArea
@@ -3958,9 +4039,7 @@ components:
           type: string
           format: uuid
         sequenceNumber:
-          type:
-            - string
-            - integer
+          type: integer
           default: 0
       required:
         - id
@@ -3968,8 +4047,6 @@ components:
         - name
         - parentLocationId
         - sequenceNumber
-      x-tags:
-        - Location
     location-room:
       title: location
       type: object
@@ -3980,19 +4057,12 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      x-tags:
+        - Location
       properties:
         id:
           type: string
           format: uuid
-          readOnly: true
-        type:
-          type: integer
-          enum:
-            - building
-            - buildingArea
-            - floor
-            - floorArea
-            - room
           readOnly: true
         name:
           type: string
@@ -4004,18 +4074,13 @@ components:
           type: string
           format: uuid
         sequenceNumber:
-          type:
-            - string
-            - integer
+          type: integer
           default: 0
       required:
         - id
-        - type
         - name
         - parentLocationId
         - sequenceNumber
-      x-tags:
-        - Location
     location-building:
       title: location
       type: object
@@ -4026,19 +4091,12 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      x-tags:
+        - Location
       properties:
         id:
           type: string
           format: uuid
-          readOnly: true
-        type:
-          type: integer
-          enum:
-            - building
-            - buildingArea
-            - floor
-            - floorArea
-            - room
           readOnly: true
         name:
           type: string
@@ -4046,22 +4104,38 @@ components:
           minLength: 1
         description:
           type: string
-        parentLocationId:
-          type: string
-          format: uuid
         sequenceNumber:
-          type:
-            - string
-            - integer
+          type: integer
           default: 0
       required:
         - id
-        - type
         - name
-        - parentLocationId
         - sequenceNumber
+    location-building-patch:
+      title: location
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
       x-tags:
         - Location
+      properties:
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        sequenceNumber:
+          type: integer
+          default: 0
+      required:
+        - name
+        - sequenceNumber
     location-building-area:
       title: location
       type: object
@@ -4072,19 +4146,12 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      x-tags:
+        - Location
       properties:
         id:
           type: string
           format: uuid
-          readOnly: true
-        type:
-          type: integer
-          enum:
-            - building
-            - buildingArea
-            - floor
-            - floorArea
-            - room
           readOnly: true
         name:
           type: string
@@ -4102,12 +4169,9 @@ components:
           default: 0
       required:
         - id
-        - type
         - name
         - parentLocationId
         - sequenceNumber
-      x-tags:
-        - Location
     location-tree:
       title: location
       type: array
@@ -4132,13 +4196,15 @@ components:
           name: Floor 013
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      x-tags:
+        - Location
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
         type:
-          type: integer
+          type: string
           enum:
             - building
             - buildingArea
@@ -4166,8 +4232,6 @@ components:
         - type
         - name
         - sequenceNumber
-      x-tags:
-        - Location
     location-patch:
       title: location-patch
       type: object
