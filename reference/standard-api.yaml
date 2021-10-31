@@ -356,7 +356,7 @@ paths:
       x-internal: false
       tags:
         - Locations
-  '/customers/{id}/locations/{locationId}':
+  '/customers/{id}/location-tree':
     parameters:
       - schema:
           type: string
@@ -364,11 +364,6 @@ paths:
         in: path
         required: true
         description: Id of the customer
-      - schema:
-          type: string
-        name: locationId
-        in: path
-        required: true
     get:
       summary: ''
       responses:
@@ -377,7 +372,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location'
+                $ref: '#/components/schemas/location-tree'
         '400':
           description: Bad Request
           content:
@@ -394,24 +389,53 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: customer-locations#get
-      description: Gets a specific location.
+        '500':
+          description: Internal Server Error
+      operationId: customer-location-tree#get
+      description: Gets the whole location tree of a customer. Each level of the returned nested structure is ordered by sequence number and then name.
       parameters: []
       x-internal: false
       tags:
-        - Customers
+        - Locations
     put:
       summary: ''
-      operationId: customer-branding#put
+      operationId: customer-location-tree#put
       responses:
         '200':
           description: OK
+      description: Changes the whole location tree of a customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/location-tree'
+      tags:
+        - Locations
+  '/customers/{id}/rooms':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-room'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
         '403':
           description: Forbidden
           content:
@@ -420,14 +444,82 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Creates or updates the customer branding.
+        '500':
+          description: Internal Server Error
+      operationId: customer-room#get
+      description: Get all the room locations of a customer. Collection is orderd by location name.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filters for the room name. The match is done with contains.
+      x-internal: false
       tags:
-        - Customers
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/customerBranding'
+        - Locations
+  '/buildings/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the building
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-room'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: building#get
+      description: Gets a single building based on id.
+      parameters: []
+      x-internal: false
+      tags:
+        - Locations
+    put:
+      summary: ''
+      operationId: put-buildings-id
+      responses:
+        '200':
+          description: OK
+    patch:
+      summary: ''
+      operationId: patch-buildings-id
+      responses:
+        '200':
+          description: OK
+  /buildings:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-buildings-id---copy
+      responses:
+        '200':
+          description: OK
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -3876,6 +3968,206 @@ components:
         - name
         - parentLocationId
         - sequenceNumber
+      x-tags:
+        - Location
+    location-room:
+      title: location
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: integer
+          enum:
+            - building
+            - buildingArea
+            - floor
+            - floorArea
+            - room
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+      required:
+        - id
+        - type
+        - name
+        - parentLocationId
+        - sequenceNumber
+      x-tags:
+        - Location
+    location-building:
+      title: location
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: integer
+          enum:
+            - building
+            - buildingArea
+            - floor
+            - floorArea
+            - room
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+      required:
+        - id
+        - type
+        - name
+        - parentLocationId
+        - sequenceNumber
+      x-tags:
+        - Location
+    location-building-area:
+      title: location
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: integer
+          enum:
+            - building
+            - buildingArea
+            - floor
+            - floorArea
+            - room
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+      required:
+        - id
+        - type
+        - name
+        - parentLocationId
+        - sequenceNumber
+      x-tags:
+        - Location
+    location-tree:
+      title: location
+      type: array
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      items:
+        $ref: '#/components/schemas/location-tree-element'
+      x-tags:
+        - Location
+    location-tree-element:
+      title: location
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: integer
+          enum:
+            - building
+            - buildingArea
+            - floor
+            - floorArea
+            - room
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/location-tree-element'
+      required:
+        - id
+        - type
+        - name
+        - sequenceNumber
+      x-tags:
+        - Location
     location-patch:
       title: location-patch
       type: object
