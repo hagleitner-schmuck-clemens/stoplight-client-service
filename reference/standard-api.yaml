@@ -84,6 +84,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
         '400':
           description: Bad Request
           content:
@@ -477,6 +481,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-building'
         '400':
           description: Bad Request
           content:
@@ -617,6 +625,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-building-area'
         '400':
           description: Bad Request
           content:
@@ -757,6 +769,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-floor'
         '400':
           description: Bad Request
           content:
@@ -897,6 +913,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-floor-area'
         '400':
           description: Bad Request
           content:
@@ -1037,6 +1057,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-room'
         '400':
           description: Bad Request
           content:
@@ -1284,6 +1308,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
       description: Creates a relation from this customer to a condition provider (replacing the existing relation).
       requestBody:
         content:
@@ -1376,6 +1404,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
       description: Creates a customer-hierarchy from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
@@ -1429,6 +1461,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
       description: Creates an invoice from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
@@ -1482,6 +1518,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
       description: Creates a reseller from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
@@ -1556,6 +1596,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
         '400':
           description: Bad Request
           content:
@@ -2186,8 +2230,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties: {}
+                $ref: '#/components/schemas/customer-synchronization'
       description: Creates a customer with detail information useful for synchronization with other systems.
       requestBody:
         content:
