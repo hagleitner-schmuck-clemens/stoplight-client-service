@@ -3084,7 +3084,7 @@ paths:
       tags:
         - System
     put:
-      summary: Put instance branding
+      summary: ''
       operationId: instance-branding#put
       responses:
         '200':
@@ -3447,7 +3447,7 @@ paths:
         required: true
     put:
       summary: ''
-      operationId: put-users-mask
+      operationId: user-mask#put
       responses:
         '200':
           description: OK
@@ -3463,7 +3463,7 @@ paths:
         required: true
     get:
       summary: ''
-      operationId: get-users-status
+      operationId: user-status#get
       responses:
         '200':
           description: OK
@@ -3490,7 +3490,7 @@ paths:
         - Users
     put:
       summary: ''
-      operationId: put-user-status
+      operationId: user-status#put
       description: Updates a user's status
       responses:
         '200':
