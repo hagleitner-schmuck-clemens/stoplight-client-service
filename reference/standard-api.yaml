@@ -2911,7 +2911,7 @@ paths:
       description: 'Gets a single location. '
     patch:
       summary: ''
-      operationId: patch-locations-id
+      operationId: location#patch
       responses:
         '200':
           description: OK
