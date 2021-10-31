@@ -214,7 +214,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Modifies attributes of a customer.
+      description: Performs a partial update on a customer resource.
       requestBody:
         content:
           application/json:
@@ -600,7 +600,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Modifies a single building
+      description: Performs a partial update on a building resource.
       requestBody:
         content:
           application/json:
@@ -740,7 +740,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Modifies a single building area
+      description: Performs a partial update on a building area resource.
       requestBody:
         content:
           application/json:
@@ -880,7 +880,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Modifies a single floor
+      description: Performs a partial update on a floor resoruce.
       requestBody:
         content:
           application/json:
@@ -1020,7 +1020,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Modifies a single floor area
+      description: Performs a partial update on a floor-area resource.
       requestBody:
         content:
           application/json:
@@ -1160,7 +1160,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Modifies a single room
+      description: Performs a partial update on a room resource.
       requestBody:
         content:
           application/json:
@@ -3054,7 +3054,7 @@ paths:
               $ref: '#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
-      description: Updates a user resource with the option to modify all synchronizaton information.
+      description: Performs a partial update on a user-synchronization resource.
   /system/instance-branding:
     get:
       summary: ''
@@ -3678,7 +3678,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Modifies a location
+      description: Performs a partial update on a location resource
       tags:
         - Locations
   '/locations/{id}/sub-locations':
