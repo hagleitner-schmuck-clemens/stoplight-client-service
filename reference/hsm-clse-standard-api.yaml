@@ -77,6 +77,11 @@ paths:
           name: resellerId
           description: Filters for sub customer of the given reseller.
         - $ref: '#/components/parameters/Accept-Language'
+        - schema:
+            type: string
+          in: query
+          name: fullTextSearch
+          description: A search string that is used to filter for customers using the full text search capability of the system.
       x-internal: false
     post:
       summary: ''
@@ -5469,3 +5474,4 @@ components:
       description: Defines which culture are accepted by the client.
   responses: {}
   examples: {}
+  securitySchemes: {}
