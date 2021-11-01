@@ -1,8 +1,7 @@
 ### Roadmap
 * 2021-11-03 (Version alpha.01): All relevant endpoints for CWS are described, API design is syntactically correct.
-* 2021-11-10 Developer Review done. All APIs have been reviewed by developers for feasibility and implementation effort.
-* 2021-11-17 (Version beta.01): Developer input included
-* 2021-11-17 (Version beta.02): Developer input included, documentation complete.
+* 2021-11-10 HAG Developer Review done. APIs have been reviewed by developers for feasibility and implementation effort.
+* 2021-11-17 (Version beta.01): Reworked with HAG Developer input. CWS starts Rewiew.
 * 2021-11-24 (Version rc.01): Release canditate 01. Basis for Developers at CWS.
 
 ### Open API design questions
