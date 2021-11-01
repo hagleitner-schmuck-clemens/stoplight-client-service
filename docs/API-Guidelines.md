@@ -1,5 +1,8 @@
 * GUID AND Int as PK
-* POST & PUT return the object itself or the ID
+* Return for  POST PUT, PATCH 
+  * Return the resoruce: Includes IDs and other autocalculated properties like last change date etc. seems preferable
+  * Return just the auto generated Id: CLient can decide if he needs the object.
+  * Use 204 Result if no data is returned.
 
 
 * Rate limit (e.g. when self-registering with a customer)  5 / Second
