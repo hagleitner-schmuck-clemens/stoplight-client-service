@@ -1051,7 +1051,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-floor.PATCH'
+              $ref: '#/components/schemas/location-floor-area.PATCH'
         description: ''
       tags:
         - Locations
@@ -2536,7 +2536,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user-synchronization'
+              $ref: '#/components/schemas/customerRelation-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/customer-hierarchy-relations':
@@ -3641,7 +3641,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: user-customer-favorites#get
+      operationId: user-favorite-customers#get
       description: Gets the customer favorites of a user. Sorted by customer name1. The total number of allowed customer favorites is limited by the backend therefore this collection endpoint has no pagination.
       parameters: []
       tags:
@@ -3679,7 +3679,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: user-customer-favorites#get
+      operationId: user-recently-used-customers#get
       description: Gets the recently used customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited by the backend therefore this collection endpoint has no pagination.
       parameters: []
       tags:
@@ -4725,26 +4725,6 @@ components:
         - id
         - customerId
         - externallyManaged
-    customerHierarchyRelation:
-      type: object
-      title: resellerRelation
-      description: Represents a reseller relation between two customers in HsM.
-      properties:
-        Id:
-          type: string
-          format: uuid
-          readOnly: true
-        parentCustomerId:
-          type: string
-        lastUpdatedAt:
-          type: string
-          readOnly: true
-        externallyManaged:
-          type: boolean
-          description: ''
-      required:
-        - Id
-        - parentCustomerId
     location:
       title: ''
       type: object
@@ -5532,41 +5512,6 @@ components:
         - masked
       description: The status of a user within HsM.
       default: active
-    customer-favorite-status:
-      title: ''
-      type: object
-      description: Represents the favorite customer of a user. I.e. the favorite relation between a user and a customer. Seen from the user's perspective.
-      properties:
-        customerId:
-          type: string
-          format: uuid
-          description: ID of the customer that is assigned as favorite.
-        status:
-          type: boolean
-          description: 'True if the customer is a favorite, false otherwise.'
-      required:
-        - customerId
-        - status
-    customer-recently-used-assignment:
-      title: ''
-      type: object
-      description: Represents a recently used customer of a user. I.e. the recently-used relation between a user and a customer. Seen from the user's perspective.
-      properties:
-        id:
-          type: string
-          description: Id of the favorite assignment
-          format: uuid
-          readOnly: true
-        customerId:
-          type: string
-          format: uuid
-          description: ID of the customer that is assigned as favorite.
-        latestUsedAt:
-          type: string
-          readOnly: true
-      required:
-        - id
-        - customerId
   parameters:
     limit:
       name: limit
@@ -5589,14 +5534,6 @@ components:
         minimum: 0
         example: 200
       description: 'Pagination, offset for returned page.'
-    X-Total-Count:
-      name: X-Total-Count
-      in: header
-      required: false
-      schema:
-        type: integer
-        format: int32
-      description: Total number of elements in the collection.
     Accept-Language:
       name: Accept-Language
       in: header
