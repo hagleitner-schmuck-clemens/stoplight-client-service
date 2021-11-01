@@ -5,6 +5,10 @@
 * 2022-01-31 (Version 1.1.0-rc.01): Includes outcome of CWS developer review, basis for starting development at CWS.
 * 2022-03-31 (Version 1.1.0): Final version no breaking changes.
 
+# Git Branching
+* Ongoing work is done on the `development`branch, versions are merged to `main` branch and tagged there.
+
+
 All versions will be tagged in Git.
 
 
