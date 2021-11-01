@@ -3494,22 +3494,6 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
-  '/users/{id}/mask':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    put:
-      summary: ''
-      operationId: user-mask#put
-      responses:
-        '200':
-          description: OK
-      description: 'Will remove all personal information of a user, thus removing the relation to a natural person.'
-      tags:
-        - Users
   '/users/{id}/status':
     parameters:
       - schema:
@@ -3527,6 +3511,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userStatus'
+              examples: {}
         '400':
           description: Bad Request
           content:
@@ -3541,7 +3526,12 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Gets a the status of a specific user
+      description: |-
+        Gets a the status of a specific user.
+        Active: The user can interact with the system.
+        Inactive: The user can (temporarily) not interact with the system but can be reactivatd
+        Deleted: The user was deleted and cannot be re-activated. The e-mail address of deleted users does not have to be unique within the system.
+        Masked: The user was deleted and finally the data of the user was masked to support GPDR requirements. Masked users cannot be reactivated. All personal infomrmation is removed.
       tags:
         - Users
     put:
@@ -3554,7 +3544,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/userStatus'
         '400':
           description: Bad Request
           content:
@@ -4063,12 +4053,12 @@ components:
         id:
           type: string
           format: uuid
-          description: Id of the user within the HsM system
+          description: ID of the user within the HsM system
           readOnly: true
         code:
           type: string
           example: HHAT
-          description: A code that -if given - uniquely identifies the customer within the whole system
+          description: A code that -if given - uniquely identifies the customer within the whole system.
         name1:
           type: string
           example: HGM Facility care & management Ltd.
@@ -4078,62 +4068,66 @@ components:
           type: string
           example: A FacilityWiz subsidiary
           maxLength: 80
-          description: Part of the customer name that is usually written on a second line in postal adresses
+          description: Part of the customer name that is usually written on a second line in postal addresses.
         name3:
           type: string
           example: HGM Facility care & management Ltd.
           maxLength: 80
-          description: Part of the customer name that is usually written on a third line in postal adresses
+          description: Part of the customer name that is usually written on a third line in postal addresses.
         name4:
           type: string
           example: HGM Facility care & management Ltd.
           maxLength: 80
-          description: Part of the customer name that is usually written on a forth line in postal adresses
+          description: Part of the customer name that is usually written on a forth line in postal addresses.
         address1:
           type: string
           example: Huey Avenue 33b
           maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
         address2:
           type: string
           example: The Holo Building
           maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
         city:
           type: string
           example: London
           maxLength: 80
+          description: 'City, town village of the customer.'
         postalCode:
           type: string
           example: W3BX
           maxLength: 20
+          description: 'Postal code of the city, town, village.'
         countryCode:
           type: string
           maxLength: 2
           example: GB
-          description: ISO 3166-1 alpha-2 code
+          description: ISO 3166-1 alpha-2 code of the customer's postal address.
         customerNumber:
           type: string
           maxLength: 20
           example: 21-0789-B
-          description: The customer number used by the reseller to uniquely identify this customer
+          description: The customer number used by the reseller to uniquely identify this customer.
         emailAddress:
           type: string
-          description: The companies main e-mail address
+          description: The companies main e-mail address.
           format: email
           example: office@hgmfacility.com
           maxLength: 256
         phoneNumber:
           type: string
-          description: The companies main phone number
+          description: The companies main phone number.
           example: +44 256 51512
           maxLength: 256
         vatIdentificationNumber:
           type: string
-          description: The VAT identification number of the customer
+          description: The VAT identification number of the customer.
           example: +44 256 51512
           maxLength: 256
         preferredCulture:
           type: string
-          description: The culture the company usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          description: The culture this customer usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
           example: en-GB
           maxLength: 35
         status:
@@ -4142,7 +4136,7 @@ components:
             - active
             - inactive
             - deleted
-          description: The status of the user in terms of his possibilty to interact with the system
+          description: The status of the customer in HsM.
           default: active
           readOnly: true
         isReseller:
@@ -4157,7 +4151,7 @@ components:
         resellerId:
           type: string
           format: uuid
-          description: Specifies the mandatory reseller for this customer
+          description: Specifies the reseller for this customer. In HsM every customer (except one root-customer) must have a reseller.
           writeOnly: true
         externallyManaged:
           type: boolean
@@ -4169,7 +4163,6 @@ components:
         - countryCode
         - emailAddress
         - isReseller
-        - resellerId
         - externallyManaged
     customer-role-inheritance:
       type: object
@@ -4190,63 +4183,92 @@ components:
           description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
     customer.PATCH:
       type: object
-      title: customer
-      description: Describes a customer.
+      title: ''
+      description: Used for partial updates to a customer.
       properties:
         code:
           type: string
           example: HHAT
-          description: 'A code that -if given - uniquely identifies the customer within the whole system. '
-        name:
+          description: A code that -if given - uniquely identifies the customer within the whole system.
+        name1:
           type: string
-          example: John
-          maxLength: 50
-        address:
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: The customer name
+        name2:
           type: string
-          example: Doe
-          maxLength: 50
+          example: A FacilityWiz subsidiary
+          maxLength: 80
+          description: Part of the customer name that is usually written on a second line in postal addresses.
+        name3:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a third line in postal addresses.
+        name4:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a forth line in postal addresses.
+        address1:
+          type: string
+          example: Huey Avenue 33b
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        address2:
+          type: string
+          example: The Holo Building
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
         city:
           type: string
+          example: London
+          maxLength: 80
+          description: 'City, town village of the customer.'
         postalCode:
           type: string
+          example: W3BX
+          maxLength: 20
+          description: 'Postal code of the city, town, village.'
         countryCode:
           type: string
-          description: ISO 3166-1 alpha-2 code
+          maxLength: 2
+          example: GB
+          description: ISO 3166-1 alpha-2 code of the customer's postal address.
+        customerNumber:
+          type: string
+          maxLength: 20
+          example: 21-0789-B
+          description: The customer number used by the reseller to uniquely identify this customer.
         emailAddress:
           type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          description: The companies main e-mail address.
           format: email
-          example: john@doe.com
+          example: office@hgmfacility.com
+          maxLength: 256
+        phoneNumber:
+          type: string
+          description: The companies main phone number.
+          example: +44 256 51512
+          maxLength: 256
+        vatIdentificationNumber:
+          type: string
+          description: The VAT identification number of the customer.
+          example: +44 256 51512
           maxLength: 256
         preferredCulture:
           type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
+          description: The culture this customer usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          example: en-GB
           maxLength: 35
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
-          default: active
-          readOnly: true
         isReseller:
           type: boolean
-          description: Defines if a customer is a reseller. Customer marked as resellers can use HsM's reseller features.
+          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
         resellerId:
           type: string
           format: uuid
-          description: Specifies the mandatory reseller for this customer.
+          description: Specifies the reseller for this customer. In HsM every customer (except one root-customer) must have a reseller.
           writeOnly: true
-        externallyManaged:
-          type: boolean
-          description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
-          readOnly: true
     customer-synchronization:
       type: object
       title: customer-synchronization
@@ -4260,7 +4282,7 @@ components:
         code:
           type: string
           example: HHAT
-          description: A code that -if given - uniquely identifies the customer within the whole system
+          description: A code that -if given - uniquely identifies the customer within the whole system.
         name1:
           type: string
           example: HGM Facility care & management Ltd.
@@ -4270,33 +4292,37 @@ components:
           type: string
           example: A FacilityWiz subsidiary
           maxLength: 80
-          description: Part of the customer name that is usually written on a second line in postal adresses
+          description: Part of the customer name that is usually written on a second line in postal addresses.
         name3:
           type: string
           example: HGM Facility care & management Ltd.
           maxLength: 80
-          description: Part of the customer name that is usually written on a third line in postal adresses
+          description: Part of the customer name that is usually written on a third line in postal addresses.
         name4:
           type: string
           example: HGM Facility care & management Ltd.
           maxLength: 80
-          description: Part of the customer name that is usually written on a forth line in postal adresses
+          description: Part of the customer name that is usually written on a forth line in postal addresses.
         address1:
           type: string
           example: Huey Avenue 33b
           maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
         address2:
           type: string
           example: The Holo Building
           maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
         city:
           type: string
           example: London
           maxLength: 80
+          description: 'City, town village of the customer.'
         postalCode:
           type: string
           example: W3BX
           maxLength: 20
+          description: 'Postal code of the city, town, village.'
         countryCode:
           type: string
           maxLength: 2
@@ -5096,48 +5122,38 @@ components:
         - type
         - name
         - sequenceNumber
-    location.:
-      title: location.
-      type: object
-      description: 'Represents a location (building, building-area, floor, floor-area, room). '
-      examples:
-        - name: Floor 002
-          description: A new description
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-          sequenceNumber: 0
-      properties:
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type:
-            - string
-            - integer
-          default: 0
     user:
       type: object
       title: user
-      description: Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
+      description: |-
+        Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
+
+        * No gender information is stored with users - this is intentional
+        * `givenName` and `surename` are used as in official ID documents.
+        * `callName` is provided to give the user a chance to define how the system shall call/address him e.g. in e-mails etc.
+        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surename>, <givenName>`
       properties:
         id:
           type: string
           format: uuid
-          description: Id of the user within the HsM system.
+          description: ID of the user within the HsM system.
           readOnly: true
-        firstName:
+        givenName:
           type: string
           example: John
           maxLength: 50
-        lastName:
+          description: Given name of the user
+        surname:
           type: string
           example: Doe
           maxLength: 50
+          description: Sure name of the user.
+        callName:
+          type: string
+          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
+        sortName:
+          type: string
+          description: A presentation of the user's full name that is used for sorting.
         emailAddress:
           type: string
           description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
@@ -5156,13 +5172,6 @@ components:
           type: string
           description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
           example: +43 664 9161413
-        gender:
-          type: string
-          enum:
-            - female
-            - male
-            - non-binary
-          description: ''
         lastUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
@@ -5170,15 +5179,14 @@ components:
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
         status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
-          readOnly: true
+          $ref: '#/components/schemas/userStatus'
       required:
+        - id
+        - surname
+        - sortName
         - emailAddress
+        - lastUpdatedAt
+        - status
     user-synchronization:
       type: object
       title: synchronizationUser
@@ -5189,14 +5197,22 @@ components:
           format: uuid
           description: Id of the user within the HsM system.
           readOnly: true
-        firstName:
+        givenName:
           type: string
           example: John
           maxLength: 50
-        lastName:
+          description: Given name of the user
+        sureName:
           type: string
           example: Doe
           maxLength: 50
+          description: Sure name of the user.
+        callName:
+          type: string
+          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
+        sortName:
+          type: string
+          description: A presentation of the user's full name that is used for sorting.
         emailAddress:
           type: string
           description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
@@ -5215,21 +5231,8 @@ components:
           type: string
           description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
           example: +43 664 9161413
-        gender:
-          type: string
-          enum:
-            - female
-            - male
-            - non-binary
-          description: ''
         status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system.
-          readOnly: true
+          $ref: '#/components/schemas/userStatus'
         createdAt:
           type: string
           format: date-time
@@ -5254,6 +5257,8 @@ components:
           description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
       required:
         - id
+        - sureName
+        - sortName
         - emailAddress
         - preferredCulture
         - createdAt
@@ -5435,6 +5440,16 @@ components:
         - customerDisplayName
         - roleName
       description: Represents a role assignment from a users perspective.
+    userStatus:
+      type: string
+      title: userStatus
+      enum:
+        - active
+        - inactive
+        - deleted
+        - masked
+      description: The status of a user within HsM.
+      default: active
   parameters:
     limit:
       name: limit
