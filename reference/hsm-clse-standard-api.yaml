@@ -69,7 +69,7 @@ paths:
             format: uuid
           in: query
           name: customerId
-          description: Filters for customers based on the customerId. Note that the customer Id is only unique within all customers of the same reseller.
+          description: Filters for customers based on the customerId. Note that the customer ID is only unique within all customers of the same reseller.
         - schema:
             type: string
             format: uuid
@@ -164,7 +164,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
       - $ref: '#/components/parameters/Accept-Language'
     put:
       summary: ''
@@ -238,7 +238,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -305,7 +305,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -377,7 +377,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -432,7 +432,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -523,7 +523,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the building
+        description: ID of the building
     get:
       summary: ''
       responses:
@@ -667,7 +667,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the building
+        description: ID of the building
     get:
       summary: ''
       responses:
@@ -811,7 +811,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the floor
+        description: ID of the floor
     get:
       summary: ''
       responses:
@@ -955,7 +955,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the floor area
+        description: ID of the floor area
     get:
       summary: ''
       responses:
@@ -1099,7 +1099,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the room
+        description: ID of the room
     get:
       summary: ''
       responses:
@@ -1205,7 +1205,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1242,7 +1242,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1275,7 +1275,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1332,7 +1332,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -1371,7 +1371,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1428,7 +1428,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1485,7 +1485,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1542,7 +1542,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1636,7 +1636,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1704,7 +1704,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -1743,7 +1743,7 @@ paths:
             type: string
           in: query
           name: Id
-          description: Id of the role assignment
+          description: ID of the role assignment
       x-internal: false
     delete:
       summary: ''
@@ -1773,7 +1773,7 @@ paths:
             type: string
           in: query
           name: Id
-          description: Id of the role assignment.
+          description: ID of the role assignment.
       tags:
         - RoleAssignment
   '/customers/{id}/self-registration-credentials/current':
@@ -1783,7 +1783,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1831,7 +1831,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -1872,7 +1872,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
       - schema:
           type: string
         name: selfRegistrationCredentialId
@@ -1929,7 +1929,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -1954,7 +1954,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -1979,7 +1979,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -2004,7 +2004,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -2029,7 +2029,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -2053,7 +2053,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -2080,7 +2080,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -2107,7 +2107,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -2251,13 +2251,13 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
       - schema:
           type: string
         name: role-assignment-id
         in: path
         required: true
-        description: Id of the role assignment
+        description: ID of the role assignment
     get:
       summary: ''
       responses:
@@ -2274,7 +2274,7 @@ paths:
             type: string
           in: query
           name: Id
-          description: Id of the role assignment
+          description: ID of the role assignment
       x-internal: true
       tags:
         - DataSynchronization
@@ -2286,7 +2286,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer#get
@@ -2359,7 +2359,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer-condition-relation#get
@@ -2433,7 +2433,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer-condition-relations#get
@@ -2475,7 +2475,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer-customer-hierarchy-relation#get
@@ -2546,7 +2546,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer-customer-hierarchy-relations#get
@@ -2588,7 +2588,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer-invoice-relation#get
@@ -2663,7 +2663,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer-invoice-relations#get
@@ -2704,7 +2704,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer-reseller-relation#get
@@ -2775,7 +2775,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       operationId: synchronization-customer-reseller-relations#get
@@ -2816,7 +2816,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       tags:
@@ -3225,7 +3225,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the customer
+        description: ID of the customer
     get:
       summary: ''
       responses:
@@ -3256,7 +3256,7 @@ paths:
             type: string
           in: query
           name: Id
-          description: Id of the role assignment
+          description: ID of the role assignment
       x-internal: false
       tags:
         - RoleAssignment
@@ -3286,7 +3286,7 @@ paths:
             type: string
           in: query
           name: Id
-          description: Id of the role assignment.
+          description: ID of the role assignment.
       tags:
         - RoleAssignment
   /system/roles:
@@ -3664,7 +3664,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the location
+        description: ID of the location
     get:
       summary: ''
       tags:
@@ -3734,7 +3734,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the location
+        description: ID of the location
     get:
       summary: ''
       tags:
@@ -3811,7 +3811,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Id of the location
+        description: ID of the location
     get:
       summary: ''
       tags:
@@ -4277,7 +4277,7 @@ components:
         id:
           type: string
           format: uuid
-          description: Id of the user within the HsM system
+          description: ID of the user within the HsM system
           readOnly: true
         code:
           type: string
@@ -5195,7 +5195,7 @@ components:
         id:
           type: string
           format: uuid
-          description: Id of the user within the HsM system.
+          description: ID of the user within the HsM system.
           readOnly: true
         givenName:
           type: string
@@ -5247,7 +5247,7 @@ components:
         synchronizationId:
           type: string
           format: uuid
-          description: Id of the user in an external system.
+          description: ID of the user in an external system.
         synchronizationInformation:
           type: string
           description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
@@ -5271,7 +5271,7 @@ components:
         Id:
           type: string
           format: uuid
-          description: Id of this self-registration credential
+          description: ID of this self-registration credential
           readOnly: true
         customerNumber:
           type: string
@@ -5363,13 +5363,13 @@ components:
       properties:
         id:
           type: string
-          description: Id of the role assignment
+          description: ID of the role assignment
           format: uuid
           readOnly: true
         userId:
           type: string
           format: uuid
-          description: Id of user who is assigned a role
+          description: ID of user who is assigned a role
         assignedAt:
           type: string
           description: Date when the role was assigned
@@ -5377,7 +5377,7 @@ components:
           readOnly: true
         roleId:
           type: string
-          description: Id of the assigned role.
+          description: ID of the assigned role.
           format: uuid
         userDisplayName:
           type: string
@@ -5408,13 +5408,13 @@ components:
       properties:
         id:
           type: string
-          description: Id of the role assignment
+          description: ID of the role assignment
           format: uuid
           readOnly: true
         customerId:
           type: string
           format: uuid
-          description: Id of user who is assigned a role
+          description: ID of user who is assigned a role
         assignedAt:
           type: string
           description: Date when the role was assigned
@@ -5422,7 +5422,7 @@ components:
           readOnly: true
         roleId:
           type: string
-          description: Id of the assigned role.
+          description: ID of the assigned role.
           format: uuid
         customerDisplayName:
           type: string
