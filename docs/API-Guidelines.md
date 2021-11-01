@@ -9,6 +9,7 @@
   * Return the resoruce: Includes IDs and other autocalculated properties like last change date etc. seems preferable
   * Return just the auto generated Id: Client can decide if he needs the object. Not suitable for resoruces whith multiple auto-calculated data fields.
   * Fire and forget: In some usecases (e.g. controller endpoints). Use 204 Result if no data is returned.
+* Can we infer the HsM User-ID from any HTTP request? (i.e. for controller endpoints /customer/{id}/mark-favorite, /customer/{id}/mark-recently-used)
 * Rate limit, and rate limit advertadvertising  (e.g. when self-registering with a customer) 
 * Pagination link-header, X-Total-Count
 * orderBy expression based on ODATA? https://docs.microsoft.com/en-us/dotnet/api/microsoft.odata.uriparser.orderbyclause.expression?view=odata-core-7.0
