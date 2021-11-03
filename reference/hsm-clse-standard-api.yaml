@@ -269,6 +269,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
+          headers: {}
       operationId: customer-branding#get
       description: Gets the branding assigned to this specific customer.
       parameters:
