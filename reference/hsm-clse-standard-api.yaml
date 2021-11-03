@@ -41,10 +41,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/response-400-badRequest'
+              examples: {}
+        '401':
+          description: Unauthorized
         '403':
           description: Forbidden
+        '500':
+          description: Internal Server Error
       operationId: customers#get
-      description: Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.
+      description: Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -116,8 +121,7 @@ paths:
               $ref: '#/components/schemas/customer'
       tags:
         - Customers
-      parameters:
-        - $ref: '#/components/parameters/Accept-Language'
+      parameters: []
   '/customers/{id}':
     get:
       summary: ''
@@ -224,7 +228,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Performs a partial update on a customer resource.
+      description: Performs a partial update on a customer.
       requestBody:
         content:
           application/json:
@@ -267,7 +271,8 @@ paths:
           description: Not Found
       operationId: customer-branding#get
       description: Gets the branding assigned to this specific customer.
-      parameters: []
+      parameters:
+        - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Customers
@@ -299,6 +304,76 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customerBranding'
+  '/customers/{id}/effective-branding':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/branding'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-effective-branding#get
+      description: Gets the effecive branding of this customer.
+      parameters: []
+      x-internal: false
+      tags:
+        - Customers
+  '/customers/{id}/effective-role-assignments':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/roleAssignment-customer'
+      operationId: customer-effective-roles#get
+      description: Gets effective roles applied to this customer.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: userId
+          description: Filters the effective roles to those given to the provided user id.
+      x-internal: false
+      tags:
+        - RoleAssignment
   '/customers/{id}/locations':
     parameters:
       - schema:
@@ -368,6 +443,7 @@ paths:
           in: query
           name: code
           description: Filters for location that match contains the given string in its code.
+        - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Locations
@@ -408,7 +484,8 @@ paths:
           description: Internal Server Error
       operationId: customer-location-tree#get
       description: Gets the whole location tree of a customer. Each level of the returned nested structure is ordered by sequence number and then name.
-      parameters: []
+      parameters:
+        - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Locations
@@ -476,11 +553,17 @@ paths:
           in: query
           name: code
           description: Filters for rooms that contain the given value in their code
+        - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Locations
-  /buildings:
-    parameters: []
+  '/customer/{id}/buildings':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
     post:
       summary: ''
       operationId: buildings#post
@@ -514,7 +597,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/location-building'
-      description: Creates a new building
+      description: Creates a new building for this customer.
       tags:
         - Locations
   '/buildings/{id}':
@@ -554,7 +637,8 @@ paths:
           description: Internal Server Error
       operationId: building#get
       description: Gets a single building
-      parameters: []
+      parameters:
+        - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Locations
@@ -614,7 +698,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Performs a partial update on a building resource.
+      description: Performs a partial update on a building.
       requestBody:
         content:
           application/json:
@@ -1199,76 +1283,6 @@ paths:
         description: ''
       tags:
         - Locations
-  '/customers/{id}/effective-branding':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/branding'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: customer-effective-branding#get
-      description: Gets the effecive branding of this customer.
-      parameters: []
-      x-internal: false
-      tags:
-        - Customers
-  '/customers/{id}/effective-role-assignments':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/roleAssignment-customer'
-      operationId: customer-effective-roles#get
-      description: Gets effective roles applied to this customer.
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: userId
-          description: Filters the effective roles to those given to the provided user id.
-      x-internal: false
-      tags:
-        - RoleAssignment
   '/customers/{id}/condition-relation':
     parameters:
       - schema:
@@ -1359,6 +1373,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/response-400-badRequest'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: customer-reseller#get
       x-internal: false
       description: Gets the reseller of this customer.
@@ -4134,6 +4152,7 @@ components:
           type: string
           example: HHAT
           description: A code that -if given - uniquely identifies the customer within the whole system.
+          maxLength: 20
         name1:
           type: string
           example: HGM Facility care & management Ltd.
@@ -4895,7 +4914,7 @@ components:
           type: string
           format: uuid
           description: The customer the building belongs to.
-          writeOnly: true
+          readOnly: true
       required:
         - id
         - name
