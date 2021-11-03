@@ -1793,9 +1793,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/selfRegistrationCredential'
+                $ref: '#/components/schemas/selfRegistrationCredential'
         '400':
           description: Bad Request
           headers: {}
