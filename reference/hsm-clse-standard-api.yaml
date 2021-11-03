@@ -5,7 +5,7 @@ info:
     name: Hagleitner Hygiene Internaltional GmbH
     url: 'http://www.hagleitner.com/'
     email: office@hagleitner.com
-  version: 1.0.0-alpha.1
+  version: 1.0.0-alpha.2
   summary: The Standard API is a client agnostic API to the HsM Client Service
   description: The Standard API is a client agnostic API to the HsM Client Service
 servers:
@@ -2161,7 +2161,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Gets customers with detail information useful for synchronization with other systems.
+      description: Gets customers with detail information useful for synchronization with other systems. The collection is ordered by name1.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
