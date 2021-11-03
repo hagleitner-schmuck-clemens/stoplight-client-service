@@ -2161,7 +2161,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Gets customers with detail information useful for synchronization with other systems.
+      description: Gets customers with detail information useful for synchronization with other systems. The collection is ordered by name1.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
