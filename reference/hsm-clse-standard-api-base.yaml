@@ -6,4 +6,1623 @@ servers:
   - url: 'http://localhost:3000'
 paths: {}
 components:
-  schemas: {}
+  schemas:
+    branding:
+      description: Describes the branding of the instance or the effective branding for a customer.
+      type: object
+      properties:
+        productName:
+          type: string
+          minLength: 1
+        displayModeDark:
+          type: object
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor500:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor700:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarContrastColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            selectionColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+        displayModeLight:
+          type: object
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor500:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            mainColor700:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            navigationBarContrastColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+            selectionColor:
+              type: object
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+              required:
+                - hexCode
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+        instanceOperator:
+          type: string
+          minLength: 1
+        clientSpecificOptions:
+          type: object
+          properties:
+            webPortal:
+              type: object
+              properties:
+                favIcon:
+                  type: string
+                  minLength: 1
+              required:
+                - favIcon
+          required:
+            - webPortal
+      required:
+        - productName
+        - displayModeDark
+        - displayModeLight
+        - instanceOperator
+        - clientSpecificOptions
+      x-examples:
+        example-1:
+          productName: senseManagement
+          displayModeDark:
+            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.svg'
+            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.navigationbar.svg'
+            mainColor300:
+              hexCode: '#123456'
+            mainColor500:
+              hexCode: '#123456'
+            mainColor700:
+              hexCode: '#123456'
+            navigationBarColor:
+              hexCode: '#123456'
+            navigationBarContrastColor:
+              hexCode: '#123456'
+            selectionColor:
+              hexCode: '#123456'
+          displayModeLight:
+            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.svg'
+            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.navigationbar.svg'
+            mainColor300:
+              hexCode: '#123456'
+            mainColor500:
+              hexCode: '#123456'
+            mainColor700:
+              hexCode: '#123456'
+            navigationBarColor:
+              hexCode: '#123456'
+            navigationBarContrastColor:
+              hexCode: '#123456'
+            selectionColor:
+              hexCode: '#123456'
+          instanceOperator: Hagleitner
+          clientSpecificOptions:
+            webPortal:
+              favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
+    customer:
+      type: object
+      title: customer
+      description: Describes a customer.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system
+          readOnly: true
+        code:
+          type: string
+          example: HHAT
+          description: A code that -if given - uniquely identifies the customer within the whole system.
+          maxLength: 20
+        name1:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: The customer name
+        name2:
+          type: string
+          example: A FacilityWiz subsidiary
+          maxLength: 80
+          description: Part of the customer name that is usually written on a second line in postal addresses.
+        name3:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a third line in postal addresses.
+        name4:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a forth line in postal addresses.
+        address1:
+          type: string
+          example: Huey Avenue 33b
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        address2:
+          type: string
+          example: The Holo Building
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        city:
+          type: string
+          example: London
+          maxLength: 80
+          description: 'City, town village of the customer.'
+        postalCode:
+          type: string
+          example: W3BX
+          maxLength: 20
+          description: 'Postal code of the city, town, village.'
+        countryCode:
+          type: string
+          maxLength: 2
+          example: GB
+          description: ISO 3166-1 alpha-2 code of the customer's postal address.
+        customerNumber:
+          type: string
+          maxLength: 20
+          example: 21-0789-B
+          description: The customer number used by the reseller to uniquely identify this customer.
+        emailAddress:
+          type: string
+          description: The companies main e-mail address.
+          format: email
+          example: office@hgmfacility.com
+          maxLength: 256
+        phoneNumber:
+          type: string
+          description: The companies main phone number.
+          example: +44 256 51512
+          maxLength: 256
+        vatIdentificationNumber:
+          type: string
+          description: The VAT identification number of the customer.
+          example: +44 256 51512
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: The culture this customer usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          example: en-GB
+          maxLength: 35
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the customer in HsM.
+          default: active
+          readOnly: true
+        isReseller:
+          type: boolean
+          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
+        lastUpdatedAt:
+          type: string
+          description: Describes when the user was last modified within HsM.
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        resellerId:
+          type: string
+          format: uuid
+          description: Specifies the reseller for this customer. In HsM every customer (except one root-customer) must have a reseller.
+          writeOnly: true
+        externallyManaged:
+          type: boolean
+          description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
+          readOnly: true
+        isFavorite:
+          type: boolean
+          description: True if this customer is a favorite customer of the currently accessing user.
+          readOnly: true
+      required:
+        - id
+        - name1
+        - countryCode
+        - emailAddress
+        - isReseller
+        - externallyManaged
+        - isFavorite
+    customer-role-inheritance:
+      type: object
+      title: customer-role-inheritance
+      description: Describes a customer.
+      properties:
+        AllowRoleInheritanceFromReseller:
+          type: boolean
+          description: Defines if roles applicable to the customer's reseller and marked for propagation down the reseller relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromParentCustomer:
+          type: boolean
+          description: Defines if roles applicable to the customer's parent customer and marked for propagation down the customer hierarchy relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromInvoiceRecipient:
+          type: boolean
+          description: Defines if roles applicable to the customer's invoice recipient and marked for propagation down the invoice relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromConditionOwner:
+          type: boolean
+          description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
+    customer.PATCH:
+      type: object
+      title: ''
+      description: Used for partial updates to a customer.
+      properties:
+        code:
+          type: string
+          example: HHAT
+          description: A code that -if given - uniquely identifies the customer within the whole system.
+        name1:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: The customer name
+        name2:
+          type: string
+          example: A FacilityWiz subsidiary
+          maxLength: 80
+          description: Part of the customer name that is usually written on a second line in postal addresses.
+        name3:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a third line in postal addresses.
+        name4:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a forth line in postal addresses.
+        address1:
+          type: string
+          example: Huey Avenue 33b
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        address2:
+          type: string
+          example: The Holo Building
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        city:
+          type: string
+          example: London
+          maxLength: 80
+          description: 'City, town village of the customer.'
+        postalCode:
+          type: string
+          example: W3BX
+          maxLength: 20
+          description: 'Postal code of the city, town, village.'
+        countryCode:
+          type: string
+          maxLength: 2
+          example: GB
+          description: ISO 3166-1 alpha-2 code of the customer's postal address.
+        customerNumber:
+          type: string
+          maxLength: 20
+          example: 21-0789-B
+          description: The customer number used by the reseller to uniquely identify this customer.
+        emailAddress:
+          type: string
+          description: The companies main e-mail address.
+          format: email
+          example: office@hgmfacility.com
+          maxLength: 256
+        phoneNumber:
+          type: string
+          description: The companies main phone number.
+          example: +44 256 51512
+          maxLength: 256
+        vatIdentificationNumber:
+          type: string
+          description: The VAT identification number of the customer.
+          example: +44 256 51512
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: The culture this customer usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          example: en-GB
+          maxLength: 35
+        isReseller:
+          type: boolean
+          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
+        resellerId:
+          type: string
+          format: uuid
+          description: Specifies the reseller for this customer. In HsM every customer (except one root-customer) must have a reseller.
+          writeOnly: true
+    customer-synchronization:
+      type: object
+      title: customer-synchronization
+      description: Describes a customer of the HsM system together with information relevant for synchronization with other business systems.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system
+          readOnly: true
+        code:
+          type: string
+          example: HHAT
+          description: A code that -if given - uniquely identifies the customer within the whole system.
+        name1:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: The customer name
+        name2:
+          type: string
+          example: A FacilityWiz subsidiary
+          maxLength: 80
+          description: Part of the customer name that is usually written on a second line in postal addresses.
+        name3:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a third line in postal addresses.
+        name4:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: Part of the customer name that is usually written on a forth line in postal addresses.
+        address1:
+          type: string
+          example: Huey Avenue 33b
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        address2:
+          type: string
+          example: The Holo Building
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        city:
+          type: string
+          example: London
+          maxLength: 80
+          description: 'City, town village of the customer.'
+        postalCode:
+          type: string
+          example: W3BX
+          maxLength: 20
+          description: 'Postal code of the city, town, village.'
+        countryCode:
+          type: string
+          maxLength: 2
+          example: GB
+          description: ISO 3166-1 alpha-2 code
+        customerNumber:
+          type: string
+          maxLength: 20
+          example: 21-0789-B
+          description: The customer number used by the reseller to uniquely identify this customer
+        emailAddress:
+          type: string
+          description: The companies main e-mail address
+          format: email
+          example: office@hgmfacility.com
+          maxLength: 256
+        phoneNumber:
+          type: string
+          description: The companies main phone number
+          example: +44 256 51512
+          maxLength: 256
+        vatIdentificationNumber:
+          type: string
+          description: The VAT identification number of the customer
+          example: +44 256 51512
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: The culture the company usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          example: en-GB
+          maxLength: 35
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the user in terms of his possibilty to interact with the system
+          default: active
+          readOnly: true
+        isReseller:
+          type: boolean
+          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
+        lastUpdatedAt:
+          type: string
+          description: Describes when the user was last modified within HsM.
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        resellerId:
+          type: string
+          format: uuid
+          description: Specifies the mandatory reseller for this customer
+          writeOnly: true
+        externallyManaged:
+          type: boolean
+          description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
+          readOnly: true
+        AllowRoleInheritanceFromReseller:
+          type: boolean
+          description: Defines if roles applicable to the customer's reseller and marked for propagation down the reseller relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromParentCustomer:
+          type: boolean
+          description: Defines if roles applicable to the customer's parent customer and marked for propagation down the customer hierarchy relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromInvoiceRecipient:
+          type: boolean
+          description: Defines if roles applicable to the customer's invoice recipient and marked for propagation down the invoice relation tree shall be actually inherited by this customer.
+        AllowRoleInheritanceFromConditionOwneron:
+          type: boolean
+          description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
+        createdAt:
+          type: string
+          format: date-time
+          description: Date time offset when this customer record was created
+          readOnly: true
+        synchronizationId:
+          type: string
+          format: uuid
+          description: ID of the customer in an external system it is synchronized with.
+        synchronizationInformation:
+          type: string
+          description: A JSON document that stores additional information for a synchronization process.
+      required:
+        - id
+        - name1
+        - countryCode
+        - emailAddress
+        - resellerId
+        - externallyManaged
+    customerBranding:
+      description: Describes the branding options set for a customer
+      type: object
+      x-examples:
+        example-1:
+          productName: senseManagement
+          displayModeDark:
+            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.svg'
+            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.navigationbar.svg'
+            mainColor300:
+              hexCode: '#123456'
+            mainColor500:
+              hexCode: '#123456'
+            mainColor700:
+              hexCode: '#123456'
+            navigationBarColor:
+              hexCode: '#123456'
+            navigationBarContrastColor:
+              hexCode: '#123456'
+            selectionColor:
+              hexCode: '#123456'
+          displayModeLight:
+            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.svg'
+            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.navigationbar.svg'
+            mainColor300:
+              hexCode: '#123456'
+            mainColor500:
+              hexCode: '#123456'
+            mainColor700:
+              hexCode: '#123456'
+            navigationBarColor:
+              hexCode: '#123456'
+            navigationBarContrastColor:
+              hexCode: '#123456'
+            selectionColor:
+              hexCode: '#123456'
+          instanceOperator: Hagleitner
+          clientSpecificOptions:
+            webPortal:
+              favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
+      title: customerBranding
+      properties:
+        displayModeDark:
+          type: object
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            mainColor500:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            mainColor700:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            navigationBarColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            navigationBarContrastColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            selectionColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+        displayModeLight:
+          type: object
+          required:
+            - companyLogo
+            - navigationBarCompanyLogo
+            - mainColor300
+            - mainColor500
+            - mainColor700
+            - navigationBarColor
+            - navigationBarContrastColor
+            - selectionColor
+          properties:
+            companyLogo:
+              type: string
+              minLength: 1
+            navigationBarCompanyLogo:
+              type: string
+              minLength: 1
+            mainColor300:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            mainColor500:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            mainColor700:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            navigationBarColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            navigationBarContrastColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+            selectionColor:
+              type: object
+              required:
+                - hexCode
+              properties:
+                hexCode:
+                  type: string
+                  minLength: 1
+      required:
+        - displayModeDark
+        - displayModeLight
+    customerRelation:
+      type: object
+      title: resellerRelation-up
+      description: Represents a customer relation. The meaning of the customerId depends on the use case.
+      properties:
+        Id:
+          type: string
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+          description: Represents the id of the customer this customer relates to.
+        lastUpdatedAt:
+          type: string
+          readOnly: true
+        externallyManaged:
+          type: boolean
+          description: ''
+      required:
+        - Id
+        - customerId
+    customerRelation-synchronization:
+      type: object
+      title: resellerRelation-synchronization
+      description: 'Represents a customer relation between two customers in HsM, including synchronization data.'
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+          format: uuid
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        externallyManaged:
+          type: boolean
+          default: false
+          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
+        synchronizationId:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - id
+        - customerId
+        - externallyManaged
+    location:
+      title: ''
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: string
+          enum:
+            - building
+            - buildingArea
+            - floor
+            - floorArea
+            - room
+          readOnly: true
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type: integer
+          default: 0
+      required:
+        - id
+        - type
+        - name
+        - parentLocationId
+        - sequenceNumber
+    location.PATCH:
+      title: ''
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type: integer
+          default: 0
+    location-room:
+      title: ''
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type: integer
+          default: 0
+      required:
+        - id
+        - name
+        - parentLocationId
+        - sequenceNumber
+    location-room.PATCH:
+      title: ''
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type: integer
+          default: 0
+    location-building:
+      title: ''
+      type: object
+      description: A model for a building location.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        sequenceNumber:
+          type: integer
+          default: 0
+        customerId:
+          type: string
+          format: uuid
+          description: The customer the building belongs to.
+          readOnly: true
+      required:
+        - id
+        - name
+        - sequenceNumber
+        - customerId
+    location-building.PATCH:
+      title: ''
+      type: object
+      description: A model used to patch building locations.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        sequenceNumber:
+          type: integer
+          default: 0
+    location-building-area:
+      title: ''
+      type: object
+      description: A model for a building area location.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+      required:
+        - id
+        - name
+        - parentLocationId
+        - sequenceNumber
+    location-building-area.PATCH:
+      title: ''
+      type: object
+      description: A model used to patch building area locations.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+    location-floor:
+      title: ''
+      type: object
+      description: A model for a floor location.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+      required:
+        - id
+        - name
+        - parentLocationId
+        - sequenceNumber
+    location-floor.PATCH:
+      title: ''
+      type: object
+      description: A model used to patch floor locations.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+    location-floor-area:
+      title: ''
+      type: object
+      description: A model for a floor area location.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+      required:
+        - id
+        - name
+        - parentLocationId
+        - sequenceNumber
+    location-floor-area.PATCH:
+      title: ''
+      type: object
+      description: A model used to patch floor area locations.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        code:
+          type: string
+          maxLength: 20
+          description: A code uniquely identifying the location within a customer.
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        parentLocationId:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+    location-tree:
+      title: ''
+      type: array
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      items:
+        $ref: '#/components/schemas/location-tree-element'
+    location-tree-element:
+      title: ''
+      type: object
+      description: 'Represents a location (building, building-area, floor, floor-area, room). '
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: floor
+          name: Floor 013
+          description: The administration floor
+          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: string
+          enum:
+            - building
+            - buildingArea
+            - floor
+            - floorArea
+            - room
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+          minLength: 1
+        description:
+          type: string
+        sequenceNumber:
+          type:
+            - string
+            - integer
+          default: 0
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/location-tree-element'
+      required:
+        - id
+        - type
+        - name
+        - sequenceNumber
+    user:
+      type: object
+      title: user
+      description: |-
+        Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
+
+        * No gender information is stored with users - this is intentional
+        * `givenName` and `surename` are used as in official ID documents.
+        * `callName` is provided to give the user a chance to define how the system shall call/address him e.g. in e-mails etc.
+        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surename>, <givenName>`
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system.
+          readOnly: true
+        givenName:
+          type: string
+          example: John
+          maxLength: 50
+          description: Given name of the user
+        surname:
+          type: string
+          example: Doe
+          maxLength: 50
+          description: Sure name of the user.
+        callName:
+          type: string
+          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
+        sortName:
+          type: string
+          description: A presentation of the user's full name that is used for sorting.
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        mobilePhoneNumber:
+          type: string
+          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
+          example: +43 664 9161413
+        lastUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/userStatus'
+      required:
+        - id
+        - surname
+        - sortName
+        - emailAddress
+        - lastUpdatedAt
+        - status
+    user-synchronization:
+      type: object
+      title: synchronizationUser
+      description: 'Represents a user of the HsM system including synchronization data. '
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system.
+          readOnly: true
+        givenName:
+          type: string
+          example: John
+          maxLength: 50
+          description: Given name of the user
+        sureName:
+          type: string
+          example: Doe
+          maxLength: 50
+          description: Sure name of the user.
+        callName:
+          type: string
+          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
+        sortName:
+          type: string
+          description: A presentation of the user's full name that is used for sorting.
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        mobilePhoneNumber:
+          type: string
+          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
+          example: +43 664 9161413
+        status:
+          $ref: '#/components/schemas/userStatus'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        latestUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        synchronizationId:
+          type: string
+          format: uuid
+          description: ID of the user in an external system.
+        synchronizationInformation:
+          type: string
+          description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
+        externallyManaged:
+          type: boolean
+          default: false
+          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
+      required:
+        - id
+        - sureName
+        - sortName
+        - emailAddress
+        - preferredCulture
+        - createdAt
+        - latestUpdatedAt
+        - externallyManaged
+    selfRegistrationCredential:
+      title: selfRegistrationCredential
+      type: object
+      properties:
+        Id:
+          type: string
+          format: uuid
+          description: ID of this self-registration credential
+          readOnly: true
+        customerNumber:
+          type: string
+          description: Customer number of this credential
+          readOnly: true
+        pin:
+          type: string
+          description: PIN of this credential
+          minLength: 9
+          maxLength: 9
+          readOnly: true
+        validTill:
+          type: string
+          description: Date until this credential is valid.
+          format: date-time
+          readOnly: true
+        shareUri:
+          type: string
+          format: uri
+          description: A URI that can be used to assign oneself to the customer.
+      required:
+        - Id
+        - customerNumber
+        - pin
+        - validTill
+        - shareUri
+    response-400-badRequest:
+      title: response-400-badRequest
+      type: object
+      description: A model for returning details for 401 responses
+      examples:
+        - type: Insufficient-Privileges
+          title: The accessing user does not have the provileges to access this resource
+          detail: The user accessing the resource does is not granted the privilege to access the resource.
+          missingPermission: ShareSelfRegistrationCredentials
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+    response-401-unauthorized:
+      title: response-401-unauthorized
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+        missingPermission:
+          type: string
+      description: A model for returning details for 401 responses
+      examples:
+        - type: Insufficient-Privileges
+          title: The accessing user does not have the provileges to access this resource
+          detail: The user accessing the resource does is not granted the privilege to access the resource.
+          missingPermission: ShareSelfRegistrationCredentials
+    response-403-forbidden:
+      title: response-403-forbidden
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+        missingPermission:
+          type: string
+      description: A model for returning details for 403 responses
+      examples:
+        - type: Insufficient-Privileges
+          title: The accessing user does not have the provileges to access this resource
+          detail: The user accessing the resource does is not granted the privilege to access the resource.
+          missingPermission: ShareSelfRegistrationCredentials
+    roleAssignment-customer:
+      title: roleAssignment-customer
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        userDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+      required:
+        - id
+        - userId
+        - assignedAt
+        - roleId
+        - userDisplayName
+        - roleName
+      description: Represents a role assignment from a customers perspective.
+    roleAssignment-user:
+      title: roleAssignment-user
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        customerDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+      required:
+        - id
+        - customerId
+        - assignedAt
+        - roleId
+        - customerDisplayName
+        - roleName
+      description: Represents a role assignment from a users perspective.
+    userStatus:
+      type: string
+      title: userStatus
+      enum:
+        - active
+        - inactive
+        - deleted
+        - masked
+      description: The status of a user within HsM.
+      default: active
+  parameters:
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+        example: 100
+        default: 100
+        minimum: 10
+      description: 'Pagination, page size limit.'
+    offset:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        example: 200
+      description: 'Pagination, offset for returned page.'
+    Accept-Language:
+      name: Accept-Language
+      in: header
+      required: false
+      schema:
+        type: string
+      description: Defines which culture are accepted by the client.
+

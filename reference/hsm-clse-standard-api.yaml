@@ -37,25 +37,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleAssignment-customer'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-401-unauthorized'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-401-unauthorized'
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: '/customer-role-assignments/{id}#get'
@@ -80,7 +80,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -88,7 +88,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       description: Deletes a customer role-assignment.
@@ -113,13 +113,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
               examples: {}
         '401':
           description: Unauthorized
@@ -130,8 +130,8 @@ paths:
       operationId: customers#get
       description: Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
         - schema:
             type: boolean
             default: false
@@ -161,7 +161,7 @@ paths:
           in: query
           name: resellerId
           description: Filters for sub customer of the given reseller.
-        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language'
         - schema:
             type: string
           in: query
@@ -177,13 +177,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customer'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -197,7 +197,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customer'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       tags:
         - Customers
       parameters: []
@@ -214,13 +214,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
           content:
@@ -233,13 +233,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: customer#get
       description: 'Gets a single customer, defined by its customer id.'
       parameters:
-        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language'
       x-internal: false
     parameters:
       - schema:
@@ -249,7 +249,7 @@ paths:
         in: path
         required: true
         description: ID of the customer
-      - $ref: '#/components/parameters/Accept-Language'
+      - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language'
     put:
       summary: '/customers/{id}#put'
       operationId: customer#put
@@ -261,7 +261,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -269,7 +269,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-401-unauthorized'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-401-unauthorized'
         '404':
           description: Not Found
           content:
@@ -281,7 +281,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customer'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       tags:
         - Customers
       parameters: []
@@ -296,7 +296,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -304,7 +304,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       description: Performs a partial update on a customer.
@@ -312,7 +312,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customer.PATCH'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer.PATCH'
       tags:
         - Customers
   '/customers/{id}/beneficiary-path':
@@ -335,7 +335,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       operationId: customer-condition-path-elements#get
       x-internal: false
       description: Gets all the customers on the condition path from the root to this customer as sorted list.
@@ -356,13 +356,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerBranding'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerBranding'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -370,14 +370,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
           headers: {}
       operationId: customer-branding#get
       description: Gets the branding assigned to this specific customer.
       parameters:
-        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Customers
@@ -392,13 +392,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       description: Creates or updates the customer branding.
@@ -408,7 +408,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customerBranding'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerBranding'
   '/customers/{id}/buildings':
     parameters:
       - schema:
@@ -425,13 +425,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-building'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -439,7 +439,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -448,7 +448,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-building'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building'
       description: Creates a new building for this customer.
       tags:
         - Locations
@@ -468,13 +468,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -482,7 +482,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: customer-customer-hierarchy-relation#get
@@ -500,13 +500,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
       description: Creates a customer-hierarchy from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customerRelation'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
       tags:
         - Customers
   '/customers/{id}/condition-relation':
@@ -525,13 +525,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -539,7 +539,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: customer-condition-relation#get
@@ -557,13 +557,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
       description: Creates a relation from this customer to a condition provider (replacing the existing relation).
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customerRelation'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
       tags:
         - Customers
   '/customers/{id}/effective-branding':
@@ -582,19 +582,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/branding'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/branding'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: customer-effective-branding#get
@@ -621,12 +621,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
       operationId: customer-effective-roles#get
       description: Gets effective roles applied to this customer.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
         - schema:
             type: string
             format: uuid
@@ -654,13 +654,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/location'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -668,7 +668,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -676,8 +676,8 @@ paths:
       operationId: customer-locations#get
       description: Universal endpoint to get a collection of locations based on filter criteria. Collection is ordred by the location name ascending.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
         - schema:
             type: string
             enum:
@@ -705,7 +705,7 @@ paths:
           in: query
           name: code
           description: Filters for location that match contains the given string in its code.
-        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Locations
@@ -729,7 +729,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       operationId: customer-invoice-recipient-path#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
@@ -750,13 +750,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -764,7 +764,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: customer-invoice-relation#get
@@ -782,13 +782,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
       description: Creates an invoice from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customerRelation'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
       tags:
         - Customers
   '/customers/{id}/invoice-sources':
@@ -811,13 +811,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       operationId: customer-invoice-sources#get
       x-internal: false
       description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
   '/customers/{id}/location-tree':
     parameters:
       - schema:
@@ -834,13 +834,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-tree'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-tree'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -848,7 +848,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -856,7 +856,7 @@ paths:
       operationId: customer-location-tree#get
       description: Gets the whole location tree of a customer. Each level of the returned nested structure is ordered by sequence number and then name.
       parameters:
-        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Locations
@@ -871,7 +871,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-tree'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-tree'
       tags:
         - Locations
   '/customers/{id}/reseller':
@@ -892,13 +892,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customer'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -906,7 +906,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '404':
           description: Not Found
         '500':
@@ -915,8 +915,8 @@ paths:
       x-internal: false
       description: Gets the reseller of this customer.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
   '/customers/{id}/reseller-path':
     parameters:
       - schema:
@@ -937,7 +937,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       operationId: customer-reseller-path-elements#get
       x-internal: false
       description: Gets all the customers on the reseller path from the root to this customer as sorted list.
@@ -958,13 +958,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -972,7 +972,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: customer-reseller-relation#get
@@ -990,13 +990,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
       description: Creates a reseller from this customer to a reseller (replacing the existing relation).
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customerRelation'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
       tags:
         - Customers
   '/customers/{id}/role-assignments':
@@ -1017,13 +1017,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1031,7 +1031,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: '/customers/{id}/role-assignments#get'
@@ -1068,13 +1068,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1082,7 +1082,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       description: Creates a new role-assignement for this customer.
@@ -1090,7 +1090,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roleAssignment-customer'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
       tags:
         - RoleAssignment
   '/customers/{id}/rooms':
@@ -1109,13 +1109,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-room'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-room'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1123,7 +1123,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1131,8 +1131,8 @@ paths:
       operationId: customer-room#get
       description: Get all the room locations of a customer. Collection is orderd by location name.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
         - schema:
             type: string
           in: query
@@ -1143,7 +1143,7 @@ paths:
           in: query
           name: code
           description: Filters for rooms that contain the given value in their code
-        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Locations
@@ -1163,13 +1163,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customer-role-inheritance'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer-role-inheritance'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1177,7 +1177,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: customer-role-inheritance#get
@@ -1195,13 +1195,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customer-role-inheritance'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer-role-inheritance'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1209,7 +1209,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       tags:
@@ -1236,7 +1236,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/selfRegistrationCredential'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/selfRegistrationCredential'
         '401':
           description: Unauthorized
         '404':
@@ -1258,7 +1258,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1266,7 +1266,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       description: 'Delete a self registration information. '
@@ -1290,13 +1290,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/selfRegistrationCredential'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/selfRegistrationCredential'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1304,13 +1304,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
       operationId: self-registration-credentials#get
       x-internal: false
       description: Gets a list of currently active self-registration credentials. List is ordered ascending by ValidTill date.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
       tags:
         - SelfRegistration
   '/customers/{id}/self-registration-credentials/current':
@@ -1329,14 +1329,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/selfRegistrationCredential'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/selfRegistrationCredential'
         '400':
           description: Bad Request
           headers: {}
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
               examples:
                 Self registration without customer number:
                   value:
@@ -1350,7 +1350,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       operationId: self-registration-credential-current#get
@@ -1379,7 +1379,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       operationId: customer-customer-hierarchy-path-elements#get
       x-internal: false
       description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
@@ -1400,8 +1400,8 @@ paths:
       x-internal: false
       description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
       requestBody:
         content:
           application/json:
@@ -1428,13 +1428,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       operationId: customer-subsidiaries#get
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
   '/customers/{id}/beneficiaries':
     parameters:
       - schema:
@@ -1455,13 +1455,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
       operationId: customer-beneficiaries#get
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
   '/buildings/{id}':
     parameters:
       - schema:
@@ -1478,13 +1478,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-building'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1492,7 +1492,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1500,7 +1500,7 @@ paths:
       operationId: building#get
       description: Gets a single building
       parameters:
-        - $ref: '#/components/parameters/Accept-Language'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language'
       x-internal: false
       tags:
         - Locations
@@ -1515,7 +1515,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1523,7 +1523,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1533,7 +1533,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-building'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building'
       tags:
         - Locations
     patch:
@@ -1547,7 +1547,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1555,7 +1555,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1565,7 +1565,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-building.PATCH'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building.PATCH'
         description: ''
       tags:
         - Locations
@@ -1580,13 +1580,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-building-area'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building-area'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1594,7 +1594,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1603,7 +1603,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-building-area'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building-area'
       description: Creates a new building area
       tags:
         - Locations
@@ -1623,13 +1623,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-building-area'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building-area'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1637,7 +1637,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1659,7 +1659,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1667,7 +1667,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1677,7 +1677,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-building-area'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building-area'
       tags:
         - Locations
     patch:
@@ -1691,7 +1691,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1699,7 +1699,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1709,7 +1709,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-building-area.PATCH'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-building-area.PATCH'
         description: ''
       tags:
         - Locations
@@ -1724,13 +1724,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-floor'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1738,7 +1738,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1747,7 +1747,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-floor'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor'
       description: Creates a new floor
       tags:
         - Locations
@@ -1767,13 +1767,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-floor'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1781,7 +1781,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1803,7 +1803,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1811,7 +1811,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1821,7 +1821,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-floor'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor'
       tags:
         - Locations
     patch:
@@ -1835,7 +1835,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1843,7 +1843,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1853,7 +1853,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-floor.PATCH'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor.PATCH'
         description: ''
       tags:
         - Locations
@@ -1868,13 +1868,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-floor-area'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor-area'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1882,7 +1882,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1891,7 +1891,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-floor-area'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor-area'
       description: Creates a new floor area
       tags:
         - Locations
@@ -1911,13 +1911,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-floor-area'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor-area'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1925,7 +1925,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1947,7 +1947,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1955,7 +1955,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1965,7 +1965,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-floor-area'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor-area'
       tags:
         - Locations
     patch:
@@ -1979,7 +1979,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -1987,7 +1987,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -1997,7 +1997,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-floor-area.PATCH'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-floor-area.PATCH'
         description: ''
       tags:
         - Locations
@@ -2019,13 +2019,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2033,7 +2033,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2049,13 +2049,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location.PATCH'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location.PATCH'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2063,7 +2063,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2091,13 +2091,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/location'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2105,7 +2105,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2121,13 +2121,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2135,7 +2135,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2145,7 +2145,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location'
       tags:
         - Locations
   '/locations/{id}/path':
@@ -2168,13 +2168,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/location'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2182,7 +2182,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2200,13 +2200,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-room'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-room'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2214,7 +2214,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2223,7 +2223,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-room'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-room'
       description: Creates a new room
       tags:
         - Locations
@@ -2243,13 +2243,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/location-room'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-room'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2257,7 +2257,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2279,7 +2279,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2287,7 +2287,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2297,7 +2297,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-room'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-room'
       tags:
         - Locations
     patch:
@@ -2311,7 +2311,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2319,7 +2319,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2329,11 +2329,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/location-room.PATCH'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/location-room.PATCH'
         description: ''
       tags:
         - Locations
-  
   /system/instance-branding:
     get:
       summary: ''
@@ -2343,13 +2342,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/branding'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/branding'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2372,7 +2371,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/branding'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/branding'
       description: Sets the branding for the whole instance
       tags:
         - System
@@ -2389,13 +2388,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2407,8 +2406,8 @@ paths:
       operationId: systemr-role-assignments#get
       description: Gets role-assignments for the system. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
         - schema:
             type: string
           in: query
@@ -2428,7 +2427,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2442,7 +2441,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roleAssignment-user'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user'
       tags:
         - RoleAssignment
   '/system/role-assignments/{id}':
@@ -2461,13 +2460,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleAssignment-customer'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2498,7 +2497,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2546,7 +2545,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2554,7 +2553,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
         '500':
@@ -2590,13 +2589,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2605,8 +2604,8 @@ paths:
           description: Internal Server Error
       description: Gets registered users.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
         - schema:
             type: integer
           in: header
@@ -2638,13 +2637,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2655,7 +2654,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user'
       tags:
         - Users
       description: Creates a new user.
@@ -2675,13 +2674,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2704,7 +2703,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2718,7 +2717,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user'
       tags:
         - Users
   '/users/{id}/status':
@@ -2737,14 +2736,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userStatus'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/userStatus'
               examples: {}
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2771,13 +2770,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userStatus'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/userStatus'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2806,13 +2805,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-user'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2830,8 +2829,8 @@ paths:
           in: query
           name: customerId
           description: If given filters the results for a specific customer only.
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
       tags:
         - RoleAssignment
   '/users/{id}/favorite-customers':
@@ -2852,13 +2851,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2890,13 +2889,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2928,7 +2927,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-user'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user'
         '201':
           description: Created
         '400':
@@ -2936,7 +2935,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -2961,1625 +2960,7 @@ paths:
       tags:
         - RoleAssignment
 components:
-  schemas:
-    branding:
-      description: Describes the branding of the instance or the effective branding for a customer.
-      type: object
-      properties:
-        productName:
-          type: string
-          minLength: 1
-        displayModeDark:
-          type: object
-          properties:
-            companyLogo:
-              type: string
-              minLength: 1
-            navigationBarCompanyLogo:
-              type: string
-              minLength: 1
-            mainColor300:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            mainColor500:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            mainColor700:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            navigationBarColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            navigationBarContrastColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            selectionColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-          required:
-            - companyLogo
-            - navigationBarCompanyLogo
-            - mainColor300
-            - mainColor500
-            - mainColor700
-            - navigationBarColor
-            - navigationBarContrastColor
-            - selectionColor
-        displayModeLight:
-          type: object
-          properties:
-            companyLogo:
-              type: string
-              minLength: 1
-            navigationBarCompanyLogo:
-              type: string
-              minLength: 1
-            mainColor300:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            mainColor500:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            mainColor700:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            navigationBarColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            navigationBarContrastColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-            selectionColor:
-              type: object
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-              required:
-                - hexCode
-          required:
-            - companyLogo
-            - navigationBarCompanyLogo
-            - mainColor300
-            - mainColor500
-            - mainColor700
-            - navigationBarColor
-            - navigationBarContrastColor
-            - selectionColor
-        instanceOperator:
-          type: string
-          minLength: 1
-        clientSpecificOptions:
-          type: object
-          properties:
-            webPortal:
-              type: object
-              properties:
-                favIcon:
-                  type: string
-                  minLength: 1
-              required:
-                - favIcon
-          required:
-            - webPortal
-      required:
-        - productName
-        - displayModeDark
-        - displayModeLight
-        - instanceOperator
-        - clientSpecificOptions
-      x-examples:
-        example-1:
-          productName: senseManagement
-          displayModeDark:
-            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.svg'
-            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.navigationbar.svg'
-            mainColor300:
-              hexCode: '#123456'
-            mainColor500:
-              hexCode: '#123456'
-            mainColor700:
-              hexCode: '#123456'
-            navigationBarColor:
-              hexCode: '#123456'
-            navigationBarContrastColor:
-              hexCode: '#123456'
-            selectionColor:
-              hexCode: '#123456'
-          displayModeLight:
-            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.svg'
-            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.navigationbar.svg'
-            mainColor300:
-              hexCode: '#123456'
-            mainColor500:
-              hexCode: '#123456'
-            mainColor700:
-              hexCode: '#123456'
-            navigationBarColor:
-              hexCode: '#123456'
-            navigationBarContrastColor:
-              hexCode: '#123456'
-            selectionColor:
-              hexCode: '#123456'
-          instanceOperator: Hagleitner
-          clientSpecificOptions:
-            webPortal:
-              favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
-    customer:
-      type: object
-      title: customer
-      description: Describes a customer.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the user within the HsM system
-          readOnly: true
-        code:
-          type: string
-          example: HHAT
-          description: A code that -if given - uniquely identifies the customer within the whole system.
-          maxLength: 20
-        name1:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: The customer name
-        name2:
-          type: string
-          example: A FacilityWiz subsidiary
-          maxLength: 80
-          description: Part of the customer name that is usually written on a second line in postal addresses.
-        name3:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: Part of the customer name that is usually written on a third line in postal addresses.
-        name4:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: Part of the customer name that is usually written on a forth line in postal addresses.
-        address1:
-          type: string
-          example: Huey Avenue 33b
-          maxLength: 80
-          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
-        address2:
-          type: string
-          example: The Holo Building
-          maxLength: 80
-          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
-        city:
-          type: string
-          example: London
-          maxLength: 80
-          description: 'City, town village of the customer.'
-        postalCode:
-          type: string
-          example: W3BX
-          maxLength: 20
-          description: 'Postal code of the city, town, village.'
-        countryCode:
-          type: string
-          maxLength: 2
-          example: GB
-          description: ISO 3166-1 alpha-2 code of the customer's postal address.
-        customerNumber:
-          type: string
-          maxLength: 20
-          example: 21-0789-B
-          description: The customer number used by the reseller to uniquely identify this customer.
-        emailAddress:
-          type: string
-          description: The companies main e-mail address.
-          format: email
-          example: office@hgmfacility.com
-          maxLength: 256
-        phoneNumber:
-          type: string
-          description: The companies main phone number.
-          example: +44 256 51512
-          maxLength: 256
-        vatIdentificationNumber:
-          type: string
-          description: The VAT identification number of the customer.
-          example: +44 256 51512
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: The culture this customer usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
-          example: en-GB
-          maxLength: 35
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the customer in HsM.
-          default: active
-          readOnly: true
-        isReseller:
-          type: boolean
-          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
-        lastUpdatedAt:
-          type: string
-          description: Describes when the user was last modified within HsM.
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        resellerId:
-          type: string
-          format: uuid
-          description: Specifies the reseller for this customer. In HsM every customer (except one root-customer) must have a reseller.
-          writeOnly: true
-        externallyManaged:
-          type: boolean
-          description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
-          readOnly: true
-        isFavorite:
-          type: boolean
-          description: True if this customer is a favorite customer of the currently accessing user.
-          readOnly: true
-      required:
-        - id
-        - name1
-        - countryCode
-        - emailAddress
-        - isReseller
-        - externallyManaged
-        - isFavorite
-    customer-role-inheritance:
-      type: object
-      title: customer-role-inheritance
-      description: Describes a customer.
-      properties:
-        AllowRoleInheritanceFromReseller:
-          type: boolean
-          description: Defines if roles applicable to the customer's reseller and marked for propagation down the reseller relation tree shall be actually inherited by this customer.
-        AllowRoleInheritanceFromParentCustomer:
-          type: boolean
-          description: Defines if roles applicable to the customer's parent customer and marked for propagation down the customer hierarchy relation tree shall be actually inherited by this customer.
-        AllowRoleInheritanceFromInvoiceRecipient:
-          type: boolean
-          description: Defines if roles applicable to the customer's invoice recipient and marked for propagation down the invoice relation tree shall be actually inherited by this customer.
-        AllowRoleInheritanceFromConditionOwner:
-          type: boolean
-          description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
-    customer.PATCH:
-      type: object
-      title: ''
-      description: Used for partial updates to a customer.
-      properties:
-        code:
-          type: string
-          example: HHAT
-          description: A code that -if given - uniquely identifies the customer within the whole system.
-        name1:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: The customer name
-        name2:
-          type: string
-          example: A FacilityWiz subsidiary
-          maxLength: 80
-          description: Part of the customer name that is usually written on a second line in postal addresses.
-        name3:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: Part of the customer name that is usually written on a third line in postal addresses.
-        name4:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: Part of the customer name that is usually written on a forth line in postal addresses.
-        address1:
-          type: string
-          example: Huey Avenue 33b
-          maxLength: 80
-          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
-        address2:
-          type: string
-          example: The Holo Building
-          maxLength: 80
-          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
-        city:
-          type: string
-          example: London
-          maxLength: 80
-          description: 'City, town village of the customer.'
-        postalCode:
-          type: string
-          example: W3BX
-          maxLength: 20
-          description: 'Postal code of the city, town, village.'
-        countryCode:
-          type: string
-          maxLength: 2
-          example: GB
-          description: ISO 3166-1 alpha-2 code of the customer's postal address.
-        customerNumber:
-          type: string
-          maxLength: 20
-          example: 21-0789-B
-          description: The customer number used by the reseller to uniquely identify this customer.
-        emailAddress:
-          type: string
-          description: The companies main e-mail address.
-          format: email
-          example: office@hgmfacility.com
-          maxLength: 256
-        phoneNumber:
-          type: string
-          description: The companies main phone number.
-          example: +44 256 51512
-          maxLength: 256
-        vatIdentificationNumber:
-          type: string
-          description: The VAT identification number of the customer.
-          example: +44 256 51512
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: The culture this customer usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
-          example: en-GB
-          maxLength: 35
-        isReseller:
-          type: boolean
-          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
-        resellerId:
-          type: string
-          format: uuid
-          description: Specifies the reseller for this customer. In HsM every customer (except one root-customer) must have a reseller.
-          writeOnly: true
-    customer-synchronization:
-      type: object
-      title: customer-synchronization
-      description: Describes a customer of the HsM system together with information relevant for synchronization with other business systems.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the user within the HsM system
-          readOnly: true
-        code:
-          type: string
-          example: HHAT
-          description: A code that -if given - uniquely identifies the customer within the whole system.
-        name1:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: The customer name
-        name2:
-          type: string
-          example: A FacilityWiz subsidiary
-          maxLength: 80
-          description: Part of the customer name that is usually written on a second line in postal addresses.
-        name3:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: Part of the customer name that is usually written on a third line in postal addresses.
-        name4:
-          type: string
-          example: HGM Facility care & management Ltd.
-          maxLength: 80
-          description: Part of the customer name that is usually written on a forth line in postal addresses.
-        address1:
-          type: string
-          example: Huey Avenue 33b
-          maxLength: 80
-          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
-        address2:
-          type: string
-          example: The Holo Building
-          maxLength: 80
-          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
-        city:
-          type: string
-          example: London
-          maxLength: 80
-          description: 'City, town village of the customer.'
-        postalCode:
-          type: string
-          example: W3BX
-          maxLength: 20
-          description: 'Postal code of the city, town, village.'
-        countryCode:
-          type: string
-          maxLength: 2
-          example: GB
-          description: ISO 3166-1 alpha-2 code
-        customerNumber:
-          type: string
-          maxLength: 20
-          example: 21-0789-B
-          description: The customer number used by the reseller to uniquely identify this customer
-        emailAddress:
-          type: string
-          description: The companies main e-mail address
-          format: email
-          example: office@hgmfacility.com
-          maxLength: 256
-        phoneNumber:
-          type: string
-          description: The companies main phone number
-          example: +44 256 51512
-          maxLength: 256
-        vatIdentificationNumber:
-          type: string
-          description: The VAT identification number of the customer
-          example: +44 256 51512
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: The culture the company usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
-          example: en-GB
-          maxLength: 35
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the user in terms of his possibilty to interact with the system
-          default: active
-          readOnly: true
-        isReseller:
-          type: boolean
-          description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
-        lastUpdatedAt:
-          type: string
-          description: Describes when the user was last modified within HsM.
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        resellerId:
-          type: string
-          format: uuid
-          description: Specifies the mandatory reseller for this customer
-          writeOnly: true
-        externallyManaged:
-          type: boolean
-          description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
-          readOnly: true
-        AllowRoleInheritanceFromReseller:
-          type: boolean
-          description: Defines if roles applicable to the customer's reseller and marked for propagation down the reseller relation tree shall be actually inherited by this customer.
-        AllowRoleInheritanceFromParentCustomer:
-          type: boolean
-          description: Defines if roles applicable to the customer's parent customer and marked for propagation down the customer hierarchy relation tree shall be actually inherited by this customer.
-        AllowRoleInheritanceFromInvoiceRecipient:
-          type: boolean
-          description: Defines if roles applicable to the customer's invoice recipient and marked for propagation down the invoice relation tree shall be actually inherited by this customer.
-        AllowRoleInheritanceFromConditionOwneron:
-          type: boolean
-          description: Defines if roles applicable to the customer's condition owner and marked for propagation down the condition relation tree shall be actually inherited by this customer.
-        createdAt:
-          type: string
-          format: date-time
-          description: Date time offset when this customer record was created
-          readOnly: true
-        synchronizationId:
-          type: string
-          format: uuid
-          description: ID of the customer in an external system it is synchronized with.
-        synchronizationInformation:
-          type: string
-          description: A JSON document that stores additional information for a synchronization process.
-      required:
-        - id
-        - name1
-        - countryCode
-        - emailAddress
-        - resellerId
-        - externallyManaged
-    customerBranding:
-      description: Describes the branding options set for a customer
-      type: object
-      x-examples:
-        example-1:
-          productName: senseManagement
-          displayModeDark:
-            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.svg'
-            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.dark.navigationbar.svg'
-            mainColor300:
-              hexCode: '#123456'
-            mainColor500:
-              hexCode: '#123456'
-            mainColor700:
-              hexCode: '#123456'
-            navigationBarColor:
-              hexCode: '#123456'
-            navigationBarContrastColor:
-              hexCode: '#123456'
-            selectionColor:
-              hexCode: '#123456'
-          displayModeLight:
-            companyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.svg'
-            navigationBarCompanyLogo: 'https://hagleitner.com/logos/hagleitnerLogo.light.navigationbar.svg'
-            mainColor300:
-              hexCode: '#123456'
-            mainColor500:
-              hexCode: '#123456'
-            mainColor700:
-              hexCode: '#123456'
-            navigationBarColor:
-              hexCode: '#123456'
-            navigationBarContrastColor:
-              hexCode: '#123456'
-            selectionColor:
-              hexCode: '#123456'
-          instanceOperator: Hagleitner
-          clientSpecificOptions:
-            webPortal:
-              favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
-      title: customerBranding
-      properties:
-        displayModeDark:
-          type: object
-          required:
-            - companyLogo
-            - navigationBarCompanyLogo
-            - mainColor300
-            - mainColor500
-            - mainColor700
-            - navigationBarColor
-            - navigationBarContrastColor
-            - selectionColor
-          properties:
-            companyLogo:
-              type: string
-              minLength: 1
-            navigationBarCompanyLogo:
-              type: string
-              minLength: 1
-            mainColor300:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            mainColor500:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            mainColor700:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            navigationBarColor:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            navigationBarContrastColor:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            selectionColor:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-        displayModeLight:
-          type: object
-          required:
-            - companyLogo
-            - navigationBarCompanyLogo
-            - mainColor300
-            - mainColor500
-            - mainColor700
-            - navigationBarColor
-            - navigationBarContrastColor
-            - selectionColor
-          properties:
-            companyLogo:
-              type: string
-              minLength: 1
-            navigationBarCompanyLogo:
-              type: string
-              minLength: 1
-            mainColor300:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            mainColor500:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            mainColor700:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            navigationBarColor:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            navigationBarContrastColor:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-            selectionColor:
-              type: object
-              required:
-                - hexCode
-              properties:
-                hexCode:
-                  type: string
-                  minLength: 1
-      required:
-        - displayModeDark
-        - displayModeLight
-    customerRelation:
-      type: object
-      title: resellerRelation-up
-      description: Represents a customer relation. The meaning of the customerId depends on the use case.
-      properties:
-        Id:
-          type: string
-          format: uuid
-          readOnly: true
-        customerId:
-          type: string
-          description: Represents the id of the customer this customer relates to.
-        lastUpdatedAt:
-          type: string
-          readOnly: true
-        externallyManaged:
-          type: boolean
-          description: ''
-      required:
-        - Id
-        - customerId
-    customerRelation-synchronization:
-      type: object
-      title: resellerRelation-synchronization
-      description: 'Represents a customer relation between two customers in HsM, including synchronization data.'
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        customerId:
-          type: string
-          format: uuid
-        lastUpdatedAt:
-          type: string
-          format: date-time
-          readOnly: true
-        externallyManaged:
-          type: boolean
-          default: false
-          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
-        synchronizationId:
-          type: string
-          format: uuid
-        synchronizationInformation:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-        - id
-        - customerId
-        - externallyManaged
-    location:
-      title: ''
-      type: object
-      description: 'Represents a location (building, building-area, floor, floor-area, room). '
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        type:
-          type: string
-          enum:
-            - building
-            - buildingArea
-            - floor
-            - floorArea
-            - room
-          readOnly: true
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type: integer
-          default: 0
-      required:
-        - id
-        - type
-        - name
-        - parentLocationId
-        - sequenceNumber
-    location.PATCH:
-      title: ''
-      type: object
-      description: 'Represents a location (building, building-area, floor, floor-area, room). '
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type: integer
-          default: 0
-    location-room:
-      title: ''
-      type: object
-      description: 'Represents a location (building, building-area, floor, floor-area, room). '
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type: integer
-          default: 0
-      required:
-        - id
-        - name
-        - parentLocationId
-        - sequenceNumber
-    location-room.PATCH:
-      title: ''
-      type: object
-      description: 'Represents a location (building, building-area, floor, floor-area, room). '
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type: integer
-          default: 0
-    location-building:
-      title: ''
-      type: object
-      description: A model for a building location.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        sequenceNumber:
-          type: integer
-          default: 0
-        customerId:
-          type: string
-          format: uuid
-          description: The customer the building belongs to.
-          readOnly: true
-      required:
-        - id
-        - name
-        - sequenceNumber
-        - customerId
-    location-building.PATCH:
-      title: ''
-      type: object
-      description: A model used to patch building locations.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        sequenceNumber:
-          type: integer
-          default: 0
-    location-building-area:
-      title: ''
-      type: object
-      description: A model for a building area location.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type:
-            - string
-            - integer
-          default: 0
-      required:
-        - id
-        - name
-        - parentLocationId
-        - sequenceNumber
-    location-building-area.PATCH:
-      title: ''
-      type: object
-      description: A model used to patch building area locations.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type:
-            - string
-            - integer
-          default: 0
-    location-floor:
-      title: ''
-      type: object
-      description: A model for a floor location.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type:
-            - string
-            - integer
-          default: 0
-      required:
-        - id
-        - name
-        - parentLocationId
-        - sequenceNumber
-    location-floor.PATCH:
-      title: ''
-      type: object
-      description: A model used to patch floor locations.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type:
-            - string
-            - integer
-          default: 0
-    location-floor-area:
-      title: ''
-      type: object
-      description: A model for a floor area location.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type:
-            - string
-            - integer
-          default: 0
-      required:
-        - id
-        - name
-        - parentLocationId
-        - sequenceNumber
-    location-floor-area.PATCH:
-      title: ''
-      type: object
-      description: A model used to patch floor area locations.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        parentLocationId:
-          type: string
-          format: uuid
-        sequenceNumber:
-          type:
-            - string
-            - integer
-          default: 0
-    location-tree:
-      title: ''
-      type: array
-      description: 'Represents a location (building, building-area, floor, floor-area, room). '
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      items:
-        $ref: '#/components/schemas/location-tree-element'
-    location-tree-element:
-      title: ''
-      type: object
-      description: 'Represents a location (building, building-area, floor, floor-area, room). '
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          type: floor
-          name: Floor 013
-          description: The administration floor
-          parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        type:
-          type: string
-          enum:
-            - building
-            - buildingArea
-            - floor
-            - floorArea
-            - room
-          readOnly: true
-        name:
-          type: string
-          maxLength: 30
-          minLength: 1
-        description:
-          type: string
-        sequenceNumber:
-          type:
-            - string
-            - integer
-          default: 0
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/location-tree-element'
-      required:
-        - id
-        - type
-        - name
-        - sequenceNumber
-    user:
-      type: object
-      title: user
-      description: |-
-        Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
-
-        * No gender information is stored with users - this is intentional
-        * `givenName` and `surename` are used as in official ID documents.
-        * `callName` is provided to give the user a chance to define how the system shall call/address him e.g. in e-mails etc.
-        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surename>, <givenName>`
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the user within the HsM system.
-          readOnly: true
-        givenName:
-          type: string
-          example: John
-          maxLength: 50
-          description: Given name of the user
-        surname:
-          type: string
-          example: Doe
-          maxLength: 50
-          description: Sure name of the user.
-        callName:
-          type: string
-          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
-        sortName:
-          type: string
-          description: A presentation of the user's full name that is used for sorting.
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        mobilePhoneNumber:
-          type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
-        lastUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/userStatus'
-      required:
-        - id
-        - surname
-        - sortName
-        - emailAddress
-        - lastUpdatedAt
-        - status
-    user-synchronization:
-      type: object
-      title: synchronizationUser
-      description: 'Represents a user of the HsM system including synchronization data. '
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the user within the HsM system.
-          readOnly: true
-        givenName:
-          type: string
-          example: John
-          maxLength: 50
-          description: Given name of the user
-        sureName:
-          type: string
-          example: Doe
-          maxLength: 50
-          description: Sure name of the user.
-        callName:
-          type: string
-          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
-        sortName:
-          type: string
-          description: A presentation of the user's full name that is used for sorting.
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        mobilePhoneNumber:
-          type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
-        status:
-          $ref: '#/components/schemas/userStatus'
-        createdAt:
-          type: string
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        latestUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        synchronizationId:
-          type: string
-          format: uuid
-          description: ID of the user in an external system.
-        synchronizationInformation:
-          type: string
-          description: A JSON document that can be used by synchronization processes to store synchronization information with this user. The schema of the JSON document is defined by the external synchronization process.
-        externallyManaged:
-          type: boolean
-          default: false
-          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
-      required:
-        - id
-        - sureName
-        - sortName
-        - emailAddress
-        - preferredCulture
-        - createdAt
-        - latestUpdatedAt
-        - externallyManaged
-    selfRegistrationCredential:
-      title: selfRegistrationCredential
-      type: object
-      properties:
-        Id:
-          type: string
-          format: uuid
-          description: ID of this self-registration credential
-          readOnly: true
-        customerNumber:
-          type: string
-          description: Customer number of this credential
-          readOnly: true
-        pin:
-          type: string
-          description: PIN of this credential
-          minLength: 9
-          maxLength: 9
-          readOnly: true
-        validTill:
-          type: string
-          description: Date until this credential is valid.
-          format: date-time
-          readOnly: true
-        shareUri:
-          type: string
-          format: uri
-          description: A URI that can be used to assign oneself to the customer.
-      required:
-        - Id
-        - customerNumber
-        - pin
-        - validTill
-        - shareUri
-    response-400-badRequest:
-      title: response-400-badRequest
-      type: object
-      description: A model for returning details for 401 responses
-      examples:
-        - type: Insufficient-Privileges
-          title: The accessing user does not have the provileges to access this resource
-          detail: The user accessing the resource does is not granted the privilege to access the resource.
-          missingPermission: ShareSelfRegistrationCredentials
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
-    response-401-unauthorized:
-      title: response-401-unauthorized
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
-        missingPermission:
-          type: string
-      description: A model for returning details for 401 responses
-      examples:
-        - type: Insufficient-Privileges
-          title: The accessing user does not have the provileges to access this resource
-          detail: The user accessing the resource does is not granted the privilege to access the resource.
-          missingPermission: ShareSelfRegistrationCredentials
-    response-403-forbidden:
-      title: response-403-forbidden
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
-        missingPermission:
-          type: string
-      description: A model for returning details for 403 responses
-      examples:
-        - type: Insufficient-Privileges
-          title: The accessing user does not have the provileges to access this resource
-          detail: The user accessing the resource does is not granted the privilege to access the resource.
-          missingPermission: ShareSelfRegistrationCredentials
-    roleAssignment-customer:
-      title: roleAssignment-customer
-      type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      properties:
-        id:
-          type: string
-          description: ID of the role assignment
-          format: uuid
-          readOnly: true
-        userId:
-          type: string
-          format: uuid
-          description: ID of user who is assigned a role
-        assignedAt:
-          type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: ID of the assigned role.
-          format: uuid
-        userDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
-        roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
-      required:
-        - id
-        - userId
-        - assignedAt
-        - roleId
-        - userDisplayName
-        - roleName
-      description: Represents a role assignment from a customers perspective.
-    roleAssignment-user:
-      title: roleAssignment-user
-      type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      properties:
-        id:
-          type: string
-          description: ID of the role assignment
-          format: uuid
-          readOnly: true
-        customerId:
-          type: string
-          format: uuid
-          description: ID of user who is assigned a role
-        assignedAt:
-          type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: ID of the assigned role.
-          format: uuid
-        customerDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
-        roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
-      required:
-        - id
-        - customerId
-        - assignedAt
-        - roleId
-        - customerDisplayName
-        - roleName
-      description: Represents a role assignment from a users perspective.
-    userStatus:
-      type: string
-      title: userStatus
-      enum:
-        - active
-        - inactive
-        - deleted
-        - masked
-      description: The status of a user within HsM.
-      default: active
-  parameters:
-    limit:
-      name: limit
-      in: query
-      required: false
-      schema:
-        type: integer
-        format: int32
-        example: 100
-        default: 100
-        minimum: 10
-      description: 'Pagination, page size limit.'
-    offset:
-      name: offset
-      in: query
-      required: false
-      schema:
-        type: integer
-        format: int32
-        minimum: 0
-        example: 200
-      description: 'Pagination, offset for returned page.'
-    Accept-Language:
-      name: Accept-Language
-      in: header
-      required: false
-      schema:
-        type: string
-      description: Defines which culture are accepted by the client.
+  schemas: {}
   responses: {}
   examples: {}
   securitySchemes: {}

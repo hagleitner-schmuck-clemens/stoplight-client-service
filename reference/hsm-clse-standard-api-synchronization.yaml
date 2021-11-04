@@ -1,9 +1,23 @@
 openapi: 3.1.0
 info:
   title: hsm-clse-standard-api-synchronization
+  contact:
+      name: Hagleitner Hygiene Internaltional GmbH
+      url: 'http://www.hagleitner.com/'
+      email: office@hagleitner.com  
   version: '1.0'
 servers:
   - url: 'http://localhost:3000'
+tags:
+  - name: Branding
+  - name: Customers
+  - name: DataSynchronization
+  - name: RoleAssignment
+  - name: SelfRegistration
+  - name: System
+  - name: Users
+  - name: CustomerFavorites
+  - name: Locations  
 paths:
   /synchronization/customers:
     parameters: []
@@ -23,13 +37,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api.yaml#/components/schemas/customer-synchronization
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -37,13 +51,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-403-forbidden'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
       description: Gets customers with detail information useful for synchronization with other systems. The collection is ordered by name1.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
         - schema:
             type: boolean
             default: false
@@ -113,13 +127,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customer-synchronization'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization'
       description: Creates a customer with detail information useful for synchronization with other systems.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customer-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/role-assignments/{role-assignment-id}':
@@ -144,7 +158,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleAssignment-customer'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
       operationId: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}#get'
       description: 'Gets role-assignemnts '
       parameters:
@@ -181,13 +195,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer-synchronization'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -212,7 +226,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -226,7 +240,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customer-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/condition-relation':
@@ -252,7 +266,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation-synchronization'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
           content:
@@ -286,7 +300,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -300,7 +314,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/customer-condition-relations':
@@ -323,13 +337,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customerRelation-synchronization'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -340,8 +354,8 @@ paths:
           description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
       tags:
         - DataSynchronization
         - Users
@@ -368,13 +382,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation-synchronization'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -399,7 +413,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -413,7 +427,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/customerRelation-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/customer-hierarchy-relations':
@@ -436,13 +450,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customerRelation-synchronization'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -453,8 +467,8 @@ paths:
           description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
       tags:
         - DataSynchronization
         - Users
@@ -481,13 +495,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation-synchronization'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -516,7 +530,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -530,7 +544,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/invoice-relations':
@@ -558,7 +572,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -569,8 +583,8 @@ paths:
           description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
       tags:
         - DataSynchronization
         - Users
@@ -597,13 +611,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRelation-synchronization'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -628,7 +642,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -642,7 +656,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/customers/{id}/reseller-relations':
@@ -665,13 +679,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customerRelation-synchronization'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -682,8 +696,8 @@ paths:
           description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
       tags:
         - DataSynchronization
         - Users
@@ -707,13 +721,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/roleAssignment-customer'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -754,13 +768,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleAssignment-user'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -776,7 +790,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roleAssignment-customer'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer'
   /synchronization/users:
     parameters: []
     get:
@@ -795,13 +809,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/user-synchronization'
+                  $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -812,8 +826,8 @@ paths:
           description: Internal Server Error
       description: Gets registered users with detail information useful for synchronization with other systems.
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/limit'
+        - $ref: './hsm-clse-standard-api-base.yaml#/components/parameters/offset'
         - schema:
             type: boolean
             default: false
@@ -876,7 +890,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -890,7 +904,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
   '/synchronization/users/{id}':
@@ -911,13 +925,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user-synchronization'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -940,7 +954,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -954,7 +968,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
     patch:
@@ -968,7 +982,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/response-400-badRequest'
+                $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '403':
@@ -981,7 +995,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user-synchronization'
+              $ref: './hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
       description: Performs a partial update on a user-synchronization resource.
