@@ -1,0 +1,5 @@
+title: customer
+type: object
+properties:
+  id:
+    type: string

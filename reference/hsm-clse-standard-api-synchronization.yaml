@@ -4,7 +4,7 @@ info:
   version: '1.0'
 servers:
   - url: 'http://localhost:3000'
-paths: 
+paths:
   /synchronization/customers:
     parameters: []
     get:
@@ -23,7 +23,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customer-synchronization'
+                  $ref: ./hsm-clse-standard-api.yaml#/components/schemas/customer-synchronization
         '400':
           description: Bad Request
           content:
@@ -984,6 +984,6 @@ paths:
               $ref: '#/components/schemas/user-synchronization'
       tags:
         - DataSynchronization
-      description: Performs a partial update on a user-synchronization resource.  
+      description: Performs a partial update on a user-synchronization resource.
 components:
   schemas: {}
