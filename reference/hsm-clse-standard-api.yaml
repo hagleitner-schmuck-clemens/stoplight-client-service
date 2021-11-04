@@ -117,6 +117,7 @@ paths:
                 type: array
                 items:
                   $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+          headers: {}
         '400':
           description: Bad Request
           content:
@@ -888,6 +889,70 @@ paths:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-tree
       tags:
         - Locations
+  '/customers/{id}/mark-favorite':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    put:
+      summary: '/customers/{id}/location-tree PUT'
+      operationId: customer--id-mark-favorite#put
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Marks a customer as favorite or non favorite for the currently accessing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isFavorite:
+                  type: boolean
+                  description: Defines if the customer shall be a favorite or shall not be a favorite for the accessing customer.
+              required:
+                - isFavorite
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+          text/html:
+            schema:
+              type: object
+              properties: {}
+          text/plain:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      tags:
+        - Customers
   '/customers/{id}/reseller':
     parameters:
       - schema:
