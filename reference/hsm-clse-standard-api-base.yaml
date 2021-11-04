@@ -1445,26 +1445,16 @@ components:
         - validTill
         - shareUri
     response-400-badRequest:
-      $ref: '#/components/schemas/response-error'
-    response-error:
-      title: response-400-badRequest
       type: object
-      description: A model for returning details for 401 responses
-      examples:
-        - type: Insufficient-Privileges
-          title: The accessing user does not have the provileges to access this resource
-          detail: The user accessing the resource does is not granted the privilege to access the resource.
-          missingPermission: ShareSelfRegistrationCredentials
       properties:
         error:
           type: object
-          required:
-            - code
-            - message
           properties:
             code:
               type: string
             message:
+              type: string
+            correlationId:
               type: string
             details:
               type: array
@@ -1475,44 +1465,46 @@ components:
                     type: string
                   message:
                     type: string
-      required:
-        - error
+                required:
+                  - code
+                  - message
+          required:
+            - code
+            - message
     response-401-unauthorized:
-      title: response-401-unauthorized
       type: object
       properties:
-        type:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
-        missingPermission:
-          type: string
-      description: A model for returning details for 401 responses
-      examples:
-        - type: Insufficient-Privileges
-          title: The accessing user does not have the provileges to access this resource
-          detail: The user accessing the resource does is not granted the privilege to access the resource.
-          missingPermission: ShareSelfRegistrationCredentials
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            correlationId:
+              type: string
+            missingPermissions:
+              type: array
+              items:
+                type: string
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+          required:
+            - code
+            - message
     response-403-forbidden:
-      title: response-403-forbidden
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
-        missingPermission:
-          type: string
-      description: A model for returning details for 403 responses
-      examples:
-        - type: Insufficient-Privileges
-          title: The accessing user does not have the provileges to access this resource
-          detail: The user accessing the resource does is not granted the privilege to access the resource.
-          missingPermission: ShareSelfRegistrationCredentials
+      $ref: '#/components/schemas/response-error'
+      description: A model for returning details with 403 error responses.
     roleAssignment-customer:
       title: roleAssignment-customer
       type: object
