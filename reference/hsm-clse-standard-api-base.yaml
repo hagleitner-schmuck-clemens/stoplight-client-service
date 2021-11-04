@@ -1467,7 +1467,14 @@ components:
             message:
               type: string
             details:
-              $ref: '#/components/schemas/response-error'
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
       required:
         - error
     response-401-unauthorized:
