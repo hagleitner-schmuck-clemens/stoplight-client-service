@@ -245,7 +245,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/branding'
+      summary: '/customers/{id}/branding#get'
       responses:
         '200':
           description: OK
@@ -278,7 +278,7 @@ paths:
       tags:
         - Customers
     put:
-      summary: customer-branding#put
+      summary: '/customers/{id}/branding#put'
       operationId: customer-branding#put
       responses:
         '200':
@@ -314,7 +314,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/effective-branding#get'
       responses:
         '200':
           description: OK
@@ -351,7 +351,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/effective-role-assignments#get'
       responses:
         '200':
           description: OK
