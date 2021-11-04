@@ -23,7 +23,7 @@ tags:
 paths:
   /customers:
     get:
-      summary: customers#get
+      summary: /customers#get
       tags:
         - Customers
       responses:
@@ -90,7 +90,7 @@ paths:
           description: A search string that is used to filter for customers using the full text search capability of the system.
       x-internal: false
     post:
-      summary: customers#post
+      summary: /customers#post
       operationId: customers#post
       responses:
         '201':
@@ -124,7 +124,7 @@ paths:
       parameters: []
   '/customers/{id}':
     get:
-      summary: ''
+      summary: '/customers/{id}#get'
       tags:
         - Customers
       responses:
@@ -172,7 +172,7 @@ paths:
         description: ID of the customer
       - $ref: '#/components/parameters/Accept-Language'
     put:
-      summary: ''
+      summary: '/customers/{id}#put'
       operationId: customer#put
       responses:
         '200':
@@ -207,7 +207,7 @@ paths:
         - Customers
       parameters: []
     patch:
-      summary: ''
+      summary: '/customers/{id}#patch'
       operationId: customer#patch
       responses:
         '200':
@@ -245,7 +245,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: customer-branding#get
+      summary: '/customers/{id}/branding'
       responses:
         '200':
           description: OK
