@@ -1034,7 +1034,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: customer-role-assignments#get
+      operationId: '/customers/{id}/role-assignments#get'
       description: Gets roles-assignments of this customer. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
         - schema:
@@ -1061,7 +1061,7 @@ paths:
         - RoleAssignment
     post:
       summary: ''
-      operationId: customers-assigned-roles#post
+      operationId: '/customers/{id}/role-assignments#post'
       responses:
         '200':
           description: OK
@@ -2473,7 +2473,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/roleAssignment-customer'
-      operationId: synchronization-customer-role-assignment#get
+      operationId: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}#get'
       description: 'Gets role-assignemnts '
       parameters:
         - schema:
@@ -3050,7 +3050,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: synchronization-customer-role-assignments#get
+      operationId: '/synchronization/customers/{id}/role-assignments#get'
       description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
         - schema:
@@ -3075,7 +3075,7 @@ paths:
       x-internal: false
     post:
       summary: ''
-      operationId: customer-assigned-roles#post
+      operationId: '/synchronization/customers/{id}/role-assignments#post'
       responses:
         '201':
           description: Created
