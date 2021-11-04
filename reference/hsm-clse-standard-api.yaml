@@ -23,7 +23,7 @@ tags:
 paths:
   /customers:
     get:
-      summary: /customers
+      summary: /customers#get
       tags:
         - Customers
       responses:
@@ -90,7 +90,7 @@ paths:
           description: A search string that is used to filter for customers using the full text search capability of the system.
       x-internal: false
     post:
-      summary: /customers
+      summary: /customers#post
       operationId: customers#post
       responses:
         '201':
