@@ -278,7 +278,7 @@ paths:
       tags:
         - Customers
     put:
-      summary: ''
+      summary: customer-branding#put
       operationId: customer-branding#put
       responses:
         '200':
