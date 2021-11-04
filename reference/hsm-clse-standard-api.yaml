@@ -31,8 +31,6 @@ paths:
         description: ID of the customer
     get:
       summary: ''
-      tags:
-        - Customers
       responses:
         '200':
           description: OK
@@ -69,6 +67,8 @@ paths:
           name: Id
           description: ID of the role assignment
       x-internal: false
+      tags:
+        - RoleAssignment
     delete:
       summary: ''
       operationId: '/customer-role-assignments/{id}#delete'
