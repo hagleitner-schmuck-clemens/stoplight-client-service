@@ -6,6 +6,7 @@ info:
     url: 'http://www.hagleitner.com/'
     email: office@hagleitner.com
   version: '1.0'
+  description: ''
 servers:
   - url: 'http://localhost:3000'
 tags:
