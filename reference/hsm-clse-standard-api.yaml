@@ -1368,7 +1368,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/customer-hierarchy-path-elements GET'
       tags:
         - Customers
       responses:
@@ -1393,7 +1393,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/sub-customers GET'
       tags:
         - Customers
       operationId: customer-sub-customers#get
@@ -1417,7 +1417,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/subsidiaries GET'
       tags:
         - Customers
       responses:
@@ -1444,7 +1444,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/beneficiaries GET'
       tags:
         - Customers
       responses:
