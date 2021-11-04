@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: hsm-clse-standard-api-synchronization
+  title: Standard API - Synchronization
   contact:
     name: Hagleitner Hygiene Internaltional GmbH
     url: 'http://www.hagleitner.com/'
