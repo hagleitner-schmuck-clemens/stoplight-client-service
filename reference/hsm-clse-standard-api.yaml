@@ -102,7 +102,7 @@ paths:
         - RoleAssignment
   /customers:
     get:
-      summary: /customers#get
+      summary: /customers GET
       tags:
         - Customers
       responses:
@@ -169,7 +169,7 @@ paths:
           description: A search string that is used to filter for customers using the full text search capability of the system.
       x-internal: false
     post:
-      summary: /customers#post
+      summary: /customers POST
       operationId: customers-post
       responses:
         '201':
@@ -203,7 +203,7 @@ paths:
       parameters: []
   '/customers/{id}':
     get:
-      summary: '/customers/{id}#get'
+      summary: '/customers/{id} GET'
       tags:
         - Customers
       responses:
@@ -251,7 +251,7 @@ paths:
         description: ID of the customer
       - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     put:
-      summary: '/customers/{id}#put'
+      summary: '/customers/{id} PUT'
       operationId: customers-id-put
       responses:
         '200':
@@ -286,7 +286,7 @@ paths:
         - Customers
       parameters: []
     patch:
-      summary: '/customers/{id}#patch'
+      summary: '/customers/{id} PATCH'
       operationId: customers-id-patch
       responses:
         '200':
