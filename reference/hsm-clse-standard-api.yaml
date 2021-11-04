@@ -23,7 +23,7 @@ tags:
 paths:
   /customers:
     get:
-      summary: /customers#get
+      summary: /customers
       tags:
         - Customers
       responses:
@@ -90,7 +90,7 @@ paths:
           description: A search string that is used to filter for customers using the full text search capability of the system.
       x-internal: false
     post:
-      summary: /customers#post
+      summary: /customers
       operationId: customers#post
       responses:
         '201':
@@ -305,6 +305,49 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customerBranding'
+  '/customer/{id}/buildings':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: '/customer/{id}/buildings#post'
+      operationId: buildings#post
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-building'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/location-building'
+      description: Creates a new building for this customer.
+      tags:
+        - Locations
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -556,49 +599,6 @@ paths:
           description: Filters for rooms that contain the given value in their code
         - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
-      tags:
-        - Locations
-  '/customer/{id}/buildings':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    post:
-      summary: ''
-      operationId: buildings#post
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/location-building'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/location-building'
-      description: Creates a new building for this customer.
       tags:
         - Locations
   '/buildings/{id}':
