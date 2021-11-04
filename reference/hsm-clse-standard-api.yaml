@@ -60,7 +60,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: customer-role-assignment#get
+      operationId: '/customer-role-assignments/{id}#get'
       description: Gets a specific customer role-assignemnt.
       parameters:
         - schema:
@@ -71,7 +71,7 @@ paths:
       x-internal: false
     delete:
       summary: ''
-      operationId: customer-role-assignment#delete
+      operationId: '/customer-role-assignments/{id}#delete'
       responses:
         '200':
           description: OK
@@ -2187,7 +2187,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: location-path#get
+      operationId: '/locations/{id}/path#get'
       description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'
   /rooms:
     parameters: []
