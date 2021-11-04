@@ -1445,27 +1445,7 @@ components:
         - validTill
         - shareUri
     response-400-badRequest:
-      title: response-400-badRequest
-      type: object
-      description: A model for returning details for 401 responses
-      examples:
-        - type: Insufficient-Privileges
-          title: The accessing user does not have the provileges to access this resource
-          detail: The user accessing the resource does is not granted the privilege to access the resource.
-          missingPermission: ShareSelfRegistrationCredentials
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            details:
-              $ref: ''
-          required:
-            - code
-            - message
+      $ref: '#/components/schemas/response-error'
     response-error:
       title: response-400-badRequest
       type: object
