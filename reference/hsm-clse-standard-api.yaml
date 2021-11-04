@@ -324,7 +324,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/beneficiary-path GET'
       tags:
         - Customers
       responses:
@@ -349,7 +349,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/branding#get'
+      summary: '/customers/{id}/branding GET'
       responses:
         '200':
           description: OK
@@ -382,7 +382,7 @@ paths:
       tags:
         - Customers
     put:
-      summary: '/customers/{id}/branding#put'
+      summary: '/customers/{id}/branding PUT'
       operationId: customer-branding#put
       responses:
         '200':
@@ -417,7 +417,7 @@ paths:
         in: path
         required: true
     post:
-      summary: '/customers/{id}/buildings#post'
+      summary: '/customers/{id}/buildings POST'
       operationId: customer-buildings#post
       responses:
         '201':
@@ -461,7 +461,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/customer-hierarchy-relation GET'
       responses:
         '200':
           description: OK
@@ -492,7 +492,7 @@ paths:
       tags:
         - Customers
     post:
-      summary: ''
+      summary: '/customers/{id}/customer-hierarchy-relation POST'
       operationId: customers-customer-hierarchy-relations#post
       responses:
         '200':
@@ -518,7 +518,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/condition-relation GET'
       responses:
         '200':
           description: OK
@@ -549,7 +549,7 @@ paths:
       tags:
         - Customers
     post:
-      summary: ''
+      summary: '/customers/{id}/condition-relation POST'
       operationId: customers-condition-relations#post
       responses:
         '200':
@@ -575,7 +575,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/effective-branding#get'
+      summary: '/customers/{id}/effective-branding GET'
       responses:
         '200':
           description: OK
@@ -612,7 +612,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/effective-role-assignments#get'
+      summary: '/customers/{id}/effective-role-assignments GET'
       responses:
         '200':
           description: OK
@@ -645,7 +645,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/locations GET'
       responses:
         '200':
           description: OK
@@ -718,7 +718,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/invoice-recipient-path GET'
       tags:
         - Customers
       responses:
@@ -743,7 +743,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/invoice-relation GET'
       responses:
         '200':
           description: OK
@@ -774,7 +774,7 @@ paths:
       tags:
         - Customers
     post:
-      summary: ''
+      summary: '/customers/{id}/invoice-relation POST'
       operationId: customers-invoice-relations#post
       responses:
         '200':
@@ -800,7 +800,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/invoice-sources GET'
       tags:
         - Customers
       responses:
@@ -827,7 +827,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/location-tree GET'
       responses:
         '200':
           description: OK
@@ -861,7 +861,7 @@ paths:
       tags:
         - Locations
     put:
-      summary: ''
+      summary: '/customers/{id}/location-tree PUT'
       operationId: customer-location-tree#put
       responses:
         '200':
@@ -883,7 +883,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/reseller GET'
       tags:
         - Customers
       responses:
@@ -926,7 +926,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/reseller-path GET'
       tags:
         - Customers
       responses:
@@ -951,7 +951,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/reseller-relation GET'
       responses:
         '200':
           description: OK
@@ -982,7 +982,7 @@ paths:
       tags:
         - Customers
     post:
-      summary: ''
+      summary: '/customers/{id}/reseller-relation POST'
       operationId: customers-reseller-relations#post
       responses:
         '200':
@@ -1008,7 +1008,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/role-assignments GET'
       responses:
         '200':
           description: OK
@@ -1060,7 +1060,7 @@ paths:
       tags:
         - RoleAssignment
     post:
-      summary: ''
+      summary: '/customers/{id}/role-assignments POST'
       operationId: '/customers/{id}/role-assignments#post'
       responses:
         '200':
@@ -1102,7 +1102,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/rooms GET'
       responses:
         '200':
           description: OK
@@ -1156,7 +1156,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/role-inheritance GET'
       responses:
         '200':
           description: OK
@@ -1187,7 +1187,7 @@ paths:
       tags:
         - Customers
     put:
-      summary: ''
+      summary: '/customers/{id}/role-inheritance POST'
       operationId: customers-role-inheritance#put
       responses:
         '200':
@@ -1229,7 +1229,7 @@ paths:
         in: path
         required: true
     get:
-      summary: ''
+      summary: '/customers/{id}/self-registration-credentials/{selfRegistrationCredentialId} GET'
       responses:
         '200':
           description: OK
@@ -1248,7 +1248,7 @@ paths:
       tags:
         - SelfRegistration
     delete:
-      summary: ''
+      summary: '/customers/{id}/self-registration-credentials/{selfRegistrationCredentialId} DELETE'
       operationId: self-registration-credential#delete
       responses:
         '200':
@@ -1272,7 +1272,7 @@ paths:
       description: 'Delete a self registration information. '
       tags:
         - SelfRegistration
-  '/customers/{id}/self-registration-credentials':
+  '/customers/{id}/self-registration-credentials GET':
     parameters:
       - schema:
           type: string
@@ -1322,7 +1322,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/self-registration-credentials/current GET'
       responses:
         '200':
           description: OK
