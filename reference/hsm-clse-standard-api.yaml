@@ -21,6 +21,85 @@ tags:
   - name: CustomerFavorites
   - name: Locations
 paths:
+  '/customer-role-assignments/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleAssignment-customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-401-unauthorized'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-role-assignment#get
+      description: Gets a specific customer role-assignemnt.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: Id
+          description: ID of the role assignment
+      x-internal: false
+    delete:
+      summary: ''
+      operationId: customer-role-assignment#delete
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Deletes a customer role-assignment.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: Id
+          description: ID of the role assignment.
+      tags:
+        - RoleAssignment
   /customers:
     get:
       summary: /customers#get
@@ -236,6 +315,31 @@ paths:
               $ref: '#/components/schemas/customer.PATCH'
       tags:
         - Customers
+  '/customers/{id}/beneficiary-path':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: customer-condition-path-elements#get
+      x-internal: false
+      description: Gets all the customers on the condition path from the root to this customer as sorted list.
+      parameters: []
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -305,7 +409,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/customerBranding'
-  '/customer/{id}/buildings':
+  '/customers/{id}/buildings':
     parameters:
       - schema:
           type: string
@@ -313,8 +417,8 @@ paths:
         in: path
         required: true
     post:
-      summary: '/customer/{id}/buildings#post'
-      operationId: buildings#post
+      summary: '/customers/{id}/buildings#post'
+      operationId: customer-buildings#post
       responses:
         '201':
           description: Created
@@ -348,7 +452,7 @@ paths:
       description: Creates a new building for this customer.
       tags:
         - Locations
-  '/customers/{id}/company-hierarchy-relation':
+  '/customers/{id}/customer-hierarchy-relation':
     parameters:
       - schema:
           type: string
@@ -532,63 +636,6 @@ paths:
       x-internal: false
       tags:
         - RoleAssignment
-  '/customers/{id}/invoice-relation':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customerRelation'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: customer-invoice-relation#get
-      x-internal: false
-      description: Gets the invoice relation of this customer. I.e. the relation to another customer who get the invoices for this customer.
-      parameters: []
-      tags:
-        - Customers
-    post:
-      summary: ''
-      operationId: customers-invoice-relations#post
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customerRelation'
-      description: Creates an invoice from this customer to a reseller (replacing the existing relation).
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/customerRelation'
-      tags:
-        - Customers
   '/customers/{id}/locations':
     parameters:
       - schema:
@@ -662,6 +709,115 @@ paths:
       x-internal: false
       tags:
         - Locations
+  '/customers/{id}/invoice-recipient-path':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: customer-invoice-recipient-path#get
+      x-internal: false
+      description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
+      parameters: []
+  '/customers/{id}/invoice-relation':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-invoice-relation#get
+      x-internal: false
+      description: Gets the invoice relation of this customer. I.e. the relation to another customer who get the invoices for this customer.
+      parameters: []
+      tags:
+        - Customers
+    post:
+      summary: ''
+      operationId: customers-invoice-relations#post
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRelation'
+      description: Creates an invoice from this customer to a reseller (replacing the existing relation).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customerRelation'
+      tags:
+        - Customers
+  '/customers/{id}/invoice-sources':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: customer-invoice-sources#get
+      x-internal: false
+      description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
   '/customers/{id}/location-tree':
     parameters:
       - schema:
@@ -761,6 +917,31 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+  '/customers/{id}/reseller-path':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer'
+      operationId: customer-reseller-path-elements#get
+      x-internal: false
+      description: Gets all the customers on the reseller path from the root to this customer as sorted list.
+      parameters: []
   '/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -912,6 +1093,60 @@ paths:
               $ref: '#/components/schemas/roleAssignment-customer'
       tags:
         - RoleAssignment
+  '/customers/{id}/rooms':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/location-room'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: customer-room#get
+      description: Get all the room locations of a customer. Collection is orderd by location name.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filters for rooms that contain the given value in their name
+        - schema:
+            type: string
+          in: query
+          name: code
+          description: Filters for rooms that contain the given value in their code
+        - $ref: '#/components/parameters/Accept-Language'
+      x-internal: false
+      tags:
+        - Locations
   '/customers/{id}/role-inheritance':
     parameters:
       - schema:
@@ -980,180 +1215,6 @@ paths:
       tags:
         - Customers
       description: Configures the role inheritance settings for a customer.
-  '/customer-role-assignments/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/roleAssignment-customer'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-401-unauthorized'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: customer-role-assignment#get
-      description: Gets a specific customer role-assignemnt.
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: Id
-          description: ID of the role assignment
-      x-internal: false
-    delete:
-      summary: ''
-      operationId: customer-role-assignment#delete
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      description: Deletes a customer role-assignment.
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: Id
-          description: ID of the role assignment.
-      tags:
-        - RoleAssignment
-  '/customers/{id}/rooms':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/location-room'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-      operationId: customer-room#get
-      description: Get all the room locations of a customer. Collection is orderd by location name.
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-        - schema:
-            type: string
-          in: query
-          name: name
-          description: Filters for rooms that contain the given value in their name
-        - schema:
-            type: string
-          in: query
-          name: code
-          description: Filters for rooms that contain the given value in their code
-        - $ref: '#/components/parameters/Accept-Language'
-      x-internal: false
-      tags:
-        - Locations
-  '/customers/{id}/self-registration-credentials':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/selfRegistrationCredential'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-      operationId: self-registration-credentials#get
-      x-internal: false
-      description: Gets a list of currently active self-registration credentials. List is ordered ascending by ValidTill date.
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-      tags:
-        - SelfRegistration
   '/customers/{id}/self-registration-credentials/{selfRegistrationCredentialId}':
     parameters:
       - schema:
@@ -1211,6 +1272,47 @@ paths:
       description: 'Delete a self registration information. '
       tags:
         - SelfRegistration
+  '/customers/{id}/self-registration-credentials':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/selfRegistrationCredential'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+      operationId: self-registration-credentials#get
+      x-internal: false
+      description: Gets a list of currently active self-registration credentials. List is ordered ascending by ValidTill date.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      tags:
+        - SelfRegistration
   '/customers/{id}/self-registration-credentials/current':
     parameters:
       - schema:
@@ -1257,31 +1359,6 @@ paths:
       parameters: []
       tags:
         - SelfRegistration
-  '/customers/{id}/reseller-path-elements':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
-      operationId: customer-reseller-path-elements#get
-      x-internal: false
-      description: Gets all the customers on the reseller path from the root to this customer as sorted list.
-      parameters: []
   '/customers/{id}/customer-hierarchy-path-elements':
     parameters:
       - schema:
@@ -1306,56 +1383,6 @@ paths:
       operationId: customer-customer-hierarchy-path-elements#get
       x-internal: false
       description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
-      parameters: []
-  '/customers/{id}/invoice-path-elements':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
-      operationId: customer-invoice--elements#get
-      x-internal: false
-      description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
-      parameters: []
-  '/customers/{id}/condition-path-elements':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
-      operationId: customer-condition-path-elements#get
-      x-internal: false
-      description: Gets all the customers on the condition path from the root to this customer as sorted list.
       parameters: []
   '/customers/{id}/sub-customers':
     parameters:
@@ -1405,33 +1432,6 @@ paths:
       operationId: customer-subsidiaries#get
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-  '/customers/{id}/invoice-sources':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: ''
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer'
-      operationId: customer-invoice-sources#get
-      x-internal: false
-      description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -2148,7 +2148,7 @@ paths:
               $ref: '#/components/schemas/location'
       tags:
         - Locations
-  '/locations/{id}/path-elements':
+  '/locations/{id}/path':
     parameters:
       - schema:
           type: string
@@ -2187,8 +2187,8 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: location-path-elements#get
-      description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'        
+      operationId: location-path#get
+      description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'
   /rooms:
     parameters: []
     post:
@@ -3939,7 +3939,6 @@ paths:
           description: 'Pagination, page offset'
       tags:
         - RoleAssignment
-
 components:
   schemas:
     branding:
