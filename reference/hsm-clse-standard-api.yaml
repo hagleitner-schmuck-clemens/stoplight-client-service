@@ -68,6 +68,7 @@ paths:
           in: query
           name: Id
           description: ID of the role assignment
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - RoleAssignment
@@ -134,6 +135,7 @@ paths:
       operationId: customers-get
       description: Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1.
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
         - schema:
@@ -165,7 +167,6 @@ paths:
           in: query
           name: resellerId
           description: Filters for sub customer of the given reseller.
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - schema:
             type: string
           in: query
@@ -344,7 +345,8 @@ paths:
       operationId: customer-condition-path-elements#get
       x-internal: false
       description: Gets all the customers on the condition path from the root to this customer as sorted list.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -495,7 +497,8 @@ paths:
       operationId: customer-customer-hierarchy-relation#get
       x-internal: false
       description: Gets the customer hierarchy relation of this customer. I.e. the relation to its parent customer.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Customers
     post:
@@ -553,7 +556,8 @@ paths:
       operationId: customer-condition-relation#get
       x-internal: false
       description: Gets the condition owner relation of this customer. I.e. the relation to another customer whose conditions apply to this customer.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Customers
     post:
@@ -608,7 +612,8 @@ paths:
           description: Not Found
       operationId: customer-effective-branding#get
       description: Gets the effecive branding of this customer.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Customers
@@ -637,6 +642,7 @@ paths:
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - schema:
             type: string
             format: uuid
@@ -689,6 +695,7 @@ paths:
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - schema:
             type: string
             enum:
@@ -745,7 +752,8 @@ paths:
       operationId: customer-invoice-recipient-path#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   '/customers/{id}/invoice-relation':
     parameters:
       - schema:
@@ -783,7 +791,8 @@ paths:
       operationId: customer-invoice-relation#get
       x-internal: false
       description: Gets the invoice relation of this customer. I.e. the relation to another customer who get the invoices for this customer.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Customers
     post:
@@ -830,6 +839,7 @@ paths:
       x-internal: false
       description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
   '/customers/{id}/location-tree':
@@ -997,6 +1007,7 @@ paths:
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   '/customers/{id}/reseller-path':
     parameters:
       - schema:
@@ -1022,7 +1033,8 @@ paths:
       operationId: customer-reseller-path-elements#get
       x-internal: false
       description: Gets all the customers on the reseller path from the root to this customer as sorted list.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   '/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -1060,7 +1072,8 @@ paths:
       operationId: customer-reseller-relation#get
       x-internal: false
       description: Gets the reseller relation of this customer. I.e. the relation to its reseller.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Customers
     post:
@@ -1120,6 +1133,7 @@ paths:
       operationId: '/customers/{id}/role-assignments#get'
       description: Gets roles-assignments of this customer. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - schema:
             type: integer
             minimum: 1
@@ -1215,6 +1229,7 @@ paths:
       operationId: customer-room#get
       description: Get all the room locations of a customer. Collection is orderd by location name.
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
         - schema:
@@ -1267,7 +1282,8 @@ paths:
           description: Not Found
       operationId: customer-role-inheritance#get
       description: Gets the role inheritance settings for this customer.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Customers
@@ -1330,7 +1346,8 @@ paths:
       operationId: self-registration-credential#get
       x-internal: false
       description: Gets a list of currently active self-registration informations
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - SelfRegistration
     delete:
@@ -1396,6 +1413,7 @@ paths:
       x-internal: false
       description: Gets a list of currently active self-registration credentials. List is ordered ascending by ValidTill date.
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
       tags:
@@ -1444,7 +1462,8 @@ paths:
       operationId: self-registration-credential-current#get
       x-internal: false
       description: Gets the self-registration credentials for the current date. If that credential was not created before the server will create the credantial when this endpoint is called.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - SelfRegistration
   '/customers/{id}/customer-hierarchy-path-elements':
@@ -1490,6 +1509,7 @@ paths:
       x-internal: false
       description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree). Collection is sorted by name1.
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
       requestBody:
@@ -1523,6 +1543,7 @@ paths:
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
   '/customers/{id}/beneficiaries':
@@ -1551,6 +1572,7 @@ paths:
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
   '/buildings/{id}':
@@ -1592,6 +1614,7 @@ paths:
       operationId: building#get
       description: Gets a single building
       parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
@@ -1737,7 +1760,8 @@ paths:
           description: Internal Server Error
       operationId: building-area#get
       description: Gets a single building
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -1882,7 +1906,8 @@ paths:
           description: Internal Server Error
       operationId: floor#get
       description: Gets a single floor
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -2027,7 +2052,8 @@ paths:
           description: Internal Server Error
       operationId: floor-area#get
       description: Gets a single floor
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -2136,6 +2162,8 @@ paths:
           description: Internal Server Error
       operationId: location#get
       description: 'Gets a single location. '
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     patch:
       summary: ''
       operationId: location#patch
@@ -2209,6 +2237,8 @@ paths:
           description: Internal Server Error
       operationId: location-sublocations#get
       description: Returns all (direct) chrildren of this location.
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     post:
       summary: ''
       operationId: location-sublocations#post
@@ -2287,6 +2317,8 @@ paths:
           description: Internal Server Error
       operationId: '/locations/{id}/path#get'
       description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   /rooms:
     parameters: []
     post:
@@ -2363,7 +2395,8 @@ paths:
           description: Internal Server Error
       operationId: room#get
       description: Gets a single room
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -2460,6 +2493,8 @@ paths:
       description: Gets the instance branding definition.
       tags:
         - System
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     put:
       summary: ''
       operationId: instance-branding#put
@@ -2512,6 +2547,7 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user.
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - RoleAssignment
@@ -2584,6 +2620,7 @@ paths:
           in: query
           name: Id
           description: ID of the role assignment
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - RoleAssignment
@@ -2675,6 +2712,7 @@ paths:
             type: string
           in: query
           name: user
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - System
@@ -2709,11 +2747,6 @@ paths:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
         - schema:
-            type: integer
-          in: header
-          name: X-Total-Count
-          description: Total number of elements in the collection.
-        - schema:
             type: boolean
           in: query
           name: includeDeleted
@@ -2728,6 +2761,7 @@ paths:
           in: query
           name: includeActive
           description: Include or exclude uses with status 'active'.
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Users
     post:
@@ -2794,6 +2828,8 @@ paths:
       description: Gets a specific user.
       tags:
         - Users
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     put:
       summary: ''
       operationId: user#put
@@ -2862,6 +2898,8 @@ paths:
         Masked: The user was deleted and finally the data of the user was masked to support GPDR requirements. Masked users cannot be reactivated. All personal infomrmation is removed.
       tags:
         - Users
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     put:
       summary: ''
       operationId: user-status#put
@@ -2934,6 +2972,7 @@ paths:
           description: If given filters the results for a specific customer only.
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - RoleAssignment
   '/users/{id}/favorite-customers':
@@ -2972,7 +3011,8 @@ paths:
           description: Internal Server Error
       operationId: user-favorite-customers#get
       description: Gets the customer favorites of a user. Sorted by customer name1. The total number of allowed customer favorites is limited by the backend therefore this collection endpoint has no pagination.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - CustomerFavorites
   '/users/{id}/recently-used-customers':
@@ -3011,7 +3051,8 @@ paths:
           description: Internal Server Error
       operationId: user-recently-used-customers#get
       description: Gets the recently used customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited by the backend therefore this collection endpoint has no pagination.
-      parameters: []
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - CustomerFavorites
   '/users/{id}/system-roles':
@@ -3063,6 +3104,7 @@ paths:
           in: query
           name: offset
           description: 'Pagination, page offset'
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - RoleAssignment
 components:
