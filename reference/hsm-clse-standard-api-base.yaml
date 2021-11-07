@@ -218,7 +218,7 @@ components:
         code:
           type: string
           example: HHAT
-          description: A code that -if given - uniquely identifies the customer within the whole system.
+          description: A code that - if given - uniquely identifies the customer within the whole system.
           maxLength: 20
         name1:
           type: string
@@ -232,12 +232,10 @@ components:
           description: Part of the customer name that is usually written on a second line in postal addresses.
         name3:
           type: string
-          example: HGM Facility care & management Ltd.
           maxLength: 80
           description: Part of the customer name that is usually written on a third line in postal addresses.
         name4:
           type: string
-          example: HGM Facility care & management Ltd.
           maxLength: 80
           description: Part of the customer name that is usually written on a forth line in postal addresses.
         address1:
@@ -285,10 +283,10 @@ components:
           type: string
           description: The VAT identification number of the customer.
           example: +44 256 51512
-          maxLength: 256
+          maxLength: 15
         preferredCulture:
           type: string
-          description: The culture this customer usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          description: 'The culture this customer usually thinks in. Given as IETF BCP 47 language tag. '
           example: en-GB
           maxLength: 35
         status:
