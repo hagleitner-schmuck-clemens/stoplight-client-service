@@ -325,7 +325,6 @@ components:
       required:
         - id
         - name1
-        - countryCode
         - emailAddress
         - isReseller
         - externallyManaged
@@ -1468,6 +1467,8 @@ components:
                 required:
                   - code
                   - message
+            innererror:
+              type: string
           required:
             - code
             - message

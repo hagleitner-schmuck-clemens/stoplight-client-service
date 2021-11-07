@@ -118,7 +118,11 @@ paths:
                 type: array
                 items:
                   $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
-          headers: {}
+          headers:
+            header-0:
+              schema:
+                type: string
+              description: X
         '400':
           description: Bad Request
           content:
