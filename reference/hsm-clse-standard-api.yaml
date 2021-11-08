@@ -652,81 +652,6 @@ paths:
       x-internal: false
       tags:
         - RoleAssignment
-  '/customers/{id}/locations':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customers/{id}/locations GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-      operationId: customer-locations#get
-      description: Universal endpoint to get a collection of locations based on filter criteria. Collection is ordred by the location name ascending.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
-        - schema:
-            type: string
-            enum:
-              - building
-              - buildingArea
-              - floor
-              - floorArea
-              - room
-          in: query
-          name: locationType
-          description: Filters for locations of a specific type only
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: parentLocation
-          description: Filters for locations that are direct children of this parent location.
-        - schema:
-            type: string
-          in: query
-          name: name
-          description: Filters for location that match contains the given string in its name.
-        - schema:
-            type: string
-          in: query
-          name: code
-          description: Filters for location that match contains the given string in its code.
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
-      x-internal: false
-      tags:
-        - Locations
   '/customers/{id}/invoice-recipient-path':
     parameters:
       - schema:
@@ -897,6 +822,81 @@ paths:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-tree
+      tags:
+        - Locations
+  '/customers/{id}/locations':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/locations GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: customer-locations#get
+      description: Universal endpoint to get a collection of locations based on filter criteria. Collection is ordred by the location name ascending.
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
+        - schema:
+            type: string
+            enum:
+              - building
+              - buildingArea
+              - floor
+              - floorArea
+              - room
+          in: query
+          name: locationType
+          description: Filters for locations of a specific type only
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: parentLocation
+          description: Filters for locations that are direct children of this parent location.
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filters for location that match contains the given string in its name.
+        - schema:
+            type: string
+          in: query
+          name: code
+          description: Filters for location that match contains the given string in its code.
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
+      x-internal: false
       tags:
         - Locations
   '/customers/{id}/mark-favorite':
@@ -3010,7 +3010,7 @@ paths:
         '500':
           description: Internal Server Error
       operationId: user-favorite-customers#get
-      description: Gets the customer favorites of a user. Sorted by customer name1. The total number of allowed customer favorites is limited by the backend therefore this collection endpoint has no pagination.
+      description: Gets the customer favorites of a user. Sorted by customer favorite sequence number and then by customer name1. As the total number of allowed customer favorites per user is limited by the backend therefore this collection endpoint has no pagination.
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
@@ -3050,7 +3050,7 @@ paths:
         '500':
           description: Internal Server Error
       operationId: user-recently-used-customers#get
-      description: Gets the recently used customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited by the backend therefore this collection endpoint has no pagination.
+      description: 'Gets the recently used customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited per user by the backend, therefore this collection endpoint has no pagination.'
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
@@ -3075,6 +3075,7 @@ paths:
                 type: array
                 items:
                   $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
+          headers: {}
         '201':
           description: Created
         '400':
