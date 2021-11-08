@@ -218,7 +218,7 @@ components:
         code:
           type: string
           example: HHAT
-          description: A code that -if given - uniquely identifies the customer within the whole system.
+          description: A code that - if given - uniquely identifies the customer within the whole system.
           maxLength: 20
         name1:
           type: string
@@ -232,12 +232,10 @@ components:
           description: Part of the customer name that is usually written on a second line in postal addresses.
         name3:
           type: string
-          example: HGM Facility care & management Ltd.
           maxLength: 80
           description: Part of the customer name that is usually written on a third line in postal addresses.
         name4:
           type: string
-          example: HGM Facility care & management Ltd.
           maxLength: 80
           description: Part of the customer name that is usually written on a forth line in postal addresses.
         address1:
@@ -285,10 +283,10 @@ components:
           type: string
           description: The VAT identification number of the customer.
           example: +44 256 51512
-          maxLength: 256
+          maxLength: 15
         preferredCulture:
           type: string
-          description: The culture this customer usually thinks in. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture.
+          description: 'The culture this customer usually thinks in. Given as IETF BCP 47 language tag. '
           example: en-GB
           maxLength: 35
         status:
@@ -325,11 +323,32 @@ components:
       required:
         - id
         - name1
-        - countryCode
         - emailAddress
         - isReseller
         - externallyManaged
         - isFavorite
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          code: HHAT
+          name1: HGM Facility care & management Ltd.
+          name2: A FacilityWiz subsidiary
+          name3: string
+          name4: string
+          address1: Huey Avenue 33b
+          address2: The Holo Building
+          city: London
+          postalCode: W3BX
+          countryCode: GB
+          customerNumber: 21-0789-B
+          emailAddress: office@hgmfacility.com
+          phoneNumber: +44 256 51512
+          vatIdentificationNumber: +44 256 51512
+          preferredCulture: en-GB
+          status: active
+          isReseller: true
+          lastUpdatedAt: '2021-08-23T16:15:18.123+01:00'
+          externallyManaged: true
+          isFavorite: true
     customer-role-inheritance:
       type: object
       title: customer-role-inheritance
@@ -1468,6 +1487,8 @@ components:
                 required:
                   - code
                   - message
+            innererror:
+              type: string
           required:
             - code
             - message

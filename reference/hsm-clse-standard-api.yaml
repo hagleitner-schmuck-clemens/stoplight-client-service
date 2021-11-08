@@ -118,7 +118,11 @@ paths:
                 type: array
                 items:
                   $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
-          headers: {}
+          headers:
+            header-0:
+              schema:
+                type: string
+              description: X
         '400':
           description: Bad Request
           content:
@@ -2927,6 +2931,52 @@ paths:
           description: Internal Server Error
       tags:
         - Users
+  '/users/{id}/customer-count':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        '':
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: Number of customer this user has access to.
+      operationId: user-customerroles#get
+      description: Gets the number of customer this user has access to. Will only include active customers
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
+      tags:
+        - RoleAssignment
   '/users/{id}/customer-roles':
     parameters:
       - schema:
