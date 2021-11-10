@@ -7,7 +7,17 @@ info:
     email: office@hagleitner.com
   version: 1.0.0-alpha.2
   summary: The Standard API is a client agnostic API to the HsM Client Service
-  description: The Standard API is a client agnostic API to the HsM Client Service
+  description: |+
+    The Standard API is a client agnostic API to the HsM Client Service.
+
+    ## Notes for developers
+
+    ### i18N and Accept-Language header
+    All operations will respect Accept-Language headers. If the operation has to handle localizable content it will do so respecting the Accept-Language header. This includes formatting of culture-specific data, sorting, language-specific content (phrases) etc.
+
+    ### Responses
+    This specification shows only the most relevant responses. Clients have to still handle all other possible HTTP Response codes.
+
 servers:
   - url: 'http://localhost:3000'
 tags:
