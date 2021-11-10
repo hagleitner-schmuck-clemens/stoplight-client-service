@@ -68,7 +68,6 @@ paths:
           in: query
           name: Id
           description: ID of the role assignment
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - RoleAssignment
@@ -134,31 +133,14 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-        '500':
-          description: Internal Server Error
       operationId: customers-get
-      description: Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1.
+      description: |-
+        Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1.
+
+        This collection is capped to a maximum of X customers.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
-        - schema:
-            type: boolean
-            default: false
-          in: query
-          name: includeDeleted
-          description: 'Filters customers based on user status. If true only customers with status ''deleted'' will pass the filter, if false only customers with a status not equal to ''deleted'' will pass the filter.'
-        - schema:
-            type: boolean
-            default: true
-          in: query
-          name: includeDeactivated
-          description: 'Filters customers based on user status. If true only customers with status ''deactivated'' will pass the filter, if false only customers with a status not equal to ''deleted'' status will pass the filter.'
-        - schema:
-            type: boolean
-          in: query
-          name: includeActive
-          description: 'Filters customers based on user status. If true only customers with status ''active'' will pass the filter, if false only customers with a status not equal to ''active'' will pass the filter.'
         - schema:
             type: string
             format: uuid
@@ -176,6 +158,11 @@ paths:
           in: query
           name: fullTextSearch
           description: A search string that is used to filter for customers using the full text search capability of the system.
+        - schema:
+            type: string
+          in: query
+          name: status
+          description: Filters for customers that are in one of the given states.
       x-internal: false
     post:
       summary: /customers POST
@@ -197,10 +184,10 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
       description: Creates a new customer.
       requestBody:
         content:
@@ -247,8 +234,7 @@ paths:
           description: Not Found
       operationId: customers-id-get
       description: 'Gets a single customer, defined by its customer id.'
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
+      parameters: []
       x-internal: false
     parameters:
       - schema:
@@ -258,7 +244,6 @@ paths:
         in: path
         required: true
         description: ID of the customer
-      - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     put:
       summary: '/customers/{id} PUT'
       operationId: customers-id-put
@@ -349,8 +334,6 @@ paths:
       operationId: customer-condition-path-elements#get
       x-internal: false
       description: Gets all the customers on the condition path from the root to this customer as sorted list.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -388,8 +371,6 @@ paths:
           headers: {}
       operationId: customer-branding#get
       description: Gets the branding assigned to this specific customer.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Customers
@@ -454,8 +435,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -464,6 +443,12 @@ paths:
       description: Creates a new building for this customer.
       tags:
         - Locations
+    get:
+      summary: ''
+      operationId: get-customers-id-buildings
+      responses:
+        '200':
+          description: OK
   '/customers/{id}/customer-hierarchy-relation':
     parameters:
       - schema:
@@ -501,8 +486,6 @@ paths:
       operationId: customer-customer-hierarchy-relation#get
       x-internal: false
       description: Gets the customer hierarchy relation of this customer. I.e. the relation to its parent customer.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Customers
     post:
@@ -560,8 +543,6 @@ paths:
       operationId: customer-condition-relation#get
       x-internal: false
       description: Gets the condition owner relation of this customer. I.e. the relation to another customer whose conditions apply to this customer.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Customers
     post:
@@ -616,8 +597,6 @@ paths:
           description: Not Found
       operationId: customer-effective-branding#get
       description: Gets the effecive branding of this customer.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Customers
@@ -646,7 +625,6 @@ paths:
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - schema:
             type: string
             format: uuid
@@ -681,8 +659,6 @@ paths:
       operationId: customer-invoice-recipient-path#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   '/customers/{id}/invoice-relation':
     parameters:
       - schema:
@@ -720,8 +696,6 @@ paths:
       operationId: customer-invoice-relation#get
       x-internal: false
       description: Gets the invoice relation of this customer. I.e. the relation to another customer who get the invoices for this customer.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Customers
     post:
@@ -768,7 +742,6 @@ paths:
       x-internal: false
       description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
   '/customers/{id}/location-tree':
@@ -805,27 +778,9 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: customer-location-tree#get
       description: Gets the whole location tree of a customer. Each level of the returned nested structure is ordered by sequence number and then name.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
-      tags:
-        - Locations
-    put:
-      summary: '/customers/{id}/location-tree PUT'
-      operationId: customer-location-tree#put
-      responses:
-        '200':
-          description: OK
-      description: Changes the whole location tree of a customer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-tree
       tags:
         - Locations
   '/customers/{id}/locations':
@@ -864,14 +819,11 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: customer-locations#get
       description: Universal endpoint to get a collection of locations based on filter criteria. Collection is ordred by the location name ascending.
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - schema:
             type: string
             enum:
@@ -899,7 +851,6 @@ paths:
           in: query
           name: code
           description: Filters for location that match contains the given string in its code.
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -934,8 +885,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Marks a customer as favorite or non favorite for the currently accessing user.
       requestBody:
         content:
@@ -1003,15 +952,9 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: customer-reseller#get
       x-internal: false
       description: Gets the reseller of this customer.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   '/customers/{id}/reseller-path':
     parameters:
       - schema:
@@ -1036,9 +979,10 @@ paths:
                   $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
       operationId: customer-reseller-path-elements#get
       x-internal: false
-      description: Gets all the customers on the reseller path from the root to this customer as sorted list.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
+      description: |-
+        Gets all the customers on the reseller path from the root to this customer as sorted array (root to given customer id).
+        Depth of customer relations is naturally limited, therefore this collection endpoint does not support pagination.
+      parameters: []
   '/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -1076,16 +1020,14 @@ paths:
       operationId: customer-reseller-relation#get
       x-internal: false
       description: Gets the reseller relation of this customer. I.e. the relation to its reseller.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Customers
     post:
       summary: '/customers/{id}/reseller-relation POST'
       operationId: customers-reseller-relations#post
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
           content:
             application/json:
               schema:
@@ -1137,7 +1079,6 @@ paths:
       operationId: '/customers/{id}/role-assignments#get'
       description: Gets roles-assignments of this customer. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - schema:
             type: integer
             minimum: 1
@@ -1228,12 +1169,9 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: customer-room#get
       description: Get all the room locations of a customer. Collection is orderd by location name.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
         - schema:
@@ -1246,7 +1184,6 @@ paths:
           in: query
           name: code
           description: Filters for rooms that contain the given value in their code
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -1286,8 +1223,6 @@ paths:
           description: Not Found
       operationId: customer-role-inheritance#get
       description: Gets the role inheritance settings for this customer.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Customers
@@ -1350,8 +1285,6 @@ paths:
       operationId: self-registration-credential#get
       x-internal: false
       description: Gets a list of currently active self-registration informations
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - SelfRegistration
     delete:
@@ -1417,7 +1350,6 @@ paths:
       x-internal: false
       description: Gets a list of currently active self-registration credentials. List is ordered ascending by ValidTill date.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
       tags:
@@ -1466,8 +1398,6 @@ paths:
       operationId: self-registration-credential-current#get
       x-internal: false
       description: Gets the self-registration credentials for the current date. If that credential was not created before the server will create the credantial when this endpoint is called.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - SelfRegistration
   '/customers/{id}/customer-hierarchy-path-elements':
@@ -1513,7 +1443,6 @@ paths:
       x-internal: false
       description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
       requestBody:
@@ -1522,6 +1451,15 @@ paths:
             schema:
               type: object
               properties: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
   '/customers/{id}/subsidiaries':
     parameters:
       - schema:
@@ -1547,7 +1485,6 @@ paths:
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
   '/customers/{id}/beneficiaries':
@@ -1576,7 +1513,6 @@ paths:
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
   '/buildings/{id}':
@@ -1613,13 +1549,8 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: building#get
       description: Gets a single building
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -1645,8 +1576,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Updates a single building
       requestBody:
         content:
@@ -1677,8 +1606,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Performs a partial update on a building.
       requestBody:
         content:
@@ -1716,8 +1643,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -1760,12 +1685,8 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: building-area#get
       description: Gets a single building
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -1791,8 +1712,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Updates a single building area
       requestBody:
         content:
@@ -1823,8 +1742,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Performs a partial update on a building area resource.
       requestBody:
         content:
@@ -1862,8 +1779,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -1906,12 +1821,8 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: floor#get
       description: Gets a single floor
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -1937,8 +1848,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Updates a single floor
       requestBody:
         content:
@@ -1969,8 +1878,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Performs a partial update on a floor resoruce.
       requestBody:
         content:
@@ -2008,8 +1915,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -2051,13 +1956,9 @@ paths:
               schema:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
+          description: Not Foundr
       operationId: floor-area#get
       description: Gets a single floor
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -2083,8 +1984,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Updates a single floor area
       requestBody:
         content:
@@ -2115,8 +2014,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Performs a partial update on a floor-area resource.
       requestBody:
         content:
@@ -2162,12 +2059,8 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: location#get
       description: 'Gets a single location. '
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     patch:
       summary: ''
       operationId: location#patch
@@ -2194,8 +2087,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Performs a partial update on a location resource
       tags:
         - Locations
@@ -2237,12 +2128,8 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: location-sublocations#get
       description: Returns all (direct) chrildren of this location.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     post:
       summary: ''
       operationId: location-sublocations#post
@@ -2269,8 +2156,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Creates a new sub-location of this location
       requestBody:
         content:
@@ -2317,12 +2202,8 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: '/locations/{id}/path#get'
       description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
   /rooms:
     parameters: []
     post:
@@ -2351,8 +2232,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -2395,12 +2274,8 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: room#get
       description: Gets a single room
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - Locations
@@ -2426,8 +2301,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Updates a single room
       requestBody:
         content:
@@ -2458,8 +2331,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Performs a partial update on a room resource.
       requestBody:
         content:
@@ -2491,14 +2362,10 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: instance-branding#get
       description: Gets the instance branding definition.
       tags:
         - System
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     put:
       summary: ''
       operationId: instance-branding#put
@@ -2539,8 +2406,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: systemr-role-assignments#get
       description: Gets role-assignments for the system. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
@@ -2551,7 +2416,6 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user.
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - RoleAssignment
@@ -2573,8 +2437,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Creates a new role assignement for this customer.
       requestBody:
         content:
@@ -2613,8 +2475,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: system-role-assignment#get
       description: Gets a role assignement between users and the system.
       parameters:
@@ -2624,7 +2484,6 @@ paths:
           in: query
           name: Id
           description: ID of the role assignment
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - RoleAssignment
@@ -2646,8 +2505,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Deletes a system role assignment.
       parameters:
         - schema:
@@ -2699,8 +2556,6 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: system-roles#get
       description: Gets a list of roles defined for the system.
       parameters:
@@ -2716,7 +2571,6 @@ paths:
             type: string
           in: query
           name: user
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       x-internal: false
       tags:
         - System
@@ -2744,8 +2598,6 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-        '500':
-          description: Internal Server Error
       description: Gets registered users.
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
@@ -2765,7 +2617,6 @@ paths:
           in: query
           name: includeActive
           description: Include or exclude uses with status 'active'.
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - Users
     post:
@@ -2788,8 +2639,6 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-        '500':
-          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -2827,13 +2676,9 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Gets a specific user.
       tags:
         - Users
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     put:
       summary: ''
       operationId: user#put
@@ -2852,8 +2697,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: Updates a specific user
       requestBody:
         content:
@@ -2892,8 +2735,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       description: |-
         Gets a the status of a specific user.
         Active: The user can interact with the system.
@@ -2902,8 +2743,6 @@ paths:
         Masked: The user was deleted and finally the data of the user was masked to support GPDR requirements. Masked users cannot be reactivated. All personal infomrmation is removed.
       tags:
         - Users
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
     put:
       summary: ''
       operationId: user-status#put
@@ -2927,8 +2766,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       tags:
         - Users
   '/users/{id}/customer-count':
@@ -2963,18 +2800,8 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
-        '':
-          content:
-            application/json:
-              schema:
-                type: integer
-                description: Number of customer this user has access to.
       operationId: user-customerroles#get
       description: Gets the number of customer this user has access to. Will only include active customers
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - RoleAssignment
   '/users/{id}/customer-roles':
@@ -3009,8 +2836,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: user-customerroles#get
       description: 'Gets a list of roles the user has on a customer, or on all customers. Result will be ordered by customerId then role code.'
       parameters:
@@ -3022,7 +2847,6 @@ paths:
           description: If given filters the results for a specific customer only.
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - RoleAssignment
   '/users/{id}/favorite-customers':
@@ -3057,12 +2881,8 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: user-favorite-customers#get
       description: Gets the customer favorites of a user. Sorted by customer favorite sequence number and then by customer name1. As the total number of allowed customer favorites per user is limited by the backend therefore this collection endpoint has no pagination.
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - CustomerFavorites
   '/users/{id}/recently-used-customers':
@@ -3097,12 +2917,8 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: user-recently-used-customers#get
       description: 'Gets the recently used customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited per user by the backend, therefore this collection endpoint has no pagination.'
-      parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - CustomerFavorites
   '/users/{id}/system-roles':
@@ -3140,8 +2956,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
       operationId: user-systemroles#get
       description: Gets a list of systemroles assigned to that user.
       parameters:
@@ -3155,7 +2969,6 @@ paths:
           in: query
           name: offset
           description: 'Pagination, page offset'
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/Accept-Language
       tags:
         - RoleAssignment
 components:

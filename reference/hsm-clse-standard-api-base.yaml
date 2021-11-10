@@ -209,6 +209,28 @@ components:
       type: object
       title: customer
       description: Describes a customer.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          code: HHAT
+          name1: HGM Facility care & management Ltd.
+          name2: A FacilityWiz subsidiary
+          name3: string
+          name4: string
+          address1: Huey Avenue 33b
+          address2: The Holo Building
+          city: London
+          postalCode: W3BX
+          countryCode: GB
+          customerNumber: 21-0789-B
+          emailAddress: office@hgmfacility.com
+          phoneNumber: +44 256 51512
+          vatIdentificationNumber: +44 256 51512
+          preferredCulture: en-GB
+          status: active
+          isReseller: true
+          lastUpdatedAt: '2021-08-23T16:15:18.123+01:00'
+          externallyManaged: true
+          isFavorite: true
       properties:
         id:
           type: string
@@ -282,7 +304,7 @@ components:
         vatIdentificationNumber:
           type: string
           description: The VAT identification number of the customer.
-          example: +44 256 51512
+          example: ATU123456789
           maxLength: 15
         preferredCulture:
           type: string
@@ -316,39 +338,11 @@ components:
           type: boolean
           description: Defines if this is a externally managed customer. I.e. the customer details are managed by another system and synchronized to HsM and should therefore not be modified in HsM.
           readOnly: true
-        isFavorite:
-          type: boolean
-          description: True if this customer is a favorite customer of the currently accessing user.
-          readOnly: true
       required:
         - id
         - name1
-        - emailAddress
         - isReseller
         - externallyManaged
-        - isFavorite
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          code: HHAT
-          name1: HGM Facility care & management Ltd.
-          name2: A FacilityWiz subsidiary
-          name3: string
-          name4: string
-          address1: Huey Avenue 33b
-          address2: The Holo Building
-          city: London
-          postalCode: W3BX
-          countryCode: GB
-          customerNumber: 21-0789-B
-          emailAddress: office@hgmfacility.com
-          phoneNumber: +44 256 51512
-          vatIdentificationNumber: +44 256 51512
-          preferredCulture: en-GB
-          status: active
-          isReseller: true
-          lastUpdatedAt: '2021-08-23T16:15:18.123+01:00'
-          externallyManaged: true
-          isFavorite: true
     customer-role-inheritance:
       type: object
       title: customer-role-inheritance
