@@ -7,7 +7,7 @@ info:
     email: office@hagleitner.com
   version: 1.0.0-alpha.2
   summary: The Standard API is a client agnostic API to the HsM Client Service
-  description: |+
+  description: |
     The Standard API is a client agnostic API to the HsM Client Service.
 
     ## Notes for developers
@@ -17,7 +17,6 @@ info:
 
     ### Responses
     This specification shows only the most relevant responses. Clients have to still handle all other possible HTTP Response codes.
-
 servers:
   - url: 'http://localhost:3000'
 tags:
@@ -155,8 +154,8 @@ paths:
             type: string
             format: uuid
           in: query
-          name: customerId
-          description: Filters for customers based on the customerId. Note that the customer ID is only unique within all customers of the same reseller.
+          name: customerNumber
+          description: Filters for customers based on the customer number. Note that the customer number  is only unique within all customers of the same reseller. Filters for exactly matching customer numbers.
         - schema:
             type: string
             format: uuid
@@ -170,9 +169,11 @@ paths:
           description: A search string that is used to filter for customers using the full text search capability of the system.
         - schema:
             type: string
+            example: 'active,inactive'
+            default: active
           in: query
           name: status
-          description: Filters for customers that are in one of the given states.
+          description: 'Filters for customers that are in one of the given states. '
       x-internal: false
     post:
       summary: /customers POST
