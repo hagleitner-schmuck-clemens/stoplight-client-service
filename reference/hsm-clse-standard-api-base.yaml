@@ -426,6 +426,180 @@ components:
       required:
         - id
         - name1
+    customer-favorite:
+      type: object
+      title: customer
+      description: Describes a customer.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          code: HHAT
+          name1: HGM Facility care & management Ltd.
+          name2: A FacilityWiz subsidiary
+          name3: string
+          name4: string
+          address1: Huey Avenue 33b
+          address2: The Holo Building
+          city: London
+          postalCode: W3BX
+          countryCode: GB
+          customerNumber: 21-0789-B
+          emailAddress: office@hgmfacility.com
+          phoneNumber: +44 256 51512
+          vatIdentificationNumber: +44 256 51512
+          preferredCulture: en-GB
+          status: active
+          isReseller: true
+          lastUpdatedAt: '2021-08-23T16:15:18.123+01:00'
+          externallyManaged: true
+          isFavorite: true
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system
+          readOnly: true
+        code:
+          type: string
+          example: HHAT
+          description: A code that - if given - uniquely identifies the customer within the whole system.
+          maxLength: 20
+        name1:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: The customer name
+        name2:
+          type: string
+          example: A FacilityWiz subsidiary
+          maxLength: 80
+          description: Part of the customer name that is usually written on a second line in postal addresses.
+        name3:
+          type: string
+          maxLength: 80
+          description: Part of the customer name that is usually written on a third line in postal addresses.
+        name4:
+          type: string
+          maxLength: 80
+          description: Part of the customer name that is usually written on a forth line in postal addresses.
+        address1:
+          type: string
+          example: Huey Avenue 33b
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        address2:
+          type: string
+          example: The Holo Building
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        city:
+          type: string
+          example: London
+          maxLength: 80
+          description: 'City, town village of the customer.'
+        postalCode:
+          type: string
+          example: W3BX
+          maxLength: 20
+          description: 'Postal code of the city, town, village.'
+        countryCode:
+          type: string
+          maxLength: 2
+          example: GB
+          description: ISO 3166-1 alpha-2 code of the customer's postal address.
+        sequenceNumber:
+          type: integer
+          description: Defines the order of the favorite within the user's favorite list.
+      required:
+        - id
+        - name1
+    customer-recently-used:
+      type: object
+      title: customer
+      description: Describes a customer.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          code: HHAT
+          name1: HGM Facility care & management Ltd.
+          name2: A FacilityWiz subsidiary
+          name3: string
+          name4: string
+          address1: Huey Avenue 33b
+          address2: The Holo Building
+          city: London
+          postalCode: W3BX
+          countryCode: GB
+          customerNumber: 21-0789-B
+          emailAddress: office@hgmfacility.com
+          phoneNumber: +44 256 51512
+          vatIdentificationNumber: +44 256 51512
+          preferredCulture: en-GB
+          status: active
+          isReseller: true
+          lastUpdatedAt: '2021-08-23T16:15:18.123+01:00'
+          externallyManaged: true
+          isFavorite: true
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system
+          readOnly: true
+        code:
+          type: string
+          example: HHAT
+          description: A code that - if given - uniquely identifies the customer within the whole system.
+          maxLength: 20
+        name1:
+          type: string
+          example: HGM Facility care & management Ltd.
+          maxLength: 80
+          description: The customer name
+        name2:
+          type: string
+          example: A FacilityWiz subsidiary
+          maxLength: 80
+          description: Part of the customer name that is usually written on a second line in postal addresses.
+        name3:
+          type: string
+          maxLength: 80
+          description: Part of the customer name that is usually written on a third line in postal addresses.
+        name4:
+          type: string
+          maxLength: 80
+          description: Part of the customer name that is usually written on a forth line in postal addresses.
+        address1:
+          type: string
+          example: Huey Avenue 33b
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        address2:
+          type: string
+          example: The Holo Building
+          maxLength: 80
+          description: 'Street name, number, apartment/room etc. of the customer. Describing the geographic locatio nof the customer. Usage depends on country and area.'
+        city:
+          type: string
+          example: London
+          maxLength: 80
+          description: 'City, town village of the customer.'
+        postalCode:
+          type: string
+          example: W3BX
+          maxLength: 20
+          description: 'Postal code of the city, town, village.'
+        countryCode:
+          type: string
+          maxLength: 2
+          example: GB
+          description: ISO 3166-1 alpha-2 code of the customer's postal address.
+        latestUsedAt:
+          type: string
+          format: date-time
+          description: Defines when the customer was last used by this user.
+      required:
+        - id
+        - name1
+        - latestUsedAt
     customer-role-inheritance:
       type: object
       title: customer-role-inheritance

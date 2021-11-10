@@ -3130,7 +3130,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-favorite
         '400':
           description: Bad Request
           content:
@@ -3166,7 +3166,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-recently-used
         '400':
           description: Bad Request
           content:
