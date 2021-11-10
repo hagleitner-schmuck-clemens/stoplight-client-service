@@ -341,7 +341,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
       operationId: customer-condition-path-elements#get
       x-internal: false
       description: Gets all the customers on the condition path from the root to this customer as sorted list.
