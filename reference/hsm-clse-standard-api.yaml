@@ -84,8 +84,8 @@ paths:
       summary: ''
       operationId: /customer-role-assignments-id-delete
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
         '400':
           description: Bad Request
           content:
@@ -413,6 +413,29 @@ paths:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerBranding
+    delete:
+      summary: ''
+      operationId: customer-branding#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Deletes a customer branding.
   '/customers/{id}/buildings':
     parameters:
       - schema:
@@ -460,6 +483,29 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-building
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Gets all buildings of a csutomer.
   '/customers/{id}/customer-hierarchy-relation':
     parameters:
       - schema:
@@ -574,6 +620,29 @@ paths:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation
       tags:
         - Customers
+    delete:
+      summary: ''
+      operationId: customers-condition-relations#delete
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Deletes the condition relation for this customer.
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -666,7 +735,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
       operationId: customer-invoice-recipient-path#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
@@ -727,6 +796,29 @@ paths:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation
       tags:
         - Customers
+    delete:
+      summary: ''
+      operationId: customers-invoice-relations#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Deletes the invoice relation for this customer.
   '/customers/{id}/invoice-sources':
     parameters:
       - schema:
@@ -748,7 +840,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
       operationId: customer-invoice-sources#get
       x-internal: false
       description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
@@ -831,7 +923,7 @@ paths:
         '404':
           description: Not Found
       operationId: customer-locations#get
-      description: Universal endpoint to get a collection of locations based on filter criteria. Collection is ordred by the location name ascending.
+      description: Generic endpoint to get a collection of locations based on filter criteria. Collection is ordred by the location name ascending.
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
@@ -896,7 +988,7 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-      description: Marks a customer as favorite or non favorite for the currently accessing user.
+      description: Controller endpoint. Marks a customer as favorite or non favorite for the currently accessing user.
       requestBody:
         content:
           application/json:
@@ -946,7 +1038,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
         '400':
           description: Bad Request
           content:
@@ -987,7 +1079,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
       operationId: customer-reseller-path-elements#get
       x-internal: false
       description: |-
@@ -1456,12 +1548,6 @@ paths:
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
       responses:
         '200':
           description: OK
@@ -1470,7 +1556,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
   '/customers/{id}/subsidiaries':
     parameters:
       - schema:
@@ -1491,7 +1577,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
       operationId: customer-subsidiaries#get
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
@@ -1519,13 +1605,50 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
       operationId: customer-beneficiaries#get
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+  /buildings:
+    parameters: []
+    post:
+      summary: ''
+      operationId: buildings#post
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-building
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-building-area
+        description: ''
+      description: Creates a new building
+      tags:
+        - Locations
   '/buildings/{id}':
     parameters:
       - schema:
@@ -1626,6 +1749,29 @@ paths:
         description: ''
       tags:
         - Locations
+    delete:
+      summary: ''
+      operationId: building#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Deletes the building.
   /building-areas:
     parameters: []
     post:
@@ -1762,6 +1908,29 @@ paths:
         description: ''
       tags:
         - Locations
+    delete:
+      summary: ''
+      operationId: building-area#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Deletes the building area.
   /floors:
     parameters: []
     post:
@@ -1898,6 +2067,28 @@ paths:
         description: ''
       tags:
         - Locations
+    delete:
+      summary: ''
+      operationId: floor#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
   /floor-areas:
     parameters: []
     post:
@@ -2034,6 +2225,29 @@ paths:
         description: ''
       tags:
         - Locations
+    delete:
+      summary: ''
+      operationId: floor-area#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Deletes the floor area.
   '/locations/{id}':
     parameters:
       - schema:
@@ -2101,6 +2315,29 @@ paths:
       description: Performs a partial update on a location resource
       tags:
         - Locations
+    delete:
+      summary: ''
+      operationId: location#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Deletes the location
   '/locations/{id}/sub-locations':
     parameters:
       - schema:
@@ -2351,6 +2588,28 @@ paths:
         description: ''
       tags:
         - Locations
+    delete:
+      summary: ''
+      operationId: room#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
   /system/instance-branding:
     get:
       summary: ''
@@ -2502,8 +2761,8 @@ paths:
       summary: ''
       operationId: system-role-assignment#delete
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
         '400':
           description: Bad Request
           content:
@@ -2568,7 +2827,7 @@ paths:
         '404':
           description: Not Found
       operationId: system-roles#get
-      description: Gets a list of roles defined for the system.
+      description: Gets a list of defined roles.
       parameters:
         - schema:
             type: string
@@ -2615,19 +2874,11 @@ paths:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
         - schema:
             type: boolean
+            example: 'deleted,masked'
+            default: 'active, inactive'
           in: query
-          name: includeDeleted
-          description: Include or exclude uses with status 'deleted'.
-        - schema:
-            type: boolean
-          in: query
-          name: includeDeactivated
-          description: Include or exclude uses with status 'deactivated'.
-        - schema:
-            type: boolean
-          in: query
-          name: includeActive
-          description: Include or exclude uses with status 'active'.
+          name: status
+          description: Filters users based on their status.
       tags:
         - Users
     post:
@@ -2879,7 +3130,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
         '400':
           description: Bad Request
           content:
@@ -2915,7 +3166,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
         '400':
           description: Bad Request
           content:
