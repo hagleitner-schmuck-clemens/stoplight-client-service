@@ -312,14 +312,7 @@ components:
           example: en-GB
           maxLength: 35
         status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-          description: The status of the customer in HsM.
-          default: active
-          readOnly: true
+          $ref: '#/components/schemas/customerstatus'
         isReseller:
           type: boolean
           description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
@@ -1877,13 +1870,15 @@ components:
         - masked
       description: The status of a user within HsM.
       default: active
-    customerstatus:
+    customerstatus.READONLY:
       type: string
-      title: customerstatus
+      title: customer.READONLY
       enum:
         - active
         - inactive
         - deleted
+      description: ''
+      readOnly: true
   parameters:
     limit:
       name: limit
