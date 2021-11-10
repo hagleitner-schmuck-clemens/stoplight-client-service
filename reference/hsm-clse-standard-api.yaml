@@ -339,12 +339,63 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
-      operationId: customer-condition-path-elements#get
+                type: object
+                properties:
+                  status:
+                    $ref: ''
+      operationId: customer-status-get
+      x-internal: false
+      description: Gets the status of teh customer.
+  '/customers/{id}/status':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/status#get'
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerstatus
+      operationId: customer-status#get
       x-internal: false
       description: Gets all the customers on the condition path from the root to this customer as sorted list.
+    put:
+      summary: '/customers/{id}/status#put'
+      operationId: customer-status#put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerstatus
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Modifies the status of a customer.
   '/customers/{id}/branding':
     parameters:
       - schema:

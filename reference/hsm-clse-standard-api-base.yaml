@@ -1877,6 +1877,13 @@ components:
         - masked
       description: The status of a user within HsM.
       default: active
+    customerstatus:
+      type: string
+      title: customerstatus
+      enum:
+        - active
+        - inactive
+        - deleted
   parameters:
     limit:
       name: limit
