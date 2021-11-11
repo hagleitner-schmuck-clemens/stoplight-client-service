@@ -1695,13 +1695,13 @@ components:
         - latestUpdatedAt
         - externallyManaged
     selfRegistrationCredential:
-      title: selfRegistrationCredential
+      title: selfAssignmentCredential
       type: object
       properties:
         Id:
           type: string
           format: uuid
-          description: ID of this self-registration credential
+          description: ID of this self-assignment credential
           readOnly: true
         customerNumber:
           type: string
