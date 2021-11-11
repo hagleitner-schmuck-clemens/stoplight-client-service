@@ -312,7 +312,14 @@ components:
           example: en-GB
           maxLength: 35
         status:
-          $ref: '#/components/schemas/customerstatus'
+          enum:
+            - active
+            - inactive
+            - deleted
+          description: The status of the customer in HsM.
+          default: active
+          type: string
+          readOnly: true
         isReseller:
           type: boolean
           description: Defines if a customer is a reseller. Customers marked as resellers can use HsM's reseller features.
@@ -334,6 +341,7 @@ components:
       required:
         - id
         - name1
+        - status
         - isReseller
         - externallyManaged
     customer-light:
@@ -422,7 +430,7 @@ components:
     customer-favorite:
       type: object
       title: customer
-      description: Describes a customer.
+      description: Describe a favorite customer of a user.
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
           code: HHAT
@@ -1588,7 +1596,14 @@ components:
           example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
         status:
-          $ref: '#/components/schemas/userStatus'
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+            - masked
+          example: inactive
+          readOnly: true
       required:
         - id
         - surname
@@ -1641,7 +1656,13 @@ components:
           description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
           example: +43 664 9161413
         status:
-          $ref: '#/components/schemas/userStatus'
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+            - masked
+          readOnly: true
         createdAt:
           type: string
           format: date-time

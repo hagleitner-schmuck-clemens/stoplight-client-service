@@ -365,7 +365,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerstatus
+                type: string
+                enum:
+                  - active
+                  - inactive
+                  - deleted
+                example: inactive
       operationId: customer-status#get
       x-internal: false
       description: Gets all the customers on the condition path from the root to this customer as sorted list.
@@ -378,7 +383,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerstatus
+                type: string
+                required: true
+                enum:
+                  - active
+                  - inactive
+                  - deleted
         '400':
           description: Bad Request
           content:
@@ -396,6 +406,15 @@ paths:
         '404':
           description: Not Found
       description: Modifies the status of a customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+                - active
+                - inactive
+                - deleted
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -465,7 +484,7 @@ paths:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerBranding
     delete:
-      summary: ''
+      summary: '/customers/{id}/branding DELETE'
       operationId: customer-branding#delete
       responses:
         '204':
@@ -529,7 +548,7 @@ paths:
       tags:
         - Locations
     get:
-      summary: ''
+      summary: '/customers/{id}/buildings GET'
       operationId: get-customers-id-buildings
       responses:
         '200':
@@ -672,7 +691,7 @@ paths:
       tags:
         - Customers
     delete:
-      summary: ''
+      summary: '/customers/{id}/condition-relation DELETE'
       operationId: customers-condition-relations#delete
       responses:
         '200':
@@ -848,7 +867,7 @@ paths:
       tags:
         - Customers
     delete:
-      summary: ''
+      summary: '/customers/{id}/invoice-relation DELETE'
       operationId: customers-invoice-relations#delete
       responses:
         '204':
@@ -1017,29 +1036,13 @@ paths:
         in: path
         required: true
         description: ID of the customer
-    put:
-      summary: '/customers/{id}/location-tree PUT'
-      operationId: customer--id-mark-favorite#put
+    post:
+      summary: '/customers/{id}/mark-favorite POST'
+      operationId: post-customers-id-mark-favorite
       responses:
-        '204':
-          description: No Content
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
-        '404':
-          description: Not Found
-      description: Controller endpoint. Marks a customer as favorite or non favorite for the currently accessing user.
+        '200':
+          description: OK
+      description: Controller endpoint. Marks a customer as favorite or non favorite for the currently accessing user. The operation will be successful irrespective if the actual favorite status of the customer for the current user changes or not.
       requestBody:
         content:
           application/json:
@@ -1048,28 +1051,7 @@ paths:
               properties:
                 isFavorite:
                   type: boolean
-                  description: Defines if the customer shall be a favorite or shall not be a favorite for the accessing customer.
-              required:
-                - isFavorite
-          application/xml:
-            schema:
-              type: object
-              properties: {}
-          multipart/form-data:
-            schema:
-              type: object
-              properties: {}
-          text/html:
-            schema:
-              type: object
-              properties: {}
-          text/plain:
-            schema:
-              type: object
-              properties: {}
-        description: ''
-      tags:
-        - Customers
+                  description: 'If true the customer is set as a favorite for the current user, if false the customer is removed from the user''s favorites.'
   '/customers/{id}/reseller':
     parameters:
       - schema:
@@ -1409,7 +1391,7 @@ paths:
       tags:
         - Customers
       description: Configures the role inheritance settings for a customer.
-  '/customers/{id}/self-registration-credentials/{selfRegistrationCredentialId}':
+  '/customer-self-assignment-credentials/{id}':
     parameters:
       - schema:
           type: string
@@ -1418,13 +1400,8 @@ paths:
         in: path
         required: true
         description: ID of the customer
-      - schema:
-          type: string
-        name: selfRegistrationCredentialId
-        in: path
-        required: true
     get:
-      summary: '/customers/{id}/self-registration-credentials/{selfRegistrationCredentialId} GET'
+      summary: '/self-registration-credentials/{selfRegistrationCredentialId} GET'
       responses:
         '200':
           description: OK
@@ -1436,13 +1413,18 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/selfRegistrationCredential
       operationId: self-registration-credential#get
       x-internal: false
-      description: Gets a list of currently active self-registration informations
+      description: Gets the self assignment credentials for a customer by id.
       tags:
         - SelfRegistration
     delete:
-      summary: '/customers/{id}/self-registration-credentials/{selfRegistrationCredentialId} DELETE'
+      summary: '/customer-self-assignment-credentials/{id} DELETE'
       operationId: self-registration-credential#delete
       responses:
         '200':
@@ -1463,10 +1445,10 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-      description: 'Delete a self registration information. '
+      description: Deletes these self-assignment credentials.
       tags:
         - SelfRegistration
-  '/customers/{id}/self-registration-credentials GET':
+  '/customers/{id}/self-assignment-credentials':
     parameters:
       - schema:
           type: string
@@ -1476,7 +1458,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customers/{id}/self-assignment-credentials GET'
       responses:
         '200':
           description: OK
@@ -1506,9 +1488,15 @@ paths:
       parameters:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - schema:
+            type: string
+            example: 'active,expired'
+          in: query
+          name: status
+          description: Filters credentials by their status
       tags:
         - SelfRegistration
-  '/customers/{id}/self-registration-credentials/current':
+  '/customers/{id}/self-assignment-credentials/current':
     parameters:
       - schema:
           type: string
@@ -1518,10 +1506,16 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/self-registration-credentials/current GET'
+      summary: '/customers/{id}/self-assignment-credentials/current GET'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/selfRegistrationCredential
+        '201':
+          description: Created
           content:
             application/json:
               schema:
@@ -1710,7 +1704,7 @@ paths:
         required: true
         description: ID of the building
     get:
-      summary: ''
+      summary: '/buildings/{id} GET'
       responses:
         '200':
           description: OK
@@ -1740,7 +1734,7 @@ paths:
       tags:
         - Locations
     put:
-      summary: ''
+      summary: '/buildings/{id} POST'
       operationId: building#put
       responses:
         '200':
@@ -1770,7 +1764,7 @@ paths:
       tags:
         - Locations
     patch:
-      summary: ''
+      summary: '/buildings/{id} PATCH'
       operationId: building#patch
       responses:
         '200':
@@ -1801,7 +1795,7 @@ paths:
       tags:
         - Locations
     delete:
-      summary: ''
+      summary: '/buildings/{id} DELETE'
       operationId: building#delete
       responses:
         '204':
@@ -1826,7 +1820,7 @@ paths:
   /building-areas:
     parameters: []
     post:
-      summary: ''
+      summary: /building-areas POST
       operationId: building-areas#post
       responses:
         '201':
@@ -1869,7 +1863,7 @@ paths:
         required: true
         description: ID of the building
     get:
-      summary: ''
+      summary: '/buildings-areas/{id} GET'
       responses:
         '200':
           description: OK
@@ -1899,7 +1893,7 @@ paths:
       tags:
         - Locations
     put:
-      summary: ''
+      summary: '/buildings-areas/{id} PUT'
       operationId: building-area#put
       responses:
         '200':
@@ -1929,7 +1923,7 @@ paths:
       tags:
         - Locations
     patch:
-      summary: ''
+      summary: '/buildings-areas/{id} PATCH'
       operationId: building-area#patch
       responses:
         '200':
@@ -1960,7 +1954,7 @@ paths:
       tags:
         - Locations
     delete:
-      summary: ''
+      summary: '/buildings-areas/{id} DELETE'
       operationId: building-area#delete
       responses:
         '204':
@@ -1985,7 +1979,7 @@ paths:
   /floors:
     parameters: []
     post:
-      summary: ''
+      summary: /floors GET
       operationId: floors#post
       responses:
         '201':
@@ -2028,7 +2022,7 @@ paths:
         required: true
         description: ID of the floor
     get:
-      summary: ''
+      summary: '/floors/{id} GET'
       responses:
         '200':
           description: OK
@@ -2058,7 +2052,7 @@ paths:
       tags:
         - Locations
     put:
-      summary: ''
+      summary: '/floors/{id} PUT'
       operationId: floor#put
       responses:
         '200':
@@ -2088,7 +2082,7 @@ paths:
       tags:
         - Locations
     patch:
-      summary: ''
+      summary: '/floors/{id} PATCH'
       operationId: floor#patch
       responses:
         '200':
@@ -2119,7 +2113,7 @@ paths:
       tags:
         - Locations
     delete:
-      summary: ''
+      summary: '/floors/{id} DELETE'
       operationId: floor#delete
       responses:
         '204':
@@ -2143,7 +2137,7 @@ paths:
   /floor-areas:
     parameters: []
     post:
-      summary: ''
+      summary: /floor-areas GET
       operationId: floor-areas#post
       responses:
         '201':
@@ -2186,7 +2180,7 @@ paths:
         required: true
         description: ID of the floor area
     get:
-      summary: ''
+      summary: '/floor-areas/{id} GET'
       responses:
         '200':
           description: OK
@@ -2216,7 +2210,7 @@ paths:
       tags:
         - Locations
     put:
-      summary: ''
+      summary: '/floor-areas/{id} PUT'
       operationId: floor-area#put
       responses:
         '200':
@@ -2246,7 +2240,7 @@ paths:
       tags:
         - Locations
     patch:
-      summary: ''
+      summary: '/floor-areas/{id} PATCH'
       operationId: floor-area#patch
       responses:
         '200':
@@ -2277,7 +2271,7 @@ paths:
       tags:
         - Locations
     delete:
-      summary: ''
+      summary: '/floor-areas/{id} DELETE'
       operationId: floor-area#delete
       responses:
         '204':
@@ -2309,7 +2303,7 @@ paths:
         required: true
         description: ID of the location
     get:
-      summary: ''
+      summary: '/locations/{id} GET'
       tags:
         - Locations
       responses:
@@ -2338,7 +2332,7 @@ paths:
       operationId: location#get
       description: 'Gets a single location. '
     patch:
-      summary: ''
+      summary: '/locations/{id} PATCH'
       operationId: location#patch
       responses:
         '200':
@@ -2367,7 +2361,7 @@ paths:
       tags:
         - Locations
     delete:
-      summary: ''
+      summary: '/locations/{id} DELETE'
       operationId: location#delete
       responses:
         '204':
@@ -2399,7 +2393,7 @@ paths:
         required: true
         description: ID of the location
     get:
-      summary: ''
+      summary: '/locations/{id}/sub-locations GET'
       tags:
         - Locations
       responses:
@@ -2430,7 +2424,7 @@ paths:
       operationId: location-sublocations#get
       description: Returns all (direct) chrildren of this location.
     post:
-      summary: ''
+      summary: '/locations/{id}/sub-locations POST'
       operationId: location-sublocations#post
       responses:
         '201':
@@ -2473,7 +2467,7 @@ paths:
         required: true
         description: ID of the location
     get:
-      summary: ''
+      summary: '/locations/{id}/path GET'
       tags:
         - Locations
       responses:
@@ -2506,7 +2500,7 @@ paths:
   /rooms:
     parameters: []
     post:
-      summary: ''
+      summary: /rooms GET
       operationId: rooms#post
       responses:
         '201':
@@ -2549,7 +2543,7 @@ paths:
         required: true
         description: ID of the room
     get:
-      summary: ''
+      summary: '/rooms/{id} GET'
       responses:
         '200':
           description: OK
@@ -2579,7 +2573,7 @@ paths:
       tags:
         - Locations
     put:
-      summary: ''
+      summary: '/rooms/{id} PUT'
       operationId: room#put
       responses:
         '200':
@@ -2609,7 +2603,7 @@ paths:
       tags:
         - Locations
     patch:
-      summary: ''
+      summary: '/rooms/{id} PATCH'
       operationId: room#patch
       responses:
         '200':
@@ -2640,7 +2634,7 @@ paths:
       tags:
         - Locations
     delete:
-      summary: ''
+      summary: '/rooms/{id} DELETE'
       operationId: room#delete
       responses:
         '204':
@@ -2663,7 +2657,7 @@ paths:
           description: Not Found
   /system/instance-branding:
     get:
-      summary: ''
+      summary: /system/instance-branding GET
       responses:
         '200':
           description: OK
@@ -2688,7 +2682,7 @@ paths:
       tags:
         - System
     put:
-      summary: ''
+      summary: /system/instance-branding PUT
       operationId: instance-branding#put
       responses:
         '200':
@@ -2838,7 +2832,7 @@ paths:
         - RoleAssignment
   /system/roles:
     get:
-      summary: ''
+      summary: /system/roles GET
       responses:
         '200':
           description: OK
@@ -2899,7 +2893,7 @@ paths:
   /users:
     parameters: []
     get:
-      summary: ''
+      summary: /users GET
       operationId: users#get
       responses:
         '200':
@@ -2924,16 +2918,16 @@ paths:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
         - schema:
-            type: boolean
+            type: string
             example: 'deleted,masked'
             default: 'active, inactive'
           in: query
           name: status
-          description: Filters users based on their status.
+          description: Filters users based on their status. ON
       tags:
         - Users
     post:
-      summary: ''
+      summary: /users POST
       operationId: users#post
       responses:
         '201':
@@ -2968,7 +2962,7 @@ paths:
         in: path
         required: true
     get:
-      summary: ''
+      summary: '/users/{id} GET'
       operationId: user#get
       responses:
         '200':
@@ -2993,7 +2987,7 @@ paths:
       tags:
         - Users
     put:
-      summary: ''
+      summary: '/users/{id} PUT'
       operationId: user#put
       responses:
         '200':
@@ -3026,7 +3020,7 @@ paths:
         in: path
         required: true
     get:
-      summary: ''
+      summary: '/users/{id}/status GET'
       operationId: user-status#get
       responses:
         '200':
@@ -3034,7 +3028,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/userStatus
+                type: string
+                enum:
+                  - active
+                  - inactive
+                  - deleted
+                  - masked
               examples: {}
         '400':
           description: Bad Request
@@ -3057,7 +3056,7 @@ paths:
       tags:
         - Users
     put:
-      summary: ''
+      summary: '/users/{id}/status PUT'
       operationId: user-status#put
       description: Updates a user's status
       responses:
@@ -3081,6 +3080,16 @@ paths:
           description: Not Found
       tags:
         - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+                - active
+                - inactive
+                - deleted
+                - masked
   '/users/{id}/customer-count':
     parameters:
       - schema:
@@ -3091,7 +3100,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: ''
+      summary: '/users/{id}/customer-count GET'
       responses:
         '200':
           description: OK
@@ -3127,7 +3136,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: ''
+      summary: '/users/{id}/customer-roles GET'
       responses:
         '200':
           description: OK
@@ -3172,7 +3181,7 @@ paths:
         required: true
         description: ID of  the user.
     get:
-      summary: ''
+      summary: '/users/{id}/favorite-customers GET'
       responses:
         '200':
           description: OK
@@ -3208,7 +3217,7 @@ paths:
         required: true
         description: ID of  the user.
     get:
-      summary: ''
+      summary: '/users/{id}/recently-used-customers GET'
       responses:
         '200':
           description: OK
@@ -3244,7 +3253,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: ''
+      summary: '/users/{id}/system-roles GET'
       responses:
         '200':
           description: OK
