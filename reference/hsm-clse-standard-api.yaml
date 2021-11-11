@@ -1052,6 +1052,38 @@ paths:
                 isFavorite:
                   type: boolean
                   description: 'If true the customer is set as a favorite for the current user, if false the customer is removed from the user''s favorites.'
+  '/customers/{id}/mark-recently-used':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    post:
+      summary: '/customers/{id}/mark-recently-used POST'
+      operationId: post-customers-id-mark-favorite
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: 'Controller endpoint. Marks a customer as recently used the currently accessing user. '
   '/customers/{id}/reseller':
     parameters:
       - schema:
