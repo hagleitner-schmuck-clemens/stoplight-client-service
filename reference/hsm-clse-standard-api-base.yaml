@@ -1729,34 +1729,77 @@ components:
         - validTill
         - shareUri
     response-400-badRequest:
+      description: ''
       type: object
+      x-examples:
+        example-1:
+          error:
+            code: InvalidEmail
+            message: The provided e-mail address is syntactically not valid.
+            displayMessage: Die angegebene E-Mail Addresse ist ungültig
+            target: EMail
+            innerError:
+              code: EmailTestFailed
+              innerError:
+                code: NoSuchAccount
+            details:
+              - code: NoAtSign
+                message: There is no @ sign in the email
+              - code: EmailAddressContainsInvalidCharacters
+                message: 'Email addresses can only contain [a-zA-Z]'
       properties:
         error:
           type: object
+          required:
+            - code
+            - message
           properties:
             code:
               type: string
+              minLength: 1
             message:
               type: string
-            correlationId:
+              minLength: 1
+            displayMessage:
               type: string
+              minLength: 1
+            target:
+              type: string
+              minLength: 1
+            innerError:
+              type: object
+              required:
+                - code
+              properties:
+                code:
+                  type: string
+                  minLength: 1
+                innerError:
+                  type: object
+                  required:
+                    - code
+                  properties:
+                    code:
+                      type: string
+                      minLength: 1
             details:
               type: array
+              uniqueItems: true
+              minItems: 1
               items:
                 type: object
                 properties:
                   code:
                     type: string
+                    minLength: 1
                   message:
                     type: string
+                    minLength: 1
                 required:
                   - code
                   - message
-            innererror:
-              type: string
-          required:
-            - code
-            - message
+      required:
+        - error
     response-401-unauthorized:
       type: object
       properties:

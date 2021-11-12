@@ -25,7 +25,8 @@ paths:
     get:
       summary: /synchronization/customers GET
       operationId: synchronization-customers#get
-      tags: []
+      tags:
+        - DataSynchronization
       responses:
         '200':
           description: OK
@@ -121,20 +122,33 @@ paths:
     post:
       summary: /synchronization/customers POST
       operationId: synchronization-customer#post
-      tags: []
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
       description: Creates a customer with detail information useful for synchronization with other systems.
       requestBody:
         content:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
+      tags:
+        - Customers
   '/synchronization/customers/{id}':
     parameters:
       - schema:
@@ -147,7 +161,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id} GET'
       operationId: synchronization-customer#get
-      tags: []
+      tags:
+        - Customers
       responses:
         '200':
           description: OK
@@ -181,7 +196,8 @@ paths:
     put:
       summary: '/synchronization/customers/{id} PUT'
       operationId: synchronization-customer#put
-      tags: []
+      tags:
+        - Customers
       responses:
         '200':
           description: OK
@@ -205,39 +221,6 @@ paths:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
-  '/synchronization/customers/{id}/role-assignments/{role-assignment-id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-      - schema:
-          type: string
-        name: role-assignment-id
-        in: path
-        required: true
-        description: ID of the role assignment
-    get:
-      summary: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}'
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
-      operationId: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}#get'
-      description: 'Gets role-assignemnts '
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: Id
-          description: ID of the role assignment
-      x-internal: true
   '/synchronization/customers/{id}/condition-relation':
     parameters:
       - schema:
@@ -769,6 +752,28 @@ paths:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+  '/synchronization/role-assignments/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/synchronization/role-assignments/{id}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+      operationId: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}#get'
+      description: Gets a role-assignemnt
+      parameters: []
+      x-internal: true
   /synchronization/users:
     parameters: []
     get:
