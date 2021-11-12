@@ -1694,8 +1694,8 @@ components:
         - createdAt
         - latestUpdatedAt
         - externallyManaged
-    selfRegistrationCredential:
-      title: selfAssignmentCredential
+    customerSelfAssignmentCredentials:
+      title: customerSelfAssignmentCredentials
       type: object
       properties:
         Id:
@@ -1789,8 +1789,7 @@ components:
             - code
             - message
     response-403-forbidden:
-      $ref: '#/components/schemas/response-error'
-      description: A model for returning details with 403 error responses.
+      type: object
     roleAssignment-customer:
       title: roleAssignment-customer
       type: object

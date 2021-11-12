@@ -415,6 +415,8 @@ paths:
                 - active
                 - inactive
                 - deleted
+      tags:
+        - Customers
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -506,6 +508,8 @@ paths:
         '404':
           description: Not Found
       description: Deletes a customer branding.
+      tags:
+        - Customers
   '/customers/{id}/buildings':
     parameters:
       - schema:
@@ -576,6 +580,8 @@ paths:
         '404':
           description: Not Found
       description: Gets all buildings of a csutomer.
+      tags:
+        - Customers
   '/customers/{id}/customer-hierarchy-relation':
     parameters:
       - schema:
@@ -713,6 +719,8 @@ paths:
         '404':
           description: Not Found
       description: Deletes the condition relation for this customer.
+      tags:
+        - Customers
   '/customers/{id}/effective-branding':
     parameters:
       - schema:
@@ -889,6 +897,8 @@ paths:
         '404':
           description: Not Found
       description: Deletes the invoice relation for this customer.
+      tags:
+        - Customers
   '/customers/{id}/invoice-sources':
     parameters:
       - schema:
@@ -1052,6 +1062,8 @@ paths:
                 isFavorite:
                   type: boolean
                   description: 'If true the customer is set as a favorite for the current user, if false the customer is removed from the user''s favorites.'
+      tags:
+        - Customers
   '/customers/{id}/mark-recently-used':
     parameters:
       - schema:
@@ -1063,7 +1075,7 @@ paths:
         description: ID of the customer
     post:
       summary: '/customers/{id}/mark-recently-used POST'
-      operationId: post-customers-id-mark-favorite
+      operationId: customer-mark-recently-user#post
       responses:
         '200':
           description: OK
@@ -1084,6 +1096,8 @@ paths:
         '404':
           description: Not Found
       description: 'Controller endpoint. Marks a customer as recently used the currently accessing user. '
+      tags:
+        - Customers
   '/customers/{id}/reseller':
     parameters:
       - schema:
@@ -1244,7 +1258,7 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-      operationId: '/customers/{id}/role-assignments#get'
+      operationId: customer-role-assignments#get
       description: Gets roles-assignments of this customer. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
         - schema:
@@ -1271,7 +1285,7 @@ paths:
         - RoleAssignment
     post:
       summary: '/customers/{id}/role-assignments POST'
-      operationId: '/customers/{id}/role-assignments#post'
+      operationId: customer-role-assignments#post
       responses:
         '200':
           description: OK
@@ -1440,7 +1454,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/selfAssignmentCredentials
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerSelfAssignmentCredentials
         '401':
           description: Unauthorized
         '404':
@@ -1494,7 +1508,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/selfAssignmentCredentials
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerSelfAssignmentCredentials
         '400':
           description: Bad Request
           content:
@@ -1540,13 +1554,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/selfAssignmentCredentials
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerSelfAssignmentCredentials
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/selfAssignmentCredentials
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerSelfAssignmentCredentials
         '400':
           description: Bad Request
           headers: {}
@@ -1844,6 +1858,8 @@ paths:
         '404':
           description: Not Found
       description: Deletes the building.
+      tags:
+        - Locations
   /building-areas:
     parameters: []
     post:
@@ -2003,6 +2019,8 @@ paths:
         '404':
           description: Not Found
       description: Deletes the building area.
+      tags:
+        - Locations
   /floors:
     parameters: []
     post:
@@ -2161,6 +2179,9 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
+      tags:
+        - Locations
+      description: Deletes this floor.
   /floor-areas:
     parameters: []
     post:
@@ -2320,6 +2341,8 @@ paths:
         '404':
           description: Not Found
       description: Deletes the floor area.
+      tags:
+        - Locations
   '/locations/{id}':
     parameters:
       - schema:
@@ -2410,6 +2433,8 @@ paths:
         '404':
           description: Not Found
       description: Deletes the location
+      tags:
+        - Locations
   '/locations/{id}/sub-locations':
     parameters:
       - schema:
@@ -2522,7 +2547,7 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
-      operationId: '/locations/{id}/path#get'
+      operationId: /location-path#get
       description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'
   /rooms:
     parameters: []
@@ -2682,6 +2707,9 @@ paths:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
         '404':
           description: Not Found
+      tags:
+        - Locations
+      description: Deletes this room.
   /system/instance-branding:
     get:
       summary: /system/instance-branding GET
@@ -3149,7 +3177,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: user-customerroles#get
+      operationId: user-customer-count#get
       description: Gets the number of customer this user has access to. Will only include active customers
       tags:
         - RoleAssignment
