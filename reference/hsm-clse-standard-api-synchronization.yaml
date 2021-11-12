@@ -23,7 +23,7 @@ paths:
   /synchronization/customers:
     parameters: []
     get:
-      summary: ''
+      summary: /synchronization/customers GET
       operationId: synchronization-customers#get
       tags: []
       responses:
@@ -119,7 +119,7 @@ paths:
           name: nameStartsWith
           description: Filters for customers whose name starts with the given string. String matching is done case insensitive..
     post:
-      summary: ''
+      summary: /synchronization/customers POST
       operationId: synchronization-customer#post
       tags: []
       responses:
@@ -135,39 +135,6 @@ paths:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
-  '/synchronization/customers/{id}/role-assignments/{role-assignment-id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-      - schema:
-          type: string
-        name: role-assignment-id
-        in: path
-        required: true
-        description: ID of the role assignment
-    get:
-      summary: ''
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
-      operationId: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}#get'
-      description: 'Gets role-assignemnts '
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: Id
-          description: ID of the role assignment
-      x-internal: true
   '/synchronization/customers/{id}':
     parameters:
       - schema:
@@ -178,7 +145,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id} GET'
       operationId: synchronization-customer#get
       tags: []
       responses:
@@ -212,7 +179,7 @@ paths:
       description: Gets customer with detail information useful for synchronization with other systems.
       parameters: []
     put:
-      summary: ''
+      summary: '/synchronization/customers/{id} PUT'
       operationId: synchronization-customer#put
       tags: []
       responses:
@@ -238,6 +205,39 @@ paths:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
+  '/synchronization/customers/{id}/role-assignments/{role-assignment-id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+      - schema:
+          type: string
+        name: role-assignment-id
+        in: path
+        required: true
+        description: ID of the role assignment
+    get:
+      summary: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+      operationId: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}#get'
+      description: 'Gets role-assignemnts '
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: Id
+          description: ID of the role assignment
+      x-internal: true
   '/synchronization/customers/{id}/condition-relation':
     parameters:
       - schema:
@@ -248,7 +248,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/condition-relation GET'
       operationId: synchronization-customer-condition-relation#get
       tags: []
       responses:
@@ -283,7 +283,7 @@ paths:
       description: 'Gets the condition relation of this customer (i.e. looking up the relation tree) with detail information useful for synchronization with other systems. '
       parameters: []
     put:
-      summary: ''
+      summary: '/synchronization/customers/{id}/condition-relation PUT'
       operationId: synchronization-customer-condition-relation#put
       tags: []
       responses:
@@ -319,7 +319,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/customer-condition-relations GET'
       operationId: synchronization-customer-condition-relations#get
       tags: []
       responses:
@@ -359,7 +359,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/customer-hierarchy-relation GET'
       operationId: synchronization-customer-customer-hierarchy-relation#get
       tags: []
       responses:
@@ -391,7 +391,7 @@ paths:
       description: 'Gets the customer-hierarchy relation of this customer (i.e. looking up the relation tree) with detail information useful for synchronization with other systems. '
       parameters: []
     put:
-      summary: ''
+      summary: '/synchronization/customers/{id}/customer-hierarchy-relation PUT'
       operationId: synchronization-customer-customer-hierarchy-relation#put
       tags: []
       responses:
@@ -427,7 +427,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/customer-hierarchy-relations GET'
       tags: []
       operationId: synchronization-customer-customer-hierarchy-relations#get
       responses:
@@ -467,7 +467,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/invoice-relation GET'
       operationId: synchronization-customer-invoice-relation#get
       tags: []
       responses:
@@ -503,7 +503,7 @@ paths:
       description: 'Gets the invoice relation of this customer (i.e. looking up the reseller relation) with detail information useful for synchronization with other systems. '
       parameters: []
     put:
-      summary: ''
+      summary: '/synchronization/customers/{id}/invoice-relation PUT'
       operationId: synchronization-customer-invoice-relation#put
       tags: []
       responses:
@@ -539,7 +539,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/invoice-relations GET'
       operationId: synchronization-customer-invoice-relations#get
       tags: []
       responses:
@@ -578,7 +578,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/reseller-relation GET'
       operationId: synchronization-customer-reseller-relation#get
       responses:
         '200':
@@ -612,7 +612,7 @@ paths:
         - DataSynchronization
         - Users
     put:
-      summary: ''
+      summary: '/synchronization/customers/{id}/reseller-relation PUT'
       operationId: synchronization-customer-reseller-relation#put
       responses:
         '200':
@@ -649,7 +649,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/reseller-relations GET'
       operationId: synchronization-customer-reseller-relations#get
       tags: []
       responses:
@@ -688,7 +688,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/synchronization/customers/{id}/role-assignments GET'
       tags:
         - Customers
       responses:
@@ -738,7 +738,7 @@ paths:
           description: If given filters the list for roles assigned to that specific user
       x-internal: false
     post:
-      summary: ''
+      summary: '/synchronization/customers/{id}/role-assignments POST'
       operationId: '/synchronization/customers/{id}/role-assignments#post'
       responses:
         '201':
@@ -772,7 +772,7 @@ paths:
   /synchronization/users:
     parameters: []
     get:
-      summary: ''
+      summary: /synchronization/users GET
       operationId: synchronization-users#get
       tags: []
       responses:
@@ -856,7 +856,7 @@ paths:
           name: synchronizationIdAvailable
           description: 'Filters for users based on the availability of a synchronizationId. If set to true only users with a non-empty synchronizationId will pass the filter, if set to false only users with an empty synchronizationId will pass the filter.  '
     post:
-      summary: ''
+      summary: /synchronization/users POST
       operationId: synchronization-user#post
       tags: []
       responses:
@@ -892,7 +892,7 @@ paths:
           format: uuid
         description: UUID of the collection element
     get:
-      summary: ''
+      summary: '/synchronization/users/{id} GET'
       operationId: synchronization-user#get
       tags: []
       responses:
@@ -918,7 +918,7 @@ paths:
           description: Internal Server Error
       description: Gets a specific user with detail information useful for synchronization with other systems.
     put:
-      summary: ''
+      summary: '/synchronization/users/{id} PUT'
       operationId: synchronization-user#put
       tags: []
       responses:
@@ -945,7 +945,7 @@ paths:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization
     patch:
-      summary: ''
+      summary: '/synchronization/users/{id} PATCH'
       operationId: synchronization-user#patch
       tags: []
       responses:
