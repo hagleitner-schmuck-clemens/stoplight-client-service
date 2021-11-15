@@ -12,7 +12,7 @@ servers:
 tags:
   - name: Branding
   - name: Customers
-  - name: DataSynchronization
+  - name: CustomerRelations
   - name: RoleAssignment
   - name: SelfRegistration
   - name: System
@@ -25,8 +25,6 @@ paths:
     get:
       summary: /synchronization/customers GET
       operationId: synchronization-customers#get
-      tags:
-        - DataSynchronization
       responses:
         '200':
           description: OK
@@ -119,6 +117,8 @@ paths:
           in: query
           name: nameStartsWith
           description: Filters for customers whose name starts with the given string. String matching is done case insensitive..
+      tags:
+        - Customers
     post:
       summary: /synchronization/customers POST
       operationId: synchronization-customer#post
@@ -233,7 +233,6 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/condition-relation GET'
       operationId: synchronization-customer-condition-relation#get
-      tags: []
       responses:
         '200':
           description: OK
@@ -265,10 +264,13 @@ paths:
           description: Internal Server Error
       description: 'Gets the condition relation of this customer (i.e. looking up the relation tree) with detail information useful for synchronization with other systems. '
       parameters: []
+      tags:
+        - CustomerRelations
     put:
       summary: '/synchronization/customers/{id}/condition-relation PUT'
       operationId: synchronization-customer-condition-relation#put
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -304,7 +306,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/customer-condition-relations GET'
       operationId: synchronization-customer-condition-relations#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -344,7 +347,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/customer-hierarchy-relation GET'
       operationId: synchronization-customer-customer-hierarchy-relation#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -376,7 +380,8 @@ paths:
     put:
       summary: '/synchronization/customers/{id}/customer-hierarchy-relation PUT'
       operationId: synchronization-customer-customer-hierarchy-relation#put
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -411,7 +416,8 @@ paths:
         description: ID of the customer
     get:
       summary: '/synchronization/customers/{id}/customer-hierarchy-relations GET'
-      tags: []
+      tags:
+        - CustomerRelations
       operationId: synchronization-customer-customer-hierarchy-relations#get
       responses:
         '200':
@@ -452,7 +458,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/invoice-relation GET'
       operationId: synchronization-customer-invoice-relation#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -488,7 +495,8 @@ paths:
     put:
       summary: '/synchronization/customers/{id}/invoice-relation PUT'
       operationId: synchronization-customer-invoice-relation#put
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -524,7 +532,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/invoice-relations GET'
       operationId: synchronization-customer-invoice-relations#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -592,8 +601,7 @@ paths:
       description: 'Gets the reseller relation of this customer (i.e. looking up the reseller relation) with detail information useful for synchronization with other systems. '
       parameters: []
       tags:
-        - DataSynchronization
-        - Users
+        - CustomerRelations
     put:
       summary: '/synchronization/customers/{id}/reseller-relation PUT'
       operationId: synchronization-customer-reseller-relation#put
@@ -621,7 +629,7 @@ paths:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization
       tags:
-        - DataSynchronization
+        - CustomerRelations
   '/synchronization/customers/{id}/reseller-relations':
     parameters:
       - schema:
@@ -634,7 +642,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/reseller-relations GET'
       operationId: synchronization-customer-reseller-relations#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -672,8 +681,6 @@ paths:
         description: ID of the customer
     get:
       summary: '/synchronization/customers/{id}/role-assignments GET'
-      tags:
-        - Customers
       responses:
         '200':
           description: OK
@@ -720,6 +727,8 @@ paths:
           name: userId
           description: If given filters the list for roles assigned to that specific user
       x-internal: false
+      tags:
+        - RoleAssignment
     post:
       summary: '/synchronization/customers/{id}/role-assignments POST'
       operationId: '/synchronization/customers/{id}/role-assignments#post'
@@ -745,13 +754,13 @@ paths:
         '500':
           description: Internal Server Error
       description: Creates a new role-assignement for this customer.
-      tags:
-        - Customers
       requestBody:
         content:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+      tags:
+        - RoleAssignment
   '/synchronization/role-assignments/{id}':
     parameters:
       - schema:
@@ -762,7 +771,8 @@ paths:
         description: ID of the customer
     get:
       summary: '/synchronization/role-assignments/{id}'
-      tags: []
+      tags:
+        - RoleAssignment
       responses:
         '200':
           description: OK
@@ -779,7 +789,8 @@ paths:
     get:
       summary: /synchronization/users GET
       operationId: synchronization-users#get
-      tags: []
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -863,7 +874,8 @@ paths:
     post:
       summary: /synchronization/users POST
       operationId: synchronization-user#post
-      tags: []
+      tags:
+        - Users
       responses:
         '201':
           description: Created
@@ -899,7 +911,8 @@ paths:
     get:
       summary: '/synchronization/users/{id} GET'
       operationId: synchronization-user#get
-      tags: []
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -925,7 +938,8 @@ paths:
     put:
       summary: '/synchronization/users/{id} PUT'
       operationId: synchronization-user#put
-      tags: []
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -952,7 +966,8 @@ paths:
     patch:
       summary: '/synchronization/users/{id} PATCH'
       operationId: synchronization-user#patch
-      tags: []
+      tags:
+        - Users
       responses:
         '200':
           description: OK
