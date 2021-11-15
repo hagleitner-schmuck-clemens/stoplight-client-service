@@ -1523,6 +1523,8 @@ paths:
             application/json:
               schema:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
       operationId: self-assignment-credentials#get
       x-internal: false
       description: Gets a list of currently active self-assignment credentials. List is ordered ascending by ValidTill date.
@@ -1568,12 +1570,6 @@ paths:
             application/json:
               schema:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
-              examples:
-                Self assignment without customer number:
-                  value:
-                    type: self-assignment-credentials-without-customernumber
-                    title: Self assignment only possible for customers with a customer number
-                    detail: Self-assignment credentials can only be issued for customers with an assigned customer number.
         '401':
           description: Unauthorized
         '403':

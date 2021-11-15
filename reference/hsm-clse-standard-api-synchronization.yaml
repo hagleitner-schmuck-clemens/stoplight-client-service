@@ -704,7 +704,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: '/synchronization/customers/{id}/role-assignments#get'
+      operationId: synchronization-customer-role-assignment#GET
       description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
         - schema:
@@ -731,7 +731,7 @@ paths:
         - RoleAssignments
     post:
       summary: '/synchronization/customers/{id}/role-assignments POST'
-      operationId: '/synchronization/customers/{id}/role-assignments#post'
+      operationId: synchronization-customer-role-assignment#POST
       responses:
         '201':
           description: Created
@@ -780,7 +780,7 @@ paths:
             application/json:
               schema:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
-      operationId: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}#get'
+      operationId: 'synchronization-role-assignments#get'
       description: Gets a role-assignemnt
       parameters: []
       x-internal: true
