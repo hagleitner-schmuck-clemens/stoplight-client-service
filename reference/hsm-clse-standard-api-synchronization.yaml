@@ -6,7 +6,8 @@ info:
     url: 'http://www.hagleitner.com/'
     email: office@hagleitner.com
   version: 1.0.0-alpha.3
-  description: ''
+  description: This API is used to synchronize business data resources with external systems. It uses service authentication with tokens provided by AD. Once authenticated a process accessing this API is authorized to access any endpoint without restrictions.
+  summary: API for Business data synchronization
 servers:
   - url: 'http://localhost:3000'
 tags:
@@ -780,7 +781,7 @@ paths:
             application/json:
               schema:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
-      operationId: 'synchronization-role-assignments#get'
+      operationId: synchronization-role-assignments#get
       description: Gets a role-assignemnt
       parameters: []
       x-internal: true
