@@ -1863,8 +1863,8 @@ components:
             - message
     response-403-forbidden:
       type: object
-    roleAssignment-customer:
-      title: roleAssignment-customer
+    customerRoleAssignment-customer:
+      title: customerRoleAssignment-customer
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -1873,6 +1873,7 @@ components:
           roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
           userDisplayName: 'Doe, John'
           roleName: Customer Administrator
+      description: Represents a customer role assignment from a customers perspective.
       properties:
         id:
           type: string
@@ -1900,6 +1901,10 @@ components:
           type: string
           description: Name of the assigned role
           readOnly: true
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
       required:
         - id
         - userId
@@ -1907,9 +1912,9 @@ components:
         - roleId
         - userDisplayName
         - roleName
-      description: Represents a role assignment from a customers perspective.
-    roleAssignment-customer-synchronization:
-      title: roleAssignment-customer
+        - externallyManaged
+    customerRoleAssignment-customer-synchronization:
+      title: customerRoleAssignment-customer-synchronization
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -1918,7 +1923,7 @@ components:
           roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
           userDisplayName: 'Doe, John'
           roleName: Customer Administrator
-      description: Represents a role assignment from a customers perspective.
+      description: Represents a customer role assignment from a customers perspective. Includes additional data for synchronization.
       properties:
         id:
           type: string
@@ -1954,6 +1959,8 @@ components:
         externallyManaged:
           type: boolean
           default: false
+        applicableToRelatedCustomersOnly:
+          type: boolean
       required:
         - id
         - userId
@@ -1962,8 +1969,8 @@ components:
         - userDisplayName
         - roleName
         - externallyManaged
-    roleAssignment-user:
-      title: roleAssignment-user
+    customerRoleAssignment-user:
+      title: customerRoleAssignment-user
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -1972,6 +1979,7 @@ components:
           roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
           userDisplayName: 'Doe, John'
           roleName: Customer Administrator
+      description: Represents a customer role assignment from a users perspective.
       properties:
         id:
           type: string
@@ -1999,6 +2007,10 @@ components:
           type: string
           description: Name of the assigned role
           readOnly: true
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
       required:
         - id
         - customerId
@@ -2006,9 +2018,8 @@ components:
         - roleId
         - customerDisplayName
         - roleName
-      description: Represents a role assignment from a users perspective.
     systemRoleAssignment:
-      title: roleAssignment-user
+      title: systemRoleAssignment
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -2051,7 +2062,7 @@ components:
         - userId
         - userDisplayName
     systemRoleAssignment-synchronization:
-      title: roleAssignment-user
+      title: systemRoleAssignment-synchronization
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08

@@ -47,7 +47,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
         '400':
           description: Bad Request
           content:
@@ -777,7 +777,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
       operationId: customer-effective-roles#get
       description: Gets effective roles applied to this customer.
       parameters:
@@ -1241,7 +1241,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
         '400':
           description: Bad Request
           content:
@@ -1314,7 +1314,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
       tags:
         - RoleAssignment
   '/customers/{id}/rooms':
@@ -2759,7 +2759,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
         '400':
           description: Bad Request
           content:
@@ -2808,7 +2808,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
+              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
       tags:
         - RoleAssignment
   '/system/role-assignments/{id}':
@@ -2828,7 +2828,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
         '400':
           description: Bad Request
           content:
@@ -3160,7 +3160,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
         '400':
           description: Bad Request
           content:
@@ -3196,7 +3196,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
         '400':
           description: Bad Request
           content:
@@ -3313,7 +3313,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
           headers: {}
         '201':
           description: Created
