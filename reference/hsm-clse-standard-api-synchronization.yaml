@@ -9,7 +9,7 @@ info:
   description: This API is used to synchronize business data resources with external systems. It uses service authentication with tokens provided by AD. Once authenticated a process accessing this API is authorized to access any endpoint without restrictions.
   summary: API for Business data synchronization
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://localhost:3000/api/standard/v1'
 tags:
   - name: Branding
   - name: Customers
