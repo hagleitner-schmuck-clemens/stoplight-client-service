@@ -173,7 +173,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id} GET'
+      summary: '/customers/{id}'
       operationId: synchronization-customer#get
       tags:
         - Customers
@@ -208,7 +208,7 @@ paths:
       description: Gets customer with detail information useful for synchronization with other systems.
       parameters: []
     put:
-      summary: '/customers/{id} PUT'
+      summary: '/customers/{id}'
       operationId: synchronization-customer#put
       tags:
         - Customers
