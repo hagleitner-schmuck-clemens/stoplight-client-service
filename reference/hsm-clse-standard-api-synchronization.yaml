@@ -5,11 +5,11 @@ info:
     name: Hagleitner Hygiene Internaltional GmbH
     url: 'http://www.hagleitner.com/'
     email: office@hagleitner.com
-  version: 1.0.0-alpha.3
+  version: 1.0.0-beta.1
   description: This API is used to synchronize business data resources with external systems. It uses service authentication with tokens provided by AD. Once authenticated a process accessing this API is authorized to access any endpoint without restrictions.
   summary: API for Business data synchronization
 servers:
-  - url: 'http://localhost:3000/api/standard/v1'
+  - url: 'http://clse.hsm-test.com/api/standard/v1'
 tags:
   - name: Branding
   - name: Customers
@@ -454,8 +454,8 @@ paths:
           format: uuid
         name: id
         in: path
-        required: true
         description: ID of the customer
+        required: true
     get:
       summary: '/synchronization/customers/{id}/invoice-relation GET'
       operationId: synchronization-customer-invoice-relation#get

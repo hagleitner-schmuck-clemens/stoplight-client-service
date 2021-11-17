@@ -5,7 +5,7 @@ info:
   summary: Base models for HsM Client Service APIs
   description: ''
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://clse.hsm-test.com'
 paths: {}
 components:
   schemas:
