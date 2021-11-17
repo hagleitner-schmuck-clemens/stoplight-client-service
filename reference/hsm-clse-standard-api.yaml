@@ -2974,7 +2974,7 @@ paths:
             default: 'active, inactive'
           in: query
           name: status
-          description: Filters users based on their status. ON
+          description: Filters users based on their status. Only users with a status that matches one of the given status will pass the filter.
       tags:
         - Users
     post:

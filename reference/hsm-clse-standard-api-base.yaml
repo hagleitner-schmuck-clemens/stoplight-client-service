@@ -1080,6 +1080,43 @@ components:
         - id
         - customerId
         - externallyManaged
+    customerRelation-synchronization-list:
+      type: object
+      title: resellerRelation-synchronization-list
+      description: 'Represents a customer relation between two customers in HsM, including synchronization data.'
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        parentId:
+          type: string
+          format: uuid
+        childId:
+          type: string
+          format: uuid
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        externallyManaged:
+          type: boolean
+          default: false
+          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
+        synchronizationId:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - id
+        - parentId
+        - childId
+        - externallyManaged
     location:
       title: ''
       type: object
