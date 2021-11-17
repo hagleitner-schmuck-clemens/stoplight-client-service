@@ -1,9 +1,11 @@
 openapi: 3.1.0
 info:
-  title: Standard API - Base
-  version: 1.0.0-alpha.3
+  title: Base Models
+  version: 1.0.0-beta.1
+  summary: Base models for HsM Client Service APIs
+  description: This API specification contains only bae models.
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://clse.hsm-test.com'
 paths: {}
 components:
   schemas:
@@ -205,9 +207,10 @@ components:
           clientSpecificOptions:
             webPortal:
               favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
+      title: ''
     customer:
       type: object
-      title: customer
+      title: ''
       description: Describes a customer.
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -346,7 +349,7 @@ components:
         - externallyManaged
     customer-light:
       type: object
-      title: customer
+      title: ''
       description: Describes a customer.
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -429,7 +432,7 @@ components:
         - name1
     customer-favorite:
       type: object
-      title: customer
+      title: ''
       description: Describe a favorite customer of a user.
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -515,7 +518,7 @@ components:
         - name1
     customer-recently-used:
       type: object
-      title: customer
+      title: ''
       description: Describes a customer.
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -603,7 +606,7 @@ components:
         - latestUsedAt
     customer-role-inheritance:
       type: object
-      title: customer-role-inheritance
+      title: ''
       description: Describes a customer.
       properties:
         AllowRoleInheritanceFromReseller:
@@ -708,7 +711,7 @@ components:
           writeOnly: true
     customer-synchronization:
       type: object
-      title: customer-synchronization
+      title: ''
       description: Describes a customer of the HsM system together with information relevant for synchronization with other business systems.
       properties:
         id:
@@ -889,7 +892,7 @@ components:
           clientSpecificOptions:
             webPortal:
               favIcon: 'https://hagleitner.com/logos/hsm-favicon.svg'
-      title: customerBranding
+      title: ''
       properties:
         displayModeDark:
           type: object
@@ -1028,7 +1031,7 @@ components:
         - displayModeLight
     customerRelation:
       type: object
-      title: resellerRelation-up
+      title: ''
       description: Represents a customer relation. The meaning of the customerId depends on the use case.
       properties:
         Id:
@@ -1049,7 +1052,7 @@ components:
         - customerId
     customerRelation-synchronization:
       type: object
-      title: resellerRelation-synchronization
+      title: ''
       description: 'Represents a customer relation between two customers in HsM, including synchronization data.'
       properties:
         id:
@@ -1082,7 +1085,7 @@ components:
         - externallyManaged
     customerRelation-synchronization-list:
       type: object
-      title: resellerRelation-synchronization-list
+      title: ''
       description: 'Represents a customer relation between two customers in HsM, including synchronization data.'
       properties:
         id:
@@ -1650,7 +1653,7 @@ components:
         - status
     user-synchronization:
       type: object
-      title: synchronizationUser
+      title: ''
       description: 'Represents a user of the HsM system including synchronization data. '
       properties:
         id:
@@ -1725,7 +1728,7 @@ components:
         - latestUpdatedAt
         - externallyManaged
     customerSelfAssignmentCredentials:
-      title: customerSelfAssignmentCredentials
+      title: ''
       type: object
       properties:
         Id:
@@ -1863,8 +1866,9 @@ components:
             - message
     response-403-forbidden:
       type: object
+      title: ''
     customerRoleAssignment-customer:
-      title: customerRoleAssignment-customer
+      title: ''
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -1914,7 +1918,7 @@ components:
         - roleName
         - externallyManaged
     customerRoleAssignment-customer-synchronization:
-      title: customerRoleAssignment-customer-synchronization
+      title: ''
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -1970,7 +1974,7 @@ components:
         - roleName
         - externallyManaged
     customerRoleAssignment-user:
-      title: customerRoleAssignment-user
+      title: ''
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -2019,7 +2023,7 @@ components:
         - customerDisplayName
         - roleName
     systemRoleAssignment:
-      title: systemRoleAssignment
+      title: ''
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -2062,7 +2066,7 @@ components:
         - userId
         - userDisplayName
     systemRoleAssignment-synchronization:
-      title: systemRoleAssignment-synchronization
+      title: ''
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -2106,7 +2110,7 @@ components:
         - externallyManaged
     userStatus:
       type: string
-      title: userStatus
+      title: ''
       enum:
         - active
         - inactive
@@ -2116,7 +2120,7 @@ components:
       default: active
     customerstatus.READONLY:
       type: string
-      title: customer.READONLY
+      title: ''
       enum:
         - active
         - inactive

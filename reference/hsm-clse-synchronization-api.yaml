@@ -1,15 +1,28 @@
 openapi: 3.1.0
 info:
-  title: Standard API - Synchronization
+  title: Business data synchronization API
   contact:
     name: Hagleitner Hygiene Internaltional GmbH
     url: 'http://www.hagleitner.com/'
     email: office@hagleitner.com
-  version: 1.0.0-alpha.3
-  description: This API is used to synchronize business data resources with external systems. It uses service authentication with tokens provided by AD. Once authenticated a process accessing this API is authorized to access any endpoint without restrictions.
+  version: 1.0.0-beta.1
+  description: |
+    ## General description
+
+    This API is used to synchronize business data resources with external systems. It uses service authentication with tokens provided by AD. Once authenticated a process accessing this API is authorized to access any endpoint without restrictions.
+
+    The Standard API is a client agnostic API to the HsM Client Service.
+
+    ## Notes for developers
+
+    ### i18N and Accept-Language header
+    All operations will respect Accept-Language headers. If the operation has to handle localizable content it will do so respecting the Accept-Language header. This includes formatting of culture-specific data, sorting, language-specific content (phrases) etc.
+
+    ### Responses
+    This specification shows only the most relevant responses. Clients have to still handle all other possible HTTP Response codes.
   summary: API for Business data synchronization
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://clse.hsm-test.com/api/standard/v1'
 tags:
   - name: Branding
   - name: Customers
@@ -454,8 +467,8 @@ paths:
           format: uuid
         name: id
         in: path
-        required: true
         description: ID of the customer
+        required: true
     get:
       summary: '/synchronization/customers/{id}/invoice-relation GET'
       operationId: synchronization-customer-invoice-relation#get
