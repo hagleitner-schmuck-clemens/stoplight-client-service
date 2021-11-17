@@ -1908,6 +1908,60 @@ components:
         - userDisplayName
         - roleName
       description: Represents a role assignment from a customers perspective.
+    roleAssignment-customer-synchronization:
+      title: roleAssignment-customer
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a role assignment from a customers perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        userDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        synchronizationid:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+        externallyManaged:
+          type: boolean
+          default: false
+      required:
+        - id
+        - userId
+        - assignedAt
+        - roleId
+        - userDisplayName
+        - roleName
+        - externallyManaged
     roleAssignment-user:
       title: roleAssignment-user
       type: object
@@ -1996,6 +2050,49 @@ components:
         - roleName
         - userId
         - userDisplayName
+    systemRoleAssignment-synchronization:
+      title: roleAssignment-user
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a role assignment from a users perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        externallyManaged:
+          type: boolean
+          default: false
+        synchronizationId:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+      required:
+        - id
+        - assignedAt
+        - roleId
+        - userId
+        - externallyManaged
     userStatus:
       type: string
       title: userStatus
