@@ -20,15 +20,13 @@ info:
 servers:
   - url: 'http://clse.hsm-test.com/api/standard/v1'
 tags:
-  - name: Branding
   - name: Customers
-  - name: DataSynchronization
-  - name: RoleAssignment
+  - name: CustomerFavorites
+  - name: Locations
+  - name: RoleAssignments
   - name: SelfRegistration
   - name: System
   - name: Users
-  - name: CustomerFavorites
-  - name: Locations
 paths:
   '/customer-role-assignments/{id}':
     parameters:
@@ -79,7 +77,7 @@ paths:
           description: ID of the role assignment
       x-internal: false
       tags:
-        - RoleAssignment
+        - RoleAssignments
     delete:
       summary: ''
       operationId: /customer-role-assignments-id-delete
@@ -111,7 +109,7 @@ paths:
           name: Id
           description: ID of the role assignment.
       tags:
-        - RoleAssignment
+        - RoleAssignments
   /customers:
     get:
       summary: /customers GET
@@ -791,7 +789,7 @@ paths:
           description: Filters the effective roles to those given to the provided user id.
       x-internal: false
       tags:
-        - RoleAssignment
+        - RoleAssignments
   '/customers/{id}/invoice-recipient-path':
     parameters:
       - schema:
@@ -1282,7 +1280,7 @@ paths:
           description: If given filters the list for roles assigned to that specific user
       x-internal: false
       tags:
-        - RoleAssignment
+        - RoleAssignments
     post:
       summary: '/customers/{id}/role-assignments POST'
       operationId: customer-role-assignments#post
@@ -1316,7 +1314,7 @@ paths:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
       tags:
-        - RoleAssignment
+        - RoleAssignments
   '/customers/{id}/rooms':
     parameters:
       - schema:
@@ -2784,7 +2782,7 @@ paths:
           description: If given filters the list for roles assigned to that specific user.
       x-internal: false
       tags:
-        - RoleAssignment
+        - RoleAssignments
     post:
       summary: ''
       operationId: system-role-assignments#post
@@ -2810,7 +2808,7 @@ paths:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
       tags:
-        - RoleAssignment
+        - RoleAssignments
   '/system/role-assignments/{id}':
     parameters:
       - schema:
@@ -2852,7 +2850,7 @@ paths:
           description: ID of the role assignment
       x-internal: false
       tags:
-        - RoleAssignment
+        - RoleAssignments
     delete:
       summary: ''
       operationId: system-role-assignment#delete
@@ -2880,7 +2878,7 @@ paths:
           name: Id
           description: ID of the role assignment.
       tags:
-        - RoleAssignment
+        - RoleAssignments
   /system/roles:
     get:
       summary: /system/roles GET
@@ -3176,7 +3174,7 @@ paths:
       operationId: user-customer-count#get
       description: Gets the number of customer this user has access to. Will only include active customers
       tags:
-        - RoleAssignment
+        - RoleAssignments
   '/users/{id}/customer-roles':
     parameters:
       - schema:
@@ -3221,7 +3219,7 @@ paths:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
       tags:
-        - RoleAssignment
+        - RoleAssignments
   '/users/{id}/favorite-customers':
     parameters:
       - schema:
@@ -3343,7 +3341,7 @@ paths:
           name: offset
           description: 'Pagination, page offset'
       tags:
-        - RoleAssignment
+        - RoleAssignments
 components:
   schemas: {}
   responses: {}
