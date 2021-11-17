@@ -6,14 +6,15 @@ info:
     url: 'http://www.hagleitner.com/'
     email: office@hagleitner.com
   version: 1.0.0-alpha.3
-  description: ''
+  description: This API is used to synchronize business data resources with external systems. It uses service authentication with tokens provided by AD. Once authenticated a process accessing this API is authorized to access any endpoint without restrictions.
+  summary: API for Business data synchronization
 servers:
   - url: 'http://localhost:3000'
 tags:
   - name: Branding
   - name: Customers
-  - name: DataSynchronization
-  - name: RoleAssignment
+  - name: CustomerRelations
+  - name: RoleAssignments
   - name: SelfRegistration
   - name: System
   - name: Users
@@ -25,8 +26,6 @@ paths:
     get:
       summary: /synchronization/customers GET
       operationId: synchronization-customers#get
-      tags:
-        - DataSynchronization
       responses:
         '200':
           description: OK
@@ -119,6 +118,8 @@ paths:
           in: query
           name: nameStartsWith
           description: Filters for customers whose name starts with the given string. String matching is done case insensitive..
+      tags:
+        - Customers
     post:
       summary: /synchronization/customers POST
       operationId: synchronization-customer#post
@@ -233,7 +234,6 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/condition-relation GET'
       operationId: synchronization-customer-condition-relation#get
-      tags: []
       responses:
         '200':
           description: OK
@@ -265,10 +265,13 @@ paths:
           description: Internal Server Error
       description: 'Gets the condition relation of this customer (i.e. looking up the relation tree) with detail information useful for synchronization with other systems. '
       parameters: []
+      tags:
+        - CustomerRelations
     put:
       summary: '/synchronization/customers/{id}/condition-relation PUT'
       operationId: synchronization-customer-condition-relation#put
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -304,7 +307,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/customer-condition-relations GET'
       operationId: synchronization-customer-condition-relations#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -344,7 +348,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/customer-hierarchy-relation GET'
       operationId: synchronization-customer-customer-hierarchy-relation#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -376,7 +381,8 @@ paths:
     put:
       summary: '/synchronization/customers/{id}/customer-hierarchy-relation PUT'
       operationId: synchronization-customer-customer-hierarchy-relation#put
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -411,7 +417,8 @@ paths:
         description: ID of the customer
     get:
       summary: '/synchronization/customers/{id}/customer-hierarchy-relations GET'
-      tags: []
+      tags:
+        - CustomerRelations
       operationId: synchronization-customer-customer-hierarchy-relations#get
       responses:
         '200':
@@ -452,7 +459,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/invoice-relation GET'
       operationId: synchronization-customer-invoice-relation#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -488,7 +496,8 @@ paths:
     put:
       summary: '/synchronization/customers/{id}/invoice-relation PUT'
       operationId: synchronization-customer-invoice-relation#put
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -524,7 +533,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/invoice-relations GET'
       operationId: synchronization-customer-invoice-relations#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -592,8 +602,7 @@ paths:
       description: 'Gets the reseller relation of this customer (i.e. looking up the reseller relation) with detail information useful for synchronization with other systems. '
       parameters: []
       tags:
-        - DataSynchronization
-        - Users
+        - CustomerRelations
     put:
       summary: '/synchronization/customers/{id}/reseller-relation PUT'
       operationId: synchronization-customer-reseller-relation#put
@@ -621,7 +630,7 @@ paths:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization
       tags:
-        - DataSynchronization
+        - CustomerRelations
   '/synchronization/customers/{id}/reseller-relations':
     parameters:
       - schema:
@@ -634,7 +643,8 @@ paths:
     get:
       summary: '/synchronization/customers/{id}/reseller-relations GET'
       operationId: synchronization-customer-reseller-relations#get
-      tags: []
+      tags:
+        - CustomerRelations
       responses:
         '200':
           description: OK
@@ -672,8 +682,6 @@ paths:
         description: ID of the customer
     get:
       summary: '/synchronization/customers/{id}/role-assignments GET'
-      tags:
-        - Customers
       responses:
         '200':
           description: OK
@@ -682,7 +690,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer-synchronization
         '400':
           description: Bad Request
           content:
@@ -697,7 +705,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: '/synchronization/customers/{id}/role-assignments#get'
+      operationId: synchronization-customer-role-assignment#GET
       description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
         - schema:
@@ -716,20 +724,23 @@ paths:
           description: 'Pagination, page offset'
         - schema:
             type: string
+            format: uuid
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user
       x-internal: false
+      tags:
+        - RoleAssignments
     post:
       summary: '/synchronization/customers/{id}/role-assignments POST'
-      operationId: '/synchronization/customers/{id}/role-assignments#post'
+      operationId: synchronization-customer-role-assignment#POST
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
         '400':
           description: Bad Request
           content:
@@ -745,13 +756,158 @@ paths:
         '500':
           description: Internal Server Error
       description: Creates a new role-assignement for this customer.
-      tags:
-        - Customers
       requestBody:
         content:
           application/json:
             schema:
-              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
+      tags:
+        - RoleAssignments
+  '/synchronization/customers/{id}/status':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/synchronization/customers/{id}/status#get'
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                  - active
+                  - inactive
+                  - deleted
+                example: inactive
+      operationId: synchronization-customer-status#get
+      x-internal: false
+      description: Gets all the customers on the condition path from the root to this customer as sorted list.
+    put:
+      summary: '/customers/{id}/status#put'
+      operationId: customer-status#put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                required: true
+                enum:
+                  - active
+                  - inactive
+                  - deleted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      description: Modifies the status of a customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+                - active
+                - inactive
+                - deleted
+      tags:
+        - Customers
+  /synchronization/customer-relations:
+    parameters: []
+    get:
+      summary: /synchronization/customers-relations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization-list
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: synchronization-customer-relationst#GET
+      description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 1000
+          in: query
+          name: limit
+          description: 'Pagination, maximum page size'
+        - schema:
+            type: integer
+            minimum: 0
+          in: query
+          name: offset
+          description: 'Pagination, page offset'
+        - schema:
+            type: string
+            enum:
+              - invoice
+              - customer-hierarchy
+              - condition
+              - reseller
+            example: invoice
+          in: query
+          name: relationType
+          required: true
+          description: Filters for relations of this specific type only.
+        - schema:
+            type: string
+          in: query
+          name: childCustomerId
+          description: Filters for relations where the child is the customer with the given ID.
+        - schema:
+            type: string
+          in: query
+          name: parentCustomerId
+          description: Filters for relations where the parent is the customer with the given ID.
+        - schema:
+            type: boolean
+          in: query
+          name: synchronizationIdAvailable
+          description: 'Filters for users based on the availability of a synchronizationId. If set to true only relations with a non-empty synchronizationId will pass the filter, if set to false only users with an empty synchronizationId will pass the filter.  '
+      x-internal: false
+      tags:
+        - RoleAssignments
   '/synchronization/role-assignments/{id}':
     parameters:
       - schema:
@@ -762,24 +918,163 @@ paths:
         description: ID of the customer
     get:
       summary: '/synchronization/role-assignments/{id}'
-      tags: []
+      tags:
+        - RoleAssignments
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
-      operationId: '/synchronization/customers/{id}/role-assignments/{role-assignment-id}#get'
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
+      operationId: synchronization-role-assignments#get
       description: Gets a role-assignemnt
       parameters: []
       x-internal: true
+  /synchronization/system-role-assignments:
+    parameters: []
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/systemRoleAssignment-synchronization
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: system-role-assignment#get
+      description: Gets a role assignement between users and the system.
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: userId
+          description: Filters for system role assignments for a specific user.
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+      x-internal: false
+      tags:
+        - RoleAssignments
+    post:
+      summary: ''
+      operationId: post-synchronization-system-role-assignments
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/systemRoleAssignment-synchronization
+      description: Creates a new system role assignment
+      tags:
+        - RoleAssignments
+  '/synchronization/system/role-assignments/{id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/systemRoleAssignment-synchronization
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: synchronization-system-role-assignment#get
+      description: Gets a role assignement between users and the system.
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: Id
+          description: ID of the role assignment
+      x-internal: false
+      tags:
+        - RoleAssignments
+    delete:
+      summary: ''
+      operationId: system-role-assignment#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Deletes a system role assignment.
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: Id
+          description: ID of the role assignment.
+      tags:
+        - RoleAssignments
   /synchronization/users:
     parameters: []
     get:
       summary: /synchronization/users GET
       operationId: synchronization-users#get
-      tags: []
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -806,6 +1101,10 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
         '500':
           description: Internal Server Error
       description: Gets registered users with detail information useful for synchronization with other systems.
@@ -813,22 +1112,11 @@ paths:
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
         - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
         - schema:
-            type: boolean
-            default: false
+            type: string
+            example: 'active,inactive'
           in: query
-          name: includeDeleted
-          description: 'Filters users based on user status. If true only users with status ''deleted'' will pass the filter, if false only users with a status not equal to ''deleted'' will pass the filter.'
-        - schema:
-            type: boolean
-            default: true
-          in: query
-          name: includeDeactivated
-          description: 'Filters users based on user status. If true only users with status ''deactivated'' will pass the filter, if false only users with a status not equal to ''deleted'' status will pass the filter.'
-        - schema:
-            type: boolean
-          in: query
-          name: includeActive
-          description: 'Filters users based on user status. If true only uses with status ''active'' will pass the filter, if false only users with a status not equal to ''active'' will pass the filter.'
+          name: status
+          description: Filters users based on user status. If given only users one of the given status will pass the filter.
         - schema:
             type: string
             format: email
@@ -863,7 +1151,8 @@ paths:
     post:
       summary: /synchronization/users POST
       operationId: synchronization-user#post
-      tags: []
+      tags:
+        - Users
       responses:
         '201':
           description: Created
@@ -899,7 +1188,8 @@ paths:
     get:
       summary: '/synchronization/users/{id} GET'
       operationId: synchronization-user#get
-      tags: []
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -925,7 +1215,8 @@ paths:
     put:
       summary: '/synchronization/users/{id} PUT'
       operationId: synchronization-user#put
-      tags: []
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -952,7 +1243,8 @@ paths:
     patch:
       summary: '/synchronization/users/{id} PATCH'
       operationId: synchronization-user#patch
-      tags: []
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -976,5 +1268,83 @@ paths:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization
       description: Performs a partial update on a user-synchronization resource.
+  '/synchronization/users/{id}/status':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/synchronization/users/{id}/status GET'
+      operationId: synchronization-user-status#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                  - active
+                  - inactive
+                  - deleted
+                  - masked
+              examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: |-
+        Gets a the status of a specific user.
+        Active: The user can interact with the system.
+        Inactive: The user can (temporarily) not interact with the system but can be reactivatd
+        Deleted: The user was deleted and cannot be re-activated. The e-mail address of deleted users does not have to be unique within the system.
+        Masked: The user was deleted and finally the data of the user was masked to support GPDR requirements. Masked users cannot be reactivated. All personal infomrmation is removed.
+      tags:
+        - Users
+    put:
+      summary: '/synchronization/users/{id}/status PUT'
+      operationId: user-status#put
+      description: Updates a user's status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/userStatus
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+                - active
+                - inactive
+                - deleted
+                - masked
 components:
   schemas: {}

@@ -1080,6 +1080,43 @@ components:
         - id
         - customerId
         - externallyManaged
+    customerRelation-synchronization-list:
+      type: object
+      title: resellerRelation-synchronization-list
+      description: 'Represents a customer relation between two customers in HsM, including synchronization data.'
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        parentId:
+          type: string
+          format: uuid
+        childId:
+          type: string
+          format: uuid
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        externallyManaged:
+          type: boolean
+          default: false
+          description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
+        synchronizationId:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - id
+        - parentId
+        - childId
+        - externallyManaged
     location:
       title: ''
       type: object
@@ -1631,12 +1668,6 @@ components:
           example: Doe
           maxLength: 50
           description: Sure name of the user.
-        callName:
-          type: string
-          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
-        sortName:
-          type: string
-          description: A presentation of the user's full name that is used for sorting.
         emailAddress:
           type: string
           description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
@@ -1688,7 +1719,6 @@ components:
       required:
         - id
         - sureName
-        - sortName
         - emailAddress
         - preferredCulture
         - createdAt
@@ -1833,8 +1863,8 @@ components:
             - message
     response-403-forbidden:
       type: object
-    roleAssignment-customer:
-      title: roleAssignment-customer
+    customerRoleAssignment-customer:
+      title: customerRoleAssignment-customer
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -1843,6 +1873,7 @@ components:
           roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
           userDisplayName: 'Doe, John'
           roleName: Customer Administrator
+      description: Represents a customer role assignment from a customers perspective.
       properties:
         id:
           type: string
@@ -1870,6 +1901,10 @@ components:
           type: string
           description: Name of the assigned role
           readOnly: true
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
       required:
         - id
         - userId
@@ -1877,9 +1912,9 @@ components:
         - roleId
         - userDisplayName
         - roleName
-      description: Represents a role assignment from a customers perspective.
-    roleAssignment-user:
-      title: roleAssignment-user
+        - externallyManaged
+    customerRoleAssignment-customer-synchronization:
+      title: customerRoleAssignment-customer-synchronization
       type: object
       examples:
         - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
@@ -1888,6 +1923,63 @@ components:
           roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
           userDisplayName: 'Doe, John'
           roleName: Customer Administrator
+      description: Represents a customer role assignment from a customers perspective. Includes additional data for synchronization.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        userDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        synchronizationid:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+        externallyManaged:
+          type: boolean
+          default: false
+        applicableToRelatedCustomersOnly:
+          type: boolean
+      required:
+        - id
+        - userId
+        - assignedAt
+        - roleId
+        - userDisplayName
+        - roleName
+        - externallyManaged
+    customerRoleAssignment-user:
+      title: customerRoleAssignment-user
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a customer role assignment from a users perspective.
       properties:
         id:
           type: string
@@ -1915,6 +2007,10 @@ components:
           type: string
           description: Name of the assigned role
           readOnly: true
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
       required:
         - id
         - customerId
@@ -1922,7 +2018,92 @@ components:
         - roleId
         - customerDisplayName
         - roleName
+    systemRoleAssignment:
+      title: systemRoleAssignment
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
       description: Represents a role assignment from a users perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+        userDisplayName:
+          type: string
+          readOnly: true
+      required:
+        - id
+        - assignedAt
+        - roleId
+        - roleName
+        - userId
+        - userDisplayName
+    systemRoleAssignment-synchronization:
+      title: systemRoleAssignment-synchronization
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a role assignment from a users perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        externallyManaged:
+          type: boolean
+          default: false
+        synchronizationId:
+          type: string
+          format: uuid
+        synchronizationInformation:
+          type: string
+      required:
+        - id
+        - assignedAt
+        - roleId
+        - userId
+        - externallyManaged
     userStatus:
       type: string
       title: userStatus
