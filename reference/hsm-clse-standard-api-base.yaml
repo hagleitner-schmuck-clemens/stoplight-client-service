@@ -3,7 +3,7 @@ info:
   title: Standard API - Base
   version: 1.0.0-beta.1
   summary: Base models for HsM Client Service APIs
-  description: ''
+  description: This API specification contains only bae models.
 servers:
   - url: 'http://clse.hsm-test.com'
 paths: {}
