@@ -785,6 +785,76 @@ paths:
       description: Gets a role-assignemnt
       parameters: []
       x-internal: true
+  '/synchronization/system/role-assignments/{id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/systemRoleAssignment
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: system-role-assignment#get
+      description: Gets a role assignement between users and the system.
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: Id
+          description: ID of the role assignment
+      x-internal: false
+      tags:
+        - RoleAssignment
+    delete:
+      summary: ''
+      operationId: system-role-assignment#delete
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Deletes a system role assignment.
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: Id
+          description: ID of the role assignment.
+      tags:
+        - RoleAssignment
   /synchronization/users:
     parameters: []
     get:
@@ -992,5 +1062,83 @@ paths:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization
       description: Performs a partial update on a user-synchronization resource.
+  '/synchronization/users/{id}/status':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/users/{id}/status GET'
+      operationId: user-status#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                  - active
+                  - inactive
+                  - deleted
+                  - masked
+              examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: |-
+        Gets a the status of a specific user.
+        Active: The user can interact with the system.
+        Inactive: The user can (temporarily) not interact with the system but can be reactivatd
+        Deleted: The user was deleted and cannot be re-activated. The e-mail address of deleted users does not have to be unique within the system.
+        Masked: The user was deleted and finally the data of the user was masked to support GPDR requirements. Masked users cannot be reactivated. All personal infomrmation is removed.
+      tags:
+        - Users
+    put:
+      summary: '/users/{id}/status PUT'
+      operationId: user-status#put
+      description: Updates a user's status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/userStatus
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+                - active
+                - inactive
+                - deleted
+                - masked
 components:
   schemas: {}

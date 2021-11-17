@@ -2828,7 +2828,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-customer
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/roleAssignment-user
         '400':
           description: Bad Request
           content:

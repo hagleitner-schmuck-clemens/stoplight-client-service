@@ -1631,12 +1631,6 @@ components:
           example: Doe
           maxLength: 50
           description: Sure name of the user.
-        callName:
-          type: string
-          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
-        sortName:
-          type: string
-          description: A presentation of the user's full name that is used for sorting.
         emailAddress:
           type: string
           description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
@@ -1688,7 +1682,6 @@ components:
       required:
         - id
         - sureName
-        - sortName
         - emailAddress
         - preferredCulture
         - createdAt
@@ -1923,6 +1916,49 @@ components:
         - customerDisplayName
         - roleName
       description: Represents a role assignment from a users perspective.
+    systemRoleAssignment:
+      title: roleAssignment-user
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a role assignment from a users perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+        userDisplayName:
+          type: string
+          readOnly: true
+      required:
+        - id
+        - assignedAt
+        - roleId
+        - roleName
+        - userId
+        - userDisplayName
     userStatus:
       type: string
       title: userStatus
