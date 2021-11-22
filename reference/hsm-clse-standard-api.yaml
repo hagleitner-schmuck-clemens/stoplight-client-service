@@ -1444,7 +1444,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage                
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -1635,7 +1635,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage   
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -1666,7 +1666,7 @@ paths:
           description: Filters credentials by their status
       tags:
         - SelfRegistration
-  '/customers/{id}/self-assignment-credentials/current':
+  '/customers/{id}/self-assignment-credentials/latest':
     parameters:
       - schema:
           type: string
@@ -1676,7 +1676,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/self-assignment-credentials/current GET'
+      summary: '/customers/{id}/self-assignment-credentials/latest GET'
       responses:
         '200':
           description: OK
@@ -1750,7 +1750,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage  
+                  - currentPage
       operationId: customer-customer-hierarchy-path-elements#get
       x-internal: false
       description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
@@ -1780,9 +1780,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
   '/customers/{id}/subsidiaries':
     parameters:
       - schema:
@@ -1801,9 +1818,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
       operationId: customer-subsidiaries#get
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
@@ -1848,7 +1882,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage 
+                  - currentPage
       operationId: customer-beneficiaries#get
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
@@ -2630,7 +2664,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage 
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -2938,9 +2972,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -3072,21 +3123,6 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
-                  id:
-                    type: string
-                  cod:
-                    type: string
-                  name:
-                    type: string
-                  propagateToResellerCustomer:
-                    type: string
-                  propagateToSubsidiaries:
-                    type: string
-                  propagateToInvoiceSources:
-                    type: string
-                  propagateToBeneficiaries:
-                    type: string
         '400':
           description: Bad Request
           content:
@@ -3147,7 +3183,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage                 
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -3407,7 +3443,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage   
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -3541,7 +3577,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage   
+                  - currentPage
           headers: {}
         '201':
           description: Created
