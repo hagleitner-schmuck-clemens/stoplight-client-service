@@ -121,9 +121,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
           headers:
             header-0:
               schema:
@@ -558,9 +575,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-building
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-building
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -580,6 +614,9 @@ paths:
       description: Gets all buildings of a csutomer.
       tags:
         - Customers
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
   '/customers/{id}/customer-hierarchy-relation':
     parameters:
       - schema:
@@ -773,9 +810,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
       operationId: customer-effective-roles#get
       description: Gets effective roles applied to this customer.
       parameters:
@@ -918,12 +972,24 @@ paths:
               schema:
                 type: object
                 properties:
-                  totalPages:
-                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-total
                   items:
                     type: array
                     items:
                       $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
       operationId: customer-invoice-sources#get
       x-internal: false
       description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
@@ -986,9 +1052,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -1242,9 +1325,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -1264,20 +1364,8 @@ paths:
       operationId: customer-role-assignments#get
       description: Gets roles-assignments of this customer. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
-        - schema:
-            type: integer
-            minimum: 1
-            default: 100
-            maximum: 1000
-          in: query
-          name: limit
-          description: 'Pagination, maximum page size'
-        - schema:
-            type: integer
-            minimum: 0
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
           in: query
@@ -1337,7 +1425,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-room
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location-room
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage                
         '400':
           description: Bad Request
           content:
@@ -1509,9 +1616,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerSelfAssignmentCredentials
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerSelfAssignmentCredentials
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage   
         '400':
           description: Bad Request
           content:
@@ -1607,9 +1731,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage  
       operationId: customer-customer-hierarchy-path-elements#get
       x-internal: false
       description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
@@ -1688,9 +1829,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage 
       operationId: customer-beneficiaries#get
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
@@ -2453,9 +2611,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/location
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage 
         '400':
           description: Bad Request
           content:
@@ -2474,6 +2649,9 @@ paths:
           description: Not Found
       operationId: location-sublocations#get
       description: Returns all (direct) chrildren of this location.
+      parameters:
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
     post:
       summary: '/locations/{id}/sub-locations POST'
       operationId: location-sublocations#post
@@ -2928,14 +3106,8 @@ paths:
       operationId: system-roles#get
       description: Gets a list of defined roles.
       parameters:
-        - schema:
-            type: string
-          in: query
-          name: limit
-        - schema:
-            type: string
-          in: query
-          name: offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
           in: query
@@ -2956,7 +3128,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage                 
         '400':
           description: Bad Request
           content:
@@ -3197,9 +3388,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage   
         '400':
           description: Bad Request
           content:
@@ -3314,9 +3522,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-user
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage   
           headers: {}
         '201':
           description: Created
@@ -3335,16 +3560,8 @@ paths:
       operationId: user-systemroles#get
       description: Gets a list of systemroles assigned to that user.
       parameters:
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: 'Pagination, page size limit'
-        - schema:
-            type: integer
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
       tags:
         - RoleAssignments
 components:
