@@ -2132,13 +2132,13 @@ components:
       type: object
       properties:
         currentPage:
-          type: string
+          type: integer
         pageSize:
-          type: string
+          type: integer
         totalPages:
-          type: string
+          type: integer
         totalCount:
-          type: string
+          type: integer
         items:
           type: array
           items:
