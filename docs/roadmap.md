@@ -4,6 +4,7 @@
 * 2021-11-13 (Version 1.0.0-alpha.03): Developer input and standard conformance.
 * 2021-11-17 (Version 1.0.0-beta.1): Open design questions resolved, developer input included, consistent and well documented API. 
 * 2021-11-22 (Version 1.0.0-beta.2): Fixes to descriptions
+* 2021-11-22 (Version 1.0.0-beta.3): Standardized pagination query parameters and result objects.
 
 ### Roadmap
 
