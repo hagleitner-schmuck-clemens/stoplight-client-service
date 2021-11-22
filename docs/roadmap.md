@@ -3,7 +3,7 @@
 * 2021-11-03 (Version 1.0.0-alpha.02): All relevant endpoints for CWS are described, API design is syntactically correct.
 * 2021-11-13 (Version 1.0.0-alpha.03): Developer input and standard conformance.
 * 2021-11-17 (Version 1.0.0-beta.1): Open design questions resolved, developer input included, consistent and well documented API. 
-* 2021-11-17 (Version 1.0.0-beta.2): Fixes to descriptions
+* 2021-11-22 (Version 1.0.0-beta.2): Fixes to descriptions
 
 ### Roadmap
 
