@@ -786,7 +786,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/synchronization/customers/{id}/status#get'
+      summary: '/synchronization/customers/{id}/status GET'
       tags:
         - Customers
       responses:
@@ -805,7 +805,7 @@ paths:
       x-internal: false
       description: Gets all the customers on the condition path from the root to this customer as sorted list.
     put:
-      summary: '/customers/{id}/status#put'
+      summary: '/customers/{id}/status PUT'
       operationId: customer-status#put
       responses:
         '200':
