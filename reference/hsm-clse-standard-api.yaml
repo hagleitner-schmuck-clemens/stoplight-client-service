@@ -5,7 +5,7 @@ info:
     name: Hagleitner Hygiene Internaltional GmbH
     url: 'http://www.hagleitner.com/'
     email: office@hagleitner.com
-  version: 1.0.0-beta.1
+  version: 1.0.0-beta.2
   summary: The Standard API is a client agnostic API to the HsM Client Service
   description: |
     The Standard API is a client agnostic API to the HsM Client Service.
@@ -38,7 +38,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customer-role-assignments/{id} GET'
       responses:
         '200':
           description: OK
@@ -79,7 +79,7 @@ paths:
       tags:
         - RoleAssignments
     delete:
-      summary: ''
+      summary: '/customer-role-assignments/{id} DELETE'
       operationId: /customer-role-assignments-id-delete
       responses:
         '204':
