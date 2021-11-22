@@ -478,7 +478,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage                
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -606,7 +606,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage   
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -730,7 +730,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage                   
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -784,7 +784,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage                   
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -802,20 +802,8 @@ paths:
       operationId: synchronization-customer-role-assignment#GET
       description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
-        - schema:
-            type: integer
-            minimum: 1
-            default: 100
-            maximum: 1000
-          in: query
-          name: limit
-          description: 'Pagination, maximum page size'
-        - schema:
-            type: integer
-            minimum: 0
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
             format: uuid
@@ -957,7 +945,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage                  
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -975,20 +963,8 @@ paths:
       operationId: synchronization-customer-relationst#GET
       description: Gets roles-assignments of this customer together with synchronization data. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
-        - schema:
-            type: integer
-            minimum: 1
-            default: 100
-            maximum: 1000
-          in: query
-          name: limit
-          description: 'Pagination, maximum page size'
-        - schema:
-            type: integer
-            minimum: 0
-          in: query
-          name: offset
-          description: 'Pagination, page offset'
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
             enum:
@@ -1071,7 +1047,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage                   
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -1230,7 +1206,7 @@ paths:
                   - totalPages
                   - totalItems
                   - pageSize
-                  - currentPage                  
+                  - currentPage
         '400':
           description: Bad Request
           content:
