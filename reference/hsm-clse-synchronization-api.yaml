@@ -850,7 +850,7 @@ paths:
   /synchronization/customer-relations:
     parameters: []
     get:
-      summary: /synchronization/customers-relations GET
+      summary: /synchronization/customers-relations
       responses:
         '200':
           description: OK
@@ -930,7 +930,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/synchronization/role-assignments/{id} GET'
+      summary: '/synchronization/role-assignments/{id}'
       tags:
         - RoleAssignments
       responses:
@@ -947,7 +947,7 @@ paths:
   /synchronization/system-role-assignments:
     parameters: []
     get:
-      summary: /synchronization/system-role-assignments GET
+      summary: ''
       responses:
         '200':
           description: OK
@@ -982,7 +982,7 @@ paths:
       tags:
         - RoleAssignments
     post:
-      summary: /synchronization/system-role-assignments POST
+      summary: ''
       operationId: post-synchronization-system-role-assignments
       responses:
         '201':
@@ -1021,7 +1021,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/synchronization/system/role-assignments/{id} GET'
+      summary: ''
       responses:
         '200':
           description: OK
@@ -1054,7 +1054,7 @@ paths:
       tags:
         - RoleAssignments
     delete:
-      summary: '/synchronization/system/role-assignments/{id} DELETE'
+      summary: ''
       operationId: system-role-assignment#delete
       responses:
         '204':
