@@ -146,8 +146,8 @@ paths:
 
         This collection is capped to a maximum of X customers.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
             format: uuid
@@ -779,8 +779,8 @@ paths:
       operationId: customer-effective-roles#get
       description: Gets effective roles applied to this customer.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
             format: uuid
@@ -916,15 +916,20 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
+                type: object
+                properties:
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-total
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-light
       operationId: customer-invoice-sources#get
       x-internal: false
       description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
   '/customers/{id}/location-tree':
     parameters:
       - schema:
@@ -1003,8 +1008,8 @@ paths:
       operationId: customer-locations#get
       description: Generic endpoint to get a collection of locations based on filter criteria. Collection is ordred by the location name ascending.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
             enum:
@@ -1352,8 +1357,8 @@ paths:
       operationId: customer-room#get
       description: Get all the room locations of a customer. Collection is orderd by location name.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
           in: query
@@ -1527,8 +1532,8 @@ paths:
       x-internal: false
       description: 'Gets a list of currently active self-assignment credentials. List is ordered ascending by ValidTill date. '
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
             example: 'active,expired'
@@ -1626,8 +1631,8 @@ paths:
       x-internal: false
       description: Gets all the sub-customers of a customer (direct descendants in the reseller-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
       responses:
         '200':
           description: OK
@@ -1662,8 +1667,8 @@ paths:
       x-internal: false
       description: Gets all the subsidiaries of a customer (direct descendants in the company-hierarchy-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
   '/customers/{id}/beneficiaries':
     parameters:
       - schema:
@@ -1690,8 +1695,8 @@ paths:
       x-internal: false
       description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
   /buildings:
     parameters: []
     post:
@@ -2773,8 +2778,8 @@ paths:
       operationId: systemr-role-assignments#get
       description: Gets role-assignments for the system. Role-assignments are ordered by the assignment date ascending (oldest first).
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
           in: query
@@ -2964,8 +2969,8 @@ paths:
           description: Forbidden
       description: Gets registered users.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
             example: 'deleted,masked'
@@ -3216,8 +3221,8 @@ paths:
           in: query
           name: customerId
           description: If given filters the results for a specific customer only.
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
       tags:
         - RoleAssignments
   '/users/{id}/favorite-customers':

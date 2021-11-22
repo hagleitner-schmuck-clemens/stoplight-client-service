@@ -2127,28 +2127,68 @@ components:
         - deleted
       description: ''
       readOnly: true
+    paginatedResult:
+      title: paginatedResult
+      type: object
+      properties:
+        currentPage:
+          type: string
+        pageSize:
+          type: string
+        totalPages:
+          type: string
+        totalCount:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: ''
+    paginated-customers-synchronization:
+      title: paginated-customers-synchronization
+      type: object
+      properties:
+        id:
+          type: string
+    pagination-totalPages:
+      type: integer
+      title: pagination-totalPages
+      description: Total number of pages available.
+      minimum: 0
+    pagination-totaItems:
+      type: integer
+      title: pagination-totalPages
+      description: Total number of items available.
+      minimum: 0
+    pagination-currentPage:
+      type: integer
+      title: pagination-totalPages
+      description: Current page included in this result.
+      minimum: 0
+    pagination-pageSize:
+      type: integer
+      title: pagination-totalPages
+      description: Page size that was used to generate the result set.
+      minimum: 0
   parameters:
-    limit:
-      name: limit
+    pageSize:
+      name: pageSize
       in: query
-      required: false
       schema:
         type: integer
         format: int32
         example: 100
         default: 100
-        minimum: 10
-      description: 'Pagination, page size limit.'
-    offset:
-      name: offset
+        minimum: 1
+      description: 'Pagination, maximum number of elements in a page.'
+    pageNumber:
+      name: pageNumber
       in: query
-      required: false
       schema:
         type: integer
         format: int32
-        minimum: 0
+        minimum: 1
         example: 200
-      description: 'Pagination, offset for returned page.'
+      description: 'Pagination, 1-based number of the page to return.'
     Accept-Language:
       name: Accept-Language
       in: header
@@ -2156,3 +2196,4 @@ components:
       schema:
         type: string
       description: Defines which culture are accepted by the client.
+  responses: {}

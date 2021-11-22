@@ -42,17 +42,30 @@ paths:
       responses:
         '200':
           description: OK
-          headers:
-            X-Total-Count:
-              schema:
-                type: integer
-              description: Total count of resources in the collection.
+          headers: {}
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -71,8 +84,6 @@ paths:
           description: Not Found
       description: Gets customers with detail information useful for synchronization with other systems. The collection is ordered by name1.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
         - schema:
             type: boolean
             default: false
@@ -131,6 +142,8 @@ paths:
           in: query
           name: nameStartsWith
           description: Filters for customers whose name starts with the given string. String matching is done case insensitive..
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
       tags:
         - Customers
     post:
@@ -188,9 +201,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customer-synchronization
         '400':
           description: Bad Request
           content:
@@ -250,11 +261,7 @@ paths:
       responses:
         '200':
           description: OK
-          headers:
-            X-Total-Count:
-              schema:
-                type: integer
-              description: Total count of resources in the collection.
+          headers: {}
           content:
             application/json:
               schema:
@@ -328,9 +335,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
         '400':
           description: Bad Request
           content:
@@ -347,8 +371,8 @@ paths:
           description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
   '/customers/{id}/customer-hierarchy-relation':
     parameters:
       - schema:
@@ -366,11 +390,7 @@ paths:
       responses:
         '200':
           description: OK
-          headers:
-            X-Total-Count:
-              schema:
-                type: integer
-              description: Total count of resources in the collection.
+          headers: {}
           content:
             application/json:
               schema:
@@ -439,9 +459,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage                
         '400':
           description: Bad Request
           content:
@@ -458,8 +495,8 @@ paths:
           description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
   '/customers/{id}/invoice-relation':
     parameters:
       - schema:
@@ -477,11 +514,7 @@ paths:
       responses:
         '200':
           description: OK
-          headers:
-            X-Total-Count:
-              schema:
-                type: integer
-              description: Total count of resources in the collection.
+          headers: {}
           content:
             application/json:
               schema:
@@ -554,8 +587,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items: null
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage   
         '400':
           description: Bad Request
           content:
@@ -572,8 +623,8 @@ paths:
           description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
   '/customers/{id}/reseller-relation':
     parameters:
       - schema:
@@ -589,11 +640,7 @@ paths:
       responses:
         '200':
           description: OK
-          headers:
-            X-Total-Count:
-              schema:
-                type: integer
-              description: Total count of resources in the collection.
+          headers: {}
           content:
             application/json:
               schema:
@@ -664,9 +711,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage                   
         '400':
           description: Bad Request
           content:
@@ -683,8 +747,8 @@ paths:
           description: Internal Server Error
       description: Gets all reseller relations of this customer i.e. all relations between customers where this customer is the reseller.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
   '/customers/{id}/role-assignments':
     parameters:
       - schema:
@@ -701,9 +765,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer-synchronization
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRoleAssignment-customer-synchronization
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage                   
         '400':
           description: Bad Request
           content:
@@ -857,9 +938,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization-list
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/customerRelation-synchronization-list
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage                  
         '400':
           description: Bad Request
           content:
@@ -954,7 +1052,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/systemRoleAssignment-synchronization
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/systemRoleAssignment-synchronization
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage                   
         '400':
           description: Bad Request
           content:
@@ -976,8 +1093,8 @@ paths:
           in: query
           name: userId
           description: Filters for system role assignments for a specific user.
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
       x-internal: false
       tags:
         - RoleAssignments
@@ -1091,17 +1208,29 @@ paths:
       responses:
         '200':
           description: OK
-          headers:
-            X-Total-Count:
-              schema:
-                type: integer
-              description: Total count of resources in the collection.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/user-synchronization
+                  totalPages:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totalPages
+                  totalItems:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-totaItems
+                  pageSize:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-pageSize
+                  currentPage:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/pagination-currentPage
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage                  
         '400':
           description: Bad Request
           content:
@@ -1122,8 +1251,8 @@ paths:
           description: Internal Server Error
       description: Gets registered users with detail information useful for synchronization with other systems.
       parameters:
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/limit
-        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/offset
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageSize
+        - $ref: ./hsm-clse-standard-api-base.yaml#/components/parameters/pageNumber
         - schema:
             type: string
             example: 'active,inactive'
