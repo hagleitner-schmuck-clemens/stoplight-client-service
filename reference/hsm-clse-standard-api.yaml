@@ -38,7 +38,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/customer-role-assignments/{id} GET'
       responses:
         '200':
           description: OK
@@ -79,7 +79,7 @@ paths:
       tags:
         - RoleAssignments
     delete:
-      summary: ''
+      summary: '/customer-role-assignments/{id} DELETE'
       operationId: /customer-role-assignments-id-delete
       responses:
         '204':
