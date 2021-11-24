@@ -227,7 +227,7 @@ components:
           customerNumber: 21-0789-B
           emailAddress: office@hgmfacility.com
           phoneNumber: +44 256 51512
-          vatIdentificationNumber: +44 256 51512
+          vatIdentificationNumber: ATU12345667
           preferredCulture: en-GB
           status: active
           isReseller: true
@@ -1586,9 +1586,9 @@ components:
         Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
 
         * No gender information is stored with users - this is intentional
-        * `givenName` and `surename` are used as in official ID documents.
+        * `givenName` and `surname` are used as in official ID documents.
         * `callName` is provided to give the user a chance to define how the system shall call/address him e.g. in e-mails etc.
-        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surename>, <givenName>`
+        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surname>, <givenName>`
       properties:
         id:
           type: string
@@ -1666,7 +1666,7 @@ components:
           example: John
           maxLength: 50
           description: Given name of the user
-        sureName:
+        surname:
           type: string
           example: Doe
           maxLength: 50
@@ -1721,7 +1721,7 @@ components:
           description: 'If true this resource is exernally managed, the possibilities to modify the resource in HsM is then limited.'
       required:
         - id
-        - sureName
+        - surname
         - emailAddress
         - preferredCulture
         - createdAt
