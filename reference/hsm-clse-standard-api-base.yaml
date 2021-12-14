@@ -2169,6 +2169,33 @@ components:
       title: pagination-totalPages
       description: Page size that was used to generate the result set.
       minimum: 0
+    support-organization:
+      title: support-organization
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Name of the support organization
+          maxLength: 80
+        emailAddress:
+          type: string
+          description: Email address of the support organization
+          format: email
+        phoneNumber:
+          type: string
+          description: |
+            Phone number of the support organization
+          maxLength: 30
+        BusinessHours:
+          type: string
+          description: Business hours of the support organization
+        postalAddress:
+          type: string
+      required:
+        - Name
+        - emailAddress
+        - phoneNumber
+        - BusinessHours
   parameters:
     pageSize:
       name: pageSize
