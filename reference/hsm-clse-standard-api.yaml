@@ -1547,6 +1547,78 @@ paths:
       tags:
         - Customers
       description: Configures the role inheritance settings for a customer.
+  '/customers/{id}/support-organization':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/support-organization GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/support-organization
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+      operationId: customer-support-organization#get
+      description: Gets details about the support organization for users when working in the context of this customer
+      parameters: []
+      x-internal: false
+      tags:
+        - Customers
+    put:
+      summary: ''
+      operationId: put-customers-id-support-organization
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-403-forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/response-400-badRequest
+      description: Defines the support organization responsible for this customer and all sub-customers (reseller relationship)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/support-organization
   '/customer-self-assignment-credentials/{id}':
     parameters:
       - schema:
@@ -2921,6 +2993,27 @@ paths:
       tags:
         - Locations
       description: Deletes this room.
+  /support-organization:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/support-organization
+      operationId: get-support-infrmation
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: customerId
+          description: The ID of the customer for which to get the suitable support information
+      description: 'Gets all details about the organization that provides support for the end-user of the system. The support organization depends on the customer in context, or if no customer context is available will fall back to a default organization.'
+    parameters: []
   /system/instance-branding:
     get:
       summary: /system/instance-branding GET
