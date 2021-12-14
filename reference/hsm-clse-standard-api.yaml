@@ -2995,7 +2995,7 @@ paths:
       description: Deletes this room.
   /support-organization:
     get:
-      summary: Your GET endpoint
+      summary: /support-organization GET
       tags: []
       responses:
         '200':
@@ -3004,7 +3004,7 @@ paths:
             application/json:
               schema:
                 $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/support-organization
-      operationId: get-support-infrmation
+      operationId: support-organization#get
       parameters:
         - schema:
             type: string
