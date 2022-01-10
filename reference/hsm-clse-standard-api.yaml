@@ -3077,10 +3077,10 @@ paths:
       tags:
         - System
     parameters: []
-  /system/role-assignments:
+  /system-role-assignments:
     parameters: []
     get:
-      summary: ''
+      summary: /system-role-assignments GET
       responses:
         '200':
           description: OK
@@ -3133,7 +3133,7 @@ paths:
       tags:
         - RoleAssignments
     post:
-      summary: ''
+      summary: /system-role-assignments POST
       operationId: system-role-assignments#post
       responses:
         '201':
@@ -3158,7 +3158,7 @@ paths:
               $ref: '#/components/schemas/customerRoleAssignment-user'
       tags:
         - RoleAssignments
-  '/system/role-assignments/{id}':
+  '/system-role-assignments/{id}':
     parameters:
       - schema:
           type: string
@@ -3168,7 +3168,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: ''
+      summary: '/system-role-assignments/{id} GET'
       responses:
         '200':
           description: OK
@@ -3201,7 +3201,7 @@ paths:
       tags:
         - RoleAssignments
     delete:
-      summary: ''
+      summary: '/system-role-assignments/{id} DELETE'
       operationId: system-role-assignment#delete
       responses:
         '204':
@@ -3228,9 +3228,9 @@ paths:
           description: ID of the role assignment.
       tags:
         - RoleAssignments
-  /system/roles:
+  /roles:
     get:
-      summary: /system/roles GET
+      summary: /roles GET
       responses:
         '200':
           description: OK
