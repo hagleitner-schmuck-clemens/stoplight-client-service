@@ -2169,6 +2169,24 @@ components:
       title: pagination-totalPages
       description: Page size that was used to generate the result set.
       minimum: 0
+    phrase:
+      title: phrase
+      type: array
+      description: Represents a group of words in multiple translations.
+      items:
+        type: object
+        properties:
+          LanguageTag:
+            type: string
+            description: The RFC 5646/BCP 47 based tag identifying the translation language.
+            minLength: 2
+            maxLength: 35
+          Translation:
+            type: string
+            description: The actual translation
+        required:
+          - LanguageTag
+          - Translation
     support-organization:
       title: support-organization
       type: object
