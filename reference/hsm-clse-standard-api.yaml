@@ -5,7 +5,7 @@ info:
     name: Hagleitner Hygiene Internaltional GmbH
     url: 'http://www.hagleitner.com/'
     email: office@hagleitner.com
-  version: 1.0.0-beta.4
+  version: 1.0.0-beta.5
   summary: The Standard API is a client agnostic API to the HsM Client Service
   description: |
     The Standard API is a client agnostic API to the HsM Client Service.
@@ -1588,7 +1588,7 @@ paths:
       tags:
         - Customers
     put:
-      summary: ''
+      summary: '/customers/{id}/support-organization PUT'
       operationId: put-customers-id-support-organization
       responses:
         '200':
@@ -1619,6 +1619,8 @@ paths:
           application/json:
             schema:
               $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/support-organization
+      tags:
+        - Customers
   '/customer-self-assignment-credentials/{id}':
     parameters:
       - schema:
@@ -2606,6 +2608,25 @@ paths:
       description: Deletes the floor area.
       tags:
         - Locations
+  /hygiene-portal-applications:
+    get:
+      summary: /hygiene-portal-applications GET
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Name:
+                    $ref: ./hsm-clse-standard-api-base.yaml#/components/schemas/phrase
+                  Url:
+                    type: string
+                    format: uri
+      operationId: get-hygiene-portal-applications
+      description: Gets a list of hygiene portal applications
   '/locations/{id}':
     parameters:
       - schema:
@@ -2996,7 +3017,8 @@ paths:
   /support-organization:
     get:
       summary: /support-organization GET
-      tags: []
+      tags:
+        - Customers
       responses:
         '200':
           description: OK
