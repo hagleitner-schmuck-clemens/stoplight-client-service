@@ -24,7 +24,7 @@ tags:
   - name: CustomerFavorites
   - name: Locations
   - name: RoleAssignments
-  - name: SelfRegistration
+  - name: SelfAssignment
   - name: System
   - name: Users
 paths:
@@ -1647,7 +1647,7 @@ paths:
       x-internal: false
       description: Gets the self assignment credentials for a customer by id.
       tags:
-        - SelfRegistration
+        - SelfAssignment
     delete:
       summary: '/customer-self-assignment-credentials/{id} DELETE'
       operationId: self-assignment-credential#delete
@@ -1672,7 +1672,7 @@ paths:
           description: Not Found
       description: Deletes these self-assignment credentials.
       tags:
-        - SelfRegistration
+        - SelfAssignment
   '/customers/{id}/self-assignment-credentials':
     parameters:
       - schema:
@@ -1739,7 +1739,7 @@ paths:
           name: status
           description: Filters credentials by their status
       tags:
-        - SelfRegistration
+        - SelfAssignment
   '/customers/{id}/self-assignment-credentials/latest':
     parameters:
       - schema:
@@ -1785,7 +1785,7 @@ paths:
       x-internal: false
       description: Gets the self-assignment credentials for the current date. If that credential was not created before the server will create the credantial when this endpoint is called.
       tags:
-        - SelfRegistration
+        - SelfAssignment
   '/customers/{id}/customer-hierarchy-path-elements':
     parameters:
       - schema:
