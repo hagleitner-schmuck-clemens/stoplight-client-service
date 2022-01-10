@@ -7,6 +7,7 @@
 * 2021-11-22 (Version 1.0.0-beta.3): Standardized pagination query parameters and result objects.
 * 2021-12-14 (Version 1.0.0-beta.4): Added support-organization endpoints to standard API
 * 2022-01-10 (Version 1.0.0-beta.5): Fixes to tagging and operation naming, added hygiene-portal-appliactions endpoint.
+* 2022-01-10 (Version 1.0.0-beta.6): Split stoplight models for synchronization and Standard API
 
 ### Roadmap
 
