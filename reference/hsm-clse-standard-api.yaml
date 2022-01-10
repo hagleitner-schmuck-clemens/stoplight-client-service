@@ -2611,7 +2611,8 @@ paths:
   /hygiene-portal-applications:
     get:
       summary: /hygiene-portal-applications GET
-      tags: []
+      tags:
+        - System
       responses:
         '200':
           description: OK
