@@ -5481,7 +5481,7 @@ components:
       title: support-organization
       type: object
       properties:
-        Name:
+        name:
           type: string
           description: Name of the support organization
           maxLength: 80
@@ -5494,16 +5494,14 @@ components:
           description: |
             Phone number of the support organization
           maxLength: 30
-        BusinessHours:
+        businessHours:
           type: string
           description: Business hours of the support organization
         postalAddress:
           type: string
+          description: The postal address of the support organization
       required:
-        - Name
-        - emailAddress
-        - phoneNumber
-        - BusinessHours
+        - name
   parameters:
     pageSize:
       name: pageSize
