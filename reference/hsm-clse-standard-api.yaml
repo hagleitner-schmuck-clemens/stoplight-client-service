@@ -2658,7 +2658,7 @@ paths:
         '404':
           description: Not Found
       operationId: instance-branding#get
-      description: Gets the instance branding definition.
+      description: Get the branding definition for the whole instance of HsM.
       tags:
         - System
     put:
