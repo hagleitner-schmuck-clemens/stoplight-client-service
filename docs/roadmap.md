@@ -8,6 +8,7 @@
 * 2021-12-14 (Version 1.0.0-beta.4): Added support-organization endpoints to standard API
 * 2022-01-10 (Version 1.0.0-beta.5): Fixes to tagging and operation naming, added hygiene-portal-appliactions endpoint.
 * 2022-01-10 (Version 1.0.0-beta.6): Split stoplight models for synchronization and Standard API
+* 2022-01-XX (Version 1.0.0-beta.x): Moved /system/ endpoints
 
 ### Roadmap
 

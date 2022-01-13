@@ -1582,7 +1582,7 @@ paths:
         '404':
           description: Not Found
       operationId: customer-support-organization#get
-      description: Gets details about the support organization for users when working in the context of this customer
+      description: Gets details about the support organization for users when working in the context of this customer.
       parameters: []
       x-internal: false
       tags:
@@ -1621,6 +1621,13 @@ paths:
               $ref: '#/components/schemas/support-organization'
       tags:
         - Customers
+    delete:
+      summary: ''
+      operationId: delete-customers-id-support-organization
+      responses:
+        '200':
+          description: OK
+      description: Removes the support-organization information from the customer.
   '/customer-self-assignment-credentials/{id}':
     parameters:
       - schema:
@@ -2628,6 +2635,47 @@ paths:
                     format: uri
       operationId: get-hygiene-portal-applications
       description: Gets a list of hygiene portal applications
+  /instance-branding:
+    get:
+      summary: /instance-branding GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/branding'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: instance-branding#get
+      description: Get the branding definition for the whole instance of HsM.
+      tags:
+        - System
+    put:
+      summary: /instance-branding PUT
+      operationId: instance-branding#put
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/branding'
+      description: Sets the branding for the whole instance
+      tags:
+        - System
+    parameters: []
   '/locations/{id}':
     parameters:
       - schema:
@@ -3036,47 +3084,6 @@ paths:
           name: customerId
           description: The ID of the customer for which to get the suitable support information
       description: 'Gets all details about the organization that provides support for the end-user of the system. The support organization depends on the customer in context, or if no customer context is available will fall back to a default organization.'
-    parameters: []
-  /system/instance-branding:
-    get:
-      summary: /system/instance-branding GET
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/branding'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      operationId: instance-branding#get
-      description: Gets the instance branding definition.
-      tags:
-        - System
-    put:
-      summary: /system/instance-branding PUT
-      operationId: instance-branding#put
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/branding'
-      description: Sets the branding for the whole instance
-      tags:
-        - System
     parameters: []
   /system-role-assignments:
     parameters: []
@@ -5481,7 +5488,7 @@ components:
       title: support-organization
       type: object
       properties:
-        Name:
+        name:
           type: string
           description: Name of the support organization
           maxLength: 80
@@ -5494,16 +5501,14 @@ components:
           description: |
             Phone number of the support organization
           maxLength: 30
-        BusinessHours:
+        businessHours:
           type: string
           description: Business hours of the support organization
         postalAddress:
           type: string
+          description: The postal address of the support organization
       required:
-        - Name
-        - emailAddress
-        - phoneNumber
-        - BusinessHours
+        - name
   parameters:
     pageSize:
       name: pageSize
