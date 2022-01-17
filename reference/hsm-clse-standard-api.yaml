@@ -2629,12 +2629,14 @@ paths:
                 type: object
                 properties:
                   Name:
-                    $ref: '#/components/schemas/phrase'
+                    type: string
+                    description: The actual translation given here depends on the Accept-Language header of the request.
                   Url:
                     type: string
                     format: uri
       operationId: get-hygiene-portal-applications
-      description: Gets a list of hygiene portal applications
+      description: 'Gets a list of hygiene portal applications. '
+      parameters: []
   /instance-branding:
     get:
       summary: /instance-branding GET
