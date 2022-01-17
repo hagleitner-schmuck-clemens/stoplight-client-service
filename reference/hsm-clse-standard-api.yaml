@@ -24,7 +24,7 @@ tags:
   - name: CustomerFavorites
   - name: Locations
   - name: RoleAssignments
-  - name: SelfAssignment
+  - name: CustomerSelfAssignment
   - name: System
   - name: Users
 paths:
@@ -110,6 +110,58 @@ paths:
           description: ID of the role assignment.
       tags:
         - RoleAssignments
+  '/customer-self-assignment-credentials/{id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customer-self-assignment-credentials/{id} GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerSelfAssignmentCredentials'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: self-assignment-credential#get
+      x-internal: false
+      description: Gets the self assignment credentials for a customer by id.
+      tags:
+        - CustomerSelfAssignment
+    delete:
+      summary: '/customer-self-assignment-credentials/{id} DELETE'
+      operationId: self-assignment-credential#delete
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Deletes the customer-self-assignment credentials.
+      tags:
+        - CustomerSelfAssignment
   /customers:
     get:
       summary: /customers GET
@@ -1628,58 +1680,6 @@ paths:
         '200':
           description: OK
       description: Removes the support-organization information from the customer.
-  '/customer-self-assignment-credentials/{id}':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customer-self-assignment-credentials/{id} GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customerSelfAssignmentCredentials'
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not Found
-      operationId: self-assignment-credential#get
-      x-internal: false
-      description: Gets the self assignment credentials for a customer by id.
-      tags:
-        - SelfAssignment
-    delete:
-      summary: '/customer-self-assignment-credentials/{id} DELETE'
-      operationId: self-assignment-credential#delete
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      description: Deletes these self-assignment credentials.
-      tags:
-        - SelfAssignment
   '/customers/{id}/self-assignment-credentials':
     parameters:
       - schema:
@@ -1735,18 +1735,19 @@ paths:
           description: Not Found
       operationId: self-assignment-credentials#get
       x-internal: false
-      description: 'Gets a list of currently active self-assignment credentials. List is ordered ascending by ValidTill date. '
+      description: 'Gets a list of self-assignment credentials for the customer. List is ordered ascending by ValidTill date. '
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
         - schema:
             type: string
             example: 'active,expired'
+            pattern: '^(?:\s*([a-zA-Z0-9]+)\s*)(?:,\s*([a-zA-Z0-9]+)\s*)*$'
           in: query
           name: status
-          description: Filters credentials by their status
+          description: 'Filters credentials by their status. Multiple status can be defined in a comma separated list. '
       tags:
-        - SelfAssignment
+        - CustomerSelfAssignment
   '/customers/{id}/self-assignment-credentials/latest':
     parameters:
       - schema:
@@ -1790,7 +1791,7 @@ paths:
           description: Not Found
       operationId: self-assignment-credential-current#get
       x-internal: false
-      description: Gets the self-assignment credentials for the current date. If that credential was not created before the server will create the credantial when this endpoint is called.
+      description: 'Gets the self-assignment with the longest validity, if any.'
       tags:
         - SelfAssignment
   '/customers/{id}/customer-hierarchy-path-elements':
