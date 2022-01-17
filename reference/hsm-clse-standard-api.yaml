@@ -1674,7 +1674,7 @@ paths:
       tags:
         - Customers
     delete:
-      summary: ''
+      summary: '/customers/{id}/support-organization DELETE'
       operationId: delete-customers-id-support-organization
       responses:
         '200':
