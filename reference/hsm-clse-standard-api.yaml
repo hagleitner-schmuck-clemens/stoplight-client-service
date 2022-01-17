@@ -1680,6 +1680,8 @@ paths:
         '200':
           description: OK
       description: Removes the support-organization information from the customer.
+      tags:
+        - Customers
   '/customers/{id}/self-assignment-credentials':
     parameters:
       - schema:
