@@ -128,6 +128,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerSelfAssignmentCredentials'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '404':
