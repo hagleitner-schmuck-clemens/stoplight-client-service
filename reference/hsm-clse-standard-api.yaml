@@ -2643,6 +2643,11 @@ paths:
                   Url:
                     type: string
                     format: uri
+              examples:
+                Example:
+                  value:
+                    Name: Hagleitner web shop
+                    Url: 'https://shop.hagleitner.com'
       operationId: get-hygiene-portal-applications
       description: 'Gets a list of hygiene portal applications. '
       parameters: []
