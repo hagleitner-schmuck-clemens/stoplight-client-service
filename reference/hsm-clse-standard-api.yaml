@@ -118,7 +118,7 @@ paths:
         name: id
         in: path
         required: true
-        description: ID of the customer
+        description: ID of the self assignment credentials.
     get:
       summary: '/customer-self-assignment-credentials/{id} GET'
       responses:
