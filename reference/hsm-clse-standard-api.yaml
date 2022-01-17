@@ -1793,7 +1793,7 @@ paths:
       x-internal: false
       description: 'Gets the self-assignment with the longest validity, if any.'
       tags:
-        - SelfAssignment
+        - CustomerSelfAssignment
   '/customers/{id}/customer-hierarchy-path-elements':
     parameters:
       - schema:
