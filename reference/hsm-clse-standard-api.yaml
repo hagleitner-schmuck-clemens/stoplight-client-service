@@ -22,9 +22,9 @@ servers:
 tags:
   - name: Customers
   - name: CustomerFavorites
+  - name: CustomerSelfAssignment
   - name: Locations
   - name: RoleAssignments
-  - name: CustomerSelfAssignment
   - name: System
   - name: Users
 paths:
