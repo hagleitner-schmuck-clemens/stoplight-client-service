@@ -5127,15 +5127,6 @@ components:
         callName:
           type: string
           description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
-        sortName:
-          type: string
-          description: A presentation of the user's full name that is used for sorting.
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
         preferredCulture:
           type: string
           description: |-
@@ -5163,13 +5154,34 @@ components:
             - masked
           example: inactive
           readOnly: true
+        emailAddress:
+          type: string
       required:
         - id
         - surname
-        - sortName
-        - emailAddress
         - lastUpdatedAt
         - status
+        - emailAddress
+    user-light:
+      type: object
+      title: user-light
+      description: |
+        Represents a user of the HsM system. 
+
+        * No gender information is stored with users - this is intentional
+        * `givenName` and `surname` are used as in official ID documents.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system.
+          readOnly: true
+        name:
+          type: string
+          description: 'End-User''s full name in displayable form including all name parts, possibly including titles and suffixes, ordered according to the End-User''s locale and preferences.'
+      required:
+        - id
+        - name
     customerSelfAssignmentCredentials:
       title: ''
       type: object
@@ -5183,7 +5195,7 @@ components:
           type: string
           description: Customer number of this credential
           readOnly: true
-        pin:
+        token:
           type: string
           description: PIN of this credential
           minLength: 9
@@ -5194,16 +5206,14 @@ components:
           description: Date until this credential is valid.
           format: date-time
           readOnly: true
-        shareUri:
-          type: string
-          format: uri
-          description: A URI that can be used to assign oneself to the customer.
+        creator:
+          $ref: '#/components/schemas/user-light'
       required:
         - Id
         - customerNumber
-        - pin
+        - token
         - validTill
-        - shareUri
+        - creator
     response-400-badRequest:
       description: ''
       type: object
