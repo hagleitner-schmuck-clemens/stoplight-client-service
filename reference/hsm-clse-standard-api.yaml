@@ -165,7 +165,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Deletes the customer-self-assignment credentials.
+      description: Expires the credentials.
       tags:
         - CustomerSelfAssignment
   /customers:
