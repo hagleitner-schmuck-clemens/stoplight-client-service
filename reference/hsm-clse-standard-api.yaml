@@ -5101,13 +5101,7 @@ components:
     user:
       type: object
       title: user
-      description: |-
-        Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
-
-        * No gender information is stored with users - this is intentional
-        * `givenName` and `surname` are used as in official ID documents.
-        * `callName` is provided to give the user a chance to define how the system shall call/address him e.g. in e-mails etc.
-        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surname>, <givenName>`
+      description: Represents a user of the HsM system.
       properties:
         id:
           type: string
@@ -5119,26 +5113,33 @@ components:
           example: John
           maxLength: 50
           description: Given name of the user
-        surname:
+        familyName:
           type: string
           example: Doe
           maxLength: 50
           description: Sure name of the user.
-        callName:
+        name:
           type: string
-          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
+          description: 'User''s full name in displayable form including all name parts, ordered according to the user''s locale and preferences.'
+        emailAddress:
+          type: string
+          format: email
         preferredCulture:
           type: string
           description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture. 
 
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+            This culture is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
           example: de-AT
           maxLength: 35
-        mobilePhoneNumber:
+        preferredTimezone- copy:
           type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
+          description: |-
+            The time zone the user wants to use in interaction with the system. String from zoneinfo time zone database. For example, Europe/Paris or America/Los_Angeles.
+
+            This time zone is a default for this user, client systems might however choose to use another time zones for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
         lastUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
@@ -5154,14 +5155,13 @@ components:
             - masked
           example: inactive
           readOnly: true
-        emailAddress:
-          type: string
       required:
         - id
-        - surname
+        - familyName
+        - name
+        - emailAddress
         - lastUpdatedAt
         - status
-        - emailAddress
     user-light:
       type: object
       title: user-light
@@ -5174,7 +5174,7 @@ components:
           readOnly: true
         name:
           type: string
-          description: 'End-User''s full name in displayable form including all name parts, possibly including titles and suffixes, ordered according to the End-User''s locale and preferences.'
+          description: 'User''s full name in displayable form including all name parts, ordered according to the user''s locale and preferences.'
       required:
         - id
         - name
