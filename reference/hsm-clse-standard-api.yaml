@@ -5165,11 +5165,7 @@ components:
     user-light:
       type: object
       title: user-light
-      description: |
-        Represents a user of the HsM system. 
-
-        * No gender information is stored with users - this is intentional
-        * `givenName` and `surname` are used as in official ID documents.
+      description: 'Represents a user of the HsM system. '
       properties:
         id:
           type: string
@@ -5186,7 +5182,7 @@ components:
       title: ''
       type: object
       properties:
-        Id:
+        id:
           type: string
           format: uuid
           description: ID of this self-assignment credential
@@ -5203,13 +5199,13 @@ components:
           readOnly: true
         validTill:
           type: string
-          description: Date until this credential is valid.
+          description: Date until this credential is valid. The given date itself is not included in the validity time span.
           format: date-time
           readOnly: true
         creator:
           $ref: '#/components/schemas/user-light'
       required:
-        - Id
+        - id
         - customerNumber
         - token
         - validTill
