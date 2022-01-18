@@ -4041,11 +4041,10 @@ components:
           description: The VAT identification number of the customer.
           example: ATU123456789
           maxLength: 15
-        preferredCulture:
+        locale:
+          $ref: '#/components/schemas/locale'
+        timeZone:
           type: string
-          description: 'The culture this customer usually thinks in. Given as IETF BCP 47 language tag. '
-          example: en-GB
-          maxLength: 35
         status:
           enum:
             - active
@@ -5098,86 +5097,63 @@ components:
         - type
         - name
         - sequenceNumber
-    user:
+    locale:
+      type: string
+      title: locale
+      description: Defines a locale using a BCP 47/RFC 5646 language tag.
+      maxLength: 35
+      minLength: 2
+      examples:
+        - de-AT
+    customerRoleAssignment-user:
+      title: ''
       type: object
-      title: user
-      description: Represents a user of the HsM system.
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a customer role assignment from a users perspective.
       properties:
         id:
           type: string
+          description: ID of the role assignment
           format: uuid
-          description: ID of the user within the HsM system.
           readOnly: true
-        givenName:
+        customerId:
           type: string
-          example: John
-          maxLength: 50
-          description: Given name of the user
-        familyName:
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
           type: string
-          example: Doe
-          maxLength: 50
-          description: Sure name of the user.
-        name:
-          type: string
-          description: 'User''s full name in displayable form including all name parts, ordered according to the user''s locale and preferences.'
-        emailAddress:
-          type: string
-          format: email
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariant culture. 
-
-            This culture is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        preferredTimezone- copy:
-          type: string
-          description: |-
-            The time zone the user wants to use in interaction with the system. String from zoneinfo time zone database. For example, Europe/Paris or America/Los_Angeles.
-
-            This time zone is a default for this user, client systems might however choose to use another time zones for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        lastUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
+          description: Date when the role was assigned
           format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
           readOnly: true
-        status:
+        roleId:
           type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-            - masked
-          example: inactive
-          readOnly: true
-      required:
-        - id
-        - familyName
-        - name
-        - emailAddress
-        - lastUpdatedAt
-        - status
-    user-light:
-      type: object
-      title: user-light
-      description: 'Represents a user of the HsM system. '
-      properties:
-        id:
-          type: string
+          description: ID of the assigned role.
           format: uuid
-          description: ID of the user within the HsM system.
-          readOnly: true
-        name:
+        customerDisplayName:
           type: string
-          description: 'User''s full name in displayable form including all name parts, ordered according to the user''s locale and preferences.'
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
       required:
         - id
-        - name
+        - customerId
+        - assignedAt
+        - roleId
+        - customerDisplayName
+        - roleName
     customerSelfAssignmentCredentials:
       title: ''
       type: object
@@ -5210,6 +5186,56 @@ components:
         - token
         - validTill
         - creator
+    customerRoleAssignment-customer:
+      title: ''
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a customer role assignment from a customers perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        userDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
+      required:
+        - id
+        - userId
+        - assignedAt
+        - roleId
+        - userDisplayName
+        - roleName
+        - externallyManaged
     response-400-badRequest:
       description: ''
       type: object
@@ -5313,108 +5339,47 @@ components:
           required:
             - code
             - message
+    pagination-totalPages:
+      type: integer
+      title: pagination-totalPages
+      description: Total number of pages available.
+      minimum: 0
+    pagination-totaItems:
+      type: integer
+      title: pagination-totalPages
+      description: Total number of items available.
+      minimum: 0
+    pagination-currentPage:
+      type: integer
+      title: pagination-totalPages
+      description: Current page included in this result.
+      minimum: 0
+    pagination-pageSize:
+      type: integer
+      title: pagination-totalPages
+      description: Page size that was used to generate the result set.
+      minimum: 0
+    phrase:
+      title: phrase
+      type: array
+      description: Represents a group of words in multiple translations.
+      items:
+        type: object
+        properties:
+          LanguageTag:
+            type: string
+            description: The RFC 5646/BCP 47 based tag identifying the translation language.
+            minLength: 2
+            maxLength: 35
+          Translation:
+            type: string
+            description: The actual translation
+        required:
+          - LanguageTag
+          - Translation
     response-403-forbidden:
       type: object
       title: ''
-    customerRoleAssignment-customer:
-      title: ''
-      type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      description: Represents a customer role assignment from a customers perspective.
-      properties:
-        id:
-          type: string
-          description: ID of the role assignment
-          format: uuid
-          readOnly: true
-        userId:
-          type: string
-          format: uuid
-          description: ID of user who is assigned a role
-        assignedAt:
-          type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: ID of the assigned role.
-          format: uuid
-        userDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
-        roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
-        applicableToRelatedCustomersOnly:
-          type: boolean
-        externallyManaged:
-          type: boolean
-      required:
-        - id
-        - userId
-        - assignedAt
-        - roleId
-        - userDisplayName
-        - roleName
-        - externallyManaged
-    customerRoleAssignment-user:
-      title: ''
-      type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      description: Represents a customer role assignment from a users perspective.
-      properties:
-        id:
-          type: string
-          description: ID of the role assignment
-          format: uuid
-          readOnly: true
-        customerId:
-          type: string
-          format: uuid
-          description: ID of user who is assigned a role
-        assignedAt:
-          type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: ID of the assigned role.
-          format: uuid
-        customerDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
-        roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
-        applicableToRelatedCustomersOnly:
-          type: boolean
-        externallyManaged:
-          type: boolean
-      required:
-        - id
-        - customerId
-        - assignedAt
-        - roleId
-        - customerDisplayName
-        - roleName
     systemRoleAssignment:
       title: ''
       type: object
@@ -5458,54 +5423,6 @@ components:
         - roleName
         - userId
         - userDisplayName
-    userStatus:
-      type: string
-      title: ''
-      enum:
-        - active
-        - inactive
-        - deleted
-        - masked
-      description: The status of a user within HsM.
-      default: active
-    pagination-totalPages:
-      type: integer
-      title: pagination-totalPages
-      description: Total number of pages available.
-      minimum: 0
-    pagination-totaItems:
-      type: integer
-      title: pagination-totalPages
-      description: Total number of items available.
-      minimum: 0
-    pagination-currentPage:
-      type: integer
-      title: pagination-totalPages
-      description: Current page included in this result.
-      minimum: 0
-    pagination-pageSize:
-      type: integer
-      title: pagination-totalPages
-      description: Page size that was used to generate the result set.
-      minimum: 0
-    phrase:
-      title: phrase
-      type: array
-      description: Represents a group of words in multiple translations.
-      items:
-        type: object
-        properties:
-          LanguageTag:
-            type: string
-            description: The RFC 5646/BCP 47 based tag identifying the translation language.
-            minLength: 2
-            maxLength: 35
-          Translation:
-            type: string
-            description: The actual translation
-        required:
-          - LanguageTag
-          - Translation
     support-organization:
       title: support-organization
       type: object
@@ -5530,6 +5447,86 @@ components:
           type: string
           description: The postal address of the support organization
       required:
+        - name
+    timeZone:
+      type: string
+      title: timeZone
+      description: Defines a time zone using a IANA Time Zone Database name.
+      maxLength: 50
+      minLength: 1
+      examples:
+        - Europe/Vienna
+      example: Europe/Vienna
+    user:
+      type: object
+      title: user
+      description: Represents a user of the HsM system.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system.
+          readOnly: true
+        givenName:
+          type: string
+          example: John
+          maxLength: 50
+          description: 'Given name(s) or first name(s) of the user. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
+        familyName:
+          type: string
+          example: Doe
+          maxLength: 50
+          description: 'Surname(s) or last name(s) of the user. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
+        name:
+          type: string
+          description: 'User''s full name in displayable form including all name parts, ordered according to the user''s locale and preferences.'
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+            - masked
+          example: inactive
+          readOnly: true
+        emailAddress:
+          type: string
+          format: email
+        locale:
+          $ref: '#/components/schemas/locale'
+        timeZone:
+          $ref: '#/components/schemas/timeZone'
+      required:
+        - id
+        - givenName
+        - name
+        - status
+        - emailAddress
+    userStatus:
+      type: string
+      title: ''
+      enum:
+        - active
+        - inactive
+        - deleted
+        - masked
+      description: The status of a user within HsM.
+      default: active
+    user-light:
+      type: object
+      title: user-light
+      description: 'Represents a user of the HsM system. '
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system.
+          readOnly: true
+        name:
+          type: string
+          description: 'User''s full name in displayable form including all name parts, ordered according to the user''s locale and preferences.'
+      required:
+        - id
         - name
   parameters:
     pageSize:
