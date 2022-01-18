@@ -4044,7 +4044,7 @@ components:
         locale:
           $ref: '#/components/schemas/locale'
         timeZone:
-          type: string
+          $ref: '#/components/schemas/timeZone'
         status:
           enum:
             - active
@@ -5456,7 +5456,6 @@ components:
       minLength: 1
       examples:
         - Europe/Vienna
-      example: Europe/Vienna
     user:
       type: object
       title: user
