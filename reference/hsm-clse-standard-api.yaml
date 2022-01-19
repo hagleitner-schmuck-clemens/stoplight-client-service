@@ -178,7 +178,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: '#/components/schemas/customer'
+                      $ref: '#/components/schemas/customer-light'
                   totalPages:
                     $ref: '#/components/schemas/pagination-totalPages'
                   totalItems:
@@ -4096,11 +4096,6 @@ components:
           format: uuid
           description: ID of the user within the HsM system
           readOnly: true
-        code:
-          type: string
-          example: HHAT
-          description: A code that - if given - uniquely identifies the customer within the whole system.
-          maxLength: 20
         name1:
           type: string
           example: HGM Facility care & management Ltd.
