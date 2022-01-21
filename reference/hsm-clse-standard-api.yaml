@@ -5178,12 +5178,17 @@ components:
           type: string
           format: uri
           description: A URI that can be used to assign oneself to the customer.
+        createdAt:
+          type: string
+          format: date-time
+          description: Date when the credentials were created.
       required:
         - Id
         - customerNumber
         - pin
         - validTill
         - shareUri
+        - createdAt
     response-400-badRequest:
       description: ''
       type: object
