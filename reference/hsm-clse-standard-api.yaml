@@ -184,7 +184,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: '#/components/schemas/customer'
+                      $ref: '#/components/schemas/customer-light'
                   totalPages:
                     $ref: '#/components/schemas/pagination-totalPages'
                   totalItems:
@@ -4110,11 +4110,6 @@ components:
           format: uuid
           description: ID of the user within the HsM system
           readOnly: true
-        code:
-          type: string
-          example: HHAT
-          description: A code that - if given - uniquely identifies the customer within the whole system.
-          maxLength: 20
         name1:
           type: string
           example: HGM Facility care & management Ltd.
@@ -5180,62 +5175,16 @@ components:
           readOnly: true
         creator:
           $ref: '#/components/schemas/user-light'
+        createdAt:
+          type: string
+          format: date-time
+          description: Date when the credentials were created.
       required:
         - id
         - customerNumber
         - token
         - validTill
-        - creator
-    customerRoleAssignment-customer:
-      title: ''
-      type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      description: Represents a customer role assignment from a customers perspective.
-      properties:
-        id:
-          type: string
-          description: ID of the role assignment
-          format: uuid
-          readOnly: true
-        userId:
-          type: string
-          format: uuid
-          description: ID of user who is assigned a role
-        assignedAt:
-          type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: ID of the assigned role.
-          format: uuid
-        userDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
-        roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
-        applicableToRelatedCustomersOnly:
-          type: boolean
-        externallyManaged:
-          type: boolean
-      required:
-        - id
-        - userId
-        - assignedAt
-        - roleId
-        - userDisplayName
-        - roleName
-        - externallyManaged
+        - createdAt
     response-400-badRequest:
       description: ''
       type: object
