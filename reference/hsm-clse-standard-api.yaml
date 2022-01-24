@@ -3247,6 +3247,17 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/role'
         '400':
           description: Bad Request
           content:
@@ -3268,14 +3279,163 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
-        - schema:
-            type: string
-          in: query
-          name: user
       x-internal: false
       tags:
         - System
     parameters: []
+  '/roles/{id}/name-phrase':
+    get:
+      summary: /roles GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/phrase'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: system-roles#get
+      description: Gets a list of defined roles.
+      parameters: []
+      x-internal: false
+      tags:
+        - System
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-roles-id-name-phrase
+      responses:
+        '200':
+          description: OK
+      tags:
+        - System
+  '/roles/{id}/description-phrase':
+    get:
+      summary: /roles GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/role'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: system-roles#get
+      description: Gets a list of defined roles.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+      x-internal: false
+      tags:
+        - System
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-roles-id-description-phrase
+      responses:
+        '200':
+          description: OK
+  '/roles/{id}/associated-permissions':
+    get:
+      summary: /roles GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/permission'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: system-roles#get
+      description: Get the list of permissions associated with the role.
+      parameters: []
+      x-internal: false
+      tags:
+        - System
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        description: Id of the role.
+        required: true
+    post:
+      summary: ''
+      operationId: post-roles-id-permissions
+      responses:
+        '200':
+          description: OK
+      tags:
+        - System
   /users:
     parameters: []
     get:
@@ -4619,6 +4779,144 @@ components:
       required:
         - Id
         - customerId
+    customerRoleAssignment-customer:
+      title: ''
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a customer role assignment from a customers perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        userDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
+      required:
+        - id
+        - userId
+        - assignedAt
+        - roleId
+        - userDisplayName
+        - roleName
+        - externallyManaged
+    customerRoleAssignment-user:
+      title: ''
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a customer role assignment from a users perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        customerDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
+      required:
+        - id
+        - customerId
+        - assignedAt
+        - roleId
+        - customerDisplayName
+        - roleName
+    customerSelfAssignmentCredentials:
+      title: ''
+      type: object
+      properties:
+        Id:
+          type: string
+          format: uuid
+          description: ID of this self-assignment credential
+          readOnly: true
+        customerNumber:
+          type: string
+          description: Customer number of this credential
+          readOnly: true
+        pin:
+          type: string
+          description: PIN of this credential
+          minLength: 9
+          maxLength: 9
+          readOnly: true
+        validTill:
+          type: string
+          description: Date until this credential is valid.
+          format: date-time
+          readOnly: true
+        shareUri:
+          type: string
+          format: uri
+          description: A URI that can be used to assign oneself to the customer.
+        createdAt:
+          type: string
+          format: date-time
+          description: Date when the credentials were created.
+      required:
+        - Id
+        - customerNumber
+        - pin
+        - validTill
+        - shareUri
+        - createdAt
     location:
       title: ''
       type: object
@@ -5078,117 +5376,6 @@ components:
         - type
         - name
         - sequenceNumber
-    user:
-      type: object
-      title: user
-      description: |-
-        Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
-
-        * No gender information is stored with users - this is intentional
-        * `givenName` and `surname` are used as in official ID documents.
-        * `callName` is provided to give the user a chance to define how the system shall call/address him e.g. in e-mails etc.
-        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surname>, <givenName>`
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ID of the user within the HsM system.
-          readOnly: true
-        givenName:
-          type: string
-          example: John
-          maxLength: 50
-          description: Given name of the user
-        surname:
-          type: string
-          example: Doe
-          maxLength: 50
-          description: Sure name of the user.
-        callName:
-          type: string
-          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
-        sortName:
-          type: string
-          description: A presentation of the user's full name that is used for sorting.
-        emailAddress:
-          type: string
-          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
-          format: email
-          example: john@doe.com
-          maxLength: 256
-        preferredCulture:
-          type: string
-          description: |-
-            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
-
-            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
-          example: de-AT
-          maxLength: 35
-        mobilePhoneNumber:
-          type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
-        lastUpdatedAt:
-          type: string
-          description: 'Describes when the user was last modified within HsM. '
-          format: date-time
-          example: '2021-08-23T16:15:18.123+01:00'
-          readOnly: true
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-            - masked
-          example: inactive
-          readOnly: true
-      required:
-        - id
-        - surname
-        - sortName
-        - emailAddress
-        - lastUpdatedAt
-        - status
-    customerSelfAssignmentCredentials:
-      title: ''
-      type: object
-      properties:
-        Id:
-          type: string
-          format: uuid
-          description: ID of this self-assignment credential
-          readOnly: true
-        customerNumber:
-          type: string
-          description: Customer number of this credential
-          readOnly: true
-        pin:
-          type: string
-          description: PIN of this credential
-          minLength: 9
-          maxLength: 9
-          readOnly: true
-        validTill:
-          type: string
-          description: Date until this credential is valid.
-          format: date-time
-          readOnly: true
-        shareUri:
-          type: string
-          format: uri
-          description: A URI that can be used to assign oneself to the customer.
-        createdAt:
-          type: string
-          format: date-time
-          description: Date when the credentials were created.
-      required:
-        - Id
-        - customerNumber
-        - pin
-        - validTill
-        - shareUri
-        - createdAt
     response-400-badRequest:
       description: ''
       type: object
@@ -5295,105 +5482,115 @@ components:
     response-403-forbidden:
       type: object
       title: ''
-    customerRoleAssignment-customer:
-      title: ''
+    pagination-totalPages:
+      type: integer
+      title: pagination-totalPages
+      description: Total number of pages available.
+      minimum: 0
+    pagination-totaItems:
+      type: integer
+      title: pagination-totalPages
+      description: Total number of items available.
+      minimum: 0
+    pagination-currentPage:
+      type: integer
+      title: pagination-totalPages
+      description: Current page included in this result.
+      minimum: 0
+    pagination-pageSize:
+      type: integer
+      title: pagination-totalPages
+      description: Page size that was used to generate the result set.
+      minimum: 0
+    permission:
+      title: permission
       type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      description: Represents a customer role assignment from a customers perspective.
       properties:
         id:
           type: string
-          description: ID of the role assignment
           format: uuid
-          readOnly: true
-        userId:
+        code:
           type: string
-          format: uuid
-          description: ID of user who is assigned a role
-        assignedAt:
+          description: Unique alphanumeric identifier of the permission.
+        name:
           type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
+          description: 'Translated name of the role. '
+        description:
           type: string
-          description: ID of the assigned role.
-          format: uuid
-        userDisplayName:
+          description: Translated description of the role.
+        permissionType:
           type: string
-          description: Display name of the user.
-          readOnly: true
-        roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
-        applicableToRelatedCustomersOnly:
-          type: boolean
-        externallyManaged:
-          type: boolean
+          enum:
+            - system
+            - customer
+          description: The type of permission.
       required:
         - id
-        - userId
-        - assignedAt
-        - roleId
-        - userDisplayName
-        - roleName
-        - externallyManaged
-    customerRoleAssignment-user:
-      title: ''
+        - code
+        - name
+        - permissionType
+      description: ''
+    phrase:
+      title: phrase
+      type: array
+      description: Represents a group of words in multiple translations.
+      items:
+        type: object
+        properties:
+          LanguageTag:
+            type: string
+            description: The RFC 5646/BCP 47 based tag identifying the translation language.
+            minLength: 2
+            maxLength: 35
+          Translation:
+            type: string
+            description: The actual translation
+        required:
+          - LanguageTag
+          - Translation
+    role:
+      title: role
       type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      description: Represents a customer role assignment from a users perspective.
       properties:
         id:
           type: string
-          description: ID of the role assignment
+          description: Id of the role.
           format: uuid
-          readOnly: true
-        customerId:
+        name:
           type: string
-          format: uuid
-          description: ID of user who is assigned a role
-        assignedAt:
+          description: Translated name of the role.
+        description:
           type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: ID of the assigned role.
-          format: uuid
-        customerDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
-        roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
-        applicableToRelatedCustomersOnly:
-          type: boolean
-        externallyManaged:
-          type: boolean
+          description: Translated description of the role.
       required:
         - id
-        - customerId
-        - assignedAt
-        - roleId
-        - customerDisplayName
-        - roleName
+        - name
+        - description
+    support-organization:
+      title: support-organization
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the support organization
+          maxLength: 80
+        emailAddress:
+          type: string
+          description: Email address of the support organization
+          format: email
+        phoneNumber:
+          type: string
+          description: |
+            Phone number of the support organization
+          maxLength: 30
+        businessHours:
+          type: string
+          description: Business hours of the support organization
+        postalAddress:
+          type: string
+          description: The postal address of the support organization
+      required:
+        - name
     systemRoleAssignment:
       title: ''
       type: object
@@ -5437,6 +5634,78 @@ components:
         - roleName
         - userId
         - userDisplayName
+    user:
+      type: object
+      title: user
+      description: |-
+        Represents a user of the HsM system. Users in HsM will be linked to Azure B2C accounts by the unique e-mail address once a user first accesses HsM via B2C authentication.
+
+        * No gender information is stored with users - this is intentional
+        * `givenName` and `surname` are used as in official ID documents.
+        * `callName` is provided to give the user a chance to define how the system shall call/address him e.g. in e-mails etc.
+        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surname>, <givenName>`
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the user within the HsM system.
+          readOnly: true
+        givenName:
+          type: string
+          example: John
+          maxLength: 50
+          description: Given name of the user
+        surname:
+          type: string
+          example: Doe
+          maxLength: 50
+          description: Sure name of the user.
+        callName:
+          type: string
+          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
+        sortName:
+          type: string
+          description: A presentation of the user's full name that is used for sorting.
+        emailAddress:
+          type: string
+          description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
+          format: email
+          example: john@doe.com
+          maxLength: 256
+        preferredCulture:
+          type: string
+          description: |-
+            The culture the user wants to use in interaction with the system. Given as IETF BCP 47 language tag. If not given the system will use a default invariatn culture. 
+
+            This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
+          example: de-AT
+          maxLength: 35
+        mobilePhoneNumber:
+          type: string
+          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
+          example: +43 664 9161413
+        lastUpdatedAt:
+          type: string
+          description: 'Describes when the user was last modified within HsM. '
+          format: date-time
+          example: '2021-08-23T16:15:18.123+01:00'
+          readOnly: true
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - deleted
+            - masked
+          example: inactive
+          readOnly: true
+      required:
+        - id
+        - surname
+        - sortName
+        - emailAddress
+        - lastUpdatedAt
+        - status
     userStatus:
       type: string
       title: ''
@@ -5447,69 +5716,6 @@ components:
         - masked
       description: The status of a user within HsM.
       default: active
-    pagination-totalPages:
-      type: integer
-      title: pagination-totalPages
-      description: Total number of pages available.
-      minimum: 0
-    pagination-totaItems:
-      type: integer
-      title: pagination-totalPages
-      description: Total number of items available.
-      minimum: 0
-    pagination-currentPage:
-      type: integer
-      title: pagination-totalPages
-      description: Current page included in this result.
-      minimum: 0
-    pagination-pageSize:
-      type: integer
-      title: pagination-totalPages
-      description: Page size that was used to generate the result set.
-      minimum: 0
-    phrase:
-      title: phrase
-      type: array
-      description: Represents a group of words in multiple translations.
-      items:
-        type: object
-        properties:
-          LanguageTag:
-            type: string
-            description: The RFC 5646/BCP 47 based tag identifying the translation language.
-            minLength: 2
-            maxLength: 35
-          Translation:
-            type: string
-            description: The actual translation
-        required:
-          - LanguageTag
-          - Translation
-    support-organization:
-      title: support-organization
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the support organization
-          maxLength: 80
-        emailAddress:
-          type: string
-          description: Email address of the support organization
-          format: email
-        phoneNumber:
-          type: string
-          description: |
-            Phone number of the support organization
-          maxLength: 30
-        businessHours:
-          type: string
-          description: Business hours of the support organization
-        postalAddress:
-          type: string
-          description: The postal address of the support organization
-      required:
-        - name
   parameters:
     pageSize:
       name: pageSize
