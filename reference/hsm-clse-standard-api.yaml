@@ -413,77 +413,6 @@ paths:
       operationId: customer-status-get
       x-internal: false
       description: Gets the status of teh customer.
-  '/customers/{id}/status':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customers/{id}/status#get'
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
-                enum:
-                  - active
-                  - inactive
-                  - deleted
-                example: inactive
-      operationId: customer-status#get
-      x-internal: false
-      description: Gets all the customers on the condition path from the root to this customer as sorted list.
-    put:
-      summary: '/customers/{id}/status#put'
-      operationId: customer-status#put
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
-                required: true
-                enum:
-                  - active
-                  - inactive
-                  - deleted
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      description: Modifies the status of a customer.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-              enum:
-                - active
-                - inactive
-                - deleted
-      tags:
-        - Customers
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -1837,6 +1766,68 @@ paths:
       x-internal: false
       description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
       parameters: []
+  '/customers/{id}/status':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/status GET'
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                  - active
+                  - inactive
+                  - deleted
+                example: inactive
+      operationId: customer-status#get
+      x-internal: false
+      description: Gets the life-cycle status of the customer.
+    put:
+      summary: '/customers/{id}/status PUT'
+      operationId: customer-status#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Modifies the life-cycle status of the customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+                - active
+                - inactive
+                - deleted
+      tags:
+        - Customers
   '/customers/{id}/sub-customers':
     parameters:
       - schema:
