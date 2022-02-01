@@ -774,6 +774,88 @@ paths:
       x-internal: false
       tags:
         - Customers
+  '/customers/{id}/effective-location-name-suggestions':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/effective-location-name-suggestions GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Id:
+                    type: integer
+                    format: json-pointer
+                    description: ID of the suggestion.
+                  Name:
+                    type: string
+                    description: Name of the suggestion (best matching translation)
+                  SequenceNumber:
+                    type: number
+                    description: 'The sequence number used when sorting suggestions, and also the sequence numbers that clients shall apply when this suggestion is used for a location.'
+                required:
+                  - Id
+                  - Name
+                  - SequenceNumber
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  sequenceNumber:
+                    type: string
+                  '':
+                    type: string
+      operationId: customer-effective-location-name-suggestions#get
+      description: |-
+        Gets the location name suggestions for a specific location type that are effective for this customer. I.e. either the suggestions that were created for this customer or - if non are defined for this customer - the suggestions of the closest reseller customer that has suggestions.
+
+        The response will be ordered by the suggestions' sequence number ascending.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - Building
+              - BuildingPart
+              - Floor
+              - FloorArea
+              - Room
+          in: query
+          name: locationType
+          description: 'The location type '
+          required: true
+        - $ref: '#/components/parameters/Accept-Language'
+      x-internal: false
+      tags:
+        - RoleAssignments
   '/customers/{id}/effective-role-assignments':
     parameters:
       - schema:
@@ -5727,4 +5809,11 @@ components:
         minimum: 1
         example: 200
       description: 'Pagination, 1-based number of the page to return.'
+    Accept-Language:
+      name: Accept-Language
+      in: header
+      required: false
+      schema:
+        type: string
+      description: 'The "Accept-Language" header field can be used by user agents to indicate the set of natural languages that are preferred in the response. '
   responses: {}
