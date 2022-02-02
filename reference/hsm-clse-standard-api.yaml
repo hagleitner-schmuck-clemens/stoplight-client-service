@@ -938,9 +938,45 @@ paths:
           description: ''
       operationId: customer-effective-permissions#get
       description: |-
-        Gets the effectively grante permissions of the accessing user (the security principal) principal has on the this customer (the securable). The response contains the unique code of all permissions the accessing user is effectively granted on this customer, including permissions that are inherited from other customers and from the system securable.
+        Gets the effectively granted permissions a user (the security principal) has on the this customer (the securable). The response contains a representation of permissions the user is effectively granted on this customer, including permissions that are inherited from other customers and from the system securable.
 
-        As the number of permissions is naturally limited this endpoint does not use pagination.
+        As the number of customer permissions is naturally limited this endpoint does not use pagination.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: userId
+          description: ID of the user for whom the effective permissions shall be returned. If not given will default to the accessing user.
+      x-internal: false
+      tags:
+        - Authorization
+  /effective-system-permissions:
+    parameters: []
+    get:
+      summary: /effective-system-permissions GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: Identifying code of the permission.
+                  required:
+                    - code
+              examples: {}
+        '':
+          description: ''
+      operationId: effective-system-permissions#get
+      description: |-
+        Gets the effectively granted system permissions of a user (the security principal) on the system (the securable). The response contains a representation of all system permissions the accessing user is effectively granted.
+
+        As the number of system permissions is naturally limited this endpoint does not use pagination.
       parameters:
         - schema:
             type: integer
