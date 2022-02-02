@@ -907,7 +907,50 @@ paths:
       x-internal: false
       tags:
         - RoleAssignments
-  '/customers/{id}/invoice-recipient-path':
+  '/customers/{id}/hierarchy-path-elements':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/hierarchy-path-elements GET'
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customer-light'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
+      operationId: customer-customer-hierarchy-path-elements#get
+      x-internal: false
+      description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
+      parameters: []
+  '/customers/{id}/invoicing-path':
     parameters:
       - schema:
           type: string
@@ -932,7 +975,7 @@ paths:
       operationId: customer-invoice-recipient-path#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
-  '/customers/{id}/invoice-relation':
+  '/customers/{id}/invoicing-relation':
     parameters:
       - schema:
           type: string
@@ -1805,49 +1848,6 @@ paths:
       description: 'Gets the self-assignment with the longest validity, if any.'
       tags:
         - SelfAssignment
-  '/customers/{id}/customer-hierarchy-path-elements':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customers/{id}/customer-hierarchy-path-elements GET'
-      tags:
-        - Customers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/customer-light'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  pageSize:
-                    $ref: '#/components/schemas/pagination-pageSize'
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                required:
-                  - items
-                  - totalPages
-                  - totalItems
-                  - pageSize
-                  - currentPage
-      operationId: customer-customer-hierarchy-path-elements#get
-      x-internal: false
-      description: Gets all the customers on the customer-hierarchy path from the root to this customer as sorted list.
-      parameters: []
   '/customers/{id}/status':
     parameters:
       - schema:
