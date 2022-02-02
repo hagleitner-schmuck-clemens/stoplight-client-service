@@ -910,7 +910,7 @@ paths:
   '/customers/{id}/effective-permissions':
     parameters:
       - schema:
-          type: string
+          type: integer
           format: uuid
         name: id
         in: path
@@ -924,30 +924,23 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  Code:
-                    type: string
-                    description: The code uniquely identifying the permission.
-                    readOnly: true
-                  Name:
-                    type: string
-                    description: The best-matching translation of the permission name.
-                  Description:
-                    type: string
-                    description: The best-matching translation of the permission description.
-                required:
-                  - Code
-                  - Name
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: Identifying code of the permission.
+                  required:
+                    - code
+              examples: {}
         '':
           description: ''
       operationId: customer-effective-permissions#get
-      description: |
+      description: |-
         Gets the effectively grante permissions of the accessing user (the security principal) principal has on the this customer (the securable). The response contains the unique code of all permissions the accessing user is effectively granted on this customer, including permissions that are inherited from other customers and from the system securable.
 
         As the number of permissions is naturally limited this endpoint does not use pagination.
-
-        If the user accessing this operation is not the user the effective permissions are queried for the user must have specific permissions on the customer.
       parameters:
         - schema:
             type: integer
