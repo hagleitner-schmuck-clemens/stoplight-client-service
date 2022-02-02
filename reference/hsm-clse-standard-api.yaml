@@ -20,11 +20,11 @@ info:
 servers:
   - url: 'http://clse.hsm-test.com/api/standard/v1'
 tags:
+  - name: Authorization
   - name: Customers
   - name: CustomerFavorites
-  - name: Locations
-  - name: Authorization
   - name: CustomerSelfAssignment
+  - name: Locations
   - name: System
   - name: Users
 paths:
@@ -1774,7 +1774,7 @@ paths:
         - Customers
     put:
       summary: '/customers/{id}/support-organization PUT'
-      operationId: put-customers-id-support-organization
+      operationId: customer-support-organization#put
       responses:
         '200':
           description: OK
@@ -1807,12 +1807,14 @@ paths:
       tags:
         - Customers
     delete:
-      summary: ''
-      operationId: delete-customers-id-support-organization
+      summary: '/customers/{id}/support-organization DELETE'
+      operationId: customer-support-organization#delete
       responses:
         '200':
           description: OK
       description: Removes the support-organization information from the customer.
+      tags:
+        - Customers
   '/customers/{id}/self-assignment-credentials':
     parameters:
       - schema:
@@ -1926,7 +1928,7 @@ paths:
       x-internal: false
       description: 'Gets the self-assignment with the longest validity, if any.'
       tags:
-        - SelfAssignment
+        - CustomerSelfAssignment
   '/customers/{id}/status':
     parameters:
       - schema:
@@ -3437,7 +3439,7 @@ paths:
     parameters: []
   '/roles/{id}/name-phrase':
     get:
-      summary: /roles GET
+      summary: '/roles/{id}/name-phrase GET'
       responses:
         '200':
           description: OK
@@ -3461,7 +3463,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: system-roles#get
+      operationId: role-name-phrase#get
       description: Gets a list of defined roles.
       parameters: []
       x-internal: false
@@ -3474,8 +3476,8 @@ paths:
         in: path
         required: true
     put:
-      summary: ''
-      operationId: put-roles-id-name-phrase
+      summary: '/roles/{id}/name-phrase PUT'
+      operationId: role-name-phrase#put
       responses:
         '200':
           description: OK
@@ -3483,7 +3485,7 @@ paths:
         - System
   '/roles/{id}/description-phrase':
     get:
-      summary: /roles GET
+      summary: '/roles/{id}/description-phrase GET'
       responses:
         '200':
           description: OK
@@ -3518,7 +3520,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: system-roles#get
+      operationId: role-description-phrase#get
       description: Gets a list of defined roles.
       parameters:
         - $ref: '#/components/parameters/pageSize'
@@ -3533,8 +3535,8 @@ paths:
         in: path
         required: true
     put:
-      summary: ''
-      operationId: put-roles-id-description-phrase
+      summary: '/roles/{id}/description-phrase PUT'
+      operationId: role-description-phrase#put
       responses:
         '200':
           description: OK
