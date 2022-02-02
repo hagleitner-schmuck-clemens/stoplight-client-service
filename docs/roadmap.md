@@ -9,6 +9,7 @@
 * 2022-01-10 (Version 1.0.0-beta.5): Fixes to tagging and operation naming, added hygiene-portal-appliactions endpoint.
 * 2022-01-10 (Version 1.0.0-beta.6): Split stoplight models for synchronization and Standard API
 * 2022-01-03 (Version 1.0.0-beta.7): Moved /system/ endpoints
+* 2022-02-02 (Version 1.0.0-beta.8): Authorization Endpoints reworked
 
 ### Roadmap
 
