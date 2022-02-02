@@ -855,7 +855,7 @@ paths:
         - $ref: '#/components/parameters/Accept-Language'
       x-internal: false
       tags:
-        - Authorization
+        - Customers
   '/customers/{id}/effective-role-assignments':
     parameters:
       - schema:
@@ -3540,6 +3540,8 @@ paths:
       responses:
         '200':
           description: OK
+      tags:
+        - System
   '/roles/{id}/associated-permissions':
     get:
       summary: /roles GET
