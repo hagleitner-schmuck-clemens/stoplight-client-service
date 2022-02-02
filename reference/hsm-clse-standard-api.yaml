@@ -819,21 +819,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-        '':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  description:
-                    type: string
-                  sequenceNumber:
-                    type: string
-                  '':
-                    type: string
       operationId: customer-effective-location-name-suggestions#get
       description: |-
         Gets the location name suggestions for a specific location type that are effective for this customer. I.e. either the suggestions that were created for this customer or - if non are defined for this customer - the suggestions of the closest reseller customer that has suggestions.
@@ -934,8 +919,6 @@ paths:
                   required:
                     - code
               examples: {}
-        '':
-          description: ''
       operationId: customer-effective-permissions#get
       description: |-
         Gets the effectively granted permissions a user (the security principal) has on the this customer (the securable). The response contains a representation of permissions the user is effectively granted on this customer, including permissions that are inherited from other customers and from the system securable.
@@ -970,8 +953,6 @@ paths:
                   required:
                     - code
               examples: {}
-        '':
-          description: ''
       operationId: effective-system-permissions#get
       description: |-
         Gets the effectively granted system permissions of a user (the security principal) on the system (the securable). The response contains a representation of all system permissions the accessing user is effectively granted.
@@ -3570,7 +3551,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: system-roles#get
+      operationId: role-associated-permissions#get
       description: Get the list of permissions associated with the role.
       parameters: []
       x-internal: false
