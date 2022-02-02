@@ -118,7 +118,7 @@ paths:
         name: id
         in: path
         required: true
-        description: ID of the self assignment credentials.
+        description: ID of the customer
     get:
       summary: '/customer-self-assignment-credentials/{id} GET'
       responses:
@@ -128,12 +128,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/customerSelfAssignmentCredentials'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
         '401':
           description: Unauthorized
         '404':
@@ -165,7 +159,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Expires the credentials.
+      description: Deletes the customer-self-assignment credentials.
       tags:
         - CustomerSelfAssignment
   /customers:
@@ -2771,19 +2765,12 @@ paths:
                 type: object
                 properties:
                   Name:
-                    type: string
-                    description: The actual translation given here depends on the Accept-Language header of the request.
+                    $ref: '#/components/schemas/phrase'
                   Url:
                     type: string
                     format: uri
-              examples:
-                Example:
-                  value:
-                    Name: Hagleitner web shop
-                    Url: 'https://shop.hagleitner.com'
       operationId: get-hygiene-portal-applications
-      description: 'Gets a list of hygiene portal applications. '
-      parameters: []
+      description: Gets a list of hygiene portal applications
   /instance-branding:
     get:
       summary: /instance-branding GET
@@ -4339,10 +4326,11 @@ components:
           description: The VAT identification number of the customer.
           example: ATU123456789
           maxLength: 15
-        locale:
-          $ref: '#/components/schemas/locale'
-        timeZone:
-          $ref: '#/components/schemas/timeZone'
+        preferredCulture:
+          type: string
+          description: 'The culture this customer usually thinks in. Given as IETF BCP 47 language tag. '
+          example: en-GB
+          maxLength: 35
         status:
           enum:
             - active
@@ -5631,44 +5619,6 @@ components:
           required:
             - code
             - message
-    pagination-totalPages:
-      type: integer
-      title: pagination-totalPages
-      description: Total number of pages available.
-      minimum: 0
-    pagination-totaItems:
-      type: integer
-      title: pagination-totalPages
-      description: Total number of items available.
-      minimum: 0
-    pagination-currentPage:
-      type: integer
-      title: pagination-totalPages
-      description: Current page included in this result.
-      minimum: 0
-    pagination-pageSize:
-      type: integer
-      title: pagination-totalPages
-      description: Page size that was used to generate the result set.
-      minimum: 0
-    phrase:
-      title: phrase
-      type: array
-      description: Represents a group of words in multiple translations.
-      items:
-        type: object
-        properties:
-          LanguageTag:
-            type: string
-            description: The RFC 5646/BCP 47 based tag identifying the translation language.
-            minLength: 2
-            maxLength: 35
-          Translation:
-            type: string
-            description: The actual translation
-        required:
-          - LanguageTag
-          - Translation
     response-403-forbidden:
       type: object
       title: ''
@@ -5742,7 +5692,7 @@ components:
       title: role
       type: object
       properties:
-        name:
+        id:
           type: string
           description: Id of the role.
           format: uuid
@@ -5785,46 +5735,38 @@ components:
       title: ''
       type: object
       examples:
-        - Europe/Vienna
-    user:
-      type: object
-      title: user
-      description: Represents a user of the HsM system.
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a role assignment from a users perspective.
       properties:
         id:
           type: string
+          description: ID of the role assignment
           format: uuid
-          description: ID of the user within the HsM system.
           readOnly: true
-        givenName:
+        assignedAt:
           type: string
-          example: John
-          maxLength: 50
-          description: 'Given name(s) or first name(s) of the user. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
-        familyName:
-          type: string
-          example: Doe
-          maxLength: 50
-          description: 'Surname(s) or last name(s) of the user. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
-        name:
-          type: string
-          description: 'User''s full name in displayable form including all name parts, ordered according to the user''s locale and preferences.'
-        status:
-          type: string
-          enum:
-            - active
-            - inactive
-            - deleted
-            - masked
-          example: inactive
+          description: Date when the role was assigned
+          format: date-time
           readOnly: true
-        emailAddress:
+        roleId:
           type: string
-          format: email
-        locale:
-          $ref: '#/components/schemas/locale'
-        timeZone:
-          $ref: '#/components/schemas/timeZone'
+          description: ID of the assigned role.
+          format: uuid
+        roleName:
+          type: string
+          description: Name of the assigned role
+          readOnly: true
+        userId:
+          type: string
+          format: uuid
+        userDisplayName:
+          type: string
+          readOnly: true
       required:
         - id
         - assignedAt
