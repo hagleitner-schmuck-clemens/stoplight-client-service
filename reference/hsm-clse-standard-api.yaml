@@ -3464,6 +3464,7 @@ paths:
           description: OK
       tags:
         - System
+      description: Updates the name phrase of a role.
   '/roles/{id}/description-phrase':
     get:
       summary: '/roles/{id}/description-phrase GET'
@@ -3523,6 +3524,7 @@ paths:
           description: OK
       tags:
         - System
+      description: Updates the description phrase of a role.
   '/roles/{id}/associated-permissions':
     get:
       summary: /roles GET
@@ -3573,6 +3575,7 @@ paths:
           description: OK
       tags:
         - System
+      description: Adds a permission to a role
   /users:
     parameters: []
     get:
