@@ -21,8 +21,8 @@ servers:
   - url: 'http://clse.hsm-test.com/api/standard/v1'
 tags:
   - name: Authorization
-  - name: Customers
   - name: CustomerFavorites
+  - name: Customers
   - name: CustomerSelfAssignment
   - name: Locations
   - name: System
