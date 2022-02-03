@@ -892,7 +892,7 @@ paths:
       x-internal: false
       tags:
         - Authorization
-  '/customers/{id}/effective-permissions':
+  '/customers/{id}/effective-customer-permissions ':
     parameters:
       - schema:
           type: integer
@@ -902,7 +902,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/effective-permissions GET'
+      summary: '/customers/{id}/effective-customer-permissions GET'
       responses:
         '200':
           description: OK
@@ -919,7 +919,7 @@ paths:
                   required:
                     - code
               examples: {}
-      operationId: customer-effective-permissions#get
+      operationId: customer-effective-customer-permissions#get
       description: |-
         Gets the effectively granted permissions a user (the security principal) has on the this customer (the securable). The response contains a representation of permissions the user is effectively granted on this customer, including permissions that are inherited from other customers and from the system securable.
 
