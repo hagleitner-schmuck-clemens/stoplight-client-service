@@ -902,7 +902,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/effective-customer-permissions GET'
+      summary: '/customers/{id}/effective-permissions GET'
       responses:
         '200':
           description: OK
