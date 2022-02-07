@@ -2774,6 +2774,8 @@ paths:
                   - Url
       operationId: get-hygiene-portal-applications
       description: Gets a list of hygiene portal applications with their respective URLs
+      parameters:
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
   /instance-branding:
     get:
       summary: /instance-branding GET
