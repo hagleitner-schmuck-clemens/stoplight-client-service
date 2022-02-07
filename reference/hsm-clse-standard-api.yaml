@@ -933,40 +933,6 @@ paths:
       x-internal: false
       tags:
         - Authorization
-  /effective-system-permissions:
-    parameters: []
-    get:
-      summary: /effective-system-permissions GET
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    code:
-                      type: string
-                      description: Identifying code of the permission.
-                  required:
-                    - code
-              examples: {}
-      operationId: effective-system-permissions#get
-      description: |-
-        Gets the effectively granted system permissions of a user (the security principal) on the system (the securable). The response contains a representation of all system permissions the accessing user is effectively granted.
-
-        As the number of system permissions is naturally limited this endpoint does not use pagination.
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: userId
-          description: ID of the user for whom the effective permissions shall be returned. If not given will default to the accessing user.
-      x-internal: false
-      tags:
-        - Authorization
   '/customers/{id}/hierarchy-path-elements':
     parameters:
       - schema:
@@ -2106,6 +2072,40 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+  /effective-system-permissions:
+    parameters: []
+    get:
+      summary: /effective-system-permissions GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: Identifying code of the permission.
+                  required:
+                    - code
+              examples: {}
+      operationId: effective-system-permissions#get
+      description: |-
+        Gets the effectively granted system permissions of a user (the security principal) on the system (the securable). The response contains a representation of all system permissions the accessing user is effectively granted.
+
+        As the number of system permissions is naturally limited this endpoint does not use pagination.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: userId
+          description: ID of the user for whom the effective permissions shall be returned. If not given will default to the accessing user.
+      x-internal: false
+      tags:
+        - Authorization
   /buildings:
     parameters: []
     post:
@@ -2773,7 +2773,7 @@ paths:
                   - Name
                   - Url
       operationId: get-hygiene-portal-applications
-      description: Gets a list of hygiene portal applications with their respective URLs
+      description: Gets a list of hygiene portal applications with their respective URLs.
       parameters:
         - $ref: '#/components/parameters/onlyBestMatchingTranslation'
   /instance-branding:
