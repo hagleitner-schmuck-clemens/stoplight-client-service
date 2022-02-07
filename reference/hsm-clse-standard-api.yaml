@@ -3410,121 +3410,20 @@ paths:
         '404':
           description: Not Found
       operationId: system-roles#get
-      description: Gets a list of defined roles.
+      description: Gets a list of roles defined in the system.
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+        - schema:
+            type: boolean
+            default: 'false'
+          in: query
+          name: onlyBestMachingTranslation
+          description: ' If set, each phrase returned by this operation will only include the best matching translation according to the provided Accept-Language header.'
       x-internal: false
       tags:
         - System
     parameters: []
-  '/roles/{id}/name-phrase':
-    get:
-      summary: '/roles/{id}/name-phrase GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/phrase'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: role-name-phrase#get
-      description: Gets a list of defined roles.
-      parameters: []
-      x-internal: false
-      tags:
-        - System
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    put:
-      summary: '/roles/{id}/name-phrase PUT'
-      operationId: role-name-phrase#put
-      responses:
-        '200':
-          description: OK
-      tags:
-        - System
-      description: Updates the name phrase of a role.
-  '/roles/{id}/description-phrase':
-    get:
-      summary: '/roles/{id}/description-phrase GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/role'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: role-description-phrase#get
-      description: Gets a list of defined roles.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-      x-internal: false
-      tags:
-        - System
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    put:
-      summary: '/roles/{id}/description-phrase PUT'
-      operationId: role-description-phrase#put
-      responses:
-        '200':
-          description: OK
-      tags:
-        - System
-      description: Updates the description phrase of a role.
   '/roles/{id}/associated-permissions':
     get:
       summary: /roles GET
@@ -5697,11 +5596,9 @@ components:
           description: Id of the role.
           format: uuid
         name:
-          type: string
-          description: Translated name of the role.
+          $ref: '#/components/schemas/phrase'
         description:
-          type: string
-          description: Translated description of the role.
+          $ref: '#/components/schemas/phrase'
       required:
         - id
         - name
