@@ -5581,8 +5581,8 @@ components:
       description: ''
       properties:
         id:
-          format: uuid
           type: integer
+          format: int32
         code:
           type: string
           description: Unique alphanumeric identifier of the permission.
@@ -5624,9 +5624,9 @@ components:
       type: object
       properties:
         id:
-          description: Id of the role.
-          format: uuid
           type: integer
+          description: Id of the role.
+          format: int32
         name:
           $ref: '#/components/schemas/phrase'
         description:
