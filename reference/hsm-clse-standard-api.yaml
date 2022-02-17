@@ -210,27 +210,13 @@ paths:
         '403':
           description: Forbidden
       operationId: customers-get
-      description: |-
-        Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1.
-
-        This collection is capped to a maximum of X customers.
+      description: Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1 of the customer.
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
         - schema:
-            type: string
-            format: uuid
-          in: query
-          name: customerNumber
-          description: Filters for customers based on the customer number. Note that the customer number  is only unique within all customers of the same reseller. Filters for exactly matching customer numbers.
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: resellerId
-          description: Filters for sub customer of the given reseller.
-        - schema:
-            type: string
+            type: integer
+            format: int32
           in: query
           name: fullTextSearch
           description: A search string that is used to filter for customers using the full text search capability of the system.
@@ -241,6 +227,29 @@ paths:
           in: query
           name: status
           description: 'Filters for customers that are in one of the given states. '
+        - schema:
+            type: integer
+            format: int32
+          in: query
+          name: resellerId
+          description: Filters for customers that are sub customers of the given reseller customer.
+        - schema:
+            type: string
+          in: query
+          name: parentId
+          description: Filters for customers that are subsidiaries of the given parent customer.
+        - schema:
+            type: integer
+            format: int32
+          in: query
+          name: invoiceRecipientId
+          description: Filters for customers that are invoice sources of the given invoice recipient customer.
+        - schema:
+            type: integer
+            format: int32
+          in: query
+          name: conditionOwnerId
+          description: Filters for customers that are beneficiaries of the given condition owner customer.
       x-internal: false
     post:
       summary: /customers POST
@@ -892,7 +901,7 @@ paths:
       x-internal: false
       tags:
         - Authorization
-  '/customers/{id}/effective-permissions':
+  '/customers/{id}/effective-customer-permissions ':
     parameters:
       - schema:
           type: integer
@@ -919,45 +928,11 @@ paths:
                   required:
                     - code
               examples: {}
-      operationId: customer-effective-permissions#get
+      operationId: customer-effective-customer-permissions#get
       description: |-
         Gets the effectively granted permissions a user (the security principal) has on the this customer (the securable). The response contains a representation of permissions the user is effectively granted on this customer, including permissions that are inherited from other customers and from the system securable.
 
         As the number of customer permissions is naturally limited this endpoint does not use pagination.
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: userId
-          description: ID of the user for whom the effective permissions shall be returned. If not given will default to the accessing user.
-      x-internal: false
-      tags:
-        - Authorization
-  /effective-system-permissions:
-    parameters: []
-    get:
-      summary: /effective-system-permissions GET
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    code:
-                      type: string
-                      description: Identifying code of the permission.
-                  required:
-                    - code
-              examples: {}
-      operationId: effective-system-permissions#get
-      description: |-
-        Gets the effectively granted system permissions of a user (the security principal) on the system (the securable). The response contains a representation of all system permissions the accessing user is effectively granted.
-
-        As the number of system permissions is naturally limited this endpoint does not use pagination.
       parameters:
         - schema:
             type: integer
@@ -2106,6 +2081,40 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+  /effective-system-permissions:
+    parameters: []
+    get:
+      summary: /effective-system-permissions GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: Identifying code of the permission.
+                  required:
+                    - code
+              examples: {}
+      operationId: effective-system-permissions#get
+      description: |-
+        Gets the effectively granted system permissions of a user (the security principal) on the system (the securable). The response contains a representation of all system permissions the accessing user is effectively granted.
+
+        As the number of system permissions is naturally limited this endpoint does not use pagination.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: userId
+          description: ID of the user for whom the effective permissions shall be returned. If not given will default to the accessing user.
+      x-internal: false
+      tags:
+        - Authorization
   /buildings:
     parameters: []
     post:
@@ -2769,8 +2778,13 @@ paths:
                   Url:
                     type: string
                     format: uri
+                required:
+                  - Name
+                  - Url
       operationId: get-hygiene-portal-applications
-      description: Gets a list of hygiene portal applications
+      description: Gets a list of hygiene portal applications with their respective URLs.
+      parameters:
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
   /instance-branding:
     get:
       summary: /instance-branding GET
@@ -3038,6 +3052,143 @@ paths:
           description: Not Found
       operationId: /location-path#get
       description: 'Returns all locations on the location-tree path to this location, including this location. The returned array is ordered by the tree-level of the locations i.e. the root locatio first.'
+  /permissions:
+    get:
+      summary: /permissions GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/permission'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: permissions#get
+      description: Gets a list of permissions defined in the system.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
+      x-internal: false
+      tags:
+        - System
+    parameters: []
+  /roles:
+    get:
+      summary: /roles GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/role'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: roles#get
+      description: Gets a list of roles defined in the system.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
+      x-internal: false
+      tags:
+        - System
+    parameters: []
+  '/roles/{id}/associated-permissions':
+    get:
+      summary: '/roles/{id}/associated-permissions GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/permission'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: role-associated-permissions#get
+      description: Get the list of permissions associated with the role.
+      parameters:
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
+      x-internal: false
+      tags:
+        - System
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        description: Id of the role.
+        required: true
   /rooms:
     parameters: []
     post:
@@ -3372,210 +3523,6 @@ paths:
           description: ID of the role assignment.
       tags:
         - Authorization
-  /roles:
-    get:
-      summary: /roles GET
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/role'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: system-roles#get
-      description: Gets a list of defined roles.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-      x-internal: false
-      tags:
-        - System
-    parameters: []
-  '/roles/{id}/name-phrase':
-    get:
-      summary: '/roles/{id}/name-phrase GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/phrase'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: role-name-phrase#get
-      description: Gets a list of defined roles.
-      parameters: []
-      x-internal: false
-      tags:
-        - System
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    put:
-      summary: '/roles/{id}/name-phrase PUT'
-      operationId: role-name-phrase#put
-      responses:
-        '200':
-          description: OK
-      tags:
-        - System
-      description: Updates the name phrase of a role.
-  '/roles/{id}/description-phrase':
-    get:
-      summary: '/roles/{id}/description-phrase GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/role'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: role-description-phrase#get
-      description: Gets a list of defined roles.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-      x-internal: false
-      tags:
-        - System
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    put:
-      summary: '/roles/{id}/description-phrase PUT'
-      operationId: role-description-phrase#put
-      responses:
-        '200':
-          description: OK
-      tags:
-        - System
-      description: Updates the description phrase of a role.
-  '/roles/{id}/associated-permissions':
-    get:
-      summary: /roles GET
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/permission'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: role-associated-permissions#get
-      description: Get the list of permissions associated with the role.
-      parameters: []
-      x-internal: false
-      tags:
-        - System
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        description: Id of the role.
-        required: true
-    post:
-      summary: ''
-      operationId: post-roles-id-permissions
-      responses:
-        '200':
-          description: OK
-      tags:
-        - System
-      description: Adds a permission to a role
   /users:
     parameters: []
     get:
@@ -4396,6 +4343,9 @@ components:
           format: uuid
           description: ID of the user within the HsM system
           readOnly: true
+        code:
+          type: string
+          description: A unique code of the customer
         name1:
           type: string
           example: HGM Facility care & management Ltd.
@@ -4439,6 +4389,9 @@ components:
           maxLength: 2
           example: GB
           description: ISO 3166-1 alpha-2 code of the customer's postal address.
+        customerNumber:
+          type: string
+          description: 'The number that uniquely identifies the customer within all customer sof the same reseller. '
       required:
         - id
         - name1
@@ -5645,19 +5598,18 @@ components:
     permission:
       title: permission
       type: object
+      description: ''
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int32
         code:
           type: string
           description: Unique alphanumeric identifier of the permission.
         name:
-          type: string
-          description: 'Translated name of the role. '
+          $ref: '#/components/schemas/phrase'
         description:
-          type: string
-          description: Translated description of the role.
+          $ref: '#/components/schemas/phrase'
         permissionType:
           type: string
           enum:
@@ -5669,7 +5621,6 @@ components:
         - code
         - name
         - permissionType
-      description: ''
     phrase:
       title: phrase
       type: array
@@ -5693,15 +5644,13 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           description: Id of the role.
-          format: uuid
+          format: int32
         name:
-          type: string
-          description: Translated name of the role.
+          $ref: '#/components/schemas/phrase'
         description:
-          type: string
-          description: Translated description of the role.
+          $ref: '#/components/schemas/phrase'
       required:
         - id
         - name
@@ -5883,4 +5832,11 @@ components:
       schema:
         type: string
       description: 'The "Accept-Language" header field can be used by user agents to indicate the set of natural languages that are preferred in the response. '
+    onlyBestMatchingTranslation:
+      name: onlyBestMatchingTranslation
+      in: query
+      required: false
+      schema:
+        type: boolean
+      description: 'If set, phrases returned by the operation will only include the best matching translation according to the provided Accept-Language header.'
   responses: {}
