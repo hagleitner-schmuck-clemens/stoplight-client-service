@@ -4315,28 +4315,7 @@ components:
       type: object
       title: ''
       description: Describes a customer.
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          code: HHAT
-          name1: HGM Facility care & management Ltd.
-          name2: A FacilityWiz subsidiary
-          name3: string
-          name4: string
-          address1: Huey Avenue 33b
-          address2: The Holo Building
-          city: London
-          postalCode: W3BX
-          countryCode: GB
-          customerNumber: 21-0789-B
-          emailAddress: office@hgmfacility.com
-          phoneNumber: +44 256 51512
-          vatIdentificationNumber: +44 256 51512
-          preferredCulture: en-GB
-          status: active
-          isReseller: true
-          lastUpdatedAt: '2021-08-23T16:15:18.123+01:00'
-          externallyManaged: true
-          isFavorite: true
+      examples: []
       properties:
         id:
           type: string
