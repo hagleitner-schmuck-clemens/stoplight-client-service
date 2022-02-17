@@ -210,27 +210,13 @@ paths:
         '403':
           description: Forbidden
       operationId: customers-get
-      description: |-
-        Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1.
-
-        This collection is capped to a maximum of X customers.
+      description: Gets a collection of customers. Only customers that the current user has permissions on will be included in the result.The collection is ordered by name1 of the customer.
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
         - schema:
-            type: string
-            format: uuid
-          in: query
-          name: customerNumber
-          description: Filters for customers based on the customer number. Note that the customer number  is only unique within all customers of the same reseller. Filters for exactly matching customer numbers.
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: resellerId
-          description: Filters for sub customer of the given reseller.
-        - schema:
-            type: string
+            type: integer
+            format: int32
           in: query
           name: fullTextSearch
           description: A search string that is used to filter for customers using the full text search capability of the system.
@@ -241,6 +227,29 @@ paths:
           in: query
           name: status
           description: 'Filters for customers that are in one of the given states. '
+        - schema:
+            type: integer
+            format: int32
+          in: query
+          name: resellerId
+          description: Filters for customers that are sub customers of the given reseller customer.
+        - schema:
+            type: string
+          in: query
+          name: parentId
+          description: Filters for customers that are subsidiaries of the given parent customer.
+        - schema:
+            type: integer
+            format: int32
+          in: query
+          name: invoiceRecipientId
+          description: Filters for customers that are invoice sources of the given invoice recipient customer.
+        - schema:
+            type: integer
+            format: int32
+          in: query
+          name: conditionOwnerId
+          description: Filters for customers that are beneficiaries of the given condition owner customer.
       x-internal: false
     post:
       summary: /customers POST
@@ -4334,6 +4343,9 @@ components:
           format: uuid
           description: ID of the user within the HsM system
           readOnly: true
+        code:
+          type: string
+          description: A unique code of the customer
         name1:
           type: string
           example: HGM Facility care & management Ltd.
@@ -4377,6 +4389,9 @@ components:
           maxLength: 2
           example: GB
           description: ISO 3166-1 alpha-2 code of the customer's postal address.
+        customerNumber:
+          type: string
+          description: 'The number that uniquely identifies the customer within all customer sof the same reseller. '
       required:
         - id
         - name1
