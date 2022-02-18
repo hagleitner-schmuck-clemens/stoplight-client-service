@@ -4463,6 +4463,7 @@ components:
         sequenceNumber:
           type: integer
           description: Defines the order of the favorite within the user's favorite list.
+          default: 0
       required:
         - id
         - name1
