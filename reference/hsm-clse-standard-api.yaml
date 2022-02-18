@@ -898,6 +898,7 @@ paths:
           in: query
           name: userId
           description: Filters the effective roles to those given to the provided user id.
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       x-internal: false
       tags:
         - Authorization
@@ -1512,6 +1513,7 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       x-internal: false
       tags:
         - Authorization
@@ -3424,6 +3426,7 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user.
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       x-internal: false
       tags:
         - Authorization
@@ -3492,6 +3495,7 @@ paths:
           in: query
           name: Id
           description: ID of the role assignment
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       x-internal: false
       tags:
         - Authorization
@@ -3838,6 +3842,7 @@ paths:
           description: If given filters the results for a specific customer only.
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       tags:
         - Authorization
   '/users/{id}/favorite-customers':
@@ -3969,6 +3974,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       tags:
         - Authorization
 components:
@@ -4886,9 +4892,7 @@ components:
           description: Display name of the user.
           readOnly: true
         roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
+          $ref: '#/components/schemas/phrase'
         applicableToRelatedCustomersOnly:
           type: boolean
         externallyManaged:
@@ -4936,9 +4940,7 @@ components:
           description: Display name of the user.
           readOnly: true
         roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
+          $ref: '#/components/schemas/phrase'
         applicableToRelatedCustomersOnly:
           type: boolean
         externallyManaged:
@@ -5686,9 +5688,7 @@ components:
           description: ID of the assigned role.
           format: uuid
         roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
+          $ref: '#/components/schemas/phrase'
         userId:
           type: string
           format: uuid
