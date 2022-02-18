@@ -5587,8 +5587,6 @@ components:
           description: Unique alphanumeric identifier of the permission.
         name:
           $ref: '#/components/schemas/phrase'
-        description:
-          $ref: '#/components/schemas/phrase'
         permissionType:
           type: string
           enum:
@@ -5628,12 +5626,14 @@ components:
           format: int32
         name:
           $ref: '#/components/schemas/phrase'
-        description:
-          $ref: '#/components/schemas/phrase'
       required:
         - id
         - name
-        - description
+      examples:
+        - id: 0
+          name:
+            - LanguageTag: string
+              Translation: string
     support-organization:
       title: support-organization
       type: object
