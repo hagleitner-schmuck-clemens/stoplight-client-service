@@ -2083,7 +2083,7 @@ paths:
       description: Removes the support-organization information from the customer.
       tags:
         - Customers
-  '/customer/{id}/workforce':
+  '/customers/{id}/workforce':
     parameters:
       - schema:
           type: string
@@ -2093,7 +2093,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: '/customer/{id}/workforce GET'
+      summary: '/customers/{id}/workforce GET'
       responses:
         '200':
           description: OK
@@ -2158,7 +2158,7 @@ paths:
           description: 'If set to false only users who have a directly assigned role on that customer will be returned, if true also users with inherited role assignments will be included in the result.'
       tags:
         - Authorization
-  '/customer/{id}/workforce/{userId}/roles':
+  '/customers/{id}/workforce/{userId}/roles':
     parameters:
       - schema:
           type: string
@@ -2173,7 +2173,7 @@ paths:
         in: path
         required: true
     get:
-      summary: '/customer/{id}/workforce/{userId}/roles GET'
+      summary: '/customers/{id}/workforce/{userId}/roles GET'
       responses:
         '200':
           description: OK
