@@ -28,6 +28,68 @@ tags:
   - name: System
   - name: Users
 paths:
+  /capabilities:
+    parameters: []
+    get:
+      summary: /capabilities GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRoleAssignment-customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-401-unauthorized'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: /capabilities#get
+      description: Gets all capabilities defined in HsM
+      parameters:
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
+      x-internal: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Id:
+                  type: integer
+                Code:
+                  type: string
+                Name:
+                  $ref: '#/components/schemas/phrase'
+                minimumUserCapabilityLevel:
+                  type: integer
+                  format: int32
+                  minimum: 1
+                  maximum: 10
+                minimumCustomerCapabilityLavel:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                  format: int32
+      tags:
+        - System
   '/customer-role-assignments/{id}':
     parameters:
       - schema:
