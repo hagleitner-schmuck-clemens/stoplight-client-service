@@ -1418,7 +1418,7 @@ paths:
         required: true
         description: ID of the customer
     post:
-      summary: '/customers/{id}/mark-recently-used POST'
+      summary: '/customers/{id}/mark-recently-accessed POST'
       operationId: customer-mark-recently-user#post
       responses:
         '200':
@@ -1439,7 +1439,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: 'Controller endpoint. Marks a customer as recently used the currently accessing user. '
+      description: 'Controller endpoint. Marks a customer as recently accessed by the accessing user. '
       tags:
         - CustomerSelection
   '/customers/{id}/reseller':
