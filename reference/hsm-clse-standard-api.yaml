@@ -1004,17 +1004,29 @@ paths:
                   - pageSize
                   - currentPage
       operationId: customer-effective-roles#get
-      description: Gets effective roles applied to this customer.
+      description: 'Gets effective roles a user has on this customer. Effective roles are roles that are assigned directly on this customer and role assignments inherited from the system securable, parent customers, resellers, invoice recipients and condition owners. Roles that have no customer permissions will not be included.'
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
         - schema:
-            type: string
+            type: integer
             format: uuid
           in: query
           name: userId
           description: Filters the effective roles to those given to the provided user id.
-        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - system
+              - parentCustomer
+              - reseller
+              - invoiceSource
+              - conditionOwner
+              - directlyAssigner
+          in: query
+          name: assignmentSource
+          description: 'If set, filters effective role assignments based on the source where the role was actually assigned. If not role assignments from any source will be included. Comma separated list of values.'
       x-internal: false
       tags:
         - Authorization
@@ -5206,6 +5218,61 @@ components:
         - roleId
         - customerDisplayName
         - roleName
+    effectiveCustomerRoleAssignment-user:
+      title: ''
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a customer role assignment from a users perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        customerDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleCode:
+          $ref: '#/components/schemas/phrase'
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
+        securableType:
+          type: string
+        securableId:
+          type: string
+        securableDisplayName:
+          type: string
+        '':
+          type: string
+      required:
+        - id
+        - customerId
+        - assignedAt
+        - roleId
+        - customerDisplayName
+        - roleCode
     customerSelfAssignmentCredentials:
       title: ''
       type: object
