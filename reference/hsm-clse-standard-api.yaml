@@ -27,7 +27,6 @@ tags:
   - name: Locations
   - name: System
   - name: Users
-
 paths:
   /capabilities:
     parameters: []
@@ -4093,7 +4092,7 @@ paths:
       description: Gets the customer favorites of a user. Sorted by customer favorite sequence number and then by customer name1. As the total number of allowed customer favorites per user is limited by the backend therefore this collection endpoint has no pagination.
       tags:
         - CustomerSelection
-  '/users/{id}/recently-used-customers':
+  '/users/{id}/recently-accessed-customers':
     parameters:
       - schema:
           type: string
@@ -4103,7 +4102,7 @@ paths:
         required: true
         description: ID of  the user.
     get:
-      summary: '/users/{id}/recently-used-customers GET'
+      summary: '/users/{id}/recently-accessed-customers GET'
       responses:
         '200':
           description: OK
@@ -4125,8 +4124,8 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: user-recently-used-customers#get
-      description: 'Gets the recently used customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited per user by the backend, therefore this collection endpoint has no pagination.'
+      operationId: user-recently-accessed-customers#get
+      description: 'Gets the recently accessed customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited per user by the backend, therefore this collection endpoint has no pagination.'
       tags:
         - CustomerSelection
   '/users/{id}/system-roles':
@@ -4672,10 +4671,6 @@ components:
           maxLength: 2
           example: GB
           description: ISO 3166-1 alpha-2 code of the customer's postal address.
-        sequenceNumber:
-          type: integer
-          description: Defines the order of the favorite within the user's favorite list.
-          default: 0
       required:
         - id
         - name1
