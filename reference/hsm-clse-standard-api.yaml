@@ -21,12 +21,12 @@ servers:
   - url: 'http://clse.hsm-test.com/api/standard/v1'
 tags:
   - name: Authorization
-  - name: CustomerFavorites
   - name: Customers
   - name: CustomerSelfAssignment
   - name: Locations
   - name: System
   - name: Users
+  - name: CustomerSelection
 paths:
   /capabilities:
     parameters: []
@@ -1407,7 +1407,7 @@ paths:
                   type: boolean
                   description: 'If true the customer is set as a favorite for the current user, if false the customer is removed from the user''s favorites.'
       tags:
-        - Customers
+        - CustomerSelection
   '/customers/{id}/mark-recently-used':
     parameters:
       - schema:
@@ -1441,7 +1441,7 @@ paths:
           description: Not Found
       description: 'Controller endpoint. Marks a customer as recently used the currently accessing user. '
       tags:
-        - Customers
+        - CustomerSelection
   '/customers/{id}/reseller':
     parameters:
       - schema:
@@ -4091,7 +4091,7 @@ paths:
       operationId: user-favorite-customers#get
       description: Gets the customer favorites of a user. Sorted by customer favorite sequence number and then by customer name1. As the total number of allowed customer favorites per user is limited by the backend therefore this collection endpoint has no pagination.
       tags:
-        - CustomerFavorites
+        - CustomerSelection
   '/users/{id}/recently-used-customers':
     parameters:
       - schema:
@@ -4127,7 +4127,7 @@ paths:
       operationId: user-recently-used-customers#get
       description: 'Gets the recently used customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited per user by the backend, therefore this collection endpoint has no pagination.'
       tags:
-        - CustomerFavorites
+        - CustomerSelection
   '/users/{id}/system-roles':
     parameters:
       - schema:
