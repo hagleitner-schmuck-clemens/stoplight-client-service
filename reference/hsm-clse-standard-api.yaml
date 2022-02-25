@@ -22,11 +22,12 @@ servers:
 tags:
   - name: Authorization
   - name: Customers
+  - name: CustomerSelection
   - name: CustomerSelfAssignment
   - name: Locations
   - name: System
   - name: Users
-  - name: CustomerSelection
+
 paths:
   /capabilities:
     parameters: []
