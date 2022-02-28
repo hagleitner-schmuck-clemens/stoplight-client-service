@@ -539,6 +539,12 @@ paths:
           in: query
           name: assignmentSources
           description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
+        - schema:
+            type: string
+            example: 'active,inactive'
+          in: query
+          name: userStatus
+          description: 'Filters for users in the given status. Comma separated list of values (created, active, inactive)'
       tags:
         - Customers
   '/customers/{id}/assigned-users/{userId}/effective-role-assignments':
@@ -3775,7 +3781,7 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
         - schema:
             type: string
-            example: 'deleted'
+            example: deleted
             default: 'active, inactive'
           in: query
           name: status
@@ -3903,8 +3909,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      description: |-
-        Gets a the status of a specific user.
+      description: Gets a the status of a specific user.
       tags:
         - Users
     put:
