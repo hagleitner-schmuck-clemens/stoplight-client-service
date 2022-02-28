@@ -966,70 +966,6 @@ paths:
       x-internal: false
       tags:
         - Customers
-  '/customers/{id}/effective-role-assignments':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customers/{id}/effective-role-assignments GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/customerRoleAssignment-customer'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  pageSize:
-                    $ref: '#/components/schemas/pagination-pageSize'
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                required:
-                  - items
-                  - totalPages
-                  - totalItems
-                  - pageSize
-                  - currentPage
-      operationId: customer-effective-roles#get
-      description: 'Gets effective roles a user has on this customer. Effective roles are roles that are assigned directly on this customer and role assignments inherited from the system securable, parent customers, resellers, invoice recipients and condition owners. Roles that have no customer permissions will not be included.'
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-        - schema:
-            type: integer
-            format: uuid
-          in: query
-          name: userId
-          description: Filters the effective roles to those given to the provided user id.
-          required: true
-        - schema:
-            type: string
-            enum:
-              - system
-              - parentCustomer
-              - reseller
-              - invoiceSource
-              - conditionOwner
-              - directlyAssigner
-          in: query
-          name: assignmentSource
-          description: 'If set, filters effective role assignments based on the source where the role was actually assigned. If not role assignments from any source will be included. Comma separated list of values.'
-      x-internal: false
-      tags:
-        - Authorization
   '/customers/{id}/effective-customer-permissions ':
     parameters:
       - schema:
@@ -2234,14 +2170,13 @@ paths:
           name: roles
           description: A comma separated list of roles. Only users who have at least one of these roles on this customer will be inclurde.
         - schema:
-            type: boolean
-            default: true
+            type: string
           in: query
-          name: includeInherited
-          description: 'If set to false only users who have a directly assigned role on that customer will be returned, if true also users with inherited role assignments will be included in the result.'
+          name: assignmentSources
+          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
       tags:
         - Authorization
-  '/customers/{id}/workforce/{userId}/roles':
+  '/customers/{id}/workforce/{userId}/effective-role-assignments':
     parameters:
       - schema:
           type: string
@@ -2303,7 +2238,11 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
-        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
+        - schema:
+            type: string
+          in: query
+          name: assignmentSources
+          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
       tags:
         - Authorization
   /effective-system-permissions:
@@ -5125,52 +5064,6 @@ components:
         - userDisplayName
         - roleName
         - externallyManaged
-    effectiveCustomerRoleAssignment:
-      title: ''
-      type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      description: Represents a customer role assignment from a customers perspective.
-      properties:
-        id:
-          type: string
-          description: ID of the role assignment
-          format: uuid
-          readOnly: true
-        assignedAt:
-          type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: ID of the assigned role.
-          format: uuid
-        roleName:
-          $ref: '#/components/schemas/phrase'
-        applicableToRelatedCustomersOnly:
-          type: boolean
-        externallyManaged:
-          type: boolean
-        sourceCustomerDisplayName:
-          type: string
-        sourceCustomerId:
-          type: integer
-      required:
-        - id
-        - assignedAt
-        - roleId
-        - roleName
-        - applicableToRelatedCustomersOnly
-        - externallyManaged
-        - sourceCustomerDisplayName
-        - sourceCustomerId
-        - externallyManaged
     customerRoleAssignment-user:
       title: ''
       type: object
@@ -5218,7 +5111,7 @@ components:
         - roleId
         - customerDisplayName
         - roleName
-    effectiveCustomerRoleAssignment-user:
+    effectiveCustomerRoleAssignment:
       title: ''
       type: object
       examples:
@@ -5235,10 +5128,6 @@ components:
           description: ID of the role assignment
           format: uuid
           readOnly: true
-        customerId:
-          type: string
-          format: uuid
-          description: ID of user who is assigned a role
         assignedAt:
           type: string
           description: Date when the role was assigned
@@ -5248,31 +5137,28 @@ components:
           type: string
           description: ID of the assigned role.
           format: uuid
-        customerDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
         roleCode:
-          $ref: '#/components/schemas/phrase'
+          type: string
         applicableToRelatedCustomersOnly:
           type: boolean
         externallyManaged:
           type: boolean
         securableType:
           type: string
+          enum:
+            - system
+            - customer
         securableId:
           type: string
         securableDisplayName:
           type: string
-        '':
-          type: string
       required:
         - id
-        - customerId
         - assignedAt
         - roleId
-        - customerDisplayName
         - roleCode
+        - securableType
+        - securableDisplayName
     customerSelfAssignmentCredentials:
       title: ''
       type: object
@@ -6065,10 +5951,6 @@ components:
             This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
           example: de-AT
           maxLength: 35
-        mobilePhoneNumber:
-          type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
         lastUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
