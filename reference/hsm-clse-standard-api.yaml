@@ -28,6 +28,92 @@ tags:
   - name: System
   - name: Users
 paths:
+  /assigned-users:
+    parameters: []
+    get:
+      summary: /assigned-users GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user'
+                  '':
+                    $ref: '#/components/schemas/pagination-totaItems'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: assigned-users#get
+      description: Gets all users that have a role assigned on the system.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - schema:
+            type: string
+          in: query
+          name: userStatus
+          description: Comma separated list of user status
+      x-internal: false
+      tags:
+        - Authorization
+  '/assigned-users/{id}/assigned-roles':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/assigned-users/{id}/assigned-roles GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/systemRoleAssignment'
+                  '':
+                    $ref: '#/components/schemas/pagination-totalPages'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: assigned-user-assigned-roles#get
+      description: Gets all roles a user was assigned on the system securable.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+      x-internal: false
+      tags:
+        - Authorization
   /capabilities:
     parameters: []
     get:
@@ -3693,44 +3779,6 @@ paths:
           in: query
           name: Id
           description: ID of the role assignment.
-      tags:
-        - Authorization
-  /assigned-users:
-    parameters: []
-    get:
-      summary: /assigned-users GET
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/user'
-                  '':
-                    $ref: '#/components/schemas/pagination-pageSize'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      operationId: assigned-users#get
-      description: Gets all users that have a role assigned on the system.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-      x-internal: false
       tags:
         - Authorization
   /users:
