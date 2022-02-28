@@ -70,10 +70,16 @@ paths:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
         - schema:
-            type: string
+            type: array
+            enum:
+              - created
+              - active
+              - inactive
+            default: acti
           in: query
           name: userStatus
-          description: Comma separated list of user status
+          description: Filters for users in given status
+          style: spaceDelimited
       x-internal: false
       tags:
         - System
@@ -162,12 +168,14 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageNumber'
         - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
         - schema:
-            type: string
+            type: array
+            enum:
+              - quantityCapability
+              - availabilityCapability
           in: query
           name: capabilityTypes
-          description: 'Filters for types of capabilities, comma separated list.'
+          description: Filters for types of capabilities.
       x-internal: false
       requestBody:
         content:
@@ -390,9 +398,12 @@ paths:
           name: fullTextSearch
           description: A search string that is used to filter for customers using the full text search capability of the system.
         - schema:
-            type: string
+            type: array
             example: 'active,inactive'
             default: active
+            enum:
+              - active
+              - inactive
           in: query
           name: status
           description: 'Filters for customers that are in one of the given states. '
@@ -628,21 +639,27 @@ paths:
           name: name
           description: Filters for users whose first name or last name match the given string. The search uses "starts with"
         - schema:
-            type: string
-          in: query
-          name: roles
-          description: A comma separated list of roles. Only users who have at least one of these roles on this customer will be inclurde.
-        - schema:
-            type: string
+            type: array
+            enum:
+              - system
+              - direct
+              - parentCustomers
+              - resellers
+              - invoiceRecipients
+              - conditionOwners
           in: query
           name: assignmentSources
-          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
+          description: 'Filters for role assignments of the given sources only. '
         - schema:
-            type: string
+            type: array
             example: 'active,inactive'
+            enum:
+              - active
+              - inactive
+              - created
           in: query
           name: userStatus
-          description: 'Filters for users in the given status. Comma separated list of values (created, active, inactive)'
+          description: Filters for users in the given status.
       tags:
         - Customers
   '/customers/{id}/assigned-users/{userId}/effective-role-assignments':
@@ -708,10 +725,17 @@ paths:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
         - schema:
-            type: string
+            type: array
+            enum:
+              - system
+              - direct
+              - parentCustomers
+              - resellers
+              - invoiceRecipients
+              - conditionOwners
           in: query
           name: assignmentSources
-          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
+          description: 'Filters for role assignments of the given sources only. '
       tags:
         - Customers
   '/customers/{id}/beneficiaries':
@@ -784,7 +808,7 @@ paths:
                     $ref: ''
       operationId: customer-status-get
       x-internal: false
-      description: Gets the status of teh customer.
+      description: Gets the status of the customer.
   '/customers/{id}/branding':
     parameters:
       - schema:
@@ -2061,12 +2085,16 @@ paths:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
         - schema:
-            type: string
+            type: array
             example: 'active,expired'
             pattern: '^(?:\s*([a-zA-Z0-9]+)\s*)(?:,\s*([a-zA-Z0-9]+)\s*)*$'
+            enum:
+              - active
+              - expired
+            default: active
           in: query
           name: status
-          description: 'Filters credentials by their status. Multiple status can be defined in a comma separated list. '
+          description: 'Filters credentials by their status. '
       tags:
         - CustomerSelfAssignment
   '/customers/{id}/self-assignment-credentials/latest':
@@ -4039,9 +4067,19 @@ paths:
         '404':
           description: Not Found
       operationId: user-customer-count#get
-      description: Gets the number of customer this user has access to. Will only include active customers
+      description: 'Gets the number of customer this user has access to. '
       tags:
         - Authorization
+      parameters:
+        - schema:
+            type: array
+            default: active
+            enum:
+              - active
+              - inactive
+          in: query
+          name: customerStatus
+          description: 'Filter for customer with in the given statue only. '
   '/users/{id}/customer-roles':
     parameters:
       - schema:
