@@ -44,8 +44,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/user'
-                  '':
+                  totalItems:
                     $ref: '#/components/schemas/pagination-totaItems'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
         '400':
           description: Bad Request
           content:
@@ -92,8 +98,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/systemRoleAssignment'
-                  '':
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  totalPages:
                     $ref: '#/components/schemas/pagination-totalPages'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
         '400':
           description: Bad Request
           content:
