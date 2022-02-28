@@ -5318,22 +5318,38 @@ components:
           type: boolean
         externallyManaged:
           type: boolean
+        assignmentType:
+          type: string
+          enum:
+            - system
+            - direct
+            - reseller
+            - hierarchy
+            - invoice
+            - condition
+          description: Describes how the effective customer role assignment was inherited by this customer.
         securableType:
           type: string
           enum:
             - system
             - customer
-        securableId:
+        souceCustomerId:
           type: string
-        securableDisplayName:
+        sourceCustomerName1:
+          type: string
+        sourceCustomerName2:
+          type: string
+        sourceCustomerName3:
+          type: string
+        sourceCustomerName4:
           type: string
       required:
         - id
         - assignedAt
         - roleId
         - roleCode
+        - assignmentType
         - securableType
-        - securableDisplayName
     location:
       title: ''
       type: object
