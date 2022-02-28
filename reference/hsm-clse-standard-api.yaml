@@ -467,6 +467,149 @@ paths:
               $ref: '#/components/schemas/customer.PATCH'
       tags:
         - Customers
+  '/customers/{id}/assigned-users':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+    get:
+      summary: '/customers/{id}/assigned-users GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
+          headers: {}
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: customer-assigned-users#get
+      description: Gets a list of users hat have some role assigned at this customer. The response will be sorted by user's lastname then first name.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filters for users whose first name or last name match the given string. The search uses "starts with"
+        - schema:
+            type: string
+          in: query
+          name: roles
+          description: A comma separated list of roles. Only users who have at least one of these roles on this customer will be inclurde.
+        - schema:
+            type: string
+          in: query
+          name: assignmentSources
+          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
+      tags:
+        - Customers
+  '/customers/{id}/assigned-users/{userId}/effective-role-assignments':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: '/customers/{id}/assigned-users/{userId}/effective-role-assignments GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/effectiveCustomerRoleAssignment'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
+          headers: {}
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: customer-assigned-users-effective-role-assignments#get
+      description: Gets a list of users hat have some role assigned at this customer. The response will be sorted by user's lastname then first name.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - schema:
+            type: string
+          in: query
+          name: assignmentSources
+          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
+      tags:
+        - Customers        
   '/customers/{id}/beneficiaries':
     parameters:
       - schema:
@@ -2100,149 +2243,6 @@ paths:
         '200':
           description: OK
       description: Removes the support-organization information from the customer.
-      tags:
-        - Customers
-  '/customers/{id}/assigned-users':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of  the user in the HsM system.
-    get:
-      summary: '/customers/{id}/assigned-users GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/user'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  pageSize:
-                    $ref: '#/components/schemas/pagination-pageSize'
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                required:
-                  - items
-                  - totalPages
-                  - totalItems
-                  - pageSize
-                  - currentPage
-          headers: {}
-        '201':
-          description: Created
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      operationId: customer-assigned-users#get
-      description: Gets a list of users hat have some role assigned at this customer. The response will be sorted by user's lastname then first name.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-        - schema:
-            type: string
-          in: query
-          name: name
-          description: Filters for users whose first name or last name match the given string. The search uses "starts with"
-        - schema:
-            type: string
-          in: query
-          name: roles
-          description: A comma separated list of roles. Only users who have at least one of these roles on this customer will be inclurde.
-        - schema:
-            type: string
-          in: query
-          name: assignmentSources
-          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
-      tags:
-        - Customers
-  '/customers/{id}/assigned-users/{userId}/effective-role-assignments':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of  the user in the HsM system.
-      - schema:
-          type: string
-        name: userId
-        in: path
-        required: true
-    get:
-      summary: '/customers/{id}/assigned-users/{userId}/effective-role-assignments GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/effectiveCustomerRoleAssignment'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  pageSize:
-                    $ref: '#/components/schemas/pagination-pageSize'
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                required:
-                  - items
-                  - totalPages
-                  - totalItems
-                  - pageSize
-                  - currentPage
-          headers: {}
-        '201':
-          description: Created
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      operationId: customer-assigned-users-effective-role-assignments#get
-      description: Gets a list of users hat have some role assigned at this customer. The response will be sorted by user's lastname then first name.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-        - schema:
-            type: string
-          in: query
-          name: assignmentSources
-          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
       tags:
         - Customers
   /effective-system-permissions:
