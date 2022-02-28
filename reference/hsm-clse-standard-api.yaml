@@ -70,7 +70,7 @@ paths:
           description: Comma separated list of user status
       x-internal: false
       tags:
-        - Authorization
+        - System
   '/assigned-users/{id}/assigned-roles':
     parameters:
       - schema:
@@ -113,7 +113,7 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
       x-internal: false
       tags:
-        - Authorization
+        - System
   /capabilities:
     parameters: []
     get:
