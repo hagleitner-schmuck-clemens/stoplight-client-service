@@ -609,7 +609,7 @@ paths:
           name: assignmentSources
           description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
       tags:
-        - Customers        
+        - Customers
   '/customers/{id}/beneficiaries':
     parameters:
       - schema:
@@ -3689,6 +3689,44 @@ paths:
           description: ID of the role assignment.
       tags:
         - Authorization
+  /assigned-users:
+    parameters: []
+    get:
+      summary: /assigned-users GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user'
+                  '':
+                    $ref: '#/components/schemas/pagination-pageSize'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: assigned-users#get
+      description: Gets all users that have a role assigned on the system.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+      x-internal: false
+      tags:
+        - Authorization
   /users:
     parameters: []
     get:
@@ -3737,7 +3775,7 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
         - schema:
             type: string
-            example: 'deleted,masked'
+            example: 'deleted'
             default: 'active, inactive'
           in: query
           name: status
@@ -3848,10 +3886,10 @@ paths:
               schema:
                 type: string
                 enum:
+                  - created
                   - active
                   - inactive
                   - deleted
-                  - masked
               examples: {}
         '400':
           description: Bad Request
@@ -3867,10 +3905,6 @@ paths:
           description: Not Found
       description: |-
         Gets a the status of a specific user.
-        Active: The user can interact with the system.
-        Inactive: The user can (temporarily) not interact with the system but can be reactivatd
-        Deleted: The user was deleted and cannot be re-activated. The e-mail address of deleted users does not have to be unique within the system.
-        Masked: The user was deleted and finally the data of the user was masked to support GPDR requirements. Masked users cannot be reactivated. All personal infomrmation is removed.
       tags:
         - Users
     put:
@@ -3907,7 +3941,6 @@ paths:
                 - active
                 - inactive
                 - deleted
-                - masked
   '/users/{id}/customer-count':
     parameters:
       - schema:
@@ -5111,6 +5144,45 @@ components:
         - roleId
         - customerDisplayName
         - roleName
+    customerSelfAssignmentCredentials:
+      title: ''
+      type: object
+      properties:
+        Id:
+          type: string
+          format: uuid
+          description: ID of this self-assignment credential
+          readOnly: true
+        customerNumber:
+          type: string
+          description: Customer number of this credential
+          readOnly: true
+        pin:
+          type: string
+          description: PIN of this credential
+          minLength: 9
+          maxLength: 9
+          readOnly: true
+        validTill:
+          type: string
+          description: Date until this credential is valid.
+          format: date-time
+          readOnly: true
+        shareUri:
+          type: string
+          format: uri
+          description: A URI that can be used to assign oneself to the customer.
+        createdAt:
+          type: string
+          format: date-time
+          description: Date when the credentials were created.
+      required:
+        - Id
+        - customerNumber
+        - pin
+        - validTill
+        - shareUri
+        - createdAt
     effectiveCustomerRoleAssignment:
       title: ''
       type: object
@@ -5159,45 +5231,6 @@ components:
         - roleCode
         - securableType
         - securableDisplayName
-    customerSelfAssignmentCredentials:
-      title: ''
-      type: object
-      properties:
-        Id:
-          type: string
-          format: uuid
-          description: ID of this self-assignment credential
-          readOnly: true
-        customerNumber:
-          type: string
-          description: Customer number of this credential
-          readOnly: true
-        pin:
-          type: string
-          description: PIN of this credential
-          minLength: 9
-          maxLength: 9
-          readOnly: true
-        validTill:
-          type: string
-          description: Date until this credential is valid.
-          format: date-time
-          readOnly: true
-        shareUri:
-          type: string
-          format: uri
-          description: A URI that can be used to assign oneself to the customer.
-        createdAt:
-          type: string
-          format: date-time
-          description: Date when the credentials were created.
-      required:
-        - Id
-        - customerNumber
-        - pin
-        - validTill
-        - shareUri
-        - createdAt
     location:
       title: ''
       type: object
@@ -5963,7 +5996,7 @@ components:
             - active
             - inactive
             - deleted
-            - masked
+            - created
           example: inactive
           readOnly: true
         externallyManaged:
@@ -5982,7 +6015,7 @@ components:
         - active
         - inactive
         - deleted
-        - masked
+        - created
       description: The status of a user within HsM.
       default: active
   parameters:
