@@ -21,13 +21,84 @@ servers:
   - url: 'http://clse.hsm-test.com/api/standard/v1'
 tags:
   - name: Authorization
-  - name: CustomerFavorites
   - name: Customers
+  - name: CustomerSelection
   - name: CustomerSelfAssignment
   - name: Locations
   - name: System
   - name: Users
 paths:
+  /capabilities:
+    parameters: []
+    get:
+      summary: /capabilities GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerRoleAssignment-customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-401-unauthorized'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: /capabilities#get
+      description: Gets all capabilities defined in HsM
+      parameters:
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
+        - schema:
+            type: string
+          in: query
+          name: capabilityTypes
+          description: 'Filters for types of capabilities, comma separated list.'
+      x-internal: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Id:
+                  type: integer
+                Code:
+                  type: string
+                Name:
+                  $ref: '#/components/schemas/phrase'
+                minimumUserCapabilityLevel:
+                  type: integer
+                  format: int32
+                  minimum: 1
+                  maximum: 10
+                minimumCustomerCapabilityLavel:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                  format: int32
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+      tags:
+        - System
   '/customer-role-assignments/{id}':
     parameters:
       - schema:
@@ -396,6 +467,51 @@ paths:
               $ref: '#/components/schemas/customer.PATCH'
       tags:
         - Customers
+  '/customers/{id}/beneficiaries':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/beneficiaries GET'
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customer-light'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
+      operationId: customer-beneficiaries#get
+      x-internal: false
+      description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
   '/customers/{id}/beneficiary-path':
     parameters:
       - schema:
@@ -850,57 +966,6 @@ paths:
       x-internal: false
       tags:
         - Customers
-  '/customers/{id}/effective-role-assignments':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customers/{id}/effective-role-assignments GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/customerRoleAssignment-customer'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  pageSize:
-                    $ref: '#/components/schemas/pagination-pageSize'
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                required:
-                  - items
-                  - totalPages
-                  - totalItems
-                  - pageSize
-                  - currentPage
-      operationId: customer-effective-roles#get
-      description: Gets effective roles applied to this customer.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-        - schema:
-            type: string
-            format: uuid
-          in: query
-          name: userId
-          description: Filters the effective roles to those given to the provided user id.
-      x-internal: false
-      tags:
-        - Authorization
   '/customers/{id}/effective-customer-permissions ':
     parameters:
       - schema:
@@ -1290,7 +1355,7 @@ paths:
                   type: boolean
                   description: 'If true the customer is set as a favorite for the current user, if false the customer is removed from the user''s favorites.'
       tags:
-        - Customers
+        - CustomerSelection
   '/customers/{id}/mark-recently-used':
     parameters:
       - schema:
@@ -1301,7 +1366,7 @@ paths:
         required: true
         description: ID of the customer
     post:
-      summary: '/customers/{id}/mark-recently-used POST'
+      summary: '/customers/{id}/mark-recently-accessed POST'
       operationId: customer-mark-recently-user#post
       responses:
         '200':
@@ -1322,9 +1387,9 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: 'Controller endpoint. Marks a customer as recently used the currently accessing user. '
+      description: 'Controller endpoint. Marks a customer as recently accessed by the accessing user. '
       tags:
-        - Customers
+        - CustomerSelection
   '/customers/{id}/reseller':
     parameters:
       - schema:
@@ -1512,6 +1577,7 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       x-internal: false
       tags:
         - Authorization
@@ -1549,6 +1615,74 @@ paths:
               $ref: '#/components/schemas/customerRoleAssignment-customer'
       tags:
         - Authorization
+  '/customers/{id}/role-inheritance':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/role-inheritance GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer-role-inheritance'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-role-inheritance#get
+      description: Gets the role inheritance settings for this customer.
+      x-internal: false
+      tags:
+        - Customers
+    put:
+      summary: '/customers/{id}/role-inheritance POST'
+      operationId: customers-role-inheritance#put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer-role-inheritance'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      tags:
+        - Customers
+      description: Configures the role inheritance settings for a customer.
   '/customers/{id}/rooms':
     parameters:
       - schema:
@@ -1620,157 +1754,6 @@ paths:
       x-internal: false
       tags:
         - Locations
-  '/customers/{id}/role-inheritance':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customers/{id}/role-inheritance GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer-role-inheritance'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: customer-role-inheritance#get
-      description: Gets the role inheritance settings for this customer.
-      x-internal: false
-      tags:
-        - Customers
-    put:
-      summary: '/customers/{id}/role-inheritance POST'
-      operationId: customers-role-inheritance#put
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customer-role-inheritance'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      tags:
-        - Customers
-      description: Configures the role inheritance settings for a customer.
-  '/customers/{id}/support-organization':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customers/{id}/support-organization GET'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/support-organization'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: customer-support-organization#get
-      description: Gets details about the support organization for users when working in the context of this customer.
-      parameters: []
-      x-internal: false
-      tags:
-        - Customers
-    put:
-      summary: '/customers/{id}/support-organization PUT'
-      operationId: customer-support-organization#put
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-      description: Defines the support organization responsible for this customer and all sub-customers (reseller relationship)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/support-organization'
-      tags:
-        - Customers
-    delete:
-      summary: '/customers/{id}/support-organization DELETE'
-      operationId: customer-support-organization#delete
-      responses:
-        '200':
-          description: OK
-      description: Removes the support-organization information from the customer.
-      tags:
-        - Customers
   '/customers/{id}/self-assignment-credentials':
     parameters:
       - schema:
@@ -2036,7 +2019,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
-  '/customers/{id}/beneficiaries':
+  '/customers/{id}/support-organization':
     parameters:
       - schema:
           type: string
@@ -2046,9 +2029,90 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/beneficiaries GET'
+      summary: '/customers/{id}/support-organization GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/support-organization'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-support-organization#get
+      description: Gets details about the support organization for users when working in the context of this customer.
+      parameters: []
+      x-internal: false
       tags:
         - Customers
+    put:
+      summary: '/customers/{id}/support-organization PUT'
+      operationId: customer-support-organization#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+      description: Defines the support organization responsible for this customer and all sub-customers (reseller relationship)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/support-organization'
+      tags:
+        - Customers
+    delete:
+      summary: '/customers/{id}/support-organization DELETE'
+      operationId: customer-support-organization#delete
+      responses:
+        '200':
+          description: OK
+      description: Removes the support-organization information from the customer.
+      tags:
+        - Customers
+  '/customers/{id}/workforce':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+    get:
+      summary: '/customers/{id}/workforce GET'
       responses:
         '200':
           description: OK
@@ -2060,7 +2124,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: '#/components/schemas/customer-light'
+                      $ref: '#/components/schemas/user'
                   totalPages:
                     $ref: '#/components/schemas/pagination-totalPages'
                   totalItems:
@@ -2075,12 +2139,112 @@ paths:
                   - totalItems
                   - pageSize
                   - currentPage
-      operationId: customer-beneficiaries#get
-      x-internal: false
-      description: Gets all the beneficiares of a customer (direct descendants in the condition-relationship-tree). Collection is sorted by name1.
+          headers: {}
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: customer-workforce#get
+      description: Gets a list of users hat have some role assigned at this customer. The response will be sorted by user's lastname then first name.
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filters for users whose first name or last name match the given string. The search uses "starts with"
+        - schema:
+            type: string
+          in: query
+          name: roles
+          description: A comma separated list of roles. Only users who have at least one of these roles on this customer will be inclurde.
+        - schema:
+            type: string
+          in: query
+          name: assignmentSources
+          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
+      tags:
+        - Authorization
+  '/customers/{id}/workforce/{userId}/effective-role-assignments':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: '/customers/{id}/workforce/{userId}/roles GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/effectiveCustomerRoleAssignment'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
+          headers: {}
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: customer-workforce-roles#get
+      description: Gets a list of users hat have some role assigned at this customer. The response will be sorted by user's lastname then first name.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - schema:
+            type: string
+          in: query
+          name: assignmentSources
+          description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
+      tags:
+        - Authorization
   /effective-system-permissions:
     parameters: []
     get:
@@ -3424,6 +3588,7 @@ paths:
           in: query
           name: userId
           description: If given filters the list for roles assigned to that specific user.
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       x-internal: false
       tags:
         - Authorization
@@ -3492,6 +3657,7 @@ paths:
           in: query
           name: Id
           description: ID of the role assignment
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       x-internal: false
       tags:
         - Authorization
@@ -3838,6 +4004,7 @@ paths:
           description: If given filters the results for a specific customer only.
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       tags:
         - Authorization
   '/users/{id}/favorite-customers':
@@ -3875,8 +4042,8 @@ paths:
       operationId: user-favorite-customers#get
       description: Gets the customer favorites of a user. Sorted by customer favorite sequence number and then by customer name1. As the total number of allowed customer favorites per user is limited by the backend therefore this collection endpoint has no pagination.
       tags:
-        - CustomerFavorites
-  '/users/{id}/recently-used-customers':
+        - CustomerSelection
+  '/users/{id}/recently-accessed-customers':
     parameters:
       - schema:
           type: string
@@ -3886,7 +4053,7 @@ paths:
         required: true
         description: ID of  the user.
     get:
-      summary: '/users/{id}/recently-used-customers GET'
+      summary: '/users/{id}/recently-accessed-customers GET'
       responses:
         '200':
           description: OK
@@ -3908,10 +4075,10 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: user-recently-used-customers#get
-      description: 'Gets the recently used customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited per user by the backend, therefore this collection endpoint has no pagination.'
+      operationId: user-recently-accessed-customers#get
+      description: 'Gets the recently accessed customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited per user by the backend, therefore this collection endpoint has no pagination.'
       tags:
-        - CustomerFavorites
+        - CustomerSelection
   '/users/{id}/system-roles':
     parameters:
       - schema:
@@ -3969,6 +4136,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
       tags:
         - Authorization
 components:
@@ -4454,9 +4622,6 @@ components:
           maxLength: 2
           example: GB
           description: ISO 3166-1 alpha-2 code of the customer's postal address.
-        sequenceNumber:
-          type: integer
-          description: Defines the order of the favorite within the user's favorite list.
       required:
         - id
         - name1
@@ -4886,9 +5051,7 @@ components:
           description: Display name of the user.
           readOnly: true
         roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
+          $ref: '#/components/schemas/phrase'
         applicableToRelatedCustomersOnly:
           type: boolean
         externallyManaged:
@@ -4936,9 +5099,7 @@ components:
           description: Display name of the user.
           readOnly: true
         roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
+          $ref: '#/components/schemas/phrase'
         applicableToRelatedCustomersOnly:
           type: boolean
         externallyManaged:
@@ -4950,6 +5111,54 @@ components:
         - roleId
         - customerDisplayName
         - roleName
+    effectiveCustomerRoleAssignment:
+      title: ''
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a customer role assignment from a users perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        roleCode:
+          type: string
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
+        securableType:
+          type: string
+          enum:
+            - system
+            - customer
+        securableId:
+          type: string
+        securableDisplayName:
+          type: string
+      required:
+        - id
+        - assignedAt
+        - roleId
+        - roleCode
+        - securableType
+        - securableDisplayName
     customerSelfAssignmentCredentials:
       title: ''
       type: object
@@ -5587,8 +5796,6 @@ components:
           description: Unique alphanumeric identifier of the permission.
         name:
           $ref: '#/components/schemas/phrase'
-        description:
-          $ref: '#/components/schemas/phrase'
         permissionType:
           type: string
           enum:
@@ -5628,12 +5835,14 @@ components:
           format: int32
         name:
           $ref: '#/components/schemas/phrase'
-        description:
-          $ref: '#/components/schemas/phrase'
       required:
         - id
         - name
-        - description
+      examples:
+        - id: 0
+          name:
+            - LanguageTag: string
+              Translation: string
     support-organization:
       title: support-organization
       type: object
@@ -5686,9 +5895,7 @@ components:
           description: ID of the assigned role.
           format: uuid
         roleName:
-          type: string
-          description: Name of the assigned role
-          readOnly: true
+          $ref: '#/components/schemas/phrase'
         userId:
           type: string
           format: uuid
@@ -5710,8 +5917,7 @@ components:
 
         * No gender information is stored with users - this is intentional
         * `givenName` and `surname` are used as in official ID documents.
-        * `callName` is provided to give the user a chance to define how the system shall call/address him e.g. in e-mails etc.
-        * `sortName` defines the sort-position in which a user will appear. If not given will default to `<surname>, <givenName>`
+        * `displayName` is a rendering of the user name in a single string.
       properties:
         id:
           type: string
@@ -5728,10 +5934,7 @@ components:
           example: Doe
           maxLength: 50
           description: Sure name of the user.
-        callName:
-          type: string
-          description: 'How the system shall call/address the user. Might be the nick name, the given name, etc. Depending on culture.'
-        sortName:
+        displayName:
           type: string
           description: A presentation of the user's full name that is used for sorting.
         emailAddress:
@@ -5748,10 +5951,6 @@ components:
             This cutlure is a default for this user, client systems might however choose to use another culture for interaction with the HsM system.
           example: de-AT
           maxLength: 35
-        mobilePhoneNumber:
-          type: string
-          description: 'Mobile phone number. This number will be used when the system wants to interact with that user via SMS, mobile phone numbers are not exposed to other users.'
-          example: +43 664 9161413
         lastUpdatedAt:
           type: string
           description: 'Describes when the user was last modified within HsM. '
@@ -5767,10 +5966,12 @@ components:
             - masked
           example: inactive
           readOnly: true
+        externallyManaged:
+          type: boolean
       required:
         - id
         - surname
-        - sortName
+        - displayName
         - emailAddress
         - lastUpdatedAt
         - status
