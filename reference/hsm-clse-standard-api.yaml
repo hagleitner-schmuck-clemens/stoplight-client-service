@@ -75,7 +75,9 @@ paths:
               - created
               - active
               - inactive
-            default: acti
+            default: active
+            uniqueItems: true
+            behavior: Read Only
           in: query
           name: userStatus
           description: Filters for users in given status
@@ -399,8 +401,8 @@ paths:
           description: A search string that is used to filter for customers using the full text search capability of the system.
         - schema:
             type: array
-            example: 'active,inactive'
-            default: active
+            default:
+              - active
             enum:
               - active
               - inactive
@@ -652,7 +654,9 @@ paths:
           description: 'Filters for role assignments of the given sources only. '
         - schema:
             type: array
-            example: 'active,inactive'
+            example:
+              - active
+              - inactive
             enum:
               - active
               - inactive
@@ -2086,12 +2090,12 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
         - schema:
             type: array
-            example: 'active,expired'
             pattern: '^(?:\s*([a-zA-Z0-9]+)\s*)(?:,\s*([a-zA-Z0-9]+)\s*)*$'
             enum:
               - active
               - expired
-            default: active
+            default:
+              - active
           in: query
           name: status
           description: 'Filters credentials by their status. '
@@ -4073,7 +4077,8 @@ paths:
       parameters:
         - schema:
             type: array
-            default: active
+            default:
+              - active
             enum:
               - active
               - inactive
@@ -5155,13 +5160,7 @@ components:
     customerRoleAssignment-customer:
       title: ''
       type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
+      examples: []
       description: Represents a customer role assignment from a customers perspective.
       properties:
         id:
@@ -5173,6 +5172,10 @@ components:
           type: string
           format: uuid
           description: ID of user who is assigned a role
+        userFirstName:
+          type: string
+        userLastName:
+          type: string
         assignedAt:
           type: string
           description: Date when the role was assigned
@@ -5182,10 +5185,6 @@ components:
           type: string
           description: ID of the assigned role.
           format: uuid
-        userDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
         roleName:
           $ref: '#/components/schemas/phrase'
         applicableToRelatedCustomersOnly:
@@ -5197,7 +5196,6 @@ components:
         - userId
         - assignedAt
         - roleId
-        - userDisplayName
         - roleName
         - externallyManaged
     customerRoleAssignment-user:
@@ -5230,12 +5228,24 @@ components:
           type: string
           description: ID of the assigned role.
           format: uuid
-        customerDisplayName:
+        roleCode:
+          type: string
+        customerName1:
           type: string
           description: Display name of the user.
           readOnly: true
-        roleName:
-          $ref: '#/components/schemas/phrase'
+        customerName2:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        customerName3:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        customerName4:
+          type: string
+          description: Display name of the user.
+          readOnly: true
         applicableToRelatedCustomersOnly:
           type: boolean
         externallyManaged:
@@ -5245,8 +5255,11 @@ components:
         - customerId
         - assignedAt
         - roleId
-        - customerDisplayName
-        - roleName
+        - roleCode
+        - customerName1
+        - customerName2
+        - customerName3
+        - customerName4
     customerSelfAssignmentCredentials:
       title: ''
       type: object
@@ -5289,13 +5302,7 @@ components:
     effectiveCustomerRoleAssignment:
       title: ''
       type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
+      examples: []
       description: Represents a customer role assignment from a users perspective.
       properties:
         id:
@@ -6086,9 +6093,6 @@ components:
           example: Doe
           maxLength: 50
           description: Sure name of the user.
-        displayName:
-          type: string
-          description: A presentation of the user's full name that is used for sorting.
         emailAddress:
           type: string
           description: The users e-mail address. This address must be unique within all non deleted users in the HsM system.
@@ -6123,7 +6127,6 @@ components:
       required:
         - id
         - surname
-        - displayName
         - emailAddress
         - lastUpdatedAt
         - status
