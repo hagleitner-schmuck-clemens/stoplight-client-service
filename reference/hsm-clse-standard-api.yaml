@@ -2175,7 +2175,7 @@ paths:
           name: assignmentSources
           description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
       tags:
-        - Authorization
+        - Customers
   '/customers/{id}/workforce/{userId}/effective-role-assignments':
     parameters:
       - schema:
@@ -2244,7 +2244,7 @@ paths:
           name: assignmentSources
           description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
       tags:
-        - Authorization
+        - Customers
   /effective-system-permissions:
     parameters: []
     get:
