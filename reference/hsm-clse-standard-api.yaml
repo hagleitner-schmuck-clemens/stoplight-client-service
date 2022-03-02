@@ -23,6 +23,7 @@ tags:
   - name: Authorization
   - name: Customers
   - name: CustomerSelection
+  - name: CustomerSelfAssighmentLight
   - name: CustomerSelfAssignment
   - name: Locations
   - name: System
@@ -2101,6 +2102,73 @@ paths:
           description: 'Filters credentials by their status. '
       tags:
         - CustomerSelfAssignment
+  '/customers/{id}/self-assignment-light-credentials':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/self-assignment-light-credentials GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resellerCode:
+                    type: string
+                  customerNumber:
+                    type: string
+                  token:
+                    type: string
+                required:
+                  - resellerCode
+                  - customerNumber
+                  - token
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resellerCode:
+                    type: string
+                  customerNumber:
+                    type: string
+                  token:
+                    type: string
+                required:
+                  - resellerCode
+                  - customerNumber
+                  - token
+      operationId: self-assignment-light-credentials#get
+      x-internal: false
+      description: Gets the credentials for customer self assignment.
+      parameters: []
+      tags:
+        - CustomerSelfAssighmentLight
   '/customers/{id}/self-assignment-credentials/latest':
     parameters:
       - schema:
