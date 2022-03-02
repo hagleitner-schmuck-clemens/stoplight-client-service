@@ -2102,6 +2102,52 @@ paths:
           description: 'Filters credentials by their status. '
       tags:
         - CustomerSelfAssignment
+  '/customers/{id}/self-assignment-credentials/latest':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/self-assignment-credentials/latest GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerSelfAssignmentCredentials'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customerSelfAssignmentCredentials'
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: self-assignment-credential-current#get
+      x-internal: false
+      description: 'Gets the self-assignment with the longest validity, if any.'
+      tags:
+        - CustomerSelfAssignment
   '/customers/{id}/self-assignment-light-credentials':
     parameters:
       - schema:
@@ -2169,52 +2215,21 @@ paths:
       parameters: []
       tags:
         - CustomerSelfAssighmentLight
-  '/customers/{id}/self-assignment-credentials/latest':
-    parameters:
-      - schema:
-          type: string
-          format: uuid
-        name: id
-        in: path
-        required: true
-        description: ID of the customer
-    get:
-      summary: '/customers/{id}/self-assignment-credentials/latest GET'
+  /self-assign:
+    parameters: []
+    put:
+      summary: ''
+      operationId: put-self-assign
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerSelfAssignmentCredentials'
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/customerSelfAssignmentCredentials'
-        '400':
-          description: Bad Request
-          headers: {}
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-403-forbidden'
-        '404':
-          description: Not Found
-      operationId: self-assignment-credential-current#get
-      x-internal: false
-      description: 'Gets the self-assignment with the longest validity, if any.'
-      tags:
-        - CustomerSelfAssignment
+                type: object
+                properties:
+                  '':
+                    type: string
   '/customers/{id}/status':
     parameters:
       - schema:
