@@ -1351,6 +1351,64 @@ paths:
       operationId: customer-invoice-recipient-path#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
+  '/customers/{id}/invite-user':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    put:
+      summary: '/customers/{id}/invite POST'
+      operationId: put-customers-id-invite-user
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: |
+        Controller-style endpoint to invite a user to this customer
+
+        400
+        * invalid emailAddress
+        * roles empty
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emailAddress:
+                  type: string
+                  description: 'Email address of the person that is invited. '
+                  format: email
+                roles:
+                  type: array
+                  description: Roles that shall be assigned to the user.
+                  minItems: 1
+                  items:
+                    type: integer
+                    format: int32
+                sendEmail:
+                  type: boolean
+                  description: If tru an invitation email is sent.
+                  default: true
+                personalMessage:
+                  type: string
+                  description: If given this personal Message will be appended to the invitation email.
+              required:
+                - emailAddress
+                - roles
+      tags:
+        - CustomerSelfAssighmentLight
   '/customers/{id}/invoicing-relation':
     parameters:
       - schema:
