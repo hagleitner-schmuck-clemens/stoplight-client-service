@@ -2273,21 +2273,6 @@ paths:
       parameters: []
       tags:
         - CustomerSelfAssighmentLight
-  /self-assign:
-    parameters: []
-    put:
-      summary: ''
-      operationId: put-self-assign
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  '':
-                    type: string
   '/customers/{id}/status':
     parameters:
       - schema:
