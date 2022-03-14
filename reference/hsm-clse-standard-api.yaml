@@ -290,7 +290,7 @@ paths:
           description: ID of the role assignment.
       tags:
         - Authorization
-  '/customer-self-assignment-credentials/{id}':
+  '/customer/self-assignment-credentials/{id}':
     parameters:
       - schema:
           type: string
@@ -312,7 +312,7 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
-      operationId: self-assignment-credential#get
+      operationId: customer-self-assignment-credentials#get
       x-internal: false
       description: Gets the self assignment credentials for a customer by id.
       tags:
@@ -342,6 +342,42 @@ paths:
       description: Deletes the customer-self-assignment credentials.
       tags:
         - CustomerSelfAssignment
+  /customer-self-assignment-light:
+    parameters: []
+    put:
+      summary: /customer-self-assignment-light PUT
+      operationId: customer-self-assignment-light#put
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resellerCode:
+                  type: string
+                customerNumber:
+                  type: string
+                token:
+                  type: string
+              required:
+                - resellerCode
+                - customerNumber
+                - token
+      tags:
+        - CustomerSelfAssighmentLight
   /customers:
     get:
       summary: /customers GET
