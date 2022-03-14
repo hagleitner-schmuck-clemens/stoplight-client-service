@@ -1361,8 +1361,8 @@ paths:
         required: true
         description: ID of the customer
     put:
-      summary: '/customers/{id}/invite POST'
-      operationId: put-customers-id-invite-user
+      summary: '/customers/{id}/invite PUT'
+      operationId: customers-id-invite-user#put
       responses:
         '200':
           description: OK
