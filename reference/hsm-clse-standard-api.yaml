@@ -2544,6 +2544,91 @@ paths:
       description: Removes the support-organization information from the customer.
       tags:
         - Customers
+  '/device-ids/{uniqueIdentifier}':
+    parameters:
+      - schema:
+          type: string
+        in: path
+        name: uniqueIdentifier
+        required: true
+    get:
+      summary: '/device-ids/{uniqueIdentifier}'
+      responses:
+          description: Bad Request
+        '200':
+          description: OK
+            application/json:
+          content:
+                type: string
+              schema:
+                format: uuid
+        '201':
+          headers: {}
+                description: The device ID as defined by the digital twin service.
+          description: Created
+        '400':
+          content:
+            application/json:
+              schema:
+        '401':
+          description: Unauthorized
+        '403':
+                $ref: '#/components/schemas/response-400-badRequest'
+          description: Forbidden
+          description: Not Found
+        '404':
+      operationId: device-id#get
+      description: 'uniqueIdentifier is searched within: IDs of all components in the device, uniqueComponentAttributes of all components in this device.'
+      parameters: []
+      tags:
+        - Authorization
+  '/devices/{id}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: The device id as defined by the digital twin service.
+    get:
+      summary: '/devices/{id}'
+      responses:
+        '200':
+          content:
+          description: OK
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deviceId:
+                    type: string
+                  deviceTypeId:
+                    type: string
+                  components:
+                    type: array
+                    items:
+                      type: object
+        '201':
+          headers: {}
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+            application/json:
+        '401':
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: device#get
+      description: Gets a single device by the device ID as defined by the DTS.
+      parameters: []
+      tags:
+        - Authorization
+          description: Unauthorized
   /effective-system-permissions:
     parameters: []
     get:
@@ -6303,6 +6388,23 @@ components:
         - created
       description: The status of a user within HsM.
       default: active
+    componentIdentification:
+      title: componentIdentification
+      type: object
+      description: ''
+      properties:
+        componentId:
+          type: string
+        uniqueComponentAttribute:
+          type: string
+    deviceIdentification:
+      title: deviceIdentification
+      type: object
+      properties:
+        deviceId:
+          type: string
+        componentIdentification:
+          $ref: '#/components/schemas/componentIdentification'
   parameters:
     pageSize:
       name: pageSize
