@@ -3714,7 +3714,7 @@ paths:
       tags:
         - StoredDeviceFilters
     delete:
-      summary: ''
+      summary: '/stored-device-filters/{id} DELETE'
       operationId: delete-stored-device-filters-id
       responses:
         '200':
@@ -3730,7 +3730,7 @@ paths:
         required: true
         description: Id of the device filter
     put:
-      summary: '/stored-device-filters/{id}/visibility'
+      summary: '/stored-device-filters/{id}/visibility PUT'
       operationId: stored-device-filter-visibility#put
       responses:
         '200':
@@ -3755,7 +3755,7 @@ paths:
         required: true
         description: Id of the device filter
     put:
-      summary: '/stored-device-filters/{id}/copy'
+      summary: '/stored-device-filters/{id}/copy PUT'
       operationId: stored-device-filter-copy#put
       responses:
         '200':
@@ -3799,7 +3799,7 @@ paths:
         required: true
         description: Id of the device filter
     get:
-      summary: ''
+      summary: '/stored-device-filters/{id}/validation-report GET'
       operationId: get-device-filters-id-validation-report
       responses:
         '200':
