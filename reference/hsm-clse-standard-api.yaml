@@ -1992,7 +1992,7 @@ paths:
           name: includeInherited
           description: 'If set to true, stored device filters inherited form ancestor customers will be included in the list'
     post:
-      summary: ''
+      summary: '/customers/{id}/stored-device-filters POST'
       operationId: post-customers-id-stored-device-filters
       responses:
         '200':
