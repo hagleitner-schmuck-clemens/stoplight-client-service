@@ -24,7 +24,7 @@ tags:
   - name: Customers
   - name: CustomerSelection
   - name: CustomerSelfAssignment
-  - name: DeviceFilters
+  - name: StoredDeviceFilters
   - name: Locations
   - name: System
   - name: Users
@@ -1959,7 +1959,7 @@ paths:
                   '':
                     type: array
                     items:
-                      $ref: '#/components/schemas/stored-device-filter'
+                      $ref: '#/components/schemas/stored-device-filter-light'
         '201':
           description: Created
         '400':
@@ -1980,7 +1980,7 @@ paths:
       description: Gets all stored device filters available for this customer
       x-internal: false
       tags:
-        - DeviceFilters
+        - StoredDeviceFilters
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
@@ -1991,6 +1991,24 @@ paths:
           in: query
           name: includeInherited
           description: 'If set to true, stored device filters inherited form ancestor customers will be included in the list'
+    post:
+      summary: ''
+      operationId: post-customers-id-stored-device-filters
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stored-device-filter'
+      tags:
+        - StoredDeviceFilters
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/stored-device-filter'
   '/customers/{id}/sub-customers':
     parameters:
       - schema:
@@ -2344,132 +2362,6 @@ paths:
       parameters: []
       tags:
         - Authorization
-  '/stored-device-filters/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the device filter
-    get:
-      summary: '/stored-device-filters/{id}'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/stored-device-filter'
-          headers: {}
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response-400-badRequest'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      operationId: stored-device-filter#get
-      description: Gets a single device filter by ID.
-      parameters: []
-      tags:
-        - DeviceFilters
-    delete:
-      summary: ''
-      operationId: delete-stored-device-filters-id
-      responses:
-        '200':
-          description: OK
-  '/stored-device-filters/{id}/visibility':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the device filter
-    put:
-      summary: '/stored-device-filters/{id}/visibility'
-      operationId: stored-device-filter-visibility#put
-      responses:
-        '200':
-          description: OK
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-              enum:
-                - public
-                - personal
-      tags:
-        - DeviceFilters
-  '/stored-device-filters/{id}/copy':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the device filter
-    put:
-      summary: '/stored-device-filters/{id}/copy'
-      operationId: stored-device-filter-copy#put
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/stored-device-filter'
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              enum:
-                - public
-                - personal
-              properties:
-                sourceDeviceFilterId:
-                  type: integer
-                targetCustomerId:
-                  type: integer
-              required:
-                - targetCustomerId
-      tags:
-        - DeviceFilters
-  '/stored-device-filters/{id}/validation-report':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: Id of the device filter
-    get:
-      summary: ''
-      operationId: get-device-filters-id-validation-report
-      responses:
-        '200':
-          description: OK
-      tags:
-        - DeviceFilters
   '/devices/{id}':
     parameters:
       - schema:
@@ -3786,6 +3678,134 @@ paths:
       tags:
         - Locations
       description: Deletes this room.
+  '/stored-device-filters/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the device filter
+    get:
+      summary: '/stored-device-filters/{id}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stored-device-filter'
+          headers: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: stored-device-filter#get
+      description: Gets a single device filter by ID.
+      parameters: []
+      tags:
+        - StoredDeviceFilters
+    delete:
+      summary: ''
+      operationId: delete-stored-device-filters-id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - StoredDeviceFilters
+  '/stored-device-filters/{id}/visibility':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the device filter
+    put:
+      summary: '/stored-device-filters/{id}/visibility'
+      operationId: stored-device-filter-visibility#put
+      responses:
+        '200':
+          description: OK
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+                - public
+                - personal
+      tags:
+        - StoredDeviceFilters
+  '/stored-device-filters/{id}/copy':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the device filter
+    put:
+      summary: '/stored-device-filters/{id}/copy'
+      operationId: stored-device-filter-copy#put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stored-device-filter'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              enum:
+                - public
+                - personal
+              properties:
+                sourceDeviceFilterId:
+                  type: integer
+                targetCustomerId:
+                  type: integer
+              required:
+                - targetCustomerId
+      tags:
+        - StoredDeviceFilters
+  '/stored-device-filters/{id}/validation-report':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Id of the device filter
+    get:
+      summary: ''
+      operationId: get-device-filters-id-validation-report
+      responses:
+        '200':
+          description: OK
+      tags:
+        - StoredDeviceFilters
   /support-organization:
     get:
       summary: /support-organization GET
@@ -6280,6 +6300,7 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
         customerId:
           type: integer
         visibility:
@@ -6287,6 +6308,7 @@ components:
           enum:
             - public
             - personal
+          readOnly: true
         name:
           $ref: '#/components/schemas/phrase'
         description:
@@ -6311,6 +6333,40 @@ components:
         - propagateToInvoiceSources
         - propagateToBeneficiaries
         - deviceFilterDefinition
+    stored-device-filter-light:
+      title: stored-device-filter-light
+      type: object
+      properties:
+        id:
+          type: integer
+        customerId:
+          type: integer
+        visibility:
+          type: string
+          enum:
+            - public
+            - personal
+        name:
+          $ref: '#/components/schemas/phrase'
+        description:
+          $ref: '#/components/schemas/phrase'
+        propagateToSubCustomers:
+          type: boolean
+        propagateToSubsidiaries:
+          type: boolean
+        propagateToInvoiceSources:
+          type: boolean
+        propagateToBeneficiaries:
+          type: boolean
+      required:
+        - id
+        - customerId
+        - visibility
+        - name
+        - propagateToSubCustomers
+        - propagateToSubsidiaries
+        - propagateToInvoiceSources
+        - propagateToBeneficiaries
   parameters:
     pageSize:
       name: pageSize
