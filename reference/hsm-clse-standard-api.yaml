@@ -1931,6 +1931,66 @@ paths:
                 - deleted
       tags:
         - Customers
+  '/customers/{id}/stored-device-filters':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/device-filters GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
+                  '':
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/stored-device-filter'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-stored-device-fitlers#get
+      description: Gets all stored device filters available for this customer
+      x-internal: false
+      tags:
+        - DeviceFilters
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
+        - schema:
+            type: boolean
+            default: 'true'
+          in: query
+          name: includeInherited
+          description: 'If set to true, stored device filters inherited form ancestor customers will be included in the list'
   '/customers/{id}/sub-customers':
     parameters:
       - schema:
@@ -2300,45 +2360,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                format: uuid
-                description: The device ID as defined by the digital twin service.
-                properties:
-                  id:
-                    type: integer
-                  customerId:
-                    type: integer
-                  visibility:
-                    type: string
-                    enum:
-                      - public
-                      - personal
-                  name:
-                    $ref: '#/components/schemas/phrase'
-                  description:
-                    $ref: '#/components/schemas/phrase'
-                  propagateToSubCustomers:
-                    type: boolean
-                  propagateToSubsidiaries:
-                    type: boolean
-                  propagateToInvoiceSources:
-                    type: boolean
-                  propagateToBeneficiaries:
-                    type: boolean
-                  deviceFilterDefinition:
-                    type: object
-                required:
-                  - id
-                  - customerId
-                  - visibility
-                  - name
-                  - propagateToSubCustomers
-                  - propagateToSubsidiaries
-                  - propagateToInvoiceSources
-                  - propagateToBeneficiaries
+                $ref: '#/components/schemas/stored-device-filter'
           headers: {}
-        '201':
-          description: Created
         '400':
           description: Bad Request
           content:
@@ -2352,7 +2375,7 @@ paths:
         '404':
           description: Not Found
       operationId: device-filter#get
-      description: ''
+      description: Gets a single device filter by ID.
       parameters: []
       tags:
         - DeviceFilters
@@ -2397,12 +2420,22 @@ paths:
         description: Id of the device filter
     put:
       summary: '/device-filters/{id}/visibility'
-      operationId: device-filter-visibility#put
+      operationId: device-filter-copy#put
       responses:
         '200':
           description: OK
-        '201':
-          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stored-device-filter'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       parameters: []
       requestBody:
         content:
@@ -6241,6 +6274,43 @@ components:
           type: string
         componentIdentification:
           $ref: '#/components/schemas/componentIdentification'
+    stored-device-filter:
+      title: device-filter
+      type: object
+      properties:
+        id:
+          type: integer
+        customerId:
+          type: integer
+        visibility:
+          type: string
+          enum:
+            - public
+            - personal
+        name:
+          $ref: '#/components/schemas/phrase'
+        description:
+          $ref: '#/components/schemas/phrase'
+        propagateToSubCustomers:
+          type: boolean
+        propagateToSubsidiaries:
+          type: boolean
+        propagateToInvoiceSources:
+          type: boolean
+        propagateToBeneficiaries:
+          type: boolean
+        deviceFilterDefinition:
+          type: object
+      required:
+        - id
+        - customerId
+        - visibility
+        - name
+        - propagateToSubCustomers
+        - propagateToSubsidiaries
+        - propagateToInvoiceSources
+        - propagateToBeneficiaries
+        - deviceFilterDefinition
   parameters:
     pageSize:
       name: pageSize
