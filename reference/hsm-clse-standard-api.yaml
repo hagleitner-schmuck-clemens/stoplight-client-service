@@ -1941,7 +1941,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/device-filters GET'
+      summary: '/customers/{id}/stored-device-filters GET'
       responses:
         '200':
           description: OK
@@ -1987,7 +1987,7 @@ paths:
         - $ref: '#/components/parameters/onlyBestMatchingTranslation'
         - schema:
             type: boolean
-            default: 'true'
+            default: true
           in: query
           name: includeInherited
           description: 'If set to true, stored device filters inherited form ancestor customers will be included in the list'
@@ -2344,7 +2344,7 @@ paths:
       parameters: []
       tags:
         - Authorization
-  '/device-filters/{id}':
+  '/stored-device-filters/{id}':
     parameters:
       - schema:
           type: string
@@ -2353,7 +2353,7 @@ paths:
         required: true
         description: Id of the device filter
     get:
-      summary: '/device-filters/{id}'
+      summary: '/stored-device-filters/{id}'
       responses:
         '200':
           description: OK
@@ -2374,18 +2374,18 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: device-filter#get
+      operationId: stored-device-filter#get
       description: Gets a single device filter by ID.
       parameters: []
       tags:
         - DeviceFilters
     delete:
       summary: ''
-      operationId: delete-device-filters-id
+      operationId: delete-stored-device-filters-id
       responses:
         '200':
           description: OK
-  '/device-filters/{id}/visibility':
+  '/stored-device-filters/{id}/visibility':
     parameters:
       - schema:
           type: string
@@ -2394,8 +2394,8 @@ paths:
         required: true
         description: Id of the device filter
     put:
-      summary: '/device-filters/{id}/visibility'
-      operationId: device-filter-visibility#put
+      summary: '/stored-device-filters/{id}/visibility'
+      operationId: stored-device-filter-visibility#put
       responses:
         '200':
           description: OK
@@ -2410,7 +2410,7 @@ paths:
                 - personal
       tags:
         - DeviceFilters
-  '/device-filters/{id}/copy':
+  '/stored-device-filters/{id}/copy':
     parameters:
       - schema:
           type: string
@@ -2419,8 +2419,8 @@ paths:
         required: true
         description: Id of the device filter
     put:
-      summary: '/device-filters/{id}/visibility'
-      operationId: device-filter-copy#put
+      summary: '/stored-device-filters/{id}/copy'
+      operationId: stored-device-filter-copy#put
       responses:
         '200':
           description: OK
@@ -2454,7 +2454,7 @@ paths:
                 - targetCustomerId
       tags:
         - DeviceFilters
-  '/device-filters/{id}/validation-report':
+  '/stored-device-filters/{id}/validation-report':
     parameters:
       - schema:
           type: string
@@ -6275,7 +6275,7 @@ components:
         componentIdentification:
           $ref: '#/components/schemas/componentIdentification'
     stored-device-filter:
-      title: device-filter
+      title: stored-device-filter
       type: object
       properties:
         id:
