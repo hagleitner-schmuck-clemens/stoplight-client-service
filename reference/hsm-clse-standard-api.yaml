@@ -1213,16 +1213,16 @@ paths:
                     type: string
                     format: email
                 roleIds:
-                  type:
-                    - array
-                    - integer
+                  type: array
                   format: int32
                   minItems: 1
                   description: List of role assigned to all the e-mail addresses.
-                  items: {}
+                  items:
+                    type: integer
+                    format: int32
                 sendInvitationEmail:
                   type: boolean
-                personalMessage:
+                personallMessage:
                   type: string
               required:
                 - emailAddresses
