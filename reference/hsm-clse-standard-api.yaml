@@ -1076,6 +1076,31 @@ paths:
       operationId: customer-invoice-recipient-path#get
       x-internal: false
       description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
+  '/customers/{id}/invoicing-path - copy':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/invoice-recipient-path GET'
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer-light'
+      operationId: customer-invoice-recipient-path#get
+      x-internal: false
+      description: Gets all the customers on the invoicing path from the root to this customer as sorted list.
   '/customers/{id}/invoicing-relation':
     parameters:
       - schema:
@@ -1158,7 +1183,7 @@ paths:
       description: Deletes the invoice relation for this customer.
       tags:
         - Customers
-  '/customers/{id}/invoice-sources':
+  '/customers/{id}/invite':
     parameters:
       - schema:
           type: string
@@ -1167,42 +1192,40 @@ paths:
         in: path
         required: true
         description: ID of the customer
-    get:
-      summary: '/customers/{id}/invoice-sources GET'
-      tags:
-        - Customers
+    put:
+      summary: '/customers{id}/invite'
+      operationId: put-customers-id-invite
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
+      description: Invites a user to the customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emailAddresses:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
                   items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/customer-light'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  pageSize:
-                    $ref: '#/components/schemas/pagination-pageSize'
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                required:
-                  - items
-                  - totalPages
-                  - totalItems
-                  - pageSize
-                  - currentPage
-      operationId: customer-invoice-sources#get
-      x-internal: false
-      description: Gets all the invoice sources of a customer (direct descendants in the invoicing-relationship-tree). Collection is sorted by name1.
-      parameters:
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
+                    type: string
+                    format: email
+                roleIds:
+                  type:
+                    - array
+                    - integer
+                  format: int32
+                  minItems: 1
+                  description: List of role assigned to all the e-mail addresses.
+                  items: {}
+                sendInvitationEmail:
+                  type: boolean
+                personalMessage:
+                  type: string
+              required:
+                - emailAddresses
   '/customers/{id}/location-tree':
     parameters:
       - schema:
@@ -1977,7 +2000,7 @@ paths:
         '404':
           description: Not Found
       operationId: customer-stored-device-fitlers#get
-      description: Gets all stored device filters available for this customer
+      description: Gets all stored device filters available for this customer.
       x-internal: false
       tags:
         - StoredDeviceFilters
