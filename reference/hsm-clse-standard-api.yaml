@@ -6448,6 +6448,12 @@ components:
           type: string
         uniqueComponentAttribute:
           type: string
+        secret:
+          type: string
+        serialNumber:
+          type: string
+        eui:
+          type: string
     stored-device-filter:
       title: stored-device-filter
       type: object
