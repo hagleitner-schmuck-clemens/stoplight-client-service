@@ -3816,6 +3816,19 @@ paths:
           description: OK
       tags:
         - StoredDeviceFilters
+    put:
+      summary: ''
+      operationId: put-stored-device-filters-id
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/stored-device-filter'
+      tags:
+        - StoredDeviceFilters
   /self-assign-to-customer-light:
     parameters: []
     put:
@@ -3905,8 +3918,6 @@ paths:
                 - public
                 - personal
               properties:
-                sourceDeviceFilterId:
-                  type: integer
                 targetCustomerId:
                   type: integer
               required:
