@@ -21,6 +21,7 @@ servers:
   - url: 'http://clse.hsm-test.com/api/standard/v1'
 tags:
   - name: Authorization
+  - name: Capabilities
   - name: Customers
   - name: CustomerSelection
   - name: CustomerSelfAssignment
@@ -81,10 +82,8 @@ paths:
               properties:
                 Id:
                   type: integer
-                Code:
+                code:
                   type: string
-                Name:
-                  $ref: '#/components/schemas/phrase'
                 minimumUserCapabilityLevel:
                   type: integer
                   format: int32
@@ -100,7 +99,7 @@ paths:
               type: object
               properties: {}
       tags:
-        - System
+        - Capabilities
   '/customer-role-assignments/{id}':
     parameters:
       - schema:
@@ -725,6 +724,58 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+  '/customers/{id}/capabilities':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/customers/{id}/capabilities GET'
+      operationId: customers-id-capabilities#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    code:
+                      type: string
+                  required:
+                    - id
+                    - code
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Gets the effecive capabilites of the current user on this customer
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ''
+      tags:
+        - Capabilities
   '/customers/{id}/customer-hierarchy-relation':
     parameters:
       - schema:
