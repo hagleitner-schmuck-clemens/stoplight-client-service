@@ -1901,22 +1901,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  resellerCode:
-                    type: string
-                    description: The code uniquely identifying the reseller of this customer.
-                  customerNumber:
-                    type: string
-                    description: |
-                      Customer number of the customer for which to get the credentials.
-                  token:
-                    type: string
-                    description: The secret token.
-                required:
-                  - resellerCode
-                  - customerNumber
-                  - token
+                $ref: '#/components/schemas/self-assign-light-credentials'
         '400':
           description: Bad Request
         '401':
@@ -3780,6 +3765,34 @@ paths:
           description: OK
       tags:
         - StoredDeviceFilters
+  /self-assign-to-customer-light:
+    parameters: []
+    put:
+      summary: self-assign-to-customer-light
+      operationId: self-assign-light#put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer-light'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Self assign the current user to the customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/self-assign-light-credentials'
+      tags:
+        - CustomerSelfAssignmentLight
   '/stored-device-filters/{id}/visibility':
     parameters:
       - schema:
@@ -5415,53 +5428,14 @@ components:
         - userDisplayName
         - roleName
         - externallyManaged
-    customerRoleAssignment-user:
-      title: ''
+    deviceIdentification:
+      title: deviceIdentification
       type: object
-      examples:
-        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
-          assignedAt: '2019-08-24T14:15:22Z'
-          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
-          userDisplayName: 'Doe, John'
-          roleName: Customer Administrator
-      description: Represents a customer role assignment from a users perspective.
       properties:
-        id:
+        deviceId:
           type: string
-          description: ID of the role assignment
-          format: uuid
-          readOnly: true
-        customerId:
-          type: string
-          format: uuid
-          description: ID of user who is assigned a role
-        assignedAt:
-          type: string
-          description: Date when the role was assigned
-          format: date-time
-          readOnly: true
-        roleId:
-          type: string
-          description: ID of the assigned role.
-          format: uuid
-        customerDisplayName:
-          type: string
-          description: Display name of the user.
-          readOnly: true
-        roleName:
-          $ref: '#/components/schemas/phrase'
-        applicableToRelatedCustomersOnly:
-          type: boolean
-        externallyManaged:
-          type: boolean
-      required:
-        - id
-        - customerId
-        - assignedAt
-        - roleId
-        - customerDisplayName
-        - roleName
+        componentIdentification:
+          $ref: '#/components/schemas/componentIdentification'
     effectiveCustomerRoleAssignment:
       title: ''
       type: object
@@ -5510,6 +5484,53 @@ components:
         - roleCode
         - securableType
         - securableDisplayName
+    customerRoleAssignment-user:
+      title: ''
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          userId: 2c4a230c-5085-4924-a3e1-25fb4fc5965b
+          assignedAt: '2019-08-24T14:15:22Z'
+          roleId: 7382d58e-652a-4905-b7c9-bcca1e0e5391
+          userDisplayName: 'Doe, John'
+          roleName: Customer Administrator
+      description: Represents a customer role assignment from a users perspective.
+      properties:
+        id:
+          type: string
+          description: ID of the role assignment
+          format: uuid
+          readOnly: true
+        customerId:
+          type: string
+          format: uuid
+          description: ID of user who is assigned a role
+        assignedAt:
+          type: string
+          description: Date when the role was assigned
+          format: date-time
+          readOnly: true
+        roleId:
+          type: string
+          description: ID of the assigned role.
+          format: uuid
+        customerDisplayName:
+          type: string
+          description: Display name of the user.
+          readOnly: true
+        roleName:
+          $ref: '#/components/schemas/phrase'
+        applicableToRelatedCustomersOnly:
+          type: boolean
+        externallyManaged:
+          type: boolean
+      required:
+        - id
+        - customerId
+        - assignedAt
+        - roleId
+        - customerDisplayName
+        - roleName
     customerSelfAssignmentCredentials:
       title: ''
       type: object
@@ -6194,6 +6215,24 @@ components:
           name:
             - LanguageTag: string
               Translation: string
+    self-assign-light-credentials:
+      title: customer-self-assignment-light-credentials
+      type: object
+      examples: []
+      properties:
+        resellerCode:
+          type: string
+          description: Code of the reseller of the customer.
+        customerNumber:
+          type: string
+          description: Customer number
+        token:
+          type: string
+          description: The secret token
+      required:
+        - resellerCode
+        - customerNumber
+        - token
     support-organization:
       title: support-organization
       type: object
@@ -6345,14 +6384,6 @@ components:
           type: string
         uniqueComponentAttribute:
           type: string
-    deviceIdentification:
-      title: deviceIdentification
-      type: object
-      properties:
-        deviceId:
-          type: string
-        componentIdentification:
-          $ref: '#/components/schemas/componentIdentification'
     stored-device-filter:
       title: stored-device-filter
       type: object
