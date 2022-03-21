@@ -3768,8 +3768,8 @@ paths:
   /self-assign-to-customer-light:
     parameters: []
     put:
-      summary: self-assign-to-customer-light
-      operationId: self-assign-light#put
+      summary: /self-assign-to-customer-light
+      operationId: self-assign-to-customer-light#put
       responses:
         '200':
           description: OK
