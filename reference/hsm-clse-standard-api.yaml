@@ -3817,7 +3817,7 @@ paths:
       tags:
         - StoredDeviceFilters
     put:
-      summary: '/stored-device-filter/{id} PUT'
+      summary: '/stored-device-filters/{id} PUT'
       operationId: stored-device-filter#put
       responses:
         '200':
