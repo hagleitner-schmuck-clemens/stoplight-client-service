@@ -3817,8 +3817,8 @@ paths:
       tags:
         - StoredDeviceFilters
     put:
-      summary: ''
-      operationId: put-stored-device-filters-id
+      summary: '/stored-device-filter/{id} PUT'
+      operationId: stored-device-filter#put
       responses:
         '200':
           description: OK
@@ -3829,6 +3829,7 @@ paths:
               $ref: '#/components/schemas/stored-device-filter'
       tags:
         - StoredDeviceFilters
+      description: ''
   /self-assign-to-customer-light:
     parameters: []
     put:
