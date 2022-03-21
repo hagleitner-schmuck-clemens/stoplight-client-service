@@ -24,8 +24,9 @@ tags:
   - name: Customers
   - name: CustomerSelection
   - name: CustomerSelfAssignment
-  - name: StoredDeviceFilters
+  - name: CustomerSelfAssignmentLight
   - name: Locations
+  - name: StoredDeviceFilters
   - name: System
   - name: Users
 paths:
@@ -1885,6 +1886,48 @@ paths:
       description: 'Gets the self-assignment with the longest validity, if any.'
       tags:
         - CustomerSelfAssignment
+  '/customer/{id}/self-assignment-light-credentials':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/customer/{id}/self-assignment-light-credentials'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resellerCode:
+                    type: string
+                    description: The code uniquely identifying the reseller of this customer.
+                  customerNumber:
+                    type: string
+                    description: |
+                      Customer number of the customer for which to get the credentials.
+                  token:
+                    type: string
+                    description: The secret token.
+                required:
+                  - resellerCode
+                  - customerNumber
+                  - token
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: self-assignment-credential#get
+      x-internal: false
+      description: Gets the self assignment credentials for the
+      tags:
+        - CustomerSelfAssignmentLight
   '/customers/{id}/status':
     parameters:
       - schema:
