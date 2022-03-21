@@ -26,6 +26,7 @@ tags:
   - name: CustomerSelection
   - name: CustomerSelfAssignment
   - name: CustomerSelfAssignmentLight
+  - name: Devices
   - name: Locations
   - name: StoredDeviceFilters
   - name: System
@@ -2456,7 +2457,7 @@ paths:
       description: 'uniqueIdentifier is searched within: IDs of all components in the device, uniqueComponentAttributes of all components in this device.'
       parameters: []
       tags:
-        - Authorization
+        - Devices
   '/devices/{id}':
     parameters:
       - schema:
@@ -2467,7 +2468,7 @@ paths:
         required: true
         description: The device id as defined by the digital twin service.
     get:
-      summary: '/devices/{id}'
+      summary: /devices/
       responses:
         '200':
           description: OK
@@ -2503,7 +2504,7 @@ paths:
       description: Gets a single device by the device ID as defined by the DTS.
       parameters: []
       tags:
-        - Authorization
+        - Devices
   /effective-system-permissions:
     parameters: []
     get:
