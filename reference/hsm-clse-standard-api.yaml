@@ -2427,6 +2427,7 @@ paths:
         name: uniqueIdentifier
         in: path
         required: true
+        description: A unique identifier of any component of the device.
     get:
       summary: '/device-ids/{uniqueIdentifier}'
       responses:
@@ -2454,7 +2455,7 @@ paths:
         '404':
           description: Not Found
       operationId: device-id#get
-      description: 'uniqueIdentifier is searched within: IDs of all components in the device, uniqueComponentAttributes of all components in this device.'
+      description: Gets the device id (as specified in the digital twin service) via a unique identifier of any component of this device.
       parameters: []
       tags:
         - Devices
@@ -2468,7 +2469,7 @@ paths:
         required: true
         description: The device id as defined by the digital twin service.
     get:
-      summary: /devices/
+      summary: '/devices/{id}'
       responses:
         '200':
           description: OK
@@ -2486,8 +2487,6 @@ paths:
                     items:
                       type: object
           headers: {}
-        '201':
-          description: Created
         '400':
           description: Bad Request
           content:
@@ -2501,7 +2500,7 @@ paths:
         '404':
           description: Not Found
       operationId: device#get
-      description: Gets a single device by the device ID as defined by the DTS.
+      description: Gets a single device by the device ID defined in the digital twin service.
       parameters: []
       tags:
         - Devices
