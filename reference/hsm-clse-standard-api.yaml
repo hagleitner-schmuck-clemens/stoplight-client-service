@@ -5494,9 +5494,20 @@ components:
     deviceIdentification:
       title: deviceIdentification
       type: object
+      description: |-
+        ### Business logic
+        * If deviceId is given use this to find device, if not found fail
+        * Else
+          * If componentId given: Use this componentId to find the device, if not found fail
+          * ElseIf networkId given use networkId to find the device, if not found fail
+          * ElseIf serial number AND secret given verify secret and find device by serial number, if secret verification failed or device not found fail
+          * Otherwise: Fail
+          
+          
       properties:
         deviceId:
           type: string
+          format: uuid
         componentIdentification:
           $ref: '#/components/schemas/componentIdentification'
     effectiveCustomerRoleAssignment:
@@ -6441,18 +6452,28 @@ components:
     componentIdentification:
       title: componentIdentification
       type: object
-      description: ''
+      description: |-
+
+        ### Business logic
+
+          * If componentId given: Use this componentId to find the component, if not found fail
+          * ElseIf networkId given use networkId to find the component, if not found fail
+          * ElseIf serial number AND secret given verify secret and find component by serial number, if secret verification failed or component not found fail
+          * Otherwise: Fail
+          
       properties:
         componentId:
           type: string
-        uniqueComponentAttribute:
+          format: uuid
+        networkId:
           type: string
-        secret:
-          type: string
+          description: 48 bit or 64 bit EUI
         serialNumber:
           type: string
-        eui:
+          description: Serial number as defined in base types
+        secret:
           type: string
+          description: 'Last 4 letters of network ID, or empty if component without network ID.'
     stored-device-filter:
       title: stored-device-filter
       type: object
