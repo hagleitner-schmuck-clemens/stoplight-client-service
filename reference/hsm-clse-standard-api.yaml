@@ -480,8 +480,6 @@ paths:
         description: ID of the customer
     get:
       summary: '/customers/{id}/beneficiaries GET'
-      tags:
-        - Customers
       responses:
         '200':
           description: OK
@@ -514,6 +512,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageSize'
         - $ref: '#/components/parameters/pageNumber'
+      tags:
+        - Authorization
   '/customers/{id}/beneficiaries':
     parameters:
       - schema:
