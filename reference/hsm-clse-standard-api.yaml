@@ -469,6 +469,51 @@ paths:
               $ref: '#/components/schemas/customer.PATCH'
       tags:
         - Customers
+  '/customers/{id}/assignable-roles':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/beneficiaries GET'
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/role'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
+      operationId: customer-beneficiaries#get
+      x-internal: false
+      description: Gets the roles that the current user can assign to other users on this customer.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
   '/customers/{id}/beneficiaries':
     parameters:
       - schema:
@@ -6274,21 +6319,21 @@ components:
     role:
       title: role
       type: object
-      properties:
-        id:
-          type: integer
-          description: Id of the role.
-          format: int32
-        name:
-          $ref: '#/components/schemas/phrase'
-      required:
-        - id
-        - name
       examples:
         - id: 0
           name:
             - LanguageTag: string
               Translation: string
+      properties:
+        id:
+          type: integer
+          description: Id of the role.
+          format: int32
+        code:
+          type: string
+      required:
+        - id
+        - code
     self-assign-light-credentials:
       title: customer-self-assignment-light-credentials
       type: object
@@ -6453,7 +6498,6 @@ components:
       title: componentIdentification
       type: object
       description: |-
-
         ### Business logic
 
           * If componentId given: Use this componentId to find the component, if not found fail
