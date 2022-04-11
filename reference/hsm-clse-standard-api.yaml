@@ -479,7 +479,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/beneficiaries GET'
+      summary: '/customers/{id}/assignable-roles GET'
       responses:
         '200':
           description: OK
@@ -506,7 +506,7 @@ paths:
                   - totalItems
                   - pageSize
                   - currentPage
-      operationId: customer-beneficiaries#get
+      operationId: customer-assignable-roles#get
       x-internal: false
       description: Gets the roles that the current user can assign to other users on this customer.
       parameters:
