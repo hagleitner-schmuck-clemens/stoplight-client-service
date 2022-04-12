@@ -779,7 +779,7 @@ paths:
         required: true
     get:
       summary: '/customers/{id}/capabilities GET'
-      operationId: customers-id-capabilities#get
+      operationId: customer-capabilities#get
       responses:
         '200':
           description: OK
@@ -794,6 +794,16 @@ paths:
                       type: integer
                     code:
                       type: string
+                    availability-level:
+                      type: string
+                      enum:
+                        - Available
+                        - Disabled
+                        - Hidden
+                    capability-threshold:
+                      type: integer
+                      minimum: 0
+                      format: int32
                   required:
                     - id
                     - code
@@ -815,11 +825,6 @@ paths:
           description: Not Found
       description: Gets the effecive capabilites of the current user on this customer
       parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ''
       tags:
         - Capabilities
   '/customers/{id}/customer-hierarchy-relation':
