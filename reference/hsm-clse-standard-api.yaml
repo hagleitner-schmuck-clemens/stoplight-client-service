@@ -2322,7 +2322,7 @@ paths:
       description: Removes the support-organization information from the customer.
       tags:
         - Customers
-  '/customers/{id}/workforce':
+  '/customers/{id}/assigned-users':
     parameters:
       - schema:
           type: string
@@ -2332,7 +2332,7 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: '/customers/{id}/workforce GET'
+      summary: '/customers/{id}/assigned-users GET'
       responses:
         '200':
           description: OK
@@ -2374,7 +2374,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: customer-workforce#get
+      operationId: customer-assigned-users#get
       description: Gets a list of users hat have some role assigned at this customer. The response will be sorted by user's lastname then first name.
       parameters:
         - $ref: '#/components/parameters/pageSize'
@@ -2396,7 +2396,7 @@ paths:
           description: 'Filters for role assignments of the given sources only. Comma separated list of sources: system, customer-direct, parent-customers, resellers, invoice-recipients, condition-owners.'
       tags:
         - Authorization
-  '/customers/{id}/workforce/{userId}/effective-role-assignments':
+  '/customers/{id}/assigned-users/{userId}/effective-role-assignments':
     parameters:
       - schema:
           type: string
@@ -2411,7 +2411,7 @@ paths:
         in: path
         required: true
     get:
-      summary: '/customers/{id}/workforce/{userId}/roles GET'
+      summary: '/customers/{id}/assigned-users/{userId}/roles GET'
       responses:
         '200':
           description: OK
@@ -2453,7 +2453,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: customer-workforce-roles#get
+      operationId: customer-assigned-users-roles#get
       description: Gets a list of users hat have some role assigned at this customer. The response will be sorted by user's lastname then first name.
       parameters:
         - $ref: '#/components/parameters/pageSize'
