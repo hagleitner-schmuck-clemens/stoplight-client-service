@@ -514,6 +514,44 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
       tags:
         - Authorization
+  /system-assignable-roles:
+    parameters: []
+    get:
+      summary: /system-assignable-roles GET
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/role'
+                  totalPages:
+                    $ref: '#/components/schemas/pagination-totalPages'
+                  totalItems:
+                    $ref: '#/components/schemas/pagination-totaItems'
+                  pageSize:
+                    $ref: '#/components/schemas/pagination-pageSize'
+                  currentPage:
+                    $ref: '#/components/schemas/pagination-currentPage'
+                required:
+                  - items
+                  - totalPages
+                  - totalItems
+                  - pageSize
+                  - currentPage
+      operationId: system-assignable-roles#get
+      x-internal: false
+      description: Gets the roles that the current user can assign to other users on the system.
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+      tags:
+        - Authorization
   '/customers/{id}/beneficiaries':
     parameters:
       - schema:
