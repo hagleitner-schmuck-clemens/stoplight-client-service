@@ -4240,8 +4240,8 @@ paths:
   /system-capabilities:
     parameters: []
     get:
-      summary: '/customers/{id}/effective-capabilities GET'
-      operationId: customer-effective-capabilities#get
+      summary: /system-capabilities GET
+      operationId: systgem-capabilities#get
       responses:
         '200':
           description: OK
