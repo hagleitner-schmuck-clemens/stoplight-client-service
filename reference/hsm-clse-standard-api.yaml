@@ -508,6 +508,115 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
       tags:
         - Authorization
+  '/customers/{id}/availability-capabilities':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/availability-capabilities'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/availability-capability-grant'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-availability-capabilitiese#get
+      description: Gets the granted availability capabilities for this customer
+      x-internal: false
+      tags:
+        - Capabilities
+    post:
+      summary: '/customers/{id}/availability-capabilities'
+      operationId: customer-availability-capabilitiese#post
+      responses:
+        '200':
+          description: OK
+      description: Grants an availability capability to this customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/availability-capability-grant'
+      tags:
+        - Capabilities
+  '/customers/{id}/availability-capabilities/{code}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: code
+        in: path
+        required: true
+        description: code of the capability
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: customer Id
+    get:
+      summary: '/customers/{id}/availability-capabilities/{code}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/availability-capability-grant'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-availability-capabilitiese#get
+      description: Gets the granted availability capabilities for this customer
+      x-internal: false
+      tags:
+        - Capabilities
+    delete:
+      summary: '/customers/{id}/availability-capabilities/{code}'
+      operationId: delete-customers-id-availability-capabilities-id
+      responses:
+        '200':
+          description: OK
+      description: ''
+      tags:
+        - Capabilities
   '/customers/{id}/beneficiaries':
     parameters:
       - schema:
@@ -1484,6 +1593,114 @@ paths:
       description: 'Controller endpoint. Marks a customer as recently accessed by the accessing user. '
       tags:
         - CustomerSelection
+  '/customers/{id}/quantity-capabilities':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of the customer
+    get:
+      summary: '/customers/{id}/quantity-capabilities'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/availability-capability-grant'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-quantity-capabilitiese#get
+      description: Gets the granted quantity capabilities for this customer
+      x-internal: false
+      tags:
+        - Capabilities
+    post:
+      summary: '/customers/{id}/quantity-capabilities'
+      operationId: customer-quantity-capabilitiese#post
+      responses:
+        '200':
+          description: OK
+      description: Grants an quantity capability to this customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/quantity-capability-grant'
+      tags:
+        - Capabilities
+  '/customers/{id}/quantity-capabilities/{code}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: code
+        in: path
+        required: true
+        description: code of the capability
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: '/customers/{id}/quanity-capabilities/{code}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/availability-capability-grant'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      operationId: customer-availability-capabilitiese#get
+      description: Gets the granted availability capabilities for this customer
+      x-internal: false
+      tags:
+        - Capabilities
+    delete:
+      summary: '/customers/{id}/quanity-capabilities/{code}'
+      operationId: delete-customers-id-availability-capabilities-id
+      responses:
+        '200':
+          description: OK
+      description: ''
+      tags:
+        - Capabilities
   '/customers/{id}/reseller':
     parameters:
       - schema:
@@ -5757,7 +5974,7 @@ components:
         - validTill
         - shareUri
         - createdAt
-    granted-capabilities:
+    effectively-granted-capabilities:
       title: ''
       type: object
       properties:
@@ -5787,7 +6004,38 @@ components:
             required:
               - code
               - threshold
-      description: 'List of capabilities granted to a spcific user or customer, granted to the system or grante in a specific capability context.'
+      description: Lists of all capabilities granted in a capability context (user & customer)
+    availability-capability-grant:
+      title: ''
+      type: object
+      description: A single availability capability grant
+      properties:
+        code:
+          type: string
+        availability-level:
+          type: string
+          enum:
+            - available
+            - disabled
+            - hidden
+      required:
+        - code
+        - availability-level
+    quantity-capability-grant:
+      title: ''
+      type: object
+      description: A single auantity capability grant
+      properties:
+        code:
+          type: string
+        threshold:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 10
+      required:
+        - code
+        - threshold
     location:
       title: ''
       type: object
