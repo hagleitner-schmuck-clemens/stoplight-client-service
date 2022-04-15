@@ -42,7 +42,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerRoleAssignment-customer'
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: The unique code of the capability
+                  capability-type:
+                    type: string
+                    enum:
+                      - availability
+                      - quantity
+                  minimumUserCapabilityLevel:
+                    type: integer
+                    format: int32
+                    minimum: 1
+                    maximum: 10
+                  minimumCustomerCapabilityLavel:
+                    type: integer
+                    minimum: 1
+                    maximum: 10
+                    format: int32
+                required:
+                  - code
+                  - capability-type
+                  - minimumUserCapabilityLevel
+                  - minimumCustomerCapabilityLavel
         '400':
           description: Bad Request
           content:
@@ -68,46 +92,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageNumber'
         - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/onlyBestMatchingTranslation'
-        - schema:
-            type: string
-          in: query
-          name: capabilityTypes
-          description: 'Filters for types of capabilities, comma separated list.'
       x-internal: false
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                code:
-                  type: string
-                  description: The unique code for the capability
-                minimumUserCapabilityLevel:
-                  type: integer
-                  format: int32
-                  minimum: 1
-                  maximum: 10
-                minimumCustomerCapabilityLavel:
-                  type: integer
-                  minimum: 1
-                  maximum: 10
-                  format: int32
-                capability-type:
-                  type: string
-                  enum:
-                    - availability
-                    - quantity
-              required:
-                - code
-                - minimumUserCapabilityLevel
-                - minimumCustomerCapabilityLavel
-                - capability-type
-          application/xml:
-            schema:
-              type: object
-              properties: {}
       tags:
         - Capabilities
   '/customer-role-assignments/{id}':
