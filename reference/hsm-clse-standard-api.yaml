@@ -1015,7 +1015,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Gets the effecive capabilites of the current user on this customer
+      description: Gets the effective capabilities of the current user on this customer
       parameters: []
       tags:
         - Capabilities
