@@ -1664,7 +1664,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/quanity-capabilities/{code}'
+      summary: '/customers/{id}/quantity-capabilities/{code}'
       responses:
         '200':
           description: OK
@@ -4651,6 +4651,175 @@ paths:
       description: Gets the number of customer this user has access to. Will only include active customers
       tags:
         - Authorization
+  '/users/{id}/quantity-capabilities':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system
+    get:
+      summary: '/users/{id}/quantity-capabilities GET'
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: user-customer-count#get
+      description: Gets the number of customer this user has access to. Will only include active customers
+      tags:
+        - Capabilities
+    post:
+      summary: '/users/{id}/quantity-capabilities POST'
+      operationId: user-availability-capabilities#post
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Capabilities
+  '/users/{id}/availability-capabilities':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+    get:
+      summary: '/users/{id}/availability-capabilities GET'
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: user-availability-capability#get
+      description: Gets the granted availability capabilities for this user
+      tags:
+        - Authorization
+    post:
+      summary: '/users/{id}/availability-capabilities POST'
+      operationId: user-availability-capability#post
+      responses:
+        '200':
+          description: OK
+      description: Grants an availability capability to this user
+  '/users/{id}/quantity-capabilities/{code}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+      - schema:
+          type: string
+        name: code
+        in: path
+        required: true
+        description: Code of the Capability
+    get:
+      summary: '/users/{id}/quantity-capabilities/{code} GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerRoleAssignment-user'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: user-customer-count#get
+      description: Gets the granted quantity capability for this user
+      tags:
+        - Authorization
+    delete:
+      summary: '/users/{id}/quantity-capabilities/{code} DELETE'
+      operationId: delete-users-id-quantity-capabilities-code
+      responses:
+        '200':
+          description: OK
+      description: Removes the quantity capability grant from the user
+  '/users/{id}/availability-capabilities/{code}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+      - schema:
+          type: string
+        name: code
+        in: path
+        required: true
+        description: Code of the Capability
+    get:
+      summary: '/users/{id}/availability-capabilities/{code} GET'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customerRoleAssignment-user'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: user-customer-count#get
+      description: Gets the granted availability capability for this user
+      tags:
+        - Authorization
+    delete:
+      summary: '/users/{id}/availability-capabilities/{code} DELETE'
+      operationId: delete-users-id-quantity-capabilities-code
+      responses:
+        '200':
+          description: OK
+      description: Removes the availability capability grant from the user
   '/users/{id}/customer-roles':
     parameters:
       - schema:
