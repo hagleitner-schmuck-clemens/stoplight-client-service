@@ -81,10 +81,9 @@ paths:
             schema:
               type: object
               properties:
-                Id:
-                  type: integer
                 code:
                   type: string
+                  description: The unique code for the capability
                 minimumUserCapabilityLevel:
                   type: integer
                   format: int32
@@ -95,6 +94,16 @@ paths:
                   minimum: 1
                   maximum: 10
                   format: int32
+                capability-type:
+                  type: string
+                  enum:
+                    - availability
+                    - quantity
+              required:
+                - code
+                - minimumUserCapabilityLevel
+                - minimumCustomerCapabilityLavel
+                - capability-type
           application/xml:
             schema:
               type: object
@@ -778,35 +787,42 @@ paths:
         in: path
         required: true
     get:
-      summary: '/customers/{id}/capabilities GET'
-      operationId: customer-capabilities#get
+      summary: '/customers/{id}/effective-capabilities GET'
+      operationId: customer-effective-capabilities#get
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    code:
-                      type: string
-                    availability-level:
-                      type: string
-                      enum:
-                        - Available
-                        - Disabled
-                        - Hidden
-                    capability-threshold:
-                      type: integer
-                      minimum: 0
-                      format: int32
-                  required:
-                    - id
-                    - code
+                type: object
+                properties:
+                  availability-capabilities:
+                    type: array
+                    description: A list of effectively granted availabilit y capabilities in the capability context
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        availability-level:
+                          type: string
+                      required:
+                        - code
+                        - availability-level
+                  quantity-capabilities:
+                    type: array
+                    description: A list of effectively granted quantity capabilities in the capability context
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        threshold:
+                          type: string
+                      required:
+                        - code
+                        - threshold
         '400':
           description: Bad Request
           content:
