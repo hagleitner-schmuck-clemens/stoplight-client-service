@@ -4714,7 +4714,7 @@ paths:
       operationId: user-availability-capability#get
       description: Gets the granted availability capabilities for this user
       tags:
-        - Authorization
+        - Capabilities
     post:
       summary: '/users/{id}/availability-capabilities POST'
       operationId: user-availability-capability#post
@@ -4722,6 +4722,8 @@ paths:
         '200':
           description: OK
       description: Grants an availability capability to this user
+      tags:
+        - Capabilities
   '/users/{id}/quantity-capabilities/{code}':
     parameters:
       - schema:
@@ -4763,7 +4765,7 @@ paths:
       operationId: user-customer-count#get
       description: Gets the granted quantity capability for this user
       tags:
-        - Authorization
+        - Capabilities
     delete:
       summary: '/users/{id}/quantity-capabilities/{code} DELETE'
       operationId: delete-users-id-quantity-capabilities-code
@@ -4771,6 +4773,8 @@ paths:
         '200':
           description: OK
       description: Removes the quantity capability grant from the user
+      tags:
+        - Capabilities
   '/users/{id}/availability-capabilities/{code}':
     parameters:
       - schema:
@@ -4812,7 +4816,7 @@ paths:
       operationId: user-customer-count#get
       description: Gets the granted availability capability for this user
       tags:
-        - Authorization
+        - Capabilities
     delete:
       summary: '/users/{id}/availability-capabilities/{code} DELETE'
       operationId: delete-users-id-quantity-capabilities-code
@@ -4820,6 +4824,8 @@ paths:
         '200':
           description: OK
       description: Removes the availability capability grant from the user
+      tags:
+        - Capabilities
   '/users/{id}/customer-roles':
     parameters:
       - schema:
