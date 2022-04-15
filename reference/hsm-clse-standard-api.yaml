@@ -520,14 +520,8 @@ paths:
     get:
       summary: '/customers/{id}/availability-capabilities'
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/availability-capability-grant'
+        '201':
+          description: Created
         '400':
           description: Bad Request
           content:
@@ -1057,7 +1051,7 @@ paths:
         in: path
         required: true
     get:
-      summary: '/customers/{id}/effective-capabilities GET'
+      summary: /system-capabilities GET
       operationId: customer-effective-capabilities#get
       responses:
         '200':
@@ -1082,7 +1076,7 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      description: Gets the effective capabilities of the current user on this customer
+      description: Gets the capabilities for the system
       parameters: []
       tags:
         - Capabilities
@@ -4243,6 +4237,38 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
       tags:
         - Authorization
+  /system-capabilities:
+    parameters: []
+    get:
+      summary: '/customers/{id}/effective-capabilities GET'
+      operationId: customer-effective-capabilities#get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/effectively-granted-capabilities'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-403-forbidden'
+        '404':
+          description: Not Found
+      description: Gets the effective capabilities of the current user on this customer
+      parameters: []
+      tags:
+        - Capabilities
   /system-role-assignments:
     parameters: []
     get:
