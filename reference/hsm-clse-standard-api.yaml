@@ -42,46 +42,33 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  totalItems:
-                    $ref: '#/components/schemas/pagination-totaItems'
-                  totalPages:
-                    $ref: '#/components/schemas/pagination-totalPages'
-                  currentPage:
-                    $ref: '#/components/schemas/pagination-currentPage'
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        code:
-                          type: string
-                          description: The unique code of the capability
-                        capabilityType:
-                          type: string
-                          enum:
-                            - availability
-                            - quantity
-                        minimumUserCapabilityLevel:
-                          type: integer
-                          format: int32
-                          minimum: 1
-                          maximum: 10
-                        minimumCustomerCapabilityLavel:
-                          type: integer
-                          minimum: 1
-                          maximum: 10
-                          format: int32
-                      required:
-                        - code
-                        - capabilityType
-                        - minimumUserCapabilityLevel
-                        - minimumCustomerCapabilityLavel
-                required:
-                  - totalItems
-                  - totalPages
-                  - currentPage
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The unique code of the capability
+                    capabilityType:
+                      type: string
+                      enum:
+                        - availability
+                        - quantity
+                    minimumUserCapabilityLevel:
+                      type: integer
+                      format: int32
+                      minimum: 1
+                      maximum: 10
+                    minimumCustomerCapabilityLavel:
+                      type: integer
+                      minimum: 1
+                      maximum: 10
+                      format: int32
+                  required:
+                    - code
+                    - capabilityType
+                    - minimumUserCapabilityLevel
+                    - minimumCustomerCapabilityLavel
         '400':
           description: Bad Request
           content:
@@ -103,10 +90,8 @@ paths:
         '404':
           description: Not Found
       operationId: /capabilities#get
-      description: Gets all capabilities defined in HsM
-      parameters:
-        - $ref: '#/components/parameters/pageNumber'
-        - $ref: '#/components/parameters/pageSize'
+      description: 'Gets all capabilities defined in HsM. The number of capabilities is naturally limited, therefore this is an unpaginated endpoint.'
+      parameters: []
       x-internal: false
       tags:
         - Capabilities
@@ -971,34 +956,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  availabilityCapabilities:
-                    type: array
-                    description: A list of effectively granted availabilit y capabilities in the capability context
-                    items:
-                      type: object
-                      properties:
-                        code:
-                          type: string
-                        availability-level:
-                          type: string
-                      required:
-                        - code
-                        - availability-level
-                  quantityCapabilities:
-                    type: array
-                    description: A list of effectively granted quantity capabilities in the capability context
-                    items:
-                      type: object
-                      properties:
-                        code:
-                          type: string
-                        threshold:
-                          type: string
-                      required:
-                        - code
-                        - threshold
+                $ref: '#/components/schemas/granted-capabilities'
         '400':
           description: Bad Request
           content:
@@ -4574,6 +4532,57 @@ paths:
       description: Gets the customer favorites of a user. Sorted by customer favorite sequence number and then by customer name1. As the total number of allowed customer favorites per user is limited by the backend therefore this collection endpoint has no pagination.
       tags:
         - CustomerSelection
+  '/users/{id}/granted-capabilities':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+        description: ID of  the user in the HsM system.
+    get:
+      summary: '/users/{id}/granted-capabilities'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/granted-capabilities'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response-400-badRequest'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: user-systemroles#get
+      description: Gets the capabilities granted on the user.
+      parameters: []
+      tags:
+        - Authorization
+    post:
+      summary: ''
+      operationId: post-users-id-granted-capabilities
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                capabilityCode:
+                  type: string
+                '':
+                  type: string
   '/users/{id}/recently-accessed-customers':
     parameters:
       - schema:
@@ -4584,7 +4593,7 @@ paths:
         required: true
         description: ID of  the user.
     get:
-      summary: '/users/{id}/recently-accessed-customers GET'
+      summary: '/users/{id}/granted-capabilities GET'
       responses:
         '200':
           description: OK
@@ -4606,7 +4615,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: user-recently-accessed-customers#get
+      operationId: user-granted-capabilities#get
       description: 'Gets the recently accessed customers of a user. Sorted by the last access date descending. The total number of allowed recently used customers is limited per user by the backend, therefore this collection endpoint has no pagination.'
       tags:
         - CustomerSelection
@@ -5748,6 +5757,37 @@ components:
         - validTill
         - shareUri
         - createdAt
+    granted-capabilities:
+      title: ''
+      type: object
+      properties:
+        availabilityCapabilities:
+          type: array
+          description: A list of effectively granted availabilit y capabilities in the capability context
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              availability-level:
+                type: string
+            required:
+              - code
+              - availability-level
+        quantityCapabilities:
+          type: array
+          description: A list of effectively granted quantity capabilities in the capability context
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              threshold:
+                type: string
+            required:
+              - code
+              - threshold
+      description: 'List of capabilities granted to a spcific user or customer, granted to the system or grante in a specific capability context.'
     location:
       title: ''
       type: object
