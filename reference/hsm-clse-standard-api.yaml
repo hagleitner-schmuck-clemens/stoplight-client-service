@@ -1065,7 +1065,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/granted-capabilities'
+                $ref: '#/components/schemas/effectively-granted-capabilities'
         '400':
           description: Bad Request
           content:
