@@ -571,13 +571,13 @@ paths:
         name: code
         in: path
         required: true
-        description: code of the capability
+        description: Code of the capability
       - schema:
           type: string
         name: id
         in: path
         required: true
-        description: customer Id
+        description: ID of the customer
     get:
       summary: '/customers/{id}/availability-capabilities/{code}'
       responses:
@@ -1656,12 +1656,13 @@ paths:
         name: code
         in: path
         required: true
-        description: code of the capability
+        description: Code of the capability
       - schema:
           type: string
         name: id
         in: path
         required: true
+        description: ID of the customer
     get:
       summary: '/customers/{id}/quanity-capabilities/{code}'
       responses:
