@@ -6180,6 +6180,7 @@ components:
     effectively-granted-capabilities:
       title: ''
       type: object
+      description: Lists of all capabilities granted in a capability context (user & customer)
       properties:
         availabilityCapabilities:
           type: array
@@ -6191,6 +6192,10 @@ components:
                 type: string
               availability-level:
                 type: string
+                enum:
+                  - Available
+                  - Disabled
+                  - Hidden
             required:
               - code
               - availability-level
@@ -6203,11 +6208,12 @@ components:
               code:
                 type: string
               threshold:
-                type: string
+                type: integer
+                minimum: 0
+                format: int32
             required:
               - code
               - threshold
-      description: Lists of all capabilities granted in a capability context (user & customer)
     availability-capability-grant:
       title: ''
       type: object
