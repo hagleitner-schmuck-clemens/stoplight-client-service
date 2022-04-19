@@ -1050,8 +1050,9 @@ paths:
         name: id
         in: path
         required: true
+        description: Customer ID
     get:
-      summary: /system-capabilities GET
+      summary: '/customers/{id}effective-capabilities GET'
       operationId: customer-effective-capabilities#get
       responses:
         '200':
