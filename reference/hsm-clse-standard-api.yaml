@@ -583,7 +583,7 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/availability-capabilities/{code}'
+      summary: '/customers/{id}/availability-capability-grants/{code}'
       responses:
         '200':
           description: OK
@@ -613,7 +613,7 @@ paths:
       tags:
         - Capabilities
     delete:
-      summary: '/customers/{id}/availability-capabilities/{code}'
+      summary: '/customers/{id}/availability-capability-grants/{code}'
       operationId: delete-customers-id-availability-capabilities-id
       responses:
         '200':
