@@ -508,7 +508,7 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
       tags:
         - Authorization
-  '/customers/{id}/availability-capabilities':
+  '/customers/{id}/availability-capability-grants':
     parameters:
       - schema:
           type: string
@@ -518,10 +518,16 @@ paths:
         required: true
         description: ID of the customer
     get:
-      summary: '/customers/{id}/availability-capabilities'
+      summary: '/customers/{id}/availability-capability-grants'
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/availability-capability-grant'
         '400':
           description: Bad Request
           content:
@@ -538,17 +544,21 @@ paths:
                 $ref: '#/components/schemas/response-403-forbidden'
         '404':
           description: Not Found
-      operationId: customer-availability-capabilitiese#get
-      description: Gets the granted availability capabilities for this customer
+      operationId: customer-availability-capability-grants#get
+      description: Gets the availability capability grants for this customer.
       x-internal: false
       tags:
         - Capabilities
     post:
-      summary: '/customers/{id}/availability-capabilities'
-      operationId: customer-availability-capabilitiese#post
+      summary: '/customers/{id}/availability-capability-grants'
+      operationId: customer-availability-capability-grants#post
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/availability-capability-grant'
       description: Grants an availability capability to this customer
       requestBody:
         content:
@@ -557,7 +567,7 @@ paths:
               $ref: '#/components/schemas/availability-capability-grant'
       tags:
         - Capabilities
-  '/customers/{id}/availability-capabilities/{code}':
+  '/customers/{id}/availability-capability-grants/{code}':
     parameters:
       - schema:
           type: string
@@ -598,7 +608,7 @@ paths:
         '404':
           description: Not Found
       operationId: customer-availability-capabilitiese#get
-      description: Gets the granted availability capabilities for this customer
+      description: Gets the availability capability grant for a a specific capability on this customer.
       x-internal: false
       tags:
         - Capabilities
@@ -609,6 +619,31 @@ paths:
         '200':
           description: OK
       description: ''
+      tags:
+        - Capabilities
+    put:
+      summary: '/customers/{id}/availability-capability-grants/{code} PUT'
+      operationId: customer-availability-capability-grants#put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/availability-capability-grant'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                capabilityLevel:
+                  type: string
+                  enum:
+                    - Available
+                    - Disabled
+                    - Hidden
+      description: Updates a the capability grant for the given capability on this customer.
       tags:
         - Capabilities
   '/customers/{id}/beneficiaries':
@@ -4564,7 +4599,7 @@ paths:
               $ref: '#/components/schemas/user'
       tags:
         - Users
-  '/users/{id}/availability-capabilities':
+  '/users/{id}/availability-capability-grants':
     parameters:
       - schema:
           type: string
@@ -4574,8 +4609,14 @@ paths:
         required: true
         description: ID of  the user in the HsM system.
     get:
-      summary: '/users/{id}/availability-capabilities GET'
+      summary: '/users/{id}/availability-capability-grants GET'
       responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/availability-capability-grant'
         '400':
           description: Bad Request
           content:
@@ -4588,20 +4629,25 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: user-availability-capability#get
-      description: Gets the granted availability capabilities for this user
+      operationId: user-availability-capability-grants#get
+      description: Gets the granted availability capabilities granted directly on this user.
       tags:
         - Capabilities
     post:
-      summary: '/users/{id}/availability-capabilities POST'
-      operationId: user-availability-capability#post
+      summary: '/users/{id}/availability-capability-grants POST'
+      operationId: user-availability-capability-grants#post
       responses:
         '200':
           description: OK
       description: Grants an availability capability to this user
       tags:
         - Capabilities
-  '/users/{id}/availability-capabilities/{code}':
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/availability-capability-grant'
+  '/users/{id}/availability-capability-grants/{grantId}':
     parameters:
       - schema:
           type: string
@@ -4612,21 +4658,19 @@ paths:
         description: ID of  the user in the HsM system.
       - schema:
           type: string
-        name: code
+        name: grantId
         in: path
         required: true
-        description: Code of the Capability
+        description: Id of the capability grant
     get:
-      summary: '/users/{id}/availability-capabilities/{code} GET'
+      summary: '/users/{id}/availability-capability-grants/{id} GET'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customerRoleAssignment-user'
+                $ref: '#/components/schemas/availability-capability-grant'
         '400':
           description: Bad Request
           content:
@@ -4639,17 +4683,17 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      operationId: user-customer-count#get
-      description: Gets the granted availability capability for this user
+      operationId: user-availability-capability-grants#get
+      description: Gets the grant for a specific availability capability for this user
       tags:
         - Capabilities
     delete:
       summary: '/users/{id}/availability-capabilities/{code} DELETE'
-      operationId: delete-users-id-quantity-capabilities-code
+      operationId: user-availability-capability-grants#delete
       responses:
         '200':
           description: OK
-      description: Removes the availability capability grant from the user
+      description: Removes the availability capability grant for a specific capability from the user
       tags:
         - Capabilities
   '/users/{id}/customer-count':
@@ -4901,7 +4945,7 @@ paths:
       tags:
         - Authorization
     post:
-      summary: ''
+      summary: '/users/{id}/granted-capabilities/'
       operationId: post-users-id-granted-capabilities
       responses:
         '200':
@@ -6221,17 +6265,25 @@ components:
       type: object
       description: A single availability capability grant
       properties:
-        code:
+        Id:
           type: string
-        availability-level:
+          description: The Id of the capability grant
+          readOnly: true
+        capabilityCode:
+          type: string
+        availabilityLevel:
           type: string
           enum:
             - available
             - disabled
             - hidden
+        externallyManaged:
+          type: boolean
+          readOnly: true
       required:
-        - code
-        - availability-level
+        - Id
+        - capabilityCode
+        - availabilityLevel
     quantity-capability-grant:
       title: ''
       type: object
