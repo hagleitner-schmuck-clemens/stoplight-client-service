@@ -4630,7 +4630,7 @@ paths:
         '404':
           description: Not Found
       operationId: user-availability-capability-grants#get
-      description: Gets the granted availability capabilities granted directly on this user.
+      description: Gets the availability capability grants on this user.
       tags:
         - Capabilities
     post:
@@ -4647,7 +4647,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/availability-capability-grant'
-  '/users/{id}/availability-capability-grants/{grantId}':
+  '/users/{id}/availability-capability-grants/{code}':
     parameters:
       - schema:
           type: string
@@ -4658,12 +4658,12 @@ paths:
         description: ID of  the user in the HsM system.
       - schema:
           type: string
-        name: grantId
+        name: code
         in: path
         required: true
-        description: Id of the capability grant
+        description: Unique code of the capability
     get:
-      summary: '/users/{id}/availability-capability-grants/{id} GET'
+      summary: '/users/{id}/availability-capability-grants/{code} GET'
       responses:
         '200':
           description: OK
@@ -4688,7 +4688,7 @@ paths:
       tags:
         - Capabilities
     delete:
-      summary: '/users/{id}/availability-capabilities/{code} DELETE'
+      summary: '/users/{id}/availability-capability-grants/{code} DELETE'
       operationId: user-availability-capability-grants#delete
       responses:
         '200':
@@ -4696,6 +4696,29 @@ paths:
       description: Removes the availability capability grant for a specific capability from the user
       tags:
         - Capabilities
+    put:
+      summary: '/users/{id}/availability-capability-grants/{code} PUT'
+      operationId: put-users-id-availability-capability-grants-code
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                availabiityLevel:
+                  type: string
+                  enum:
+                    - Available
+                    - Disabled
+                    - Hidden
+              required:
+                - availabiityLevel
+      tags:
+        - Capabilities
+      description: ''
   '/users/{id}/customer-count':
     parameters:
       - schema:
