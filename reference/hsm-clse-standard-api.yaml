@@ -4916,6 +4916,8 @@ paths:
                   type: string
                 '':
                   type: string
+      tags:
+        - Capabilities
   '/users/{id}/quantity-capabilities':
     parameters:
       - schema:
