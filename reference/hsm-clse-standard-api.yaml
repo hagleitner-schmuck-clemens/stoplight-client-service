@@ -638,11 +638,16 @@ paths:
               type: object
               properties:
                 capabilityLevel:
-                  type: string
                   enum:
                     - Available
                     - Disabled
                     - Hidden
+                  type: integer
+                propagateToSubCustomers:
+                  type: boolean
+              required:
+                - capabilityLevel
+                - propagateToSubCustomers
       description: Updates a the capability grant for the given capability on this customer.
       tags:
         - Capabilities
@@ -6303,10 +6308,15 @@ components:
         externallyManaged:
           type: boolean
           readOnly: true
+        propagateToSubCustomers:
+          type: boolean
+          default: false
+          description: If true the grant will also apply to all sub customers.
       required:
         - Id
         - capabilityCode
         - availabilityLevel
+        - propagateToSubCustomers
     quantity-capability-grant:
       title: ''
       type: object
