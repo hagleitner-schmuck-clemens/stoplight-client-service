@@ -6746,11 +6746,11 @@ components:
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
       properties:
         id:
-          type: string
+          type: integer
           format: uuid
           readOnly: true
         type:
-          type: string
+          type: integer
           enum:
             - building
             - buildingArea
@@ -6759,15 +6759,11 @@ components:
             - room
           readOnly: true
         name:
-          type: string
-          maxLength: 30
-          minLength: 1
+          $ref: '#/components/schemas/phrase'
         description:
-          type: string
+          $ref: '#/components/schemas/phrase'
         sequenceNumber:
-          type:
-            - string
-            - integer
+          type: integer
           default: 0
         children:
           type: array
