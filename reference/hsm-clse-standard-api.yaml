@@ -6344,8 +6344,8 @@ components:
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
       properties:
         id:
-          type: string
           format: uuid
+          type: integer
           readOnly: true
         type:
           type: string
@@ -6356,18 +6356,12 @@ components:
             - floorArea
             - room
           readOnly: true
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
         name:
-          type: string
-          maxLength: 30
-          minLength: 1
+          $ref: '#/components/schemas/phrase'
         description:
-          type: string
+          $ref: '#/components/schemas/phrase'
         parentLocationId:
-          type: string
+          type: integer
           format: uuid
         sequenceNumber:
           type: integer
@@ -6376,7 +6370,6 @@ components:
         - id
         - type
         - name
-        - parentLocationId
         - sequenceNumber
     location.PATCH:
       title: ''
@@ -6389,18 +6382,12 @@ components:
           description: The administration floor
           parentLocationId: 7c3a5b0e-d172-4ccd-83a4-1483006217d2
       properties:
-        code:
-          type: string
-          maxLength: 20
-          description: A code uniquely identifying the location within a customer.
         name:
-          type: string
-          maxLength: 30
-          minLength: 1
+          $ref: '#/components/schemas/phrase'
         description:
-          type: string
+          $ref: '#/components/schemas/phrase'
         parentLocationId:
-          type: string
+          type: integer
           format: uuid
         sequenceNumber:
           type: integer
